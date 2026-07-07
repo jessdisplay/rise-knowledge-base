@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rise Document Architecture · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/rise-document-architecture.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: rise-document-architecture.md</span><span>12,360 bytes</span></div>
+
+<h1>Rise Document Architecture</h1>
+<p><strong>Version 0.1 — 2026-07-05.</strong> How a provider's documents make the compliance graph
+visible on the page. Read with: <code>rise-node-taxonomy.md</code> v0.1, <code>rise-relationship-taxonomy.md</code>
+v0.3, and the master workbook <code>rise-document-register.xlsx</code> (which is itself document
+REG-GOV-03 in the suite).</p>
+<p><strong>Audiences, in priority order:</strong> (1) the support worker or manager who has to <em>use</em> the
+document, (2) the auditor who has to <em>trace</em> it, (3) the participant who has a right to
+<em>understand</em> it. Every design choice below is tested against those three.</p>
+<hr />
+<h2>1. Where each document type sits</h2>
+<pre><code>  LAW            NDIS Act 2013 ── amended by Integrity &amp; Safeguarding Act 2026
+                      │  MADE_UNDER
+  RULES          Provider Registration &amp; Practice Standards Rules 2018
+                 (+ 2026 Amendment Rules) · Incident Rules · Complaints Rules ·
+                 Restrictive Practices Rules · Worker Screening Rules · Code of Conduct
+                      │  PUBLISHED_IN
+  STANDARDS      NDIS Practice Standards
+                 Core │ Verification │ M1 HIDPA │ M2/2A │ M3 │ M4 │ M5 SDA │ SIL (new)
+                      │  quality indicators guide the audit of each standard
+                      ▲  IMPLEMENTS
+  ┌───────────────────┴────────────────────────────────────────────────┐
+  │ POLICY        why we do it, and the commitments we make            │
+  │   ▲ OPERATIONALISES                                                │
+  │ PROCEDURE     how, who, when — step by step                        │
+  │   ▲ OPERATIONALISES              │ USES                            │
+  │ WORK          the frontline      ▼                                 │
+  │ INSTRUCTION   one-task version   FORM  what we capture, each time  │
+  │                                    │ RECORDS_TO                    │
+  │                                  REGISTER  the running log         │
+  └────────────────────────────────────┬───────────────────────────────┘
+                                       │ GENERATED_BY / EVIDENCES
+  EVIDENCE       completed forms, register extracts, training records
+                      │ CITES / CONCERNS
+  AUDIT          findings → improvement actions → closed loop
+</code></pre>
+<p>The chain is the <em>most common</em> path, not an enforced one (v0.3 §5). A register can
+satisfy a standard with no form in between; gap rules decide per module whether that is
+acceptable. Plans, agreements and handbooks are typed documents that slot in at the
+procedure/form level.</p>
+<p><strong>One page, on the wall.</strong> This diagram, plus the plain-English edge glossary from the
+register's READ ME sheet, is the whole mental model a new staff member needs.</p>
+<hr />
+<h2>2. Document identity</h2>
+<p><code>TYPE-DOMAIN-NN</code> — e.g. <code>POL-INC-01</code>, <code>PRO-INC-02</code>, <code>FRM-INC-01</code>, <code>REG-INC-01</code>.</p>
+<ul>
+<li><strong>TYPE:</strong> POL, PRO, WIN, FRM, REG, PLN, AGR, STA (handbook/statement).</li>
+<li><strong>DOMAIN:</strong> a stable three-letter cluster code (GOV, RSK, QMS, INF, FBK, INC, HRM,
+  COS, EDM, RGT, SGD, SUP, ENV, MNY, MED, MTM, WST, HID, BSP, ECS, SCO, SDA, SIL, WHS).
+  Full list = the Cluster column of the register.</li>
+<li><strong>NN:</strong> sequence within TYPE-DOMAIN. IDs are never reused; a retired ID stays retired.</li>
+</ul>
+<p>Versioning lives in metadata, not the ID: <code>POL-INC-01</code> v1.0 → v2.0 with a <code>SUPERSEDES</code>
+edge between versions. File names carry both: <code>POL-INC-01_v1.0_Incident-Management-Policy</code>.</p>
+<hr />
+<h2>3. Reading order inside every document</h2>
+<p>Same skeleton in every template, in this order, so anyone can navigate any document:</p>
+<ol>
+<li><strong>Title + one-sentence purpose</strong> — plain English, states who the document is for.</li>
+<li><strong>Document Control table</strong> — ID, version, status, owner, approver, dates.</li>
+<li><strong>Compliance Links table</strong> — the graph, rendered (§4).</li>
+<li><strong>Body</strong> — type-specific (§5).</li>
+<li><strong>Related documents</strong> — every remaining edge, with its type.</li>
+<li><strong>Definitions</strong> — only terms actually used; defined once, then used consistently.</li>
+<li><strong>Review triggers + version history.</strong></li>
+</ol>
+<hr />
+<h2>4. The Compliance Header (the design centrepiece)</h2>
+<p>Two small tables at the top of every document. The second one <em>is</em> the graph: each row
+is literally one typed edge, shown with its plain-English gloss so it reads naturally
+while staying machine-extractable.</p>
+<p><strong>Document Control</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Entry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Document ID / Type</td>
+<td>POL-INC-01 · Policy</td>
+</tr>
+<tr>
+<td>Version / Status</td>
+<td>1.0 · Approved</td>
+</tr>
+<tr>
+<td>Owner (role) / Approved by</td>
+<td>Quality Manager / CEO</td>
+</tr>
+<tr>
+<td>Effective from / Review due</td>
+<td>01 Aug 2026 / 01 Aug 2028, or earlier on any legislative change</td>
+</tr>
+<tr>
+<td>Easy Read version</td>
+<td>Not required (internal document) — participant-facing summary in STA-RGT-01</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Compliance Links</strong> <em>(worked example: POL-INC-01)</em></p>
+<table>
+<thead>
+<tr>
+<th>Link type</th>
+<th>Plain English</th>
+<th>Linked to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IMPLEMENTS</td>
+<td>This policy exists to meet</td>
+<td>CORE-2.6 Incident management; VER-2 Incident management</td>
+</tr>
+<tr>
+<td>SET OUT IN → MADE UNDER</td>
+<td>Those standards are set out in / made under</td>
+<td>NDIS (Provider Registration and Practice Standards) Rules 2018 → NDIS Act 2013</td>
+</tr>
+<tr>
+<td>REFERENCES*</td>
+<td>Other law this policy must follow</td>
+<td>NDIS (Incident Management and Reportable Incidents) Rules 2018</td>
+</tr>
+<tr>
+<td>OPERATIONALISED BY</td>
+<td>Put into day-to-day practice by</td>
+<td>PRO-INC-01 Incident Management Procedure; PRO-INC-02 Reportable Incidents Notification Procedure</td>
+</tr>
+<tr>
+<td>RECORDS END UP IN</td>
+<td>Incidents are logged in</td>
+<td>REG-INC-01 Incident Register</td>
+</tr>
+<tr>
+<td>EVIDENCED BY</td>
+<td>Proof it works</td>
+<td>Completed FRM-INC-01 forms; REG-INC-01 extracts; training records in REG-HRM-02</td>
+</tr>
+</tbody>
+</table>
+<p><em>*Rendered as <code>RELATES_TO (statutory reference)</code> until the proposed <code>REFERENCES</code> (v0.4 candidate)
+edge type is adopted — see node taxonomy §6.</em></p>
+<p><strong>Round-trip rule:</strong> header ↔ graph must agree; the graph is authoritative and headers
+regenerate from it. A header edited by hand without a graph update is a defect.</p>
+<hr />
+<h2>5. What goes in each body (summary — details in the templates)</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Answers</th>
+<th>Body spine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Policy</td>
+<td><em>Why, and what we commit to</em></td>
+<td>Purpose · Scope · Policy statements (numbered, one idea each) · Responsibilities by role</td>
+</tr>
+<tr>
+<td>Procedure</td>
+<td><em>How, who, when</em></td>
+<td>Trigger · Step table (Step / Who / What / Record created) · Escalation · Timeframes with statutory deadlines flagged</td>
+</tr>
+<tr>
+<td>Work instruction</td>
+<td><em>Exactly what I do right now</em></td>
+<td>One task, one page, numbered actions, "stop and escalate if…" box</td>
+</tr>
+<tr>
+<td>Form</td>
+<td><em>What we capture, every time</em></td>
+<td>Fields grouped by section · privacy notice · where the completed form goes</td>
+</tr>
+<tr>
+<td>Register</td>
+<td><em>The running log</em></td>
+<td>Column specification · who maintains it · review rhythm · retention</td>
+</tr>
+</tbody>
+</table>
+<p>Statutory timeframes are always shown <strong>with their source</strong> in the step where they bite
+(e.g. reportable-incident notification windows cite the Incident Rules provision), so an
+auditor never has to ask "where does that number come from" — and neither does a new
+coordinator at 2 a.m.</p>
+<hr />
+<h2>6. The three traceability views</h2>
+<ol>
+<li><strong>Micro — any single document.</strong> The Compliance Header answers "why does this exist
+   and what depends on it" in one glance. This is the auditor's opening move: pick a
+   standard, ask for the documents, check currency and fit.</li>
+<li><strong>Suite — the master register (the workbook).</strong> Filter the Documents sheet by a
+   standard ID and you have the certification-audit sampling map: every document claiming
+   to implement that standard, its status, owner, review date, and its typed links both
+   directions. Filter by <code>Applies to = Verification</code> and you have the verification-audit
+   pack. Filter <code>Priority = P1</code> and you have the build order.</li>
+<li><strong>Matrix — requirement → documents → evidence.</strong> Generated from the graph per audit:
+   for each in-scope standard (per RegistrationScope), the implementing documents, the
+   registers/evidence that prove operation, and any open findings. This is the artefact
+   you hand the approved quality auditor on day one; it is also exactly the gap-detection
+   query ("standards in scope with no surviving IMPLEMENTS edge").</li>
+</ol>
+<pre><code>Standard        Documents (IMPLEMENTS)          Operating proof            Gaps/Findings
+CORE-2.6        POL-INC-01, PRO-INC-01/02,      REG-INC-01 extract,        —
+Incident mgmt   WIN-INC-01, FRM-INC-01          notification records
+SIL-3           POL-SIL-03, PRO-SIL-03          house training records     evidence not yet
+Practice gov.                                    (REG-HRM-02 filtered)      frozen — new module
+</code></pre>
+<hr />
+<h2>7. Accessibility standard ("usable for anyone")</h2>
+<p>Rules, in force for every document in the suite:</p>
+<ol>
+<li><strong>Plain English first.</strong> Short sentences (target ≤ 20 words), active voice, "we/you"
+   address. Aim around a Year 8–9 reading level for policies and procedures; work
+   instructions lower. (Reading-level targets are my recommendation; the regulator does
+   not mandate one.)</li>
+<li><strong>One idea per policy statement</strong>, numbered, so statements can be cited ("Policy
+   POL-SGD-01, statement 4").</li>
+<li><strong>Jargon quarantine.</strong> Legal citations live in the Compliance Links table and
+   reference columns — the body text stays readable. Terms defined once, in Definitions.</li>
+<li><strong>Easy Read companions</strong> for participant-facing documents (marked in the register:
+   handbook, complaints form, service agreements, decision-support records, SIL tenancy
+   material, and others). Precedent: the Commission itself publishes Easy Read versions
+   of the SIL Practice Standards material, so auditors already recognise the pattern.</li>
+<li><strong>Participant statements.</strong> The new SIL standards pair a provider statement with a
+   participant statement ("I am supported to make decisions about my home…"). The policy
+   template carries an optional "What this means for participants" box adopting that
+   voice — my recommendation, aligned with the reform's direction rather than required
+   by the current Core Module.</li>
+<li><strong>Never a wall of text.</strong> Tables for steps, boxes for escalation, white space.</li>
+</ol>
+<hr />
+<h2>8. Review, change and fan-out</h2>
+<ul>
+<li>Review cycles per the register (policies 2-yearly, operational documents annually —
+  recommended defaults, not regulatory numbers), <strong>plus</strong> event-driven review on: any
+  amendment to a linked instrument, a major audit finding, a serious incident, or a
+  change in registration scope.</li>
+<li><strong>Legislative-change fan-out</strong> is a graph traversal: amendment lands on an Instrument
+  node → follow <code>PUBLISHED_IN</code>/<code>REFERENCES</code> edges inward → every affected document gets a
+  review task. The 2026 Amendment Rules are the live example: they touch every document
+  whose header cites the 2018 Rules, and they created the SIL cluster outright.</li>
+<li>Superseded versions are retained (SUPERSEDES chain) — auditors ask for "the policy as
+  it stood when the incident happened", and bitemporal nodes make that answerable.</li>
+</ul>
+<hr />
+<h2>9. Design rationale and trade-offs (opinions, marked as such)</h2>
+<ul>
+<li><strong>Typed-edge labels visible in documents</strong> trades a little visual austerity for
+  machine-readability and staff literacy in the model. Alternative considered: prose
+  cross-references only — friendlier-looking, but they rot silently and can't be
+  ingested. The gloss column is the compromise.</li>
+<li><strong>One register workbook</strong> rather than per-cluster registers: single source of truth
+  and trivially filterable; the cost is a big sheet, mitigated by filters and the
+  Priority column.</li>
+<li><strong>Word + Markdown dual format:</strong> Word for how providers and auditors actually work;
+  Markdown as the canonical, diffable source the graph generates from. Risk: drift
+  between the two — mitigated by treating Markdown as source and exporting, never
+  editing the docx directly as master.</li>
+</ul>
+<h2>10. Epistemic status</h2>
+<p>Verified (Jul 2026): module set incl. SIL commencement and mandatory SIL/platform
+registration; verification-module contents; the 2026 instruments named in the register.
+Corroborated: certification vs verification audit pathways; auditor sampling behaviour.
+My design: everything in §§2–9 not attributed to an instrument — including all review
+cycles, the ID scheme, reading-level targets and the header layout.</p>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="rise-document-architecture.md">rise-document-architecture.md</a></div>
+</article></div>
+</body></html>

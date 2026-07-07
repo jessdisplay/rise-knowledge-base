@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CLAUDE.md — Rise NDIS compliance knowledge base · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">CLAUDE.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: CLAUDE.md</span><span>4,275 bytes</span></div>
+
+<h1>CLAUDE.md — Rise NDIS compliance knowledge base</h1>
+<p>Orientation for Claude Code (or any agent) working in this repository. Read this before editing anything. This file is written by <code>_kb/build_kb.py</code>; edit it there.</p>
+<h2>What this repository is</h2>
+<p>Three preserved session collections plus a generated navigation layer, assembled 7 July 2026:</p>
+<ul>
+<li><code>rise-ndis-package/</code> — the document-and-graph package: 123-document suite, register workbook, seed graph JSON, templates, generator scripts, interactive dossier.</li>
+<li><code>rise-audit-pack/</code> — the audit-research pack: auditor guide, indexed checklist, booklet reconciliation, coverage map v2, the Commission booklet PDF (Nov 2021).</li>
+<li><code>rise-dossier-bundle/</code> — the 5–7 Jul design-session bundle: Claude Code briefs, source manifest, relationship taxonomy v0.3, plain-English map, navigator, visual atlas, training model, prototypes.</li>
+<li><code>rise-authoring-research/</code> — 7 Jul web-verified authoring/formatting best practice.</li>
+<li><code>index.html</code>, <code>standards.html</code>, <code>_kb/</code> — the generated knowledge-base layer.</li>
+</ul>
+<h2>Read in this order for build tasks</h2>
+<ol>
+<li><code>rise-dossier-bundle/rise-dossier-index.md</code> — §5 is the standing instruction for Claude Code.</li>
+<li><code>rise-dossier-bundle/rise-claude-code-brief.md</code> — Milestone 1 (taxonomy v0.3 embedded as Appendix A).</li>
+<li><code>rise-dossier-bundle/rise-source-manifest.md</code> — <strong>execute before writing any seed data.</strong></li>
+<li><code>rise-dossier-bundle/rise-milestone-2-gap-engine.md</code> — Milestone 2.</li>
+<li><code>rise-ndis-package/rise-developer-handoff.md</code> — the package's import plan.</li>
+</ol>
+<h2>Hard rules (the collection's own discipline — do not relax)</h2>
+<ul>
+<li>Never reconstruct clause numbers, section numbers, register IDs, F-numbers, counts or quotes from memory. Retrieve from a file in this repo or a fetched primary source, or leave an explicit <code>[GAP]</code>.</li>
+<li>Label claims: verified <code>[V]</code> (with source and date) / corroborated <code>[C]</code> / design opinion <code>[D]</code>. Anything reconstructed later "from memory" of past sessions is unverified by definition.</li>
+<li>The register workbook's READ ME sheet is authoritative for counts when records disagree.</li>
+<li>Treat the three collection folders as <strong>read-only provenance</strong>. Do not edit their files in place; new or superseding work goes in new top-level folders (like <code>rise-authoring-research/</code>), versioned, stating what it supersedes.</li>
+<li>Statutory addresses were last verified against fetched instruments in prior sessions (SIL Rules clauses are TBC in the register itself). Before anything load-bearing, re-verify against the in-force compilations on legislation.gov.au: PRPS Rules F2018L00631 · QI Guidelines C03 F2026C00528.</li>
+<li>Not legal advice. Where anything here disagrees with the instrument on the Federal Register, the instrument governs.</li>
+</ul>
+<h2>Generated vs source — never hand-edit outputs</h2>
+<p><code>index.html</code>, <code>standards.html</code>, and every rendered <code>.html</code> that sits beside a source file (each <code>*.md</code> → <code>.html</code>, plus <code>*.py.html</code>, <code>*.json.html</code>, <code>*.mermaid.html</code>, <code>*.xlsx.html</code>) are <strong>outputs</strong> of <code>_kb/build_kb.py</code>. To change them, change the script or the source files, then regenerate from the repo root:</p>
+<pre><code>pip install openpyxl markdown
+python3 _kb/build_kb.py
+</code></pre>
+<p>Run in-place it re-renders everything and rewrites <code>index.html</code>, <code>standards.html</code> and this file; it does not move or delete the collections. It prints sanity counts on completion (expected: 66/70 plain-English matches, 123 suite documents).</p>
+<h2>Current open items (as at 7 Jul 2026 — see the index status band)</h2>
+<p>SIL Rules clauses (TBC in the register) · fresh-fetch currency check of all addresses · two statutory timeframes flagged "confirm before approval" · Easy Read companions flagged but not drafted (production standard: <code>rise-authoring-research/</code>) · four standards with no implementing document (M2-2, M2-4, M2-6, M2A-3 — review whether intentional) · the bundle's seven-item open-questions register.</p>
+<h2>Layout note</h2>
+<p>The tree is preserved as-uploaded (provenance-faithful). The unified repo layout proposed in <code>rise-audit-pack/04-manifest/rise-collection-manifest.md</code> §2 is a documented restructure option — note it predates <code>standards.html</code>, <code>index.html</code>, the bundle and the authoring research, so adopting it means extending that plan and updating this generator's paths, as its own versioned step.</p>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="CLAUDE.md">CLAUDE.md</a></div>
+</article></div>
+</body></html>

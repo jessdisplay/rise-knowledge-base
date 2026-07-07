@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rise Audit Pack — 6 July 2026 · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-audit-pack/README.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: README.md</span><span>5,613 bytes</span></div>
+
+<h1>Rise Audit Pack — 6 July 2026</h1>
+<h3>Master index for this session's deliverables, and the assembly map for the whole Rise collection</h3>
+<p><strong>Prepared for:</strong> Rise Development
+<strong>Session:</strong> NDIS auditor deep-research → indexed checklist → coverage visual (6 Jul 2026)</p>
+<hr />
+<h2>1. What this pack IS and IS NOT — read first</h2>
+<p><strong>This pack contains only what was produced in the 6 July audit-research session.</strong> It does <strong>not</strong> contain the earlier Rise deliverables — the interactive dossier, the 123 drafted documents, the register workbook, the seed graph JSON, the templates, the generator scripts, the standards navigator, or the progressive explainers. Those were built in <em>previous sessions</em>, and Claude's file environment does not persist between conversations. They exist <strong>only in your downloads</strong> (chiefly <code>rise-ndis-package.zip</code> and the individually delivered files).</p>
+<p>Nothing in this pack was reconstructed from memory. Where prior-session content was needed (the indexing scheme, the placement map), it was retrieved via conversation search and reproduced with <code>[V-prior]</code> labels; where it could not be retrieved, it is marked <code>[GAP]</code> and left blank. This is deliberate — reconstructing clause citations or node data from memory is the failure mode the Rise source-discipline exists to prevent.</p>
+<p><code>04-manifest/rise-collection-manifest.md</code> is the piece that "organises everything": it inventories the full cross-session collection, states where each artefact lives, and proposes the unified folder structure to assemble once you re-upload the prior files.</p>
+<hr />
+<h2>2. Contents of this pack</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01-guide/how-ndis-auditors-check-practice-standards.md</code></td>
+<td>The layered deep-research guide: age-5 → plain English → regulatory stack → auditor mechanics → anatomy of a <strong>real 2022 certification audit report</strong> → best-practice checklist → 2026 changes. Full V/C/T/D labelling.</td>
+<td>Produced this session. Research verified against NDIS Commission guidance + one real audit report read in full.</td>
+</tr>
+<tr>
+<td><code>02-checklist/rise-ndis-audit-checklist-indexed.md</code></td>
+<td>The per-standard checklist keyed to the Rise ID scheme and dual statutory address (Rules clause + QI section). 48 full rows, 6 partial, 16 explicit gaps.</td>
+<td>Produced this session. Addresses <code>[V-prior]</code> — reproduced from prior verified work, <strong>not re-verified today</strong>.</td>
+</tr>
+<tr>
+<td><code>03-visuals/ndis-standards-coverage-map.html</code></td>
+<td>Standalone, offline, print-safe version of the coverage map shown in chat: all 70 standards, colour + symbol coded by indexing completeness, counts computed from the cell data at render time.</td>
+<td>Produced this session. Same data as the checklist — single source of truth.</td>
+</tr>
+<tr>
+<td><code>04-manifest/rise-collection-manifest.md</code></td>
+<td>The cross-session inventory and assembly plan: every known Rise artefact, where it lives, what's missing, and the proposed unified repo tree.</td>
+<td>Produced this session. Inventory derived from conversation-search retrieval — see its own honesty section for limits.</td>
+</tr>
+<tr>
+<td><code>README.md</code></td>
+<td>This index.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How the three content pieces relate:</strong> the <em>guide</em> explains how auditors work (method); the <em>checklist</em> applies that method per standard using your indexing (application); the <em>coverage map</em> shows at a glance where the indexing is solid vs gapped (state). One dataset underlies the checklist tables and the map cells.</p>
+<hr />
+<h2>3. Known limits of this pack</h2>
+<ul>
+<li><strong><code>[V-prior]</code> ≠ re-verified.</strong> Every statutory address was verified in a <em>prior</em> session against the fetched instruments; none were re-fetched today. The 2026 SIL amendment inserted sections — re-validate against the current compilations (PRPS Rules <code>F2018L00631</code>; QI Guidelines <code>F2018N00041</code> → C03 <code>F2026C00528</code>) before anything enters the graph or reaches a provider.</li>
+<li><strong>16 gaps are real gaps</strong> (Module 2 beyond M2-2, all of Module 2A, most of Module 3, SIL names/Rules clauses). They close with zero guessing once you re-upload <code>ndis-standards-quality-indicators-plain-english-map.md</code> or the register workbook.</li>
+<li><strong>The real audit report</strong> analysed in the guide is one provider, one AQA, 2022 — a genuine and rich exemplar, but a sample of one. No public register of NDIS audit reports was found (recorded as a <code>[T]</code> negative finding).</li>
+</ul>
+<hr />
+<h2>4. Immediate next steps</h2>
+<ol>
+<li><strong>Download and retain this pack</strong> — it will not survive this session.</li>
+<li><strong>Re-upload the two source files</strong> (<code>ndis-standards-quality-indicators-plain-english-map.md</code> and/or <code>rise-document-register.xlsx</code>) → all 16 gaps + 6 partials get filled from your own verified data.</li>
+<li><strong>Assemble the unified collection</strong> per the manifest's proposed tree, placing this pack's contents alongside the prior package.</li>
+<li>Optional integrations once sources are re-uploaded: merge the checklist + coverage map into the dossier as new tabs (matching your single-source generator pattern), and/or emit the checklist as machine-readable seed JSON keyed by Rise ID.</li>
+</ol>
+<hr />
+<h2>Changelog</h2>
+<ul>
+<li><strong>v2 (6 Jul 2026, later same day):</strong> Added <code>00-source/</code> containing the uploaded NDIS Commission booklet (Nov 2021, v4) — the pack is now self-contained for name-level verification. Added <code>02-checklist/rise-reconciliation-2021v4-booklet.md</code> recording the mapping of that booklet against the checklist: 16 hard gaps → 0 (all names now verified; 18 QI-section pairings are labelled inference, not verification). Coverage map v1 replaced by <code>03-visuals/ndis-standards-coverage-map-v2.html</code>. Remaining opens: Rules clauses for M2-3..7 / M2A / M3-1..4, SIL names + clauses, and [I]→[V] conversion — all still require the register or an FRL fetch.</li>
+</ul>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="README.md">README.md</a></div>
+</article></div>
+</body></html>

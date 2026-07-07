@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RISE DOSSIER — master index · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-dossier-bundle/rise-dossier-index.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: rise-dossier-index.md</span><span>6,943 bytes</span></div>
+
+<h1>RISE DOSSIER — master index</h1>
+<p><strong>What this is.</strong> Everything produced in the Rise design sessions of 5–7 July 2026,
+organised for handover. Eleven documents: two implementation briefs, four reference
+models, three working HTML prototypes, one visual atlas, and one source manifest.</p>
+<p><strong>Handling note (important):</strong> Claude's working files do not persist between
+conversations. This zip is the canonical copy — commit it to the repository today.
+Anything reconstructed later "from memory" of these sessions should be treated as
+unverified.</p>
+<hr />
+<h2>1. Artifact inventory</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it is</th>
+<th>Primary audience</th>
+<th>Epistemic standing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rise-claude-code-brief.md</code></td>
+<td><strong>Milestone 1</strong>: graph schema, seed data, gap views, tests. Taxonomy v0.3 embedded verbatim as Appendix A.</td>
+<td>Claude Code</td>
+<td>Verified register IDs in seed rules; stack choice and scope are stated opinions</td>
+</tr>
+<tr>
+<td><code>rise-milestone-2-gap-engine.md</code></td>
+<td><strong>Milestone 2</strong>: indicator ingestion, demand-type classification, applicability gates (Rules s 20(3) as data), four-state gap model</td>
+<td>Claude Code</td>
+<td>Legislated inputs verified; demand types and gap model are analysis</td>
+</tr>
+<tr>
+<td><code>rise-source-manifest.md</code></td>
+<td>Every instrument in scope with register IDs, verification status, and hard ingestion rules (download-only, provenance, no invented F-numbers)</td>
+<td>Claude Code</td>
+<td>Status column is the point: fetched-and-verified vs ID-sighted vs not-sighted</td>
+</tr>
+<tr>
+<td><code>rise-relationship-taxonomy.md</code></td>
+<td>v0.3 — 25 typed edges, three-dimension confidence model, MAPS_TO per NIST OLIR (verified), IP risk note (UCF/IBM)</td>
+<td>Claude Code + developer</td>
+<td>All previously-flagged unknowns resolved against primary sources; remaining unknowns listed in §10</td>
+</tr>
+<tr>
+<td><code>rise-compliance-pyramid-model.md</code></td>
+<td>The seven-tier presentation model + complete placement map: all 66 standards with exact coordinates</td>
+<td>Developer + team</td>
+<td>Tiers 1–4 and every address verified; pyramid-as-view is design opinion</td>
+</tr>
+<tr>
+<td><code>ndis-standards-quality-indicators-plain-english-map.md</code></td>
+<td>All 66 standards mapped to their indicator sections with one-line plain-English summaries; the "seven recurring demands"</td>
+<td>Board, pilot provider, team</td>
+<td>Pairings verified from the eleven statutory tables; plain-English lines are labelled paraphrase</td>
+</tr>
+<tr>
+<td><code>rise-standards-navigator.html</code></td>
+<td>Interactive navigator: search, module filters, dual titles, cross-links, citations, authorised-download links</td>
+<td>Everyone</td>
+<td>Data verified; SIL absence declared in-app</td>
+</tr>
+<tr>
+<td><code>rise-bounce-prototype.html</code></td>
+<td>The golden-thread interaction: one indicator traced through policy → procedure → form → register with working bounce chips</td>
+<td>Developer</td>
+<td>Addresses and indicator substance verified; all provider content labelled invented example</td>
+</tr>
+<tr>
+<td><code>rise-ui-interaction-notes.md</code></td>
+<td>Analysis of the five-panel book system from the screen recording; seven design recommendations incl. pin-and-swap</td>
+<td>Developer</td>
+<td>Frame-verified observations separated from inference; method stated</td>
+</tr>
+<tr>
+<td><code>rise-visual-atlas.html</code></td>
+<td>All twelve session diagrams preserved as one page — explainers, mapping ladders, pyramid, audit series, gap engine — each captioned with its evidence status</td>
+<td>Everyone</td>
+<td>Diagram data matches the verified documents; captions state each figure's standing</td>
+</tr>
+<tr>
+<td><code>rise-graph-explorer.html</code></td>
+<td>Drill-down tree of the whole graph: Act → instruments → modules → all 66 standards, with verified content, ingestion slots for authorised text, and one worked example provider chain</td>
+<td>Everyone</td>
+<td>Three content grades chipped on every node: verified / slot / example</td>
+</tr>
+</tbody>
+</table>
+<h2>2. Reading paths</h2>
+<ul>
+<li><strong>Claude Code:</strong> brief → source manifest → Milestone 2 → (taxonomy is inside the
+  brief) → pyramid model for the address scheme. The two HTML files are reference
+  implementations of the target UX, not code to reuse.</li>
+<li><strong>Developer:</strong> this index → pyramid model → navigator → bounce prototype → UI
+  interaction notes → both briefs.</li>
+<li><strong>Board / pilot provider:</strong> plain-English map → navigator → visual atlas. Nothing else needed.</li>
+</ul>
+<h2>3. Consolidated open-questions register</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Question</th>
+<th>Resolved by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Taxonomy §9.2–9.4: evidence at indicator vs outcome level; does OPERATIONALISES survive; do USES/RECORDS_TO generalise</td>
+<td>Pilot provider documents + real audit reports</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SIL standards: schedule, clauses, Guidelines sections, and whether 66 + SIL = the build's 70</td>
+<td><strong>Recorded as resolved</strong> in the 6 Jul session "NDIS compliance policies and procedures research" (C03 = F2026C00528; SIL at ss 72B–72E; register carries 70 clause-cited standards) — retrieve that session's register, or fetch C03 to re-verify independently</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Exact indicator count (currently "low hundreds", estimate)</td>
+<td>Milestone 2 Step 1 parser</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Non-adjacent spreads in the book UI (pin-and-swap recommended)</td>
+<td>Product decision + pilot demo</td>
+</tr>
+<tr>
+<td>5</td>
+<td>UCF patents: AU status of the <em>other</em> families; whether any claim reads on Rise</td>
+<td>Patent counsel + AusPat search (schema family verified US+PCT only, no AU)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2026 amending instruments' register IDs</td>
+<td>Locate on legislation.gov.au — never invent</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Whether the register offers reliable section-level anchors for deep links</td>
+<td>Developer test; navigator currently links document-level only</td>
+</tr>
+</tbody>
+</table>
+<h2>4. Session verification log (what actually passed through Claude's hands)</h2>
+<ul>
+<li><strong>Quality Indicators Guidelines 2018</strong>, Compilation No. 1 — fetched in full twice;
+  all eleven statutory mapping tables extracted; s 181D(2) authority confirmed.</li>
+<li><strong>Provider Registration and Practice Standards Rules 2018</strong>, Compilation No. 4
+  authorised PDF — fetched in full; s 20(3) applicability table, s 24 ambulatory
+  reference ("as existing from time to time"), skipped-clause structure, dual
+  titles, Module 6 = Verification all confirmed.</li>
+<li><strong>NIST IR 8278Ar1</strong> — fetched; OLIR rationale enum (syntactic/semantic/functional)
+  and 0–10 strength scale verified (corrected an earlier 1–9 error).</li>
+<li><strong>US8661059B1 family page</strong> — fetched; UCF schema family = 10 US + 1 PCT, no AU
+  entry; active 2024 continuations; Oregon litigation; adjacent IBM patents sighted.</li>
+<li><strong>Audit process</strong> — Commission audit-types page + auditor guides: two-stage
+  certification, participant opt-out, corrective action plans, mid-term audits.</li>
+<li><strong>UI recording</strong> — frame-sampled (16 + 72 + 16 frames); findings in the UI notes.</li>
+</ul>
+<p>Everything above is dated 5–7 July 2026 and ages from that moment. The framework
+amended twice in 2026 already; re-verify against the register before load-bearing use.</p>
+<h2>5. One instruction for Claude Code</h2>
+<p>Read <code>rise-claude-code-brief.md</code> as the task. Before writing any seed data, execute
+<code>rise-source-manifest.md</code>. Build Milestone 1, report back per the brief's §7 —
+especially anything in the taxonomy that fights the implementation — then proceed
+to <code>rise-milestone-2-gap-engine.md</code>. Do not resolve items in the open-questions
+register silently; leave the TODOs.</p>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="rise-dossier-index.md">rise-dossier-index.md</a></div>
+</article></div>
+</body></html>

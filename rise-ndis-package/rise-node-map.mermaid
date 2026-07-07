@@ -1,0 +1,85 @@
+%% Rise node map v0.1 (2026-07-05)
+%% Meta-model: node TYPES and core typed edges. Instance data lives in
+%% rise-nodes-and-edges.json (218 nodes / 515 edges).
+%% Authoritative edge list: rise-relationship-taxonomy.md v0.3.
+%% Terminology: "Standard" here = "Requirement" in the edge taxonomy.
+%% Dashed edges = proposed v0.4 types or informal links (see legend node).
+flowchart TD
+  subgraph SHARED["SHARED REFERENCE LAYER - one copy, centrally maintained, bitemporal"]
+    AMD["Instrument: amending Act or Rules<br/>(e.g. 2026 Amendment Rules)"]
+    ACT["Instrument: NDIS Act 2013"]
+    RUL["Instrument: Rules and Guidelines<br/>(PRPS, Incident, Complaints, RP, AQA...)"]
+    PRV["Provision<br/>(Part / Schedule / clause - native numbering)"]
+    FW["Framework: NDIS Practice Standards<br/>(parallel roots later: Aged Care, ISO)"]
+    MOD["Module<br/>Core, Verification, M1, M2, M2A, M3, M4, M5, SIL"]
+    STD["Standard<br/>(= 'Requirement' in edge taxonomy; IMPLEMENTS target)"]
+    QIN["Quality Indicator<br/>(QI Guidelines 2018 as amended)"]
+    XRQ["Requirement in another framework<br/>(future crosswalks)"]
+  end
+
+  subgraph TENANT["TENANT LAYER - private to each provider"]
+    ORG["Organisation"]
+    SCP["Registration Scope<br/>(drives gap detection: which Modules apply)"]
+    SIT["Site / Home"]
+    subgraph DOCS["Document (doc_type)"]
+      POL["Policy"]
+      PRO["Procedure"]
+      WIN["Work Instruction"]
+      FRM["Form / Agreement"]
+      REGD["Register"]
+      PLN["Plan / Handbook"]
+    end
+    ROL["Role"]
+    PPL["Person (PII-minimised)"]
+    TRN["Training / Qualification"]
+    RSK["Risk"]
+    CTL["Control"]
+    EVD["Evidence (immutable once frozen)"]
+    AUD["Audit (certification / verification / mid-term / internal)"]
+    FND["Finding"]
+    IMP["Improvement Action"]
+  end
+
+  RUL -->|MADE_UNDER| ACT
+  AMD -.->|"AMENDS - v0.4 candidate<br/>(today: RELATES_TO + note)"| RUL
+  PRV -->|PART_OF| RUL
+  FW -->|PUBLISHED_IN| RUL
+  MOD -->|PART_OF| FW
+  STD -->|PART_OF| MOD
+  QIN -->|PART_OF| STD
+  STD -.->|"MAPS_TO (symmetric):<br/>strength, rationale, score 0-10"| XRQ
+
+  POL -->|IMPLEMENTS| STD
+  POL -.->|"REFERENCES - v0.4 candidate<br/>(today: RELATES_TO + note)"| RUL
+  PRO -->|OPERATIONALISES| POL
+  WIN -->|OPERATIONALISES| PRO
+  PRO -->|USES| FRM
+  FRM -->|RECORDS_TO| REGD
+
+  EVD -->|GENERATED_BY| REGD
+  EVD -->|EVIDENCES| STD
+  AUD -->|ASSESSES| STD
+  FND -->|RAISED_IN| AUD
+  FND -->|CITES| EVD
+  FND -->|CONCERNS| DOCS
+  IMP -->|ADDRESSES| FND
+
+  CTL -->|MITIGATES| RSK
+  DOCS -->|OWNED_BY| ROL
+  PRO -->|PERFORMED_BY| ROL
+  ROL -->|REQUIRES| TRN
+  PPL -.->|"assigned to (assignment record)"| ROL
+  ORG --- SCP
+  ORG --- SIT
+  SCP -.->|"scopes gap detection to"| MOD
+
+  LGD["Not drawn, also in taxonomy v0.3:<br/>SUPERSEDES (new version to prior version, any versioned node)<br/>INTERPRETS (external frameworks e.g. ISO to Provision)<br/>CONFLICTS_WITH, DUPLICATES (symmetric review queues)<br/>RELATES_TO (escape hatch - note mandatory)"]
+
+  classDef shared fill:#dbe8f8,stroke:#1f3864,color:#111
+  classDef tenant fill:#fdf3d8,stroke:#8a6d1a,color:#111
+  classDef docbox fill:#eaf6ea,stroke:#2e6b2e,color:#111
+  classDef legend fill:#f2f2f2,stroke:#888,color:#333,font-size:11px
+  class AMD,ACT,RUL,PRV,FW,MOD,STD,QIN,XRQ shared
+  class ORG,SCP,SIT,ROL,PPL,TRN,RSK,CTL,EVD,AUD,FND,IMP tenant
+  class POL,PRO,WIN,FRM,REGD,PLN docbox
+  class LGD legend

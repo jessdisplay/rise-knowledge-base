@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rise Collection Manifest &amp; Assembly Plan · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-audit-pack/04-manifest/rise-collection-manifest.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: rise-collection-manifest.md</span><span>9,128 bytes</span></div>
+
+<h1>Rise Collection Manifest &amp; Assembly Plan</h1>
+<p><strong>Version 0.1 — 6 July 2026</strong></p>
+<p>The single map of every known Rise artefact across all sessions: what it is, where it lives now, and how to assemble the collection into one working structure.</p>
+<hr />
+<h2>0. Honesty statement about this inventory itself</h2>
+<p>This manifest was compiled from (a) files verified on disk <strong>this session</strong> and (b) prior-session records retrieved <strong>today</strong> via conversation search. That means:</p>
+<ul>
+<li><strong>"In this pack"</strong> entries are verified present — I listed the directory before writing this.</li>
+<li><strong>"Your downloads only"</strong> entries are artefact names and descriptions as recorded in prior session summaries and handoff text. I have <strong>not</strong> seen those files this session and cannot verify their current existence, integrity, or exact contents. The descriptions are faithful reproductions of the prior records, not fresh inspections.</li>
+<li>The inventory <strong>may be incomplete</strong> — conversation search returns excerpts, not exhaustive listings. Your downloads folder is the authoritative census. If an artefact you remember isn't listed here, the omission is a retrieval limit, not a judgement.</li>
+<li>Confidence: <strong>high</strong> that the listed artefacts were produced (multiple consistent records); <strong>not verifiable from here</strong> that you still hold them.</li>
+</ul>
+<hr />
+<h2>1. Full inventory by session</h2>
+<h3>Session A — 6 Jul 2026 (this session): auditor deep-research &amp; indexed checklist</h3>
+<table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Status</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>how-ndis-auditors-check-practice-standards.md</code></td>
+<td><strong>In this pack</strong> (<code>01-guide/</code>)</td>
+<td>Method: how AQAs test provider artefacts against the standards; real-report anatomy; 2026 changes.</td>
+</tr>
+<tr>
+<td><code>rise-ndis-audit-checklist-indexed.md</code></td>
+<td><strong>In this pack</strong> (<code>02-checklist/</code>)</td>
+<td>Application: per-standard auditor test + evidence, keyed to Rise IDs and dual addresses. 48 full / 6 partial / 16 gap.</td>
+</tr>
+<tr>
+<td><code>ndis-standards-coverage-map.html</code></td>
+<td><strong>In this pack</strong> (<code>03-visuals/</code>)</td>
+<td>State: standalone visual of indexing completeness across all 70 standards.</td>
+</tr>
+<tr>
+<td>Coverage-map chat widget</td>
+<td>Chat-only (superseded by the HTML above)</td>
+<td>Same data; the HTML file is the durable version.</td>
+</tr>
+</tbody>
+</table>
+<h3>Session B — 5–6 Jul 2026: NDIS compliance build (developer handoff)</h3>
+<p><em>All items below: </em><em>your downloads only</em><em> — primarily inside <code>rise-ndis-package.zip</code>. Descriptions from the session's own handoff records.</em></p>
+<table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rise-developer-handoff.md</code></td>
+<td>The package's own index — start-here for Session B contents.</td>
+</tr>
+<tr>
+<td><code>rise-document-register.xlsx</code></td>
+<td>Master register: READ ME, Documents (~121–123), <strong>Standards (70, clause-cited)</strong>, Legislation (17–21 instruments), Edges (~515–528). Itself document <code>REG-GOV-03</code>. <strong>One of the two files that closes this pack's gaps.</strong></td>
+</tr>
+<tr>
+<td><code>rise-nodes-and-edges.json</code></td>
+<td>Machine-readable seed graph (~218–224 nodes, ~515–528 edges).</td>
+</tr>
+<tr>
+<td><code>rise-node-examples.json</code></td>
+<td>One fully-attributed example per node type (bitemporal fields, enums, MAPS_TO dimensions).</td>
+</tr>
+<tr>
+<td><code>rise-node-map.mermaid</code></td>
+<td>Meta-model diagram: node types, core typed edges, both layers.</td>
+</tr>
+<tr>
+<td><code>rise-node-taxonomy.md</code> v0.1</td>
+<td>Node-type schema (companion to edge taxonomy v0.3).</td>
+</tr>
+<tr>
+<td><code>rise-document-architecture.md</code> v0.1</td>
+<td>Compliance Header spec, document ID scheme, traceability views, accessibility rules.</td>
+</tr>
+<tr>
+<td>Templates: <code>TPL-POL / PRO / WIN / FRM / REG</code> (.md + .docx)</td>
+<td>The five document templates; incident chain as worked example.</td>
+</tr>
+<tr>
+<td>~123 drafted documents (Markdown, by type folder)</td>
+<td>The full provider suite drafts.</td>
+</tr>
+<tr>
+<td><code>rise_build.py</code>, <code>rise_docs.py</code>, <code>rise_dossier.py</code></td>
+<td>Generators — single source of truth → xlsx + JSON + docs + dossier.</td>
+</tr>
+<tr>
+<td>Interactive HTML dossier</td>
+<td>Graph explorer, document reader, type tabs, chain bar.</td>
+</tr>
+<tr>
+<td>Auditor focus map (QI-section-cited)</td>
+<td>Per-module "what auditors open first" — partially reproduced into this pack's checklist.</td>
+</tr>
+<tr>
+<td>Plain-English compliance guide; tiered source register; methodology doc</td>
+<td>Supporting references.</td>
+</tr>
+<tr>
+<td><strong>Note:</strong> counts vary across records (121 vs 123 docs; 218/515 vs 224/528 nodes/edges) — likely snapshots at different build points within the session. The register's own READ ME sheet is authoritative.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>Session C — 6 Jul 2026: standards mapping &amp; navigator</h3>
+<p><em>Your downloads only.</em></p>
+<table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ndis-standards-quality-indicators-plain-english-map.md</code></td>
+<td><strong>All 66 pre-SIL standards with exact Rules + Guidelines addresses from the eleven statutory mapping tables.</strong> The other gap-closing file.</td>
+</tr>
+<tr>
+<td><code>rise-standards-navigator.html</code></td>
+<td>Interactive navigator: search, module chips, expandable cards, dual-title flags (8 standards), cross-module family links, copy-citation.</td>
+</tr>
+<tr>
+<td>Seven-tier compliance pyramid + progressive visual explainers</td>
+<td>Teaching visuals, four-box model → single-indicator testing flow.</td>
+</tr>
+<tr>
+<td>Source manifest (for Claude Code ingestion)</td>
+<td>Governs authorised-copy ingestion from the register.</td>
+</tr>
+</tbody>
+</table>
+<h3>Session D (earlier): edge taxonomy</h3>
+<p><em>Your downloads only.</em></p>
+<table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rise-relationship-taxonomy.md</code> <strong>v0.3</strong></td>
+<td>The authoritative 25-type edge taxonomy, five groups. Session B's handoff explicitly says to place it beside the package files. v0.4 (REFERENCES/AMENDS) is queued.</td>
+</tr>
+<tr>
+<td>Claude Code implementation brief (v0.3 appendix)</td>
+<td>Build brief with honesty rules and TODOs.</td>
+</tr>
+</tbody>
+</table>
+<h3>Session E: IBM OpenPages research</h3>
+<p><em>Chat-record only (no file deliverable recorded).</em> Findings: RCM Mandate→Sub-Mandate→Requirement parallel; IBM licenses UCF (FTO signal); demo/documentation links.</p>
+<hr />
+<h2>2. Proposed unified structure (assembly target)</h2>
+<p><strong>Design opinion</strong> — consistent with Session B's handoff and the single-source generator pattern:</p>
+<pre><code>rise/
+├── README.md                        ← promote Session B's rise-developer-handoff.md, add pointers to research/
+├── taxonomy/
+│   ├── rise-relationship-taxonomy.md        (v0.3 — Session D)
+│   ├── rise-node-taxonomy.md                (v0.1 — Session B)
+│   └── rise-document-architecture.md        (v0.1 — Session B)
+├── data/
+│   ├── rise-document-register.xlsx          (Session B — authoritative counts)
+│   ├── rise-nodes-and-edges.json
+│   ├── rise-node-examples.json
+│   └── rise-node-map.mermaid
+├── scripts/
+│   ├── rise_build.py │ rise_docs.py │ rise_dossier.py
+├── templates/
+│   └── TPL-POL / PRO / WIN / FRM / REG (.md + .docx)
+├── documents/                        (the ~123 drafts, by type folder)
+├── site/
+│   ├── rise-dossier.html                    (Session B)
+│   ├── rise-standards-navigator.html        (Session C)
+│   └── ndis-standards-coverage-map.html     (THIS PACK)
+├── reference/
+│   ├── ndis-standards-quality-indicators-plain-english-map.md   (Session C)
+│   ├── auditor-focus-map + plain-english guide + source register (Session B)
+│   └── source-manifest (Session C)
+└── research/                         (THIS PACK, 6 Jul)
+    ├── how-ndis-auditors-check-practice-standards.md
+    └── rise-ndis-audit-checklist-indexed.md
+</code></pre>
+<p>Trade-off noted: this tree hand-places generator <em>outputs</em> (documents/, site/) beside sources; your generators treat outputs as disposable. Alternative: keep only sources + scripts in the repo and regenerate outputs — cleaner, but requires the scripts to run in your environment first. Either is defensible; the register + scripts + taxonomies are the non-negotiable core.</p>
+<hr />
+<h2>3. Gap-closure map</h2>
+<table>
+<thead>
+<tr>
+<th>Gap (in this pack's checklist/map)</th>
+<th>Closed by</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M2-3…M2-7 names/addresses</td>
+<td>Plain-English map <strong>or</strong> register Standards sheet</td>
+<td>Direct row copy — no inference.</td>
+</tr>
+<tr>
+<td>M2A-1…M2A-8 (all)</td>
+<td>Same</td>
+<td>Same.</td>
+</tr>
+<tr>
+<td>M3-1…M3-4 names/addresses; M3-5 name</td>
+<td>Same</td>
+<td>Same.</td>
+</tr>
+<tr>
+<td>SIL-1…4 standard names + Rules clauses</td>
+<td>Register (Session B verified SIL from C03) <strong>or</strong> fresh C03 fetch</td>
+<td>Prefer the register; fetch as currency check.</td>
+</tr>
+<tr>
+<td>Ordinal reconciliation (M4/M5/VER Rise IDs marked <code>[D]</code>)</td>
+<td>Register Standards sheet</td>
+<td>Confirm my QI-section ordering matches your assigned IDs.</td>
+</tr>
+<tr>
+<td>Currency of all <code>[V-prior]</code> addresses</td>
+<td>Fresh fetch of PRPS Rules + QI C03</td>
+<td>A <em>check</em>, not a source — diff against register, don't re-derive.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. Standing risks to carry forward</h2>
+<ol>
+<li><strong>Session-scoped files</strong> (established, repeatedly validated): download everything, every session. This manifest included.</li>
+<li><strong>Compilation drift</strong>: the 2026 amendments mean any address not checked against the in-force compilation is provisional. Bitemporal discipline in the graph is the mitigation — the manifest just reminds you the <em>inputs</em> need the same discipline.</li>
+<li><strong>Count discrepancies across records</strong> (121/123, 218/224, 515/528): treat the register's READ ME as authoritative; if it disagrees with the JSON, the generator scripts are the arbiter (regenerate and compare).</li>
+<li><strong>This inventory's completeness</strong>: bounded by conversation-search retrieval. Reconcile against your actual downloads once, then this manifest becomes the living index (version it like everything else — v0.2 after reconciliation).</li>
+</ol>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="rise-collection-manifest.md">rise-collection-manifest.md</a></div>
+</article></div>
+</body></html>

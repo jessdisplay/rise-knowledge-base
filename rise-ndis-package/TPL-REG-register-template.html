@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Register Title] · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/TPL-REG-register-template.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: TPL-REG-register-template.md</span><span>2,540 bytes</span></div>
+
+<h1>[Register Title]</h1>
+<p><strong>Document type: Register.</strong> The running log that proves a process operates over time.
+<em>Worked example: REG-INC-01 Incident Register.</em></p>
+<blockquote>
+<p><strong>How to use this template.</strong> This document <em>specifies</em> the register; the register
+itself lives as a spreadsheet (or a system table) built to this specification. Auditors
+read registers before anything else: a current, complete register is the strongest
+single piece of evidence that a process is real. An empty register plus a perfect
+policy is a red flag, not a pass.</p>
+</blockquote>
+<h2>1. Document control</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Entry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Document ID / Version</td>
+<td>[REG-XXX-NN · 0.1]</td>
+</tr>
+<tr>
+<td>Maintained by (role)</td>
+<td>[Quality Manager]</td>
+</tr>
+<tr>
+<td>Reviewed</td>
+<td>[e.g. monthly by owner; quarterly summary to Board]</td>
+</tr>
+</tbody>
+</table>
+<h2>2. Compliance links</h2>
+<table>
+<thead>
+<tr>
+<th>Link type</th>
+<th>Plain English</th>
+<th>Linked to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RECORDS FROM</td>
+<td>Rows come from</td>
+<td>[Form / Agreement IDs]</td>
+</tr>
+<tr>
+<td>IMPLEMENTS</td>
+<td>Evidence of operating</td>
+<td>[Standard IDs]</td>
+</tr>
+<tr>
+<td>REFERENCES</td>
+<td>Record-keeping duty in</td>
+<td>[Instrument, e.g. Incident Rules record requirements]</td>
+</tr>
+</tbody>
+</table>
+<h2>3. Column specification</h2>
+<p>[One row per column: name · type · allowed values · why it exists. Keep the register
+lean — every column must serve retrieval, reporting or the audit trail.]</p>
+<p><em>Example for REG-INC-01:</em></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type / values</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Incident ID</td>
+<td>auto number</td>
+<td>Stable reference</td>
+</tr>
+<tr>
+<td>Date of incident / date recorded</td>
+<td>dates</td>
+<td>Timeliness is itself audited</td>
+</tr>
+<tr>
+<td>Participant ref</td>
+<td>ID (not full name)</td>
+<td>Privacy-minimised link to CRM</td>
+</tr>
+<tr>
+<td>Summary</td>
+<td>short text</td>
+<td>Retrieval</td>
+</tr>
+<tr>
+<td>Severity</td>
+<td>minor / moderate / major</td>
+<td>Trend reporting</td>
+</tr>
+<tr>
+<td>Reportable?</td>
+<td>yes / no</td>
+<td>Splits the statutory pathway</td>
+</tr>
+<tr>
+<td>Notified to Commission (date)</td>
+<td>date</td>
+<td>Deadline evidence, per PRO-INC-02</td>
+</tr>
+<tr>
+<td>Corrective action ref</td>
+<td>REG-QMS-01 ID</td>
+<td>Closes the learning loop</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>open / closed</td>
+<td>Nothing left hanging</td>
+</tr>
+</tbody>
+</table>
+<h2>4. Rhythm</h2>
+<p>[Entry deadline (same as procedure) · review cadence · what the periodic review looks
+for (overdue items, trends, unclosed actions) · what gets reported upward.]</p>
+<h2>5. Access and retention</h2>
+<p>[Who can read, who can write; where it lives; retention per the applicable instrument —
+cite, don't guess.]</p>
+<h2>6. Audit view</h2>
+<p>[One paragraph: what an auditor will ask of this register and how it answers. For
+REG-INC-01: sample entries traced back to completed FRM-INC-01 forms and forward to
+notification records and improvement actions — the row is the hub of that trail.]</p>
+<h2>7. Version history</h2>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.1</td>
+<td>[date]</td>
+<td>First draft</td>
+</tr>
+</tbody>
+</table>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="TPL-REG-register-template.md">TPL-REG-register-template.md</a></div>
+</article></div>
+</body></html>

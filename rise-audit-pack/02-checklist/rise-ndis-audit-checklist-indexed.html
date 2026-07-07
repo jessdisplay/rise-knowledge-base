@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NDIS Practice Standards — Full Audit Checklist, Indexed · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-audit-pack/02-checklist/rise-ndis-audit-checklist-indexed.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: rise-ndis-audit-checklist-indexed.md</span><span>23,879 bytes</span></div>
+<div class="kbnote"><b>Assembly note — added 7 Jul 2026, not part of the original document.</b> The gap tables in §§3–5 below and the 48 / 6 / 16 counts were superseded later the same day by the <a href="rise-reconciliation-2021v4-booklet.html">booklet reconciliation</a>: all 70 standard names are now verified, 18 QI-section pairings carry an inference label, and the Rules clauses for M2-3…7, Module 2A, M3-1…4 and all SIL rows remain open. Current state: <a href="../03-visuals/ndis-standards-coverage-map-v2.html">coverage map v2</a>. The Markdown file alongside this page is unmodified.</div>
+<h1>NDIS Practice Standards — Full Audit Checklist, Indexed</h1>
+<h3>Rise · per-standard auditor test + evidence, keyed to the Rise standard-ID and dual-address scheme</h3>
+<p><strong>Prepared for:</strong> Rise Development
+<strong>Date:</strong> 6 July 2026
+<strong>Companion to:</strong> <code>how-ndis-auditors-check-practice-standards.md</code> (the layered guide + method, produced earlier today).
+<strong>Source of the indexing:</strong> your prior Rise sessions — the plain-English standards map (<code>ndis-standards-quality-indicators-plain-english-map.md</code>) and the document register (<code>rise-document-register.xlsx</code>, Standards sheet).</p>
+<hr />
+<h2>0. Read this first — provenance and epistemic status</h2>
+<p>This checklist merges two things:</p>
+<ul>
+<li><strong>The audit-testing / evidence content</strong> — what an auditor actually tests per standard and what evidence to have ready. Sourced from <strong>this session's</strong> primary research (NDIS Commission auditor guidance + one real 2022 certification audit report) and your prior "auditor focus map." Labelled <code>[V-now]</code> / <code>[C]</code> / <code>[D]</code>.</li>
+<li><strong>The indexing</strong> — Rise standard IDs and the dual statutory address (Rules clause + Quality Indicators section). <strong>Reproduced faithfully from your own prior verified work, but NOT re-verified by me this session.</strong> Labelled <code>[V-prior]</code>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[V-now]</code></td>
+<td>Verified by me <strong>this session</strong> against a primary/authoritative source.</td>
+</tr>
+<tr>
+<td><code>[V-prior]</code></td>
+<td>Verified in a <strong>prior Rise session</strong> against the fetched instrument text; reproduced here <strong>without re-verification</strong>. Trust, but re-validate against the register/FRL before it enters the graph or a provider-facing artefact.</td>
+</tr>
+<tr>
+<td><code>[C]</code></td>
+<td>Corroborated by multiple secondary sources this session.</td>
+</tr>
+<tr>
+<td><code>[D]</code></td>
+<td>Design/inference — my synthesis.</td>
+</tr>
+<tr>
+<td><code>[GAP]</code></td>
+<td><strong>Not retrieved this session. Deliberately left blank rather than reconstructed from memory.</strong> Fill from the verified register.</td>
+</tr>
+</tbody>
+</table>
+<h3>The three flags you must not skip</h3>
+<ol>
+<li><strong>Currency risk on addresses.</strong> The 66-standard placement map was verified against a compilation dated ~15 Nov 2021; the SIL rows (ss 72B–72E) against compilation <strong>C03 (F2026C00528)</strong>. The 2026 SIL amendment inserted new sections and may have touched numbering elsewhere. Section/clause numbers are the <strong>most fragile</strong> thing to carry forward. <code>[V-prior]</code> here means "your prior fetch said so," not "confirmed current today."</li>
+<li><strong>Count = 66 + 4 SIL = 70.</strong> Breakdown (from your prior count-check): Core 24 · M1 8 · M2 7 · M2A 8 · M3 7 · M4 3 · M5 5 · Verification 4 = <strong>66</strong>; plus <strong>4 SIL</strong> = <strong>70</strong>. <code>[V-prior]</code></li>
+<li><strong>Correction to my earlier document.</strong> In this morning's guide I flagged SIL "ss 72B–72E" as <code>[M-unverified]</code>. Retrieving your prior work upgrades that to <strong><code>[V-prior]</code></strong> — a later session fetched compilation C03 and placed the four SIL standards at QI ss 72B–72E. Still not re-verified <em>today</em>, but no longer unsupported.</li>
+</ol>
+<h3>The indexing scheme (as recovered)</h3>
+<ul>
+<li><strong>Rise standard ID</strong> = <code>MODULE-ordinal</code>. Core is sub-scored by division: <code>CORE-&lt;division&gt;.&lt;ordinal&gt;</code> (e.g. <code>CORE-4.4</code> = Division 4 "support environment", 4th standard = Mealtime management). Modules use a flat ordinal: <code>M1-3</code>, <code>M2-2</code>, <code>M5-4</code>, <code>VER-1</code>. <code>[V-prior]</code> for Core/M1/M2 (seen in the register); <code>[D]</code> for the ordinal numbering of M4/M5/VER (I ordered them by QI section — reconcile against the register).</li>
+<li><strong>Dual address</strong> = <strong>Rules address</strong> (which Schedule + clause of the <em>Provider Registration and Practice Standards Rules 2018</em>, <code>F2018L00631</code>) <strong>+ Indicators address</strong> (which section of the <em>Quality Indicators Guidelines</em>, base <code>F2018N00041</code> → current <code>F2026C00528</code>). <code>[V-prior]</code></li>
+<li><strong>Module → Schedule map</strong> <code>[V-prior]</code>: Core → Sch 1 (QI ss 6–27) · M1 → Sch 2 (ss 29–35) · M2 → Sch 3 (ss 38–44) · M2A → Sch 4 <em>(schedule no. inferred <code>[D]</code>)</em> (ss 47–54) · M3 → Sch 5 (ss 56–62) · M4 → Sch 6 (ss 64–66) · M5 → Sch 7 (ss 68–72) · <strong>SIL/M5A → QI ss 72B–72E</strong> <em>(Rules schedule/clauses <code>[GAP]</code>)</em> · Verification → Sch 8 (ss 74–77, <strong>reverse-paired</strong>).</li>
+</ul>
+<p><strong>How to read a row:</strong> <code>Rise ID · Standard name · Rules @ · QI @ · what the auditor tests + evidence to have ready</code>. The auditor's universal method is unchanged from the guide: <strong>say it (policy) → do it (procedure + form) → prove it (records + interview + observation)</strong>, triangulated. <code>[V-now]</code></p>
+<hr />
+<h2>1. CORE MODULE — applies to every registered provider</h2>
+<p><em>Rules: Schedule 1 · Indicators: QI ss 6–27 · Rise IDs <code>CORE-1.1</code>…<code>CORE-4.5</code> · addresses <code>[V-prior]</code></em></p>
+<h3>Division 1 — Rights and Responsibility (all providers)</h3>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>What the auditor tests / evidence to have ready</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CORE-1.1</td>
+<td>Person-centred supports</td>
+<td>Sch 1, cl 3</td>
+<td>s 6</td>
+<td>Rights built into everyday practice; accessible communication; support-network engagement. <em>Docs: Rights &amp; Responsibilities policy+procedure, Participant Charter/Handbook.</em> Tested by document + participant + worker interview.</td>
+</tr>
+<tr>
+<td>CORE-1.2</td>
+<td>Individual values and beliefs</td>
+<td>Sch 1, cl 4</td>
+<td>s 7</td>
+<td>Culture/diversity/values identified and respected; prompts in planning templates; participants confirm.</td>
+</tr>
+<tr>
+<td>CORE-1.3</td>
+<td>Privacy and dignity</td>
+<td>Sch 1, cl 5</td>
+<td>s 8</td>
+<td>Consistent privacy practice; confidentiality explained accessibly; <strong>granular</strong> consent incl. audio/visual. <em>Real-report gotcha: blanket consent flagged.</em></td>
+</tr>
+<tr>
+<td>CORE-1.4</td>
+<td>Independence and informed choice</td>
+<td>Sch 1, cl 6</td>
+<td>s 9</td>
+<td>Active decision-making; <strong>dignity of risk</strong> documented; time to decide; advocate access.</td>
+</tr>
+<tr>
+<td>CORE-1.5</td>
+<td>Violence, abuse, neglect, exploitation &amp; discrimination</td>
+<td>Sch 1, cl 7</td>
+<td>s 10</td>
+<td>Active prevention; advocate access on allegation; allegations acted on, recorded, learned from; screened roles.</td>
+</tr>
+</tbody>
+</table>
+<h3>Division 2 — Provider Governance and Operational Management (all providers)</h3>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>What the auditor tests / evidence to have ready</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CORE-2.1</td>
+<td>Governance and operational management</td>
+<td>Sch 1, cl 9</td>
+<td>s 11</td>
+<td>Proportionate governance; people-with-disability input; delegations register; <strong>conflict-of-interest register</strong>; key-personnel records; board/mgmt oversight (minutes).</td>
+</tr>
+<tr>
+<td>CORE-2.2</td>
+<td>Risk management</td>
+<td>Sch 1, cl 10</td>
+<td>s 12</td>
+<td>Live <strong>risk register</strong> (identify→analyse→treat→monitor); participant risk assessments; financial controls; <strong>insurance register + current certificates</strong>.</td>
+</tr>
+<tr>
+<td>CORE-2.3</td>
+<td>Quality management</td>
+<td>Sch 1, cl 11</td>
+<td>s 13</td>
+<td>Version-controlled QMS; <strong>policies mapped to the standards</strong> (← the Rise crosswalk artefact); internal-audit schedule + records; <strong>continuous improvement register</strong>.</td>
+</tr>
+<tr>
+<td>CORE-2.4</td>
+<td>Information management</td>
+<td>Sch 1, cl 12</td>
+<td>s 14</td>
+<td>Records accurate/current/confidential; participant access; consent to collect/use/disclose; retention + breach process.</td>
+</tr>
+<tr>
+<td>CORE-2.5</td>
+<td>Feedback and complaints management</td>
+<td>Sch 1, cl 13</td>
+<td>s 15</td>
+<td>System per <strong>Complaints Management &amp; Resolution Rules 2018</strong>; accessible flyer + Commission details; <strong>complaints register</strong> + trend review; staff trained.</td>
+</tr>
+<tr>
+<td>CORE-2.6</td>
+<td>Incident management</td>
+<td>Sch 1, cl 14</td>
+<td>s 16</td>
+<td>System per <strong>Incident Management &amp; Reportable Incidents Rules 2018</strong>; <strong>incident register</strong> + report forms; reportable-incident timeframes; staff trained.</td>
+</tr>
+<tr>
+<td>CORE-2.7</td>
+<td>Human resource management</td>
+<td>Sch 1, cl 15</td>
+<td>s 17</td>
+<td>Position skills defined; <strong>worker screening (NDIS check, 5-yr) register</strong>; NDIS Worker Orientation done; training + supervision + performance records. <em>Real-report gotcha: infection-control training missing from newer files.</em></td>
+</tr>
+<tr>
+<td>CORE-2.8</td>
+<td>Continuity of supports</td>
+<td>Sch 1, cl 16</td>
+<td>s 18</td>
+<td>Cover for absence/vacancy; documented preferences to workers; continuity/business-continuity plan. <em>Gotcha: BCP that was really an IPC statement.</em></td>
+</tr>
+<tr>
+<td>CORE-2.9</td>
+<td>Emergency and disaster management</td>
+<td>Sch 1, cl <strong>16A</strong></td>
+<td>s <strong>18A</strong></td>
+<td>Plans for continuity of critical supports; governing-body-owned, <strong>tested</strong>, reviewed, communicated; workers trained. <em>(Amendment-inserted — watch for older doc suites that predate it.)</em></td>
+</tr>
+</tbody>
+</table>
+<h3>Division 3 — Provision of Supports (providers delivering direct supports)</h3>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>What the auditor tests / evidence to have ready</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CORE-3.1</td>
+<td>Access to supports</td>
+<td>Sch 1, cl 18</td>
+<td>s 19</td>
+<td>Supports/entry criteria/costs defined &amp; communicated accessibly; no withdrawal solely for a dignity-of-risk choice.</td>
+</tr>
+<tr>
+<td>CORE-3.2</td>
+<td>Support planning</td>
+<td>Sch 1, cl 19</td>
+<td>s 20</td>
+<td>Participant actively involved; plans reflect needs/goals/strengths; risk assessments in plans; reviewed (annual or earlier).</td>
+</tr>
+<tr>
+<td>CORE-3.3</td>
+<td>Service agreements with participants</td>
+<td>Sch 1, cl 20</td>
+<td>s 21</td>
+<td>Collaborative, accessible, signed (or reason recorded); housing-vs-support arrangements documented where split.</td>
+</tr>
+<tr>
+<td>CORE-3.4</td>
+<td>Responsive support provision</td>
+<td>Sch 1, cl 21</td>
+<td>s 22</td>
+<td>Least-intrusive effective supports by trained workers; participant involved in worker selection (incl. gender for personal care).</td>
+</tr>
+<tr>
+<td>CORE-3.5</td>
+<td>Transitions to or from a provider</td>
+<td>Sch 1, cl 22</td>
+<td>s 23</td>
+<td>Every entry/exit planned, documented, risk-assessed, managed (incl. temporary transitions e.g. hospitalisation).</td>
+</tr>
+</tbody>
+</table>
+<h3>Division 4 — Support Provision Environment (settings-based, incl. SIL/shared living)</h3>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>What the auditor tests / evidence to have ready</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CORE-4.1</td>
+<td>Safe environment</td>
+<td>Sch 1, cl 24</td>
+<td>s 24</td>
+<td>Safe setting; identifiable workers; medical-emergency protocols + trained workers; escalation; IPC (PPE, cleaning, hand hygiene).</td>
+</tr>
+<tr>
+<td>CORE-4.2</td>
+<td>Participant money and property</td>
+<td>Sch 1, cl 25</td>
+<td>s 25</td>
+<td>Money/property protected, used only as intended; no financial advice beyond the plan.</td>
+</tr>
+<tr>
+<td>CORE-4.3</td>
+<td>Management of medication</td>
+<td>Sch 1, cl 26</td>
+<td>s 26</td>
+<td>Accurate records, safe storage, workers know side-effects/response — <strong>or a clear "not in scope" statement</strong> (a legitimate evidence position).</td>
+</tr>
+<tr>
+<td>CORE-4.4</td>
+<td>Mealtime management</td>
+<td>Sch 1, cl <strong>26A</strong></td>
+<td>s <strong>26A</strong></td>
+<td>Swallowing/nutrition assessment, individual mealtime plans, trained workers, correct-texture meals.</td>
+</tr>
+<tr>
+<td>CORE-4.5</td>
+<td>Management of waste</td>
+<td>Sch 1, cl 27</td>
+<td>s 27</td>
+<td>Safe handling/disposal of hazardous/infectious waste per legislation; incidents investigated; emergency plan; workers trained.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><em>Typical Rise docs across Core:</em> POL/PRO/FRM/REG per outcome (e.g. <code>POL-WST-01</code> + <code>PRO-WST-01</code> for 4.5; <code>POL-MED-01</code>/<code>POL-MTM-01</code> for 4.3/4.4; <code>POL-WHS-01</code> alongside 4.x). <code>[V-prior]</code></p>
+</blockquote>
+<hr />
+<h2>2. MODULE 1 — High Intensity Daily Personal Activities</h2>
+<p><em>Rules: Schedule 2 · Indicators: QI ss 29–35 · Rise IDs <code>M1-1</code>…<code>M1-8</code> · <code>[V-prior]</code></em>
+<strong>The sharpest evidence test in the standards:</strong> for each skill, workers <strong>trained and assessed by an appropriately qualified health practitioner</strong>, current competency records, and a health support plan per participant, with rosters matched to the competency register. <code>[V-prior]</code></p>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>What the auditor tests / evidence to have ready</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M1-1</td>
+<td>Complex bowel care</td>
+<td>Sch 2, cl 3</td>
+<td>s 29</td>
+<td>Practitioner-reviewed personal plan + written procedure + descriptor-level worker training/competency.</td>
+</tr>
+<tr>
+<td>M1-2</td>
+<td>Enteral (tube) feeding and management</td>
+<td>Sch 2, cl 4</td>
+<td>s 30</td>
+<td>Same plan-procedure-training trio, specific to each feeding method/regime.</td>
+</tr>
+<tr>
+<td>M1-3</td>
+<td>Severe dysphagia management</td>
+<td>Sch 2, cl <strong>4A</strong></td>
+<td>s <strong>30A</strong></td>
+<td>People identified, professionally assessed, workers trained to the individual plan.</td>
+</tr>
+<tr>
+<td>M1-4</td>
+<td>Tracheostomy management</td>
+<td>Sch 2, cl 5</td>
+<td>s 31</td>
+<td>Plan/procedure/descriptor training for tracheostomy care + suctioning.</td>
+</tr>
+<tr>
+<td>M1-5</td>
+<td>Urinary catheter management</td>
+<td>Sch 2, cl 6</td>
+<td>s 32</td>
+<td>As above, catheter-specific.</td>
+</tr>
+<tr>
+<td>M1-6</td>
+<td>Ventilator management</td>
+<td>Sch 2, cl 7</td>
+<td>s 33</td>
+<td>As above, ventilator-specific.</td>
+</tr>
+<tr>
+<td>M1-7</td>
+<td>Subcutaneous injections</td>
+<td>Sch 2, cl 8</td>
+<td>s 34</td>
+<td>As above, injection-specific.</td>
+</tr>
+<tr>
+<td>M1-8</td>
+<td>Complex wound management</td>
+<td>Sch 2, cl 9</td>
+<td>s 35</td>
+<td>As above, wound-specific.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><em>Typical Rise docs:</em> <code>POL-HID-01</code>, <code>PRO-HID-01…08</code>, <code>FRM-HID-01</code> (Participant Health Support Plan), <code>REG-HID-01</code> (Training &amp; Competency Register), <code>REG-HRM-02</code>. <code>[V-prior]</code></p>
+</blockquote>
+<hr />
+<h2>3. MODULE 2 — Specialist Behaviour Support</h2>
+<p><em>Rules: Schedule 3 · Indicators: QI ss 38–44 · 7 standards · companion: Restrictive Practices Rules <code>F2018L00632</code> <code>[V-prior]</code></em>
+<strong>Audit opening moves:</strong> current authorised behaviour support plans, the restrictive-practices register, every-use records, and <strong>evidence of monthly online reporting to the Commission</strong>; unauthorised use is traced into the reportable-incident pathway. <code>[V-prior]</code></p>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>What the auditor tests / evidence to have ready</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M2-1</td>
+<td>Behaviour support in the NDIS</td>
+<td>Sch 3, cl 3</td>
+<td>s 38</td>
+<td>Positive-behaviour-support framework; qualified practitioners. <code>[V-prior]</code></td>
+</tr>
+<tr>
+<td>M2-2</td>
+<td>Restrictive practices</td>
+<td>Sch 3, cl 4</td>
+<td>s 39</td>
+<td>Authorisation, use, reporting; RP register; monthly reporting. <code>[V-prior]</code></td>
+</tr>
+<tr>
+<td>M2-3</td>
+<td>Functional behaviour assessments and behaviour support plans</td>
+<td>Sch 3, cl <code>[GAP]</code></td>
+<td>s ~40 <code>[GAP]</code></td>
+<td>Name <code>[V-prior]</code>; exact Rules clause + QI section <strong>not retrieved</strong> — populate from register.</td>
+</tr>
+<tr>
+<td>M2-4</td>
+<td><code>[GAP]</code></td>
+<td><code>[GAP]</code></td>
+<td>~s 41</td>
+<td>Referenced in your register as <code>M2-4</code> but individual name/address <strong>not retrieved</strong>.</td>
+</tr>
+<tr>
+<td>M2-5</td>
+<td><code>[GAP]</code></td>
+<td><code>[GAP]</code></td>
+<td>~s 42</td>
+<td>Referenced as <code>M2-5</code>; <strong>not retrieved</strong>.</td>
+</tr>
+<tr>
+<td>M2-6</td>
+<td><code>[GAP]</code></td>
+<td><code>[GAP]</code></td>
+<td>~s 43</td>
+<td><strong>Not retrieved.</strong></td>
+</tr>
+<tr>
+<td>M2-7</td>
+<td><code>[GAP]</code></td>
+<td><code>[GAP]</code></td>
+<td>~s 44</td>
+<td>Referenced as <code>M2-7</code>; <strong>not retrieved</strong>.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><em>Typical Rise docs:</em> <code>POL-BSP-01</code>, <code>PRO-BSP-01/02/03</code>, <code>FRM-BSP-01</code>, <code>REG-BSP-01</code>. <code>[V-prior]</code>
+<strong>QI section span ss 38–44 is <code>[V-prior]</code>; the per-standard split across s 40–44 is <code>[GAP]</code>.</strong> Do not infer it.</p>
+</blockquote>
+<hr />
+<h2>4. MODULE 2A — Implementing Behaviour Support Plans</h2>
+<p><em>Indicators: QI ss 47–54 · 8 standards · Rules schedule no. inferred (Sch 4) <code>[D]</code> · applies to providers who </em><em>carry out</em><em> plans, not the specialists who write them <code>[V-prior]</code></em></p>
+<p><strong>Status: individual rows <code>[GAP]</code>.</strong> I retrieved the module's QI span (ss 47–54) and count (8), and the substance (monthly reporting to the Commission sits around <strong>QI s 51</strong>), but <strong>not</strong> the eight individual standard names or their clause/section addresses. Populate from <code>ndis-standards-quality-indicators-plain-english-map.md</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M2A-1 … M2A-8</td>
+<td><code>[GAP]</code></td>
+<td><code>[GAP]</code></td>
+<td>ss 47–54 (span <code>[V-prior]</code>; split <code>[GAP]</code>)</td>
+<td>8 standards; names/addresses not retrieved this session.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><em>Typical Rise docs:</em> <code>PRO-BSP-01</code> (implementation &amp; monitoring), <code>PRO-BSP-02</code> (regulated RP authorisation/use/reporting). <code>[V-prior]</code></p>
+</blockquote>
+<hr />
+<h2>5. MODULE 3 — Early Childhood Supports</h2>
+<p><em>Rules: Schedule 5 · Indicators: QI ss 56–62 · 7 standards · plus a narrow </em><em>Module 3A</em><em> for sole traders/partnerships doing early-childhood + therapeutic work <code>[V-prior]</code></em>
+<strong>What auditors look for:</strong> family-centred practice in the files — family goals, key-worker records, natural settings, outcome measurement. <code>[V-prior]</code></p>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M3-1 … M3-4</td>
+<td><code>[GAP]</code></td>
+<td><code>[GAP]</code></td>
+<td>ss 56–59 <code>[GAP]</code></td>
+<td>Names/addresses <strong>not retrieved</strong>.</td>
+</tr>
+<tr>
+<td>M3-5</td>
+<td><code>[GAP]</code> (name not retrieved)</td>
+<td>Sch 5, cl 7</td>
+<td>s 60</td>
+<td>Address <code>[V-prior]</code>; <strong>name not retrieved</strong>.</td>
+</tr>
+<tr>
+<td>M3-6</td>
+<td>Evidence-informed practice</td>
+<td>Sch 5, cl 8</td>
+<td>s 61</td>
+<td><code>[V-prior]</code> full row.</td>
+</tr>
+<tr>
+<td>M3-7</td>
+<td>Outcome based approach</td>
+<td>Sch 5, cl 9</td>
+<td>s 62</td>
+<td><code>[V-prior]</code> full row.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Ordinals <code>M3-1…M3-7</code> are my sequencing <code>[D]</code>; reconcile against the register (the retrieved rows fix the <em>last three</em> by section: s 60/61/62).
+<em>Typical Rise docs:</em> <code>POL-ECS-01</code>, <code>PRO-ECS-01</code>. <code>[V-prior]</code></p>
+</blockquote>
+<hr />
+<h2>6. MODULE 4 — Specialised Support Coordination</h2>
+<p><em>Rules: Schedule 6 · Indicators: QI ss 64–66 · Rise IDs <code>M4-1</code>…<code>M4-3</code> (<code>[D]</code> ordinal) · <code>[V-prior]</code></em>
+<strong>Centre of gravity: conflict of interest</strong> — documented options given to participants and declared conflicts wherever the provider coordinates toward its own services. <code>[V-prior]</code></p>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>What the auditor tests / evidence to have ready</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M4-1</td>
+<td>Specialised support coordination</td>
+<td>Sch 6, cl 3</td>
+<td>s 64</td>
+<td>Complex-needs coordination; qualified coordinators.</td>
+</tr>
+<tr>
+<td>M4-2</td>
+<td>Management of a participant's NDIS supports</td>
+<td>Sch 6, cl 4</td>
+<td>s 65</td>
+<td>Coordination toward the participant's goals; plan management boundaries.</td>
+</tr>
+<tr>
+<td>M4-3</td>
+<td>Conflict of interest</td>
+<td>Sch 6, cl 5</td>
+<td>s 66</td>
+<td><strong>Documented options + declared conflicts</strong>; the recurring audit focus for this module.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><em>Typical Rise docs:</em> <code>POL-SCO-01</code>, <code>PRO-SCO-01</code>, <code>REG-GOV-02</code> (conflicts register). <code>[V-prior]</code></p>
+</blockquote>
+<hr />
+<h2>7. MODULE 5 — Specialist Disability Accommodation (SDA)</h2>
+<p><em>Rules: Schedule 7 · Indicators: QI ss 68–72 · Rise IDs <code>M5-1</code>…<code>M5-5</code> (<code>[D]</code> ordinal) · <code>[V-prior]</code></em></p>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>What the auditor tests / evidence to have ready</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M5-1</td>
+<td>Rights and responsibilities</td>
+<td>Sch 7, cl 3</td>
+<td>s 68</td>
+<td>Dwelling access consistent with legal/human rights.</td>
+</tr>
+<tr>
+<td>M5-2</td>
+<td>Conflict of interest</td>
+<td>Sch 7, cl 4</td>
+<td>s 69</td>
+<td>SDA/SIL separation-of-interest handling.</td>
+</tr>
+<tr>
+<td>M5-3</td>
+<td>Service agreements with participants</td>
+<td>Sch 7, cl 5</td>
+<td>s 70</td>
+<td>SDA-specific agreements; tenancy terms.</td>
+</tr>
+<tr>
+<td>M5-4</td>
+<td>Enrolment of SDA properties</td>
+<td>Sch 7, cl 6</td>
+<td>s 71</td>
+<td><strong>Dwelling enrolment records.</strong> <em>(Guidelines heading "Enrolment of SDA Properties"; some sources say "dwellings" — one of the dual-title cases.)</em></td>
+</tr>
+<tr>
+<td>M5-5</td>
+<td>Tenancy management</td>
+<td>Sch 7, cl 7</td>
+<td>s 72</td>
+<td>Tenancy management records.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><em>Typical Rise docs:</em> <code>POL-SDA-01</code>, <code>PRO-SDA-01</code>, <code>REG-SDA-01</code>. <code>[V-prior]</code></p>
+</blockquote>
+<hr />
+<h2>8. MODULE 5A — Supported Independent Living (SIL) · NEW from 1 July 2026</h2>
+<p><em>Indicators: QI ss 72B–72E (compilation </em><em>C03</em><em>, <code>F2026C00528</code>) · 4 standards · <code>[V-prior]</code> (compilation not re-fetched today)</em>
+<strong>House-level evidence, not just organisation-level.</strong> Expect auditors to be calibrating — the module is weeks old. <code>[V-prior]</code></p>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard (name <code>[GAP]</code>)</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>Substance retrieved <code>[V-prior]</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SIL-1</td>
+<td><code>[GAP]</code></td>
+<td><code>[GAP]</code></td>
+<td>s <strong>72B</strong></td>
+<td>Decision-support records.</td>
+</tr>
+<tr>
+<td>SIL-2</td>
+<td><code>[GAP]</code></td>
+<td><code>[GAP]</code></td>
+<td>s <strong>72C</strong></td>
+<td>Home safeguarding <strong>with dignity of risk</strong>.</td>
+</tr>
+<tr>
+<td>SIL-3</td>
+<td><code>[GAP]</code></td>
+<td><code>[GAP]</code></td>
+<td>s <strong>72D</strong></td>
+<td>Practice governance <strong>per house</strong> — supervision, rosters, handovers, house-level incident visibility.</td>
+</tr>
+<tr>
+<td>SIL-4</td>
+<td><code>[GAP]</code></td>
+<td><code>[GAP]</code></td>
+<td>s <strong>72E</strong></td>
+<td>Agreements on tenancy/housing/support arrangements, <strong>with Easy Read</strong>.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>QI section addresses (72B–72E) and substance are <code>[V-prior]</code>; the <strong>exact standard names and Rules-side clauses are <code>[GAP]</code></strong> — confirm from the C03 compilation.
+<em>Typical Rise docs:</em> <code>POL-RGT-03</code>+<code>PRO-SIL-01</code>+<code>FRM-SIL-01</code>; <code>POL-SIL-02</code>+<code>PRO-SIL-02</code>; <code>POL-SIL-03</code>+<code>PRO-SIL-03</code>+<code>REG-SIL-01</code>; <code>PRO-SIL-04</code>+<code>AGR-SIL-01</code>. <code>[V-prior]</code>
+<strong>Context <code>[V-now]</code>:</strong> SIL mandatory registration commenced 1 July 2026; existing registered SIL providers are assessed against the new standards at their next scheduled audit; SIL registration is a Certification pathway.</p>
+</blockquote>
+<hr />
+<h2>9. VERIFICATION MODULE — lower-risk / desktop pathway</h2>
+<p><em>Rules: Schedule 8 · Indicators: QI ss 74–77 · </em><em>reverse-paired</em><em> (clause order runs opposite to section order) · <code>[V-prior]</code></em>
+Four areas only; desktop review; the register rows tagged "Verification" in <em>Applies-to</em> are exactly this pack. <code>[V-prior]</code></p>
+<table>
+<thead>
+<tr>
+<th>Rise ID</th>
+<th>Standard</th>
+<th>Rules @</th>
+<th>QI @</th>
+<th>What the auditor tests / evidence to have ready</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VER-1</td>
+<td>Human resource management</td>
+<td>Sch 8, cl 6</td>
+<td>s 74</td>
+<td>Qualifications, worker screening, insurance — document set only.</td>
+</tr>
+<tr>
+<td>VER-2</td>
+<td>Incident management</td>
+<td>Sch 8, cl 5</td>
+<td>s 75</td>
+<td>Incident system + records per the Incident Rules.</td>
+</tr>
+<tr>
+<td>VER-3</td>
+<td>Complaints management</td>
+<td>Sch 8, cl 4</td>
+<td>s 76</td>
+<td>Complaints system per the Complaints Rules.</td>
+</tr>
+<tr>
+<td>VER-4</td>
+<td>Risk management</td>
+<td>Sch 8, cl 3</td>
+<td>s 77</td>
+<td>Risk policy + insurance evidence.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><em>(VER ordinals follow QI-section order <code>[D]</code>; note the reverse Rules pairing — clause 3 ↔ section 77.)</em></p>
+</blockquote>
+<hr />
+<h2>10. Cross-cutting evidence-hygiene layer (applies to every standard)</h2>
+<p><strong>The "seven recurring demands"</strong> your prior read of all 66 standards surfaced — the indicators keep asking for the same seven things <code>[V-prior]</code>:
+1. a policy or documented process;
+2. communication in language the person understands;
+3. consent;
+4. trained workers <strong>with records</strong>;
+5. documented plans that get <strong>reviewed</strong>;
+6. <strong>records/registers</strong> of what happened;
+7. compliance with a <strong>named companion rulebook</strong> (Incident, Complaints, Restrictive Practices, or SDA Conditions rules).</p>
+<p><strong>Cross-cutting auditor behaviours to design one-click graph queries for</strong> <code>[V-now / C]</code>:
+- registers before prose; <strong>dates compared</strong> (screening vs start date; incident vs entry; notification vs deadline);
+- <strong>version footers</strong> checked against the master register;
+- workers asked to <strong>describe</strong> a procedure, answer compared to the document;
+- participants interviewed with <strong>opt-out sampling</strong> (Commission-verified);
+- the evidence trail <strong>walked in both directions</strong> (policy→evidence and evidence→policy).</p>
+<p><strong>Evidence-hygiene checklist (every document):</strong> version-numbered + dated · policy has matching procedure + form/register · forms have completed instances on file · registers are live · legislative references current · staff can articulate it · participants confirm it · a policy-to-standard map exists and is current · self-assessment done against the <strong>current</strong> standards · everything scaled to <strong>size, scale, scope and complexity</strong>. <code>[D, distilled from the real report]</code></p>
+<hr />
+<h2>11. What's solid, what's a gap, what to do next</h2>
+<p><strong>Fully populated here (name + both addresses + auditor test), <code>[V-prior]</code> addresses:</strong> Core (24), Module 1 (8), Module 4 (3), Module 5 (5), Verification (4) = <strong>44 standards</strong>.</p>
+<p><strong>Partially populated / gapped — individual rows <code>[GAP]</code>:</strong>
+- Module 2: 3 of 7 named (M2-1/2/3); addresses for M2-3…M2-7 gapped.
+- Module 2A: all 8 gapped (span ss 47–54 known).
+- Module 3: last 3 fixed by section (s 60/61/62; one name gapped); first 4 gapped.
+- SIL/M5A: QI sections + substance known; names + Rules clauses gapped.
+≈ <strong>22–23 rows require the source file.</strong></p>
+<p><strong>The single fix, in priority order (trade-offs noted):</strong></p>
+<ol>
+<li><strong>Re-upload <code>ndis-standards-quality-indicators-plain-english-map.md</code> (or the register xlsx Standards sheet).</strong> <em>Best option.</em> It is your own verified source; I merge it into this checklist with <strong>zero reconstruction</strong>, filling every <code>[GAP]</code> and letting me cross-check the <code>[V-prior]</code> rows I reproduced. Risk: none beyond a round-trip. <strong>Recommended.</strong></li>
+<li><strong>I re-fetch the instruments live from the Federal Register now.</strong> Re-verifies currency (catches any 2026 renumbering) but re-deriving ~70 clause/section rows from raw legislative text via limited fetching is <strong>error-prone for exactly the compliance-critical citations your policy protects</strong> — I'd rather not be the origin of a wrong section number. Use this as a <em>check</em>, not a <em>source</em>.</li>
+<li><strong>Proceed with the 44 solid rows only</strong> and leave the rest for pilot-data-driven prioritisation (your open "which cluster next" question). Lowest effort, but leaves the behaviour-support and early-childhood modules unindexed.</li>
+</ol>
+<p><strong>I did not fabricate</strong> the gapped rows, the SIL standard names, the M2/M2A/M3 addresses, or the "eight dual-title standards" list (that lives in your navigator; I retrieved only the SDA "Properties/dwellings" example). Every blank above is a deliberate refusal to guess, per your source discipline.</p>
+<hr />
+<p><em>Prepared by Claude for Rise Development. Files are session-scoped — download and retain. Every <code>[V-prior]</code> address is reproduced from your own prior verified work and should be re-validated against the current C03 compilation / Federal Register before it is committed to the graph or shown to a provider. Nothing marked <code>[GAP]</code> should be filled from memory.</em></p>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="rise-ndis-audit-checklist-indexed.md">rise-ndis-audit-checklist-indexed.md</a></div>
+</article></div>
+</body></html>

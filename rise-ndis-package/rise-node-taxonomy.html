@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rise Node Taxonomy · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/rise-node-taxonomy.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: rise-node-taxonomy.md</span><span>10,654 bytes</span></div>
+
+<h1>Rise Node Taxonomy</h1>
+<p><strong>Version 0.1 — 2026-07-05.</strong> Companion to <code>rise-relationship-taxonomy.md</code> v0.3 (the edge
+taxonomy). That document governs <em>how things connect</em>; this one governs <em>what the things
+are</em> and what every node must carry so the graph can be rendered as audit-ready documents.</p>
+<p><strong>Changelog</strong> — v0.1: initial release. Node set derived from the vision-document chain,
+the v0.3 edge domain/range rules, and the July 2026 NDIS regulatory state (SIL module,
+mandatory SIL/platform registration).</p>
+<hr />
+<h2>1. Design principles</h2>
+<ol>
+<li><strong>Node metadata is the document header.</strong> Every attribute defined here either renders
+   directly into the Compliance Header of a Word/Markdown document (see
+   <code>rise-document-architecture.md</code> §4) or exists to answer an auditor's question. No
+   ornamental fields.</li>
+<li><strong>Shared vs tenant is a node property, not an afterthought.</strong> Instruments, frameworks,
+   modules, standards and quality indicators are <code>layer: shared</code> (one copy, maintained
+   centrally, versioned). Documents, risks, evidence, audits, findings and roles are
+   <code>layer: tenant</code> (private to one provider). No edge may silently move data across that
+   boundary; cross-layer edges (<code>IMPLEMENTS</code>, <code>PUBLISHED_IN</code>, etc.) are read-only from the
+   tenant side.</li>
+<li><strong>Every node is bitemporal.</strong> <code>effective_from</code> / <code>effective_to</code> state when the thing
+   was true in the world; <code>recorded_at</code> / <code>superseded_at</code> state when the database believed
+   it. This is what makes "compliance state as at 30 June 2026" answerable — carried over
+   unchanged from the v0.3 decision.</li>
+<li><strong>Verification is a dimension, not a node type.</strong> Shared nodes carry
+   <code>assertion_source</code> (human / import / rule / AI) and <code>verification_status</code>, exactly as
+   edges do in v0.3. A Standard imported from a scraped compilation is not the same
+   epistemic object as one checked against the Federal Register of Legislation.</li>
+<li><strong>Identifiers are preserved, never invented.</strong> Legislative nodes keep their native
+   citations (Part/Division/Section numbers, FRL register IDs). Rise IDs (<code>CORE-2.6</code>,
+   <code>POL-INC-01</code>) are stable handles layered on top, and the mapping between the two is
+   itself data.</li>
+</ol>
+<hr />
+<h2>2. Common attributes (all nodes)</h2>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Req.</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>Stable handle. Shared nodes: framework-derived (<code>CORE-2.6</code>, <code>SIL-1</code>). Tenant documents: <code>TYPE-DOMAIN-NN</code> (<code>POL-INC-01</code>).</td>
+</tr>
+<tr>
+<td><code>node_type</code></td>
+<td>yes</td>
+<td>One of §3–§4.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>yes</td>
+<td>Plain-English name.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>yes</td>
+<td><code>draft / in_review / approved / superseded / retired</code> (documents); <code>in_force / amended / repealed</code> (instruments).</td>
+</tr>
+<tr>
+<td><code>effective_from</code>, <code>effective_to</code></td>
+<td>yes</td>
+<td>Valid time. Open-ended <code>effective_to</code> = currently in force.</td>
+</tr>
+<tr>
+<td><code>recorded_at</code>, <code>superseded_at</code></td>
+<td>yes</td>
+<td>Transaction time (system-set).</td>
+</tr>
+<tr>
+<td><code>assertion_source</code></td>
+<td>yes</td>
+<td><code>human / import / rule / ai_proposed</code> — v0.3 semantics.</td>
+</tr>
+<tr>
+<td><code>verification_status</code></td>
+<td>yes</td>
+<td><code>verified / corroborated / unverified / draft_source</code> — see register legend.</td>
+</tr>
+<tr>
+<td><code>layer</code></td>
+<td>yes</td>
+<td><code>shared / tenant</code>.</td>
+</tr>
+<tr>
+<td><code>note</code></td>
+<td>no</td>
+<td>Free text; required where this taxonomy says so.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. Shared reference nodes</h2>
+<table>
+<thead>
+<tr>
+<th>Node type</th>
+<th>What it is</th>
+<th>Type-specific required attributes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Instrument</strong></td>
+<td>An Act, Rules, Rule, Guidelines or amending instrument.</td>
+<td><code>kind</code> (Act / Rules / Guidelines / Amending Act / Amending Rules), <code>jurisdiction</code>, <code>frl_id</code> (Federal Register of Legislation series/compilation ID, when known), <code>compilation_no</code>.</td>
+</tr>
+<tr>
+<td><strong>Provision</strong></td>
+<td>A Part, Division, Section, Schedule or clause <em>inside</em> an Instrument.</td>
+<td><code>citation</code> (native numbering, e.g. "Sch 2, Pt 4"), <code>provision_kind</code>. Linked upward with <code>PART_OF</code>; never renumbered.</td>
+</tr>
+<tr>
+<td><strong>Framework</strong></td>
+<td>A named quality framework as a whole — "NDIS Practice Standards". Exists so multi-framework tenants (NDIS + Aged Care Strengthened Standards + ISO 9001) hang off parallel roots.</td>
+<td><code>regulator</code>, <code>audit_scheme</code> (e.g. approved-quality-auditor certification/verification).</td>
+</tr>
+<tr>
+<td><strong>Module</strong></td>
+<td>Core, Verification, Modules 1–5, SIL. Determines applicability.</td>
+<td><code>applies_when</code> (plain-English applicability), <code>commencement</code>.</td>
+</tr>
+<tr>
+<td><strong>Standard</strong></td>
+<td>The auditable requirement unit ("Incident management", "Supported decision-making"). The domain/range target of <code>IMPLEMENTS</code>.</td>
+<td><code>division</code>, <code>outcome_statement_ref</code> (pointer to source text, not a copy), <code>participant_statement_ref</code> (SIL-style, where the instrument provides one).</td>
+</tr>
+<tr>
+<td><strong>QualityIndicator</strong></td>
+<td>An indicator auditors assess under a Standard (from the Quality Indicators Guidelines 2018 as amended).</td>
+<td><code>indicator_ref</code>, <code>PART_OF → Standard</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why Standards point to source text rather than embedding it:</strong> the outcome statements
+are legislative text that gets amended; storing a pointer plus a retrieved-on date keeps
+the copyright surface small and makes staleness detectable. (Design decision, my
+recommendation.)</p>
+<hr />
+<h2>4. Tenant nodes</h2>
+<table>
+<thead>
+<tr>
+<th>Node type</th>
+<th>What it is</th>
+<th>Type-specific required attributes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Organisation</strong></td>
+<td>The provider (tenant root).</td>
+<td><code>registration_no</code>, <code>registration_groups</code>, <code>audit_pathway</code> (certification / verification).</td>
+</tr>
+<tr>
+<td><strong>RegistrationScope</strong></td>
+<td>What the provider is registered to deliver → which Modules apply. <strong>This node drives gap detection</strong>: a gap only exists for standards inside scope.</td>
+<td><code>modules_in_scope[]</code>, <code>effective dates</code> (scope changes over time — SIL registration from 1 Jul 2026 is exactly such a change).</td>
+</tr>
+<tr>
+<td><strong>Site / Home</strong></td>
+<td>A physical service setting (an SIL house, an office). SIL practice-governance evidence is house-level.</td>
+<td><code>site_kind</code>, <code>address_ref</code>.</td>
+</tr>
+<tr>
+<td><strong>Document</strong></td>
+<td>Any governed document. <code>doc_type</code>: <code>policy / procedure / work_instruction / form / register / plan / agreement / handbook</code>.</td>
+<td><code>doc_type</code>, <code>owner_role → OWNED_BY</code>, <code>review_cycle_months</code>, <code>easy_read_available</code> (bool), <code>easy_read_of</code> (link when this node <em>is</em> the Easy Read companion), <code>format[]</code> (docx / md / xlsx).</td>
+</tr>
+<tr>
+<td><strong>Role</strong></td>
+<td>Accountable or performing role ("Quality Manager"). People are assigned to roles separately — audits survive staff turnover.</td>
+<td><code>role_kind</code>.</td>
+</tr>
+<tr>
+<td><strong>Person</strong></td>
+<td>Optional; only where worker-level evidence is needed (screening, competency). Store the minimum.</td>
+<td><code>screening_check_ref</code>, <code>screening_expiry</code>.</td>
+</tr>
+<tr>
+<td><strong>TrainingCourse / Qualification</strong></td>
+<td>Competency targets of <code>REQUIRES</code>.</td>
+<td><code>delivered_by_kind</code> (e.g. "appropriately qualified health practitioner" for HIDPA).</td>
+</tr>
+<tr>
+<td><strong>Risk</strong></td>
+<td>Entry in the risk register.</td>
+<td><code>category</code>, <code>rating_current</code>, <code>rating_target</code>.</td>
+</tr>
+<tr>
+<td><strong>Control</strong></td>
+<td>A mitigation (often <em>is</em> a Document or a practice).</td>
+<td><code>control_kind</code>.</td>
+</tr>
+<tr>
+<td><strong>Evidence</strong></td>
+<td>An artefact proving something happened (a completed form, a register extract, a training record). Immutable once frozen for audit (v0.3).</td>
+<td><code>evidence_kind</code>, <code>source → GENERATED_BY</code>, <code>frozen_at</code>.</td>
+</tr>
+<tr>
+<td><strong>Audit</strong></td>
+<td>A certification, verification, mid-term or internal audit event.</td>
+<td><code>audit_kind</code>, <code>auditor</code>, <code>scope → ASSESSES</code>.</td>
+</tr>
+<tr>
+<td><strong>Finding</strong></td>
+<td>Conformity / minor NC / major NC / observation.</td>
+<td><code>severity</code>, <code>RAISED_IN → Audit</code>, <code>CONCERNS → node</code>.</td>
+</tr>
+<tr>
+<td><strong>ImprovementAction</strong></td>
+<td>Remediation; closes the loop via <code>ADDRESSES</code>.</td>
+<td><code>due_date</code>, <code>closed_at</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Deliberately excluded for now:</strong> Participant as a first-class node. Participant-linked
+records (support plans, decision-support records) are Documents/Evidence keyed to an
+external participant identifier held in the provider's CRM. Reason: keeping NDIS
+participant PII out of the graph reduces the privacy blast radius and keeps the Privacy
+Act / APP surface in one system. This is a design opinion with a real trade-off
+(per-participant traversals get harder); revisit if per-participant gap views become a
+core feature.</p>
+<hr />
+<h2>5. How node attributes render into documents</h2>
+<p>The Compliance Header (architecture doc §4) is a deterministic projection:</p>
+<table>
+<thead>
+<tr>
+<th>Header field</th>
+<th>Comes from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Document ID / Title / Type / Version / Status</td>
+<td>Document node attributes</td>
+</tr>
+<tr>
+<td>Effective from / Review due</td>
+<td><code>effective_from</code>, <code>effective_from + review_cycle_months</code></td>
+</tr>
+<tr>
+<td>Owner / Approved by</td>
+<td><code>OWNED_BY</code> edge; approval event</td>
+</tr>
+<tr>
+<td>"This document implements"</td>
+<td><code>IMPLEMENTS → Standard</code> edges (ID + title)</td>
+</tr>
+<tr>
+<td>"Set out in / made under"</td>
+<td>Follow <code>Standard PART_OF Module PART_OF Framework PUBLISHED_IN Instrument MADE_UNDER Act</code></td>
+</tr>
+<tr>
+<td>"Put into practice by"</td>
+<td>Incoming <code>OPERATIONALISES</code></td>
+</tr>
+<tr>
+<td>"Carried out using / recorded in"</td>
+<td><code>USES</code>, <code>RECORDS_TO</code></td>
+</tr>
+<tr>
+<td>"Other laws referenced"</td>
+<td><code>RELATES_TO(note: statutory reference)</code> — pending <code>REFERENCES</code></td>
+</tr>
+<tr>
+<td>Easy Read available</td>
+<td><code>easy_read_available</code></td>
+</tr>
+</tbody>
+</table>
+<p>Round-trip rule: everything in a header must be reconstructible from the graph, and every
+graph edge touching a document must be visible in its header or its Related Documents
+table. If the two can disagree, one of them is wrong — the graph wins and the document
+regenerates.</p>
+<hr />
+<h2>6. Proposed edge-taxonomy extensions (for v0.4 of the edge doc)</h2>
+<p>Two patterns kept landing in <code>RELATES_TO</code> while building the 121-document suite, which is
+the "modelling smell" signal v0.3 says to watch for:</p>
+<ol>
+<li><strong><code>REFERENCES</code></strong> — Document → Instrument/Provision. A statutory citation that is
+   neither <code>IMPLEMENTS</code> (wrong domain: that targets Standards) nor <code>MADE_UNDER</code>. Example:
+   the Information Management Policy citing the Privacy Act 1988. Currently 100+
+   <code>RELATES_TO</code> edges carry this note in the register — easily the biggest smell.</li>
+<li><strong><code>AMENDS</code></strong> — Instrument → Instrument. The 2026 Amendment Rules amend the 2018 Rules;
+   the Integrity and Safeguarding Act 2026 amends the NDIS Act. <code>SUPERSEDES</code> is wrong
+   (nothing is replaced; the target keeps existing as an amended compilation). Amendments
+   are also the trigger events for legislative-change fan-out, so they deserve first-class
+   typing.</li>
+</ol>
+<p>Both are proposals, not decisions — v0.3's governance says extensions need a rationale
+and a review, and this is the rationale.</p>
+<hr />
+<h2>7. Epistemic status</h2>
+<ul>
+<li><strong>Established practice:</strong> bitemporal valid/transaction time pairing; shared-vs-tenant
+  multi-tenancy split; role-based accountability.</li>
+<li><strong>Verified (Jul 2026):</strong> module list including the SIL module and Verification module
+  contents; the 2026 instruments named in the register's Legislation sheet.</li>
+<li><strong>My design / recommendation:</strong> the specific node set, attribute lists, the
+  Participant-exclusion decision, ID scheme, and the §6 extension proposals.</li>
+<li><strong>Not yet done:</strong> validation against a real provider's documents and a real audit
+  report — same caveat as the edge taxonomy, and the same prediction: the first thing to
+  bend will be <code>Document.doc_type</code> granularity (plans and agreements may deserve richer
+  typing once real content exists).</li>
+</ul>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="rise-node-taxonomy.md">rise-node-taxonomy.md</a></div>
+</article></div>
+</body></html>

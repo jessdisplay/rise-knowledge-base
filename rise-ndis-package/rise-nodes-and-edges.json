@@ -1,0 +1,5595 @@
+{
+ "meta": {
+  "version": "0.1",
+  "generated": "2026-07-05",
+  "edge_taxonomy": "rise-relationship-taxonomy.md v0.3",
+  "assertion_source": "human-design",
+  "verification_legend": {
+   "V": "verified vs regulator/primary source Jul 2026",
+   "C": "corroborated training knowledge",
+   "T": "training knowledge - confirm vs current compilation",
+   "D": "draft instrument - confirm final wording"
+  }
+ },
+ "nodes": [
+  {
+   "id": "ACT",
+   "node_type": "Instrument",
+   "kind": "Act",
+   "title": "National Disability Insurance Scheme Act 2013 (Cth)",
+   "layer": "shared",
+   "verification": "V",
+   "note": "Principal Act; amended by Integrity and Safeguarding Act 2026"
+  },
+  {
+   "id": "IS26",
+   "node_type": "Instrument",
+   "kind": "Amending Act",
+   "title": "National Disability Insurance Scheme Amendment (Integrity and Safeguarding) Act 2026",
+   "layer": "shared",
+   "verification": "V",
+   "note": "Passed 1 Apr 2026; Royal Assent 8 Apr 2026. Sch 1 (Commission powers) and Sch 3 (whistleblower) commenced 9 Apr 2026; Sch 2 (NDIA operational incl. electronic claims) 6 May 2026. Provider effects: serious-contravention civil penalties; offence to provide registration-required supports while unregistered; expanded banning orders incl. auditors and advisors; anti-promotion orders; stronger whistleblower protections"
+  },
+  {
+   "id": "PRPS",
+   "node_type": "Instrument",
+   "kind": "Rules (delegated legislation)",
+   "title": "NDIS (Provider Registration and Practice Standards) Rules 2018",
+   "layer": "shared",
+   "verification": "V",
+   "note": "FRL series F2018L00631. Practice Standards housed in Schedules 1-8 (Core = Sch 1; HIDPA = Sch 2; M2 = Sch 3; M2A = Sch 4; M3 = Sch 5; M4 = Sch 6; M5 SDA = Sch 7; Verification 'Module 6' = Sch 8). Body: s 7 registration classes, s 13B mid-term audit, s 20 applicable standards, s 24 QI Guidelines link. Latest published compilation C04 = F2021C01137 (15 Nov 2021) as at 5 Jul 2026 - the 2026 SIL amendments are made but not yet consolidated at this URL"
+  },
+  {
+   "id": "PRPS26",
+   "node_type": "Instrument",
+   "kind": "Amending Rules",
+   "title": "NDIS (Provider Registration and Practice Standards) Amendment (Mandatory Registration and Other Matters) Rules 2026",
+   "layer": "shared",
+   "verification": "V",
+   "note": "Mandatory SIL & platform provider registration + SIL Practice Standards, from 1 Jul 2026"
+  },
+  {
+   "id": "QI",
+   "node_type": "Instrument",
+   "kind": "Guidelines",
+   "title": "NDIS (Quality Indicators for NDIS Practice Standards) Guidelines 2018",
+   "layer": "shared",
+   "verification": "V",
+   "note": "F2018N00041; made under s 181D(2) of the Act; registered 18 May 2018, commenced 1 Jul 2018. Renamed from (Quality Indicators) Guidelines 2018. Current compilation C03 = F2026C00528, in force 1 Jul 2026 - includes the Module 5A (SIL) indicators at ss 72B-72E"
+  },
+  {
+   "id": "AQA",
+   "node_type": "Instrument",
+   "kind": "Guidelines (notifiable instrument)",
+   "title": "NDIS (Approved Quality Auditors Scheme) Guidelines 2018",
+   "layer": "shared",
+   "verification": "V",
+   "note": "F2018N00114. Governs certification and verification audits; audit reports due to Commission 14 days (verification) / 28 days (certification, mid-term) after completion. New AQA approvals suspended pending 2025-26 reforms; see also AQAR25"
+  },
+  {
+   "id": "AQAR25",
+   "node_type": "Instrument",
+   "kind": "Rules",
+   "title": "NDIS (Approved Quality Auditors) Rules 2025",
+   "layer": "shared",
+   "verification": "V",
+   "note": "F2025L01383, listed on the Commission legislation page (May 2026); relationship to the 2018 AQA Scheme Guidelines to be confirmed"
+  },
+  {
+   "id": "QI26",
+   "node_type": "Instrument",
+   "kind": "Amending Guidelines",
+   "title": "NDIS (Quality Indicators for NDIS Practice Standards) Amendment (Supported Independent Living) Guidelines 2026",
+   "layer": "shared",
+   "verification": "V",
+   "note": "SIL quality indicators; consolidated into the principal Guidelines at compilation C03 (1 Jul 2026)"
+  },
+  {
+   "id": "IMRI",
+   "node_type": "Instrument",
+   "kind": "Rules",
+   "title": "NDIS (Incident Management and Reportable Incidents) Rules 2018",
+   "layer": "shared",
+   "verification": "V",
+   "note": "F2018L00633; incident systems + reportable incident notification"
+  },
+  {
+   "id": "CMR",
+   "node_type": "Instrument",
+   "kind": "Rules",
+   "title": "NDIS (Complaints Management and Resolution) Rules 2018",
+   "layer": "shared",
+   "verification": "V",
+   "note": "F2018L00634; complaints systems + records"
+  },
+  {
+   "id": "RPBS",
+   "node_type": "Instrument",
+   "kind": "Rules",
+   "title": "NDIS (Restrictive Practices and Behaviour Support) Rules 2018",
+   "layer": "shared",
+   "verification": "V",
+   "note": "Series F2018L00632 (compilations incl. F2020C01087); regulated restrictive practices, BSPs, monthly RP reporting"
+  },
+  {
+   "id": "WSR",
+   "node_type": "Instrument",
+   "kind": "Rules",
+   "title": "NDIS (Practice Standards - Worker Screening) Rules 2018",
+   "layer": "shared",
+   "verification": "V",
+   "note": "F2018L00887. Worker screening obligations for risk-assessed roles"
+  },
+  {
+   "id": "COC",
+   "node_type": "Instrument",
+   "kind": "Rules",
+   "title": "NDIS (Code of Conduct) Rules 2018",
+   "layer": "shared",
+   "verification": "V",
+   "note": "F2018L00629. NDIS Code of Conduct for providers and workers"
+  },
+  {
+   "id": "SDAC",
+   "node_type": "Instrument",
+   "kind": "Rule",
+   "title": "NDIS (Specialist Disability Accommodation Conditions) Rule 2018",
+   "layer": "shared",
+   "verification": "V",
+   "note": "Series F2018L00627 (compilations incl. F2020C00549); SDA conditions"
+  },
+  {
+   "id": "PD",
+   "node_type": "Instrument",
+   "kind": "Rule",
+   "title": "NDIS (Provider Definition) Rule 2018",
+   "layer": "shared",
+   "verification": "V",
+   "note": "Series F2018L00628 (compilations incl. F2021C00694)"
+  },
+  {
+   "id": "NCE",
+   "node_type": "Instrument",
+   "kind": "Guidelines",
+   "title": "NDIS (Registered NDIS Provider Notice of Changes and Events) Guidelines 2019",
+   "layer": "shared",
+   "verification": "V",
+   "note": "Listed on the Commission legislation page (May 2026); FRL id TBC. Read with PRPS rr 13-13A; PRPS26 shortens notification timeframes and strengthens change-of-ownership notice (per Commission summary of the amendments)"
+  },
+  {
+   "id": "BSPA",
+   "node_type": "Instrument",
+   "kind": "Guidelines",
+   "title": "NDIS (NDIS Behaviour Support Practitioner Application) Guidelines 2020",
+   "layer": "shared",
+   "verification": "V",
+   "note": "Listed on the Commission legislation page (May 2026); FRL id TBC. Practitioner suitability process for behaviour support"
+  },
+  {
+   "id": "STWS",
+   "node_type": "Instrument",
+   "kind": "Act (adjacent)",
+   "title": "State/Territory NDIS worker screening laws (jurisdictional)",
+   "layer": "shared",
+   "verification": "C",
+   "note": "NDIS Worker Screening Check is issued under state/territory schemes - identify applicable jurisdiction(s)"
+  },
+  {
+   "id": "DDA",
+   "node_type": "Instrument",
+   "kind": "Act (adjacent)",
+   "title": "Disability Discrimination Act 1992 (Cth)",
+   "layer": "shared",
+   "verification": "C",
+   "note": "Anti-discrimination duties relevant to rights standards"
+  },
+  {
+   "id": "PRIV",
+   "node_type": "Instrument",
+   "kind": "Act (adjacent)",
+   "title": "Privacy Act 1988 (Cth) incl. Australian Privacy Principles & Notifiable Data Breaches scheme",
+   "layer": "shared",
+   "verification": "C",
+   "note": "Applies to handling of personal information"
+  },
+  {
+   "id": "WHSL",
+   "node_type": "Instrument",
+   "kind": "Act (adjacent)",
+   "title": "Work Health and Safety Act (jurisdictional)",
+   "layer": "shared",
+   "verification": "C",
+   "note": "State/Territory WHS law; identify applicable jurisdiction"
+  },
+  {
+   "id": "NDIS-PS",
+   "node_type": "Framework",
+   "title": "NDIS Practice Standards",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE",
+   "node_type": "Module",
+   "title": "Core Module",
+   "applies_to": "All registered providers of higher-risk supports (certification pathway)",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "VER",
+   "node_type": "Module",
+   "title": "Module 6: Verification (Sch 8)",
+   "applies_to": "Providers of lower-risk supports (verification pathway); legislative label is Module 6",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M1",
+   "node_type": "Module",
+   "title": "Module 1: High Intensity Daily Personal Activities (Sch 2)",
+   "applies_to": "Providers delivering HIDPA supports; read with HIDPA skills descriptors",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2",
+   "node_type": "Module",
+   "title": "Module 2: Specialist Behaviour Support (Sch 3)",
+   "applies_to": "Specialist behaviour support providers (developing BSPs)",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2A",
+   "node_type": "Module",
+   "title": "Module 2A: Implementing Behaviour Support Plans (Sch 4)",
+   "applies_to": "Providers implementing BSPs incl. regulated restrictive practices",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M3",
+   "node_type": "Module",
+   "title": "Module 3: Early Childhood Supports",
+   "applies_to": "Providers of early childhood supports",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M4",
+   "node_type": "Module",
+   "title": "Module 4: Specialised Support Coordination",
+   "applies_to": "Providers of specialised support coordination",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M5",
+   "node_type": "Module",
+   "title": "Module 5: Specialist Disability Accommodation",
+   "applies_to": "SDA providers",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "SIL",
+   "node_type": "Module",
+   "title": "Module 5A: Assistance with Supported Independent Living (SIL)",
+   "applies_to": "SIL providers; commenced 1 Jul 2026 with mandatory registration; official module name per QI Guidelines C03, Part 8A",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-1.1",
+   "node_type": "Standard",
+   "title": "Person-centred supports",
+   "module": "CORE",
+   "division": "Sch 1 Pt 2 - Rights of participants & responsibilities of providers",
+   "citation": "Sch 1, Pt 2, cl 3",
+   "qi_ref": "s 6",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-1.2",
+   "node_type": "Standard",
+   "title": "Individual values and beliefs",
+   "module": "CORE",
+   "division": "Sch 1 Pt 2 - Rights of participants & responsibilities of providers",
+   "citation": "Sch 1, Pt 2, cl 4",
+   "qi_ref": "s 7",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-1.3",
+   "node_type": "Standard",
+   "title": "Privacy and dignity",
+   "module": "CORE",
+   "division": "Sch 1 Pt 2 - Rights of participants & responsibilities of providers",
+   "citation": "Sch 1, Pt 2, cl 5",
+   "qi_ref": "s 8",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-1.4",
+   "node_type": "Standard",
+   "title": "Independence and informed choice",
+   "module": "CORE",
+   "division": "Sch 1 Pt 2 - Rights of participants & responsibilities of providers",
+   "citation": "Sch 1, Pt 2, cl 6",
+   "qi_ref": "s 9",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-1.5",
+   "node_type": "Standard",
+   "title": "Freedom from violence, abuse, neglect, exploitation or discrimination",
+   "module": "CORE",
+   "division": "Sch 1 Pt 2 - Rights of participants & responsibilities of providers",
+   "citation": "Sch 1, Pt 2, cl 7",
+   "qi_ref": "s 10",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-2.1",
+   "node_type": "Standard",
+   "title": "Governance and operational management",
+   "module": "CORE",
+   "division": "Sch 1 Pt 3 - Provider governance & operational management",
+   "citation": "Sch 1, Pt 3, cl 9",
+   "qi_ref": "s 11",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-2.2",
+   "node_type": "Standard",
+   "title": "Risk management",
+   "module": "CORE",
+   "division": "Sch 1 Pt 3 - Provider governance & operational management",
+   "citation": "Sch 1, Pt 3, cl 10",
+   "qi_ref": "s 12",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-2.3",
+   "node_type": "Standard",
+   "title": "Quality management",
+   "module": "CORE",
+   "division": "Sch 1 Pt 3 - Provider governance & operational management",
+   "citation": "Sch 1, Pt 3, cl 11",
+   "qi_ref": "s 13",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-2.4",
+   "node_type": "Standard",
+   "title": "Information management",
+   "module": "CORE",
+   "division": "Sch 1 Pt 3 - Provider governance & operational management",
+   "citation": "Sch 1, Pt 3, cl 12",
+   "qi_ref": "s 14",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-2.5",
+   "node_type": "Standard",
+   "title": "Complaints management and resolution",
+   "module": "CORE",
+   "division": "Sch 1 Pt 3 - Provider governance & operational management",
+   "citation": "Sch 1, Pt 3, cl 13",
+   "qi_ref": "s 15",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-2.6",
+   "node_type": "Standard",
+   "title": "Incident management",
+   "module": "CORE",
+   "division": "Sch 1 Pt 3 - Provider governance & operational management",
+   "citation": "Sch 1, Pt 3, cl 14",
+   "qi_ref": "s 16",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-2.7",
+   "node_type": "Standard",
+   "title": "Human resource management",
+   "module": "CORE",
+   "division": "Sch 1 Pt 3 - Provider governance & operational management",
+   "citation": "Sch 1, Pt 3, cl 15",
+   "qi_ref": "s 17",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-2.8",
+   "node_type": "Standard",
+   "title": "Continuity of supports",
+   "module": "CORE",
+   "division": "Sch 1 Pt 3 - Provider governance & operational management",
+   "citation": "Sch 1, Pt 3, cl 16",
+   "qi_ref": "s 18",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-2.9",
+   "node_type": "Standard",
+   "title": "Emergency and disaster management (added 2021)",
+   "module": "CORE",
+   "division": "Sch 1 Pt 3 - Provider governance & operational management",
+   "citation": "Sch 1, Pt 3, cl 16A",
+   "qi_ref": "s 18A",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-3.1",
+   "node_type": "Standard",
+   "title": "Access to supports",
+   "module": "CORE",
+   "division": "Sch 1 Pt 4 - Provision of supports",
+   "citation": "Sch 1, Pt 4, cl 18",
+   "qi_ref": "s 19",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-3.2",
+   "node_type": "Standard",
+   "title": "Support planning",
+   "module": "CORE",
+   "division": "Sch 1 Pt 4 - Provision of supports",
+   "citation": "Sch 1, Pt 4, cl 19",
+   "qi_ref": "s 20",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-3.3",
+   "node_type": "Standard",
+   "title": "Service agreements",
+   "module": "CORE",
+   "division": "Sch 1 Pt 4 - Provision of supports",
+   "citation": "Sch 1, Pt 4, cl 20",
+   "qi_ref": "s 21",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-3.4",
+   "node_type": "Standard",
+   "title": "Responsive support provision",
+   "module": "CORE",
+   "division": "Sch 1 Pt 4 - Provision of supports",
+   "citation": "Sch 1, Pt 4, cl 21",
+   "qi_ref": "s 22",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-3.5",
+   "node_type": "Standard",
+   "title": "Transitions to and from a provider",
+   "module": "CORE",
+   "division": "Sch 1 Pt 4 - Provision of supports",
+   "citation": "Sch 1, Pt 4, cl 22",
+   "qi_ref": "s 23",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-4.1",
+   "node_type": "Standard",
+   "title": "Safe environment",
+   "module": "CORE",
+   "division": "Sch 1 Pt 5 - Support provision environment",
+   "citation": "Sch 1, Pt 5, cl 24",
+   "qi_ref": "s 24",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-4.2",
+   "node_type": "Standard",
+   "title": "Participant money and property",
+   "module": "CORE",
+   "division": "Sch 1 Pt 5 - Support provision environment",
+   "citation": "Sch 1, Pt 5, cl 25",
+   "qi_ref": "s 25",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-4.3",
+   "node_type": "Standard",
+   "title": "Management of medication",
+   "module": "CORE",
+   "division": "Sch 1 Pt 5 - Support provision environment",
+   "citation": "Sch 1, Pt 5, cl 26",
+   "qi_ref": "s 26",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-4.4",
+   "node_type": "Standard",
+   "title": "Mealtime management (added 2021)",
+   "module": "CORE",
+   "division": "Sch 1 Pt 5 - Support provision environment",
+   "citation": "Sch 1, Pt 5, cl 26A",
+   "qi_ref": "s 26A",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "CORE-4.5",
+   "node_type": "Standard",
+   "title": "Management of waste",
+   "module": "CORE",
+   "division": "Sch 1 Pt 5 - Support provision environment",
+   "citation": "Sch 1, Pt 5, cl 27",
+   "qi_ref": "s 27",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "VER-1",
+   "node_type": "Standard",
+   "title": "Human resource management",
+   "module": "VER",
+   "division": "Verification",
+   "citation": "Sch 8, cl 6",
+   "qi_ref": "s 74",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "VER-2",
+   "node_type": "Standard",
+   "title": "Incident management",
+   "module": "VER",
+   "division": "Verification",
+   "citation": "Sch 8, cl 5",
+   "qi_ref": "s 75",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "VER-3",
+   "node_type": "Standard",
+   "title": "Complaints management and resolution",
+   "module": "VER",
+   "division": "Verification",
+   "citation": "Sch 8, cl 4",
+   "qi_ref": "s 76",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "VER-4",
+   "node_type": "Standard",
+   "title": "Risk management",
+   "module": "VER",
+   "division": "Verification",
+   "citation": "Sch 8, cl 3",
+   "qi_ref": "s 77",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M1-1",
+   "node_type": "Standard",
+   "title": "Complex bowel care",
+   "module": "M1",
+   "division": "HIDPA",
+   "citation": "Sch 2, cl 3",
+   "qi_ref": "s 29",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M1-2",
+   "node_type": "Standard",
+   "title": "Enteral (naso-gastric tube-jejunum or duodenum) feeding and management",
+   "module": "M1",
+   "division": "HIDPA",
+   "citation": "Sch 2, cl 4",
+   "qi_ref": "s 30",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M1-3",
+   "node_type": "Standard",
+   "title": "Severe dysphagia management (added 2021)",
+   "module": "M1",
+   "division": "HIDPA",
+   "citation": "Sch 2, cl 4A",
+   "qi_ref": "s 30A",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M1-4",
+   "node_type": "Standard",
+   "title": "Tracheostomy management",
+   "module": "M1",
+   "division": "HIDPA",
+   "citation": "Sch 2, cl 5",
+   "qi_ref": "s 31",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M1-5",
+   "node_type": "Standard",
+   "title": "Urinary catheter management",
+   "module": "M1",
+   "division": "HIDPA",
+   "citation": "Sch 2, cl 6",
+   "qi_ref": "s 32",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M1-6",
+   "node_type": "Standard",
+   "title": "Ventilator management",
+   "module": "M1",
+   "division": "HIDPA",
+   "citation": "Sch 2, cl 7",
+   "qi_ref": "s 33",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M1-7",
+   "node_type": "Standard",
+   "title": "Subcutaneous injections",
+   "module": "M1",
+   "division": "HIDPA",
+   "citation": "Sch 2, cl 8",
+   "qi_ref": "s 34",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M1-8",
+   "node_type": "Standard",
+   "title": "Complex wound management",
+   "module": "M1",
+   "division": "HIDPA",
+   "citation": "Sch 2, cl 9",
+   "qi_ref": "s 35",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2-1",
+   "node_type": "Standard",
+   "title": "Behaviour support in the NDIS",
+   "module": "M2",
+   "division": "Specialist behaviour support",
+   "citation": "Sch 3, cl 3",
+   "qi_ref": "s 38",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2-2",
+   "node_type": "Standard",
+   "title": "Regulated restrictive practices",
+   "module": "M2",
+   "division": "Specialist behaviour support",
+   "citation": "Sch 3, cl 4",
+   "qi_ref": "s 39",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2-3",
+   "node_type": "Standard",
+   "title": "Behaviour support plans",
+   "module": "M2",
+   "division": "Specialist behaviour support",
+   "citation": "Sch 3, cl 5",
+   "qi_ref": "s 40",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2-4",
+   "node_type": "Standard",
+   "title": "Supporting the implementation of a behaviour support plan",
+   "module": "M2",
+   "division": "Specialist behaviour support",
+   "citation": "Sch 3, cl 6",
+   "qi_ref": "s 41",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2-5",
+   "node_type": "Standard",
+   "title": "Behaviour support plan monitoring and review",
+   "module": "M2",
+   "division": "Specialist behaviour support",
+   "citation": "Sch 3, cl 7",
+   "qi_ref": "s 42",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2-6",
+   "node_type": "Standard",
+   "title": "Reportable incidents involving the use of a regulated restrictive practice",
+   "module": "M2",
+   "division": "Specialist behaviour support",
+   "citation": "Sch 3, cl 8",
+   "qi_ref": "s 43",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2-7",
+   "node_type": "Standard",
+   "title": "Interim behaviour support plans",
+   "module": "M2",
+   "division": "Specialist behaviour support",
+   "citation": "Sch 3, cl 9",
+   "qi_ref": "s 44",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2A-1",
+   "node_type": "Standard",
+   "title": "Behaviour support in the NDIS",
+   "module": "M2A",
+   "division": "Implementing behaviour support plans",
+   "citation": "Sch 4, cl 3",
+   "qi_ref": "s 47",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2A-2",
+   "node_type": "Standard",
+   "title": "Regulated restrictive practices",
+   "module": "M2A",
+   "division": "Implementing behaviour support plans",
+   "citation": "Sch 4, cl 4",
+   "qi_ref": "s 48",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2A-3",
+   "node_type": "Standard",
+   "title": "Supporting the assessment and development of behaviour support plans",
+   "module": "M2A",
+   "division": "Implementing behaviour support plans",
+   "citation": "Sch 4, cl 5",
+   "qi_ref": "s 49",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2A-4",
+   "node_type": "Standard",
+   "title": "Supporting the implementation of a behaviour support plan",
+   "module": "M2A",
+   "division": "Implementing behaviour support plans",
+   "citation": "Sch 4, cl 6",
+   "qi_ref": "s 50",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2A-5",
+   "node_type": "Standard",
+   "title": "Monitoring and reporting the use of regulated restrictive practices",
+   "module": "M2A",
+   "division": "Implementing behaviour support plans",
+   "citation": "Sch 4, cl 7",
+   "qi_ref": "s 51",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2A-6",
+   "node_type": "Standard",
+   "title": "Behaviour support plan monitoring and review",
+   "module": "M2A",
+   "division": "Implementing behaviour support plans",
+   "citation": "Sch 4, cl 8",
+   "qi_ref": "s 52",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2A-7",
+   "node_type": "Standard",
+   "title": "Reportable incidents involving the use of a regulated restrictive practice",
+   "module": "M2A",
+   "division": "Implementing behaviour support plans",
+   "citation": "Sch 4, cl 9",
+   "qi_ref": "s 53",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M2A-8",
+   "node_type": "Standard",
+   "title": "Interim behaviour support plans",
+   "module": "M2A",
+   "division": "Implementing behaviour support plans",
+   "citation": "Sch 4, cl 10",
+   "qi_ref": "s 54",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M3-1",
+   "node_type": "Standard",
+   "title": "The child",
+   "module": "M3",
+   "division": "Early childhood",
+   "citation": "Sch 5, cl 3",
+   "qi_ref": "s 56",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M3-2",
+   "node_type": "Standard",
+   "title": "The family",
+   "module": "M3",
+   "division": "Early childhood",
+   "citation": "Sch 5, cl 4",
+   "qi_ref": "s 57",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M3-3",
+   "node_type": "Standard",
+   "title": "Inclusion",
+   "module": "M3",
+   "division": "Early childhood",
+   "citation": "Sch 5, cl 5",
+   "qi_ref": "s 58",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M3-4",
+   "node_type": "Standard",
+   "title": "Collaboration",
+   "module": "M3",
+   "division": "Early childhood",
+   "citation": "Sch 5, cl 6",
+   "qi_ref": "s 59",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M3-5",
+   "node_type": "Standard",
+   "title": "Capacity building",
+   "module": "M3",
+   "division": "Early childhood",
+   "citation": "Sch 5, cl 7",
+   "qi_ref": "s 60",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M3-6",
+   "node_type": "Standard",
+   "title": "Evidence-informed supports",
+   "module": "M3",
+   "division": "Early childhood",
+   "citation": "Sch 5, cl 8",
+   "qi_ref": "s 61",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M3-7",
+   "node_type": "Standard",
+   "title": "Outcome based approach",
+   "module": "M3",
+   "division": "Early childhood",
+   "citation": "Sch 5, cl 9",
+   "qi_ref": "s 62",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M4-1",
+   "node_type": "Standard",
+   "title": "Specialised support coordination",
+   "module": "M4",
+   "division": "Support coordination",
+   "citation": "Sch 6, cl 3",
+   "qi_ref": "s 64",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M4-2",
+   "node_type": "Standard",
+   "title": "Management of supports",
+   "module": "M4",
+   "division": "Support coordination",
+   "citation": "Sch 6, cl 4",
+   "qi_ref": "s 65",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M4-3",
+   "node_type": "Standard",
+   "title": "Conflict of interest",
+   "module": "M4",
+   "division": "Support coordination",
+   "citation": "Sch 6, cl 5",
+   "qi_ref": "s 66",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M5-1",
+   "node_type": "Standard",
+   "title": "Rights and responsibilities",
+   "module": "M5",
+   "division": "SDA",
+   "citation": "Sch 7, cl 3",
+   "qi_ref": "s 68",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M5-2",
+   "node_type": "Standard",
+   "title": "Conflict of interest",
+   "module": "M5",
+   "division": "SDA",
+   "citation": "Sch 7, cl 4",
+   "qi_ref": "s 69",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M5-3",
+   "node_type": "Standard",
+   "title": "Service agreements with participants",
+   "module": "M5",
+   "division": "SDA",
+   "citation": "Sch 7, cl 5",
+   "qi_ref": "s 70",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M5-4",
+   "node_type": "Standard",
+   "title": "Enrolment of SDA dwellings",
+   "module": "M5",
+   "division": "SDA",
+   "citation": "Sch 7, cl 6",
+   "qi_ref": "s 71",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "M5-5",
+   "node_type": "Standard",
+   "title": "Tenancy management",
+   "module": "M5",
+   "division": "SDA",
+   "citation": "Sch 7, cl 7",
+   "qi_ref": "s 72",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "SIL-1",
+   "node_type": "Standard",
+   "title": "Supported decision-making",
+   "module": "SIL",
+   "division": "Module 5A (SIL)",
+   "citation": "Inserted by 2026 Amendment Rules - Sch/cl TBC (check latest compilation)",
+   "qi_ref": "s 72B",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "SIL-2",
+   "node_type": "Standard",
+   "title": "Safeguarding",
+   "module": "SIL",
+   "division": "Module 5A (SIL)",
+   "citation": "Inserted by 2026 Amendment Rules - Sch/cl TBC (check latest compilation)",
+   "qi_ref": "s 72C",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "SIL-3",
+   "node_type": "Standard",
+   "title": "Practice governance",
+   "module": "SIL",
+   "division": "Module 5A (SIL)",
+   "citation": "Inserted by 2026 Amendment Rules - Sch/cl TBC (check latest compilation)",
+   "qi_ref": "s 72D",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "SIL-4",
+   "node_type": "Standard",
+   "title": "Agreements about tenancy, housing and support arrangements",
+   "module": "SIL",
+   "division": "Module 5A (SIL)",
+   "citation": "Inserted by 2026 Amendment Rules - Sch/cl TBC (check latest compilation)",
+   "qi_ref": "s 72E",
+   "layer": "shared",
+   "verification": "V"
+  },
+  {
+   "id": "POL-GOV-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Governance and Operational Management Policy",
+   "cluster": "Governance",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Board / CEO",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-GOV-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Delegations and Decision-Making Procedure",
+   "cluster": "Governance",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "CEO",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-GOV-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Delegations Register",
+   "cluster": "Governance",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "CEO",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-GOV-02",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Conflict of Interest Policy",
+   "cluster": "Governance",
+   "applies_to": "Core; M4; M5",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Board / CEO",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-GOV-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Conflict of Interest Declaration Form",
+   "cluster": "Governance",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "CEO",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-GOV-02",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Conflict of Interest Register",
+   "cluster": "Governance",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "CEO",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-GOV-03",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Master Document Register (this workbook)",
+   "cluster": "Governance",
+   "applies_to": "All",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-GOV-03",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Whistleblower and Disclosure Protection Policy",
+   "cluster": "Governance",
+   "applies_to": "All",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Board / CEO",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-GOV-02",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Notification of Changes and Events Procedure (Commission notice under rr 13-13A)",
+   "cluster": "Governance",
+   "applies_to": "All",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "CEO",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-RSK-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Risk Management Policy",
+   "cluster": "Risk",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-RSK-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Risk Assessment and Treatment Procedure",
+   "cluster": "Risk",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-RSK-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Risk Assessment Form",
+   "cluster": "Risk",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-RSK-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Risk Register",
+   "cluster": "Risk",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-QMS-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Quality Management and Continuous Improvement Policy",
+   "cluster": "Quality",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-QMS-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Continuous Improvement Procedure",
+   "cluster": "Quality",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-QMS-02",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Document and Records Control Procedure",
+   "cluster": "Quality",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-QMS-03",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Internal Audit and Self-Assessment Procedure",
+   "cluster": "Quality",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-QMS-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Improvement / Corrective Action Request Form",
+   "cluster": "Quality",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-QMS-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Continuous Improvement Register",
+   "cluster": "Quality",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-QMS-02",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Internal Audit Schedule and Register",
+   "cluster": "Quality",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-INF-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Information Management and Privacy Policy",
+   "cluster": "Information",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-INF-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Records Management Procedure",
+   "cluster": "Information",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-INF-02",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Privacy and Data Breach Response Procedure",
+   "cluster": "Information",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-INF-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Consent to Collect, Use and Share Information Form",
+   "cluster": "Information",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-INF-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Data Breach Register",
+   "cluster": "Information",
+   "applies_to": "Core",
+   "priority": "P3",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-FBK-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Feedback and Complaints Policy",
+   "cluster": "Complaints",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-FBK-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Complaints Handling and Resolution Procedure",
+   "cluster": "Complaints",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "WIN-FBK-01",
+   "node_type": "Document",
+   "doc_type": "Work Instruction",
+   "title": "Receiving and Recording a Complaint (frontline)",
+   "cluster": "Complaints",
+   "applies_to": "Core; Verification",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-FBK-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Feedback and Complaints Form",
+   "cluster": "Complaints",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-FBK-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Complaints Register",
+   "cluster": "Complaints",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-INC-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Incident Management Policy",
+   "cluster": "Incidents",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-INC-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Incident Management Procedure",
+   "cluster": "Incidents",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-INC-02",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Reportable Incidents Notification Procedure",
+   "cluster": "Incidents",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "WIN-INC-01",
+   "node_type": "Document",
+   "doc_type": "Work Instruction",
+   "title": "Responding to an Incident (frontline)",
+   "cluster": "Incidents",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-INC-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Incident Report Form",
+   "cluster": "Incidents",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-INC-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Incident Register",
+   "cluster": "Incidents",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-HRM-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Human Resource Management Policy",
+   "cluster": "People",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-HRM-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Recruitment, Screening and Induction Procedure",
+   "cluster": "People",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "HR Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-HRM-02",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Supervision and Performance Procedure",
+   "cluster": "People",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "HR Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-HRM-03",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Training and Competency Procedure",
+   "cluster": "People",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "HR Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-HRM-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Worker Screening and Credential Checklist",
+   "cluster": "People",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "HR Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-HRM-02",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "NDIS Code of Conduct Acknowledgement Form",
+   "cluster": "People",
+   "applies_to": "All",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "HR Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-HRM-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Worker Screening Register",
+   "cluster": "People",
+   "applies_to": "Core; Verification",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "HR Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-HRM-02",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Training and Competency Register",
+   "cluster": "People",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "HR Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-COC-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "NDIS Code of Conduct Policy",
+   "cluster": "People",
+   "applies_to": "All",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "CEO",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-COS-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Continuity of Supports Policy",
+   "cluster": "Continuity",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PLN-COS-01",
+   "node_type": "Document",
+   "doc_type": "Plan",
+   "title": "Business Continuity Plan",
+   "cluster": "Continuity",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "CEO",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-COS-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Worker Absence and Backup Arrangements Procedure",
+   "cluster": "Continuity",
+   "applies_to": "Core",
+   "priority": "P3",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-EDM-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Emergency and Disaster Management Policy",
+   "cluster": "Emergency",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PLN-EDM-01",
+   "node_type": "Document",
+   "doc_type": "Plan",
+   "title": "Emergency and Disaster Management Plan",
+   "cluster": "Emergency",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": true,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-EDM-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Emergency Response and Evacuation Procedure",
+   "cluster": "Emergency",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-EDM-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Emergency Preparedness and Drills Register",
+   "cluster": "Emergency",
+   "applies_to": "Core",
+   "priority": "P3",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-RGT-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Person-Centred Supports Policy",
+   "cluster": "Rights",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-RGT-02",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Privacy and Dignity Policy",
+   "cluster": "Rights",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-RGT-03",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Independence, Informed Choice and Supported Decision-Making Policy",
+   "cluster": "Rights",
+   "applies_to": "Core; SIL",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-RGT-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Communication, Advocacy and Support Preferences Form",
+   "cluster": "Rights",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": true,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "STA-RGT-01",
+   "node_type": "Document",
+   "doc_type": "Handbook",
+   "title": "Participant Handbook / Welcome Pack",
+   "cluster": "Rights",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-SGD-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Safeguarding Policy (zero tolerance of violence, abuse, neglect, exploitation and discrimination)",
+   "cluster": "Safeguarding",
+   "applies_to": "Core; SIL",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "CEO",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-SGD-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Responding to Abuse, Neglect and Exploitation Procedure",
+   "cluster": "Safeguarding",
+   "applies_to": "Core; SIL",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-SUP-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Access to Supports Policy",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": true,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-SUP-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Intake, Eligibility and Waitlist Procedure",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-SUP-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Referral and Intake Form",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-SUP-02",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Support Planning Policy",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-SUP-02",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Support Planning and Review Procedure",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-SUP-02",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Participant Support Plan Template",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-SUP-03",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Service Agreements Policy",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "AGR-SUP-01",
+   "node_type": "Document",
+   "doc_type": "Agreement",
+   "title": "Service Agreement Template",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-SUP-03",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Responsive Support Provision Procedure",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-SUP-04",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Transitions To and From the Provider Policy",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-SUP-04",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Entry, Exit and Transition Procedure",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-SUP-04",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Transition and Exit Checklist",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P3",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-SUP-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Participant and Service Agreement Register",
+   "cluster": "Supports",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-ENV-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Safe Environment Policy",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-ENV-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Home and Workplace Safety Check Procedure",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-ENV-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Environmental Safety Checklist",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-ENV-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Hazard and Maintenance Register",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-MNY-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Participant Money and Property Policy",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-MNY-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Handling Participant Money and Property Procedure",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-MNY-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Participant Money Transaction Record",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-MNY-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Participant Money and Property Register",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-MED-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Medication Management Policy",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-MED-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Medication Administration Procedure",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "WIN-MED-01",
+   "node_type": "Document",
+   "doc_type": "Work Instruction",
+   "title": "Administering PRN Medication (frontline)",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-MED-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Medication Administration Record (chart)",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-MTM-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Mealtime Management Policy",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-MTM-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Mealtime Management Procedure",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-MTM-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Mealtime Management Plan",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P2",
+   "easy_read": true,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-WST-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Waste Management and Infection Control Policy",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P3",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-WST-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Infection Control and Waste Handling Procedure",
+   "cluster": "Environment",
+   "applies_to": "Core",
+   "priority": "P3",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-HID-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "High Intensity Supports Policy",
+   "cluster": "High intensity",
+   "applies_to": "M1",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-HID-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Complex Bowel Care Procedure",
+   "cluster": "High intensity",
+   "applies_to": "M1",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Clinical Lead",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-HID-02",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Enteral Feeding and Management Procedure",
+   "cluster": "High intensity",
+   "applies_to": "M1",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Clinical Lead",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-HID-03",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Severe Dysphagia Management Procedure",
+   "cluster": "High intensity",
+   "applies_to": "M1",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Clinical Lead",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-HID-04",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Tracheostomy Management Procedure",
+   "cluster": "High intensity",
+   "applies_to": "M1",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Clinical Lead",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-HID-05",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Urinary Catheter Management Procedure",
+   "cluster": "High intensity",
+   "applies_to": "M1",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Clinical Lead",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-HID-06",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Ventilator Management Procedure",
+   "cluster": "High intensity",
+   "applies_to": "M1",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Clinical Lead",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-HID-07",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Subcutaneous Injections Procedure",
+   "cluster": "High intensity",
+   "applies_to": "M1",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Clinical Lead",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-HID-08",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Complex Wound Management Procedure",
+   "cluster": "High intensity",
+   "applies_to": "M1",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Clinical Lead",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-HID-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Participant Health Support Plan",
+   "cluster": "High intensity",
+   "applies_to": "M1",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Clinical Lead",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-HID-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "High Intensity Training and Competency Register",
+   "cluster": "High intensity",
+   "applies_to": "M1",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Clinical Lead",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-BSP-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Positive Behaviour Support Policy",
+   "cluster": "Behaviour support",
+   "applies_to": "M2; M2A",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-BSP-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Behaviour Support Plan Implementation and Monitoring Procedure",
+   "cluster": "Behaviour support",
+   "applies_to": "M2A",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-BSP-02",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Regulated Restrictive Practices Authorisation, Use and Reporting Procedure",
+   "cluster": "Behaviour support",
+   "applies_to": "M2A",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-BSP-03",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Behaviour Support Plan Development and Review Procedure (specialist providers)",
+   "cluster": "Behaviour support",
+   "applies_to": "M2",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Clinical Lead",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-BSP-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Restrictive Practice Use Record",
+   "cluster": "Behaviour support",
+   "applies_to": "M2A",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-BSP-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "Restrictive Practices Register",
+   "cluster": "Behaviour support",
+   "applies_to": "M2A",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-ECS-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Early Childhood Supports Policy",
+   "cluster": "Early childhood",
+   "applies_to": "M3",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-ECS-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Family-Centred Practice and Key Worker Procedure",
+   "cluster": "Early childhood",
+   "applies_to": "M3",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-SCO-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Specialised Support Coordination Policy",
+   "cluster": "Support coordination",
+   "applies_to": "M4",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-SCO-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Support Coordination Conflict of Interest Procedure",
+   "cluster": "Support coordination",
+   "applies_to": "M4",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-SDA-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Specialist Disability Accommodation Policy",
+   "cluster": "SDA",
+   "applies_to": "M5",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-SDA-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "SDA Dwelling Enrolment and Compliance Procedure",
+   "cluster": "SDA",
+   "applies_to": "M5",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-SDA-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "SDA Dwelling Register",
+   "cluster": "SDA",
+   "applies_to": "M5",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-SIL-01",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Supported Decision-Making Procedure",
+   "cluster": "SIL",
+   "applies_to": "SIL",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "House Supervisor",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "FRM-SIL-01",
+   "node_type": "Document",
+   "doc_type": "Form",
+   "title": "Decision Support Record",
+   "cluster": "SIL",
+   "applies_to": "SIL",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "House Supervisor",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-SIL-02",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Safeguarding in the Home Policy (SIL)",
+   "cluster": "SIL",
+   "applies_to": "SIL",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-SIL-02",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Home Risk, Dignity of Risk and Safeguarding Procedure",
+   "cluster": "SIL",
+   "applies_to": "SIL",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "House Supervisor",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-SIL-03",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "SIL Practice Governance Policy",
+   "cluster": "SIL",
+   "applies_to": "SIL",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-SIL-03",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "House Governance, Handover and Worker Training Procedure",
+   "cluster": "SIL",
+   "applies_to": "SIL",
+   "priority": "P1",
+   "easy_read": false,
+   "owner_role": "House Supervisor",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "PRO-SIL-04",
+   "node_type": "Document",
+   "doc_type": "Procedure",
+   "title": "Tenancy and Support Agreements Procedure (SIL)",
+   "cluster": "SIL",
+   "applies_to": "SIL",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Service Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "AGR-SIL-01",
+   "node_type": "Document",
+   "doc_type": "Agreement",
+   "title": "SIL Tenancy and Support Agreement Templates",
+   "cluster": "SIL",
+   "applies_to": "SIL",
+   "priority": "P1",
+   "easy_read": true,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "REG-SIL-01",
+   "node_type": "Document",
+   "doc_type": "Register",
+   "title": "SIL Homes Register",
+   "cluster": "SIL",
+   "applies_to": "SIL",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Service Manager",
+   "review_years": 1,
+   "status": "Planned",
+   "layer": "tenant"
+  },
+  {
+   "id": "POL-WHS-01",
+   "node_type": "Document",
+   "doc_type": "Policy",
+   "title": "Work Health and Safety Policy",
+   "cluster": "Environment",
+   "applies_to": "All",
+   "priority": "P2",
+   "easy_read": false,
+   "owner_role": "Quality Manager",
+   "review_years": 2,
+   "status": "Planned",
+   "layer": "tenant"
+  }
+ ],
+ "edges": [
+  {
+   "source": "PRO-GOV-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-GOV-01"
+  },
+  {
+   "source": "PRO-GOV-02",
+   "type": "OPERATIONALISES",
+   "target": "POL-GOV-01"
+  },
+  {
+   "source": "PRO-RSK-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-RSK-01"
+  },
+  {
+   "source": "PRO-QMS-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-QMS-01"
+  },
+  {
+   "source": "PRO-QMS-02",
+   "type": "OPERATIONALISES",
+   "target": "POL-QMS-01"
+  },
+  {
+   "source": "PRO-QMS-03",
+   "type": "OPERATIONALISES",
+   "target": "POL-QMS-01"
+  },
+  {
+   "source": "PRO-INF-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-INF-01"
+  },
+  {
+   "source": "PRO-INF-02",
+   "type": "OPERATIONALISES",
+   "target": "POL-INF-01"
+  },
+  {
+   "source": "PRO-FBK-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-FBK-01"
+  },
+  {
+   "source": "WIN-FBK-01",
+   "type": "OPERATIONALISES",
+   "target": "PRO-FBK-01"
+  },
+  {
+   "source": "PRO-INC-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-INC-01"
+  },
+  {
+   "source": "PRO-INC-02",
+   "type": "OPERATIONALISES",
+   "target": "POL-INC-01"
+  },
+  {
+   "source": "WIN-INC-01",
+   "type": "OPERATIONALISES",
+   "target": "PRO-INC-01"
+  },
+  {
+   "source": "PRO-HRM-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-HRM-01"
+  },
+  {
+   "source": "PRO-HRM-02",
+   "type": "OPERATIONALISES",
+   "target": "POL-HRM-01"
+  },
+  {
+   "source": "PRO-HRM-03",
+   "type": "OPERATIONALISES",
+   "target": "POL-HRM-01"
+  },
+  {
+   "source": "PRO-COS-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-COS-01"
+  },
+  {
+   "source": "PLN-COS-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-COS-01"
+  },
+  {
+   "source": "PRO-EDM-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-EDM-01"
+  },
+  {
+   "source": "PLN-EDM-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-EDM-01"
+  },
+  {
+   "source": "PRO-SGD-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-SGD-01"
+  },
+  {
+   "source": "PRO-SUP-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-SUP-01"
+  },
+  {
+   "source": "PRO-SUP-02",
+   "type": "OPERATIONALISES",
+   "target": "POL-SUP-02"
+  },
+  {
+   "source": "PRO-SUP-03",
+   "type": "OPERATIONALISES",
+   "target": "POL-SUP-03"
+  },
+  {
+   "source": "PRO-SUP-04",
+   "type": "OPERATIONALISES",
+   "target": "POL-SUP-04"
+  },
+  {
+   "source": "PRO-ENV-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-ENV-01"
+  },
+  {
+   "source": "PRO-MNY-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-MNY-01"
+  },
+  {
+   "source": "PRO-MED-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-MED-01"
+  },
+  {
+   "source": "WIN-MED-01",
+   "type": "OPERATIONALISES",
+   "target": "PRO-MED-01"
+  },
+  {
+   "source": "PRO-MTM-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-MTM-01"
+  },
+  {
+   "source": "PRO-WST-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-WST-01"
+  },
+  {
+   "source": "PRO-HID-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-HID-01"
+  },
+  {
+   "source": "PRO-HID-02",
+   "type": "OPERATIONALISES",
+   "target": "POL-HID-01"
+  },
+  {
+   "source": "PRO-HID-03",
+   "type": "OPERATIONALISES",
+   "target": "POL-HID-01"
+  },
+  {
+   "source": "PRO-HID-04",
+   "type": "OPERATIONALISES",
+   "target": "POL-HID-01"
+  },
+  {
+   "source": "PRO-HID-05",
+   "type": "OPERATIONALISES",
+   "target": "POL-HID-01"
+  },
+  {
+   "source": "PRO-HID-06",
+   "type": "OPERATIONALISES",
+   "target": "POL-HID-01"
+  },
+  {
+   "source": "PRO-HID-07",
+   "type": "OPERATIONALISES",
+   "target": "POL-HID-01"
+  },
+  {
+   "source": "PRO-HID-08",
+   "type": "OPERATIONALISES",
+   "target": "POL-HID-01"
+  },
+  {
+   "source": "PRO-BSP-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-BSP-01"
+  },
+  {
+   "source": "PRO-BSP-02",
+   "type": "OPERATIONALISES",
+   "target": "POL-BSP-01"
+  },
+  {
+   "source": "PRO-BSP-03",
+   "type": "OPERATIONALISES",
+   "target": "POL-BSP-01"
+  },
+  {
+   "source": "PRO-ECS-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-ECS-01"
+  },
+  {
+   "source": "PRO-SCO-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-SCO-01"
+  },
+  {
+   "source": "PRO-SDA-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-SDA-01"
+  },
+  {
+   "source": "PRO-SIL-01",
+   "type": "OPERATIONALISES",
+   "target": "POL-RGT-03"
+  },
+  {
+   "source": "PRO-SIL-02",
+   "type": "OPERATIONALISES",
+   "target": "POL-SIL-02"
+  },
+  {
+   "source": "PRO-SIL-03",
+   "type": "OPERATIONALISES",
+   "target": "POL-SIL-03"
+  },
+  {
+   "source": "PRO-SIL-04",
+   "type": "OPERATIONALISES",
+   "target": "POL-SUP-03"
+  },
+  {
+   "source": "PRO-GOV-01",
+   "type": "USES",
+   "target": "FRM-GOV-01"
+  },
+  {
+   "source": "PRO-RSK-01",
+   "type": "USES",
+   "target": "FRM-RSK-01"
+  },
+  {
+   "source": "PRO-QMS-01",
+   "type": "USES",
+   "target": "FRM-QMS-01"
+  },
+  {
+   "source": "PRO-INF-01",
+   "type": "USES",
+   "target": "FRM-INF-01"
+  },
+  {
+   "source": "PRO-FBK-01",
+   "type": "USES",
+   "target": "FRM-FBK-01"
+  },
+  {
+   "source": "PRO-INC-01",
+   "type": "USES",
+   "target": "FRM-INC-01"
+  },
+  {
+   "source": "PRO-HRM-01",
+   "type": "USES",
+   "target": "FRM-HRM-01"
+  },
+  {
+   "source": "PRO-HRM-01",
+   "type": "USES",
+   "target": "FRM-HRM-02"
+  },
+  {
+   "source": "PRO-SUP-01",
+   "type": "USES",
+   "target": "FRM-SUP-01"
+  },
+  {
+   "source": "PRO-SUP-02",
+   "type": "USES",
+   "target": "FRM-SUP-02"
+  },
+  {
+   "source": "PRO-SUP-04",
+   "type": "USES",
+   "target": "FRM-SUP-04"
+  },
+  {
+   "source": "PRO-ENV-01",
+   "type": "USES",
+   "target": "FRM-ENV-01"
+  },
+  {
+   "source": "PRO-MNY-01",
+   "type": "USES",
+   "target": "FRM-MNY-01"
+  },
+  {
+   "source": "PRO-MED-01",
+   "type": "USES",
+   "target": "FRM-MED-01"
+  },
+  {
+   "source": "PRO-MTM-01",
+   "type": "USES",
+   "target": "FRM-MTM-01"
+  },
+  {
+   "source": "PRO-HID-01",
+   "type": "USES",
+   "target": "FRM-HID-01"
+  },
+  {
+   "source": "PRO-BSP-02",
+   "type": "USES",
+   "target": "FRM-BSP-01"
+  },
+  {
+   "source": "PRO-SIL-01",
+   "type": "USES",
+   "target": "FRM-SIL-01"
+  },
+  {
+   "source": "PRO-SUP-03",
+   "type": "USES",
+   "target": "AGR-SUP-01"
+  },
+  {
+   "source": "PRO-SIL-04",
+   "type": "USES",
+   "target": "AGR-SIL-01"
+  },
+  {
+   "source": "FRM-GOV-01",
+   "type": "RECORDS_TO",
+   "target": "REG-GOV-02"
+  },
+  {
+   "source": "FRM-RSK-01",
+   "type": "RECORDS_TO",
+   "target": "REG-RSK-01"
+  },
+  {
+   "source": "FRM-QMS-01",
+   "type": "RECORDS_TO",
+   "target": "REG-QMS-01"
+  },
+  {
+   "source": "FRM-FBK-01",
+   "type": "RECORDS_TO",
+   "target": "REG-FBK-01"
+  },
+  {
+   "source": "FRM-INC-01",
+   "type": "RECORDS_TO",
+   "target": "REG-INC-01"
+  },
+  {
+   "source": "FRM-HRM-01",
+   "type": "RECORDS_TO",
+   "target": "REG-HRM-01"
+  },
+  {
+   "source": "FRM-SUP-02",
+   "type": "RECORDS_TO",
+   "target": "REG-SUP-01"
+  },
+  {
+   "source": "AGR-SUP-01",
+   "type": "RECORDS_TO",
+   "target": "REG-SUP-01"
+  },
+  {
+   "source": "FRM-ENV-01",
+   "type": "RECORDS_TO",
+   "target": "REG-ENV-01"
+  },
+  {
+   "source": "FRM-MNY-01",
+   "type": "RECORDS_TO",
+   "target": "REG-MNY-01"
+  },
+  {
+   "source": "FRM-BSP-01",
+   "type": "RECORDS_TO",
+   "target": "REG-BSP-01"
+  },
+  {
+   "source": "AGR-SIL-01",
+   "type": "RECORDS_TO",
+   "target": "REG-SIL-01"
+  },
+  {
+   "source": "POL-GOV-03",
+   "type": "RELATES_TO",
+   "target": "PRO-FBK-01",
+   "note": "Disclosures may arrive via the complaints channel; both must protect the discloser"
+  },
+  {
+   "source": "PRO-INF-02",
+   "type": "RELATES_TO",
+   "target": "PRO-INC-01",
+   "note": "A privacy breach is also managed as an incident"
+  },
+  {
+   "source": "PRO-SGD-01",
+   "type": "RELATES_TO",
+   "target": "PRO-INC-02",
+   "note": "Abuse or neglect triggers reportable-incident notification"
+  },
+  {
+   "source": "PRO-BSP-02",
+   "type": "RELATES_TO",
+   "target": "PRO-INC-02",
+   "note": "Unauthorised restrictive practice is a reportable incident"
+  },
+  {
+   "source": "PRO-MED-01",
+   "type": "RELATES_TO",
+   "target": "PRO-INC-01",
+   "note": "Medication errors are recorded and managed as incidents"
+  },
+  {
+   "source": "POL-RGT-03",
+   "type": "RELATES_TO",
+   "target": "PRO-SIL-01",
+   "note": "Supported decision-making applies org-wide and in SIL homes"
+  },
+  {
+   "source": "POL-WHS-01",
+   "type": "RELATES_TO",
+   "target": "POL-ENV-01",
+   "note": "WHS duties and safe-environment obligations overlap"
+  },
+  {
+   "source": "PRO-MTM-01",
+   "type": "RELATES_TO",
+   "target": "PRO-HID-03",
+   "note": "Mealtime management escalates to dysphagia procedure where assessed"
+  },
+  {
+   "source": "POL-GOV-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.1"
+  },
+  {
+   "source": "POL-GOV-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-GOV-01",
+   "type": "RELATES_TO",
+   "target": "ACT",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-GOV-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.1"
+  },
+  {
+   "source": "PRO-GOV-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-GOV-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.1"
+  },
+  {
+   "source": "REG-GOV-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-GOV-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.1"
+  },
+  {
+   "source": "POL-GOV-02",
+   "type": "IMPLEMENTS",
+   "target": "M4-3"
+  },
+  {
+   "source": "POL-GOV-02",
+   "type": "IMPLEMENTS",
+   "target": "M5-2"
+  },
+  {
+   "source": "POL-GOV-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-GOV-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.1"
+  },
+  {
+   "source": "FRM-GOV-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-GOV-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.1"
+  },
+  {
+   "source": "REG-GOV-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-GOV-03",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.3"
+  },
+  {
+   "source": "REG-GOV-03",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-GOV-03",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.1"
+  },
+  {
+   "source": "POL-GOV-03",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.5"
+  },
+  {
+   "source": "POL-GOV-03",
+   "type": "RELATES_TO",
+   "target": "IS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-GOV-03",
+   "type": "RELATES_TO",
+   "target": "ACT",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-GOV-03",
+   "type": "RELATES_TO",
+   "target": "COC",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-GOV-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.1"
+  },
+  {
+   "source": "PRO-GOV-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-GOV-02",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-GOV-02",
+   "type": "RELATES_TO",
+   "target": "NCE",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-RSK-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.2"
+  },
+  {
+   "source": "POL-RSK-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-4"
+  },
+  {
+   "source": "POL-RSK-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-RSK-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.2"
+  },
+  {
+   "source": "PRO-RSK-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-4"
+  },
+  {
+   "source": "PRO-RSK-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-RSK-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.2"
+  },
+  {
+   "source": "FRM-RSK-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-RSK-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.2"
+  },
+  {
+   "source": "REG-RSK-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-4"
+  },
+  {
+   "source": "REG-RSK-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-QMS-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.3"
+  },
+  {
+   "source": "POL-QMS-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-QMS-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.3"
+  },
+  {
+   "source": "PRO-QMS-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-QMS-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.3"
+  },
+  {
+   "source": "PRO-QMS-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.4"
+  },
+  {
+   "source": "PRO-QMS-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-QMS-03",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.3"
+  },
+  {
+   "source": "PRO-QMS-03",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-QMS-03",
+   "type": "RELATES_TO",
+   "target": "QI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-QMS-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.3"
+  },
+  {
+   "source": "FRM-QMS-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-QMS-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.3"
+  },
+  {
+   "source": "REG-QMS-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-QMS-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.3"
+  },
+  {
+   "source": "REG-QMS-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-QMS-02",
+   "type": "RELATES_TO",
+   "target": "QI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-INF-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.4"
+  },
+  {
+   "source": "POL-INF-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.3"
+  },
+  {
+   "source": "POL-INF-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-INF-01",
+   "type": "RELATES_TO",
+   "target": "PRIV",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-INF-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.4"
+  },
+  {
+   "source": "PRO-INF-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-INF-01",
+   "type": "RELATES_TO",
+   "target": "PRIV",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-INF-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.4"
+  },
+  {
+   "source": "PRO-INF-02",
+   "type": "RELATES_TO",
+   "target": "PRIV",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-INF-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.4"
+  },
+  {
+   "source": "FRM-INF-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.4"
+  },
+  {
+   "source": "FRM-INF-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-INF-01",
+   "type": "RELATES_TO",
+   "target": "PRIV",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-INF-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.4"
+  },
+  {
+   "source": "REG-INF-01",
+   "type": "RELATES_TO",
+   "target": "PRIV",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-FBK-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.5"
+  },
+  {
+   "source": "POL-FBK-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-3"
+  },
+  {
+   "source": "POL-FBK-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-FBK-01",
+   "type": "RELATES_TO",
+   "target": "CMR",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-FBK-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.5"
+  },
+  {
+   "source": "PRO-FBK-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-3"
+  },
+  {
+   "source": "PRO-FBK-01",
+   "type": "RELATES_TO",
+   "target": "CMR",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "WIN-FBK-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.5"
+  },
+  {
+   "source": "WIN-FBK-01",
+   "type": "RELATES_TO",
+   "target": "CMR",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-FBK-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.5"
+  },
+  {
+   "source": "FRM-FBK-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-3"
+  },
+  {
+   "source": "FRM-FBK-01",
+   "type": "RELATES_TO",
+   "target": "CMR",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-FBK-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.5"
+  },
+  {
+   "source": "REG-FBK-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-3"
+  },
+  {
+   "source": "REG-FBK-01",
+   "type": "RELATES_TO",
+   "target": "CMR",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-INC-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.6"
+  },
+  {
+   "source": "POL-INC-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-2"
+  },
+  {
+   "source": "POL-INC-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-INC-01",
+   "type": "RELATES_TO",
+   "target": "IMRI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-INC-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.6"
+  },
+  {
+   "source": "PRO-INC-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-2"
+  },
+  {
+   "source": "PRO-INC-01",
+   "type": "RELATES_TO",
+   "target": "IMRI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-INC-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.6"
+  },
+  {
+   "source": "PRO-INC-02",
+   "type": "IMPLEMENTS",
+   "target": "VER-2"
+  },
+  {
+   "source": "PRO-INC-02",
+   "type": "RELATES_TO",
+   "target": "IMRI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "WIN-INC-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.6"
+  },
+  {
+   "source": "WIN-INC-01",
+   "type": "RELATES_TO",
+   "target": "IMRI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-INC-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.6"
+  },
+  {
+   "source": "FRM-INC-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-2"
+  },
+  {
+   "source": "FRM-INC-01",
+   "type": "RELATES_TO",
+   "target": "IMRI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-INC-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.6"
+  },
+  {
+   "source": "REG-INC-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-2"
+  },
+  {
+   "source": "REG-INC-01",
+   "type": "RELATES_TO",
+   "target": "IMRI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-HRM-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.7"
+  },
+  {
+   "source": "POL-HRM-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-1"
+  },
+  {
+   "source": "POL-HRM-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-HRM-01",
+   "type": "RELATES_TO",
+   "target": "WSR",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HRM-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.7"
+  },
+  {
+   "source": "PRO-HRM-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-1"
+  },
+  {
+   "source": "PRO-HRM-01",
+   "type": "RELATES_TO",
+   "target": "WSR",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HRM-01",
+   "type": "RELATES_TO",
+   "target": "COC",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HRM-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.7"
+  },
+  {
+   "source": "PRO-HRM-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HRM-03",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.7"
+  },
+  {
+   "source": "PRO-HRM-03",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-HRM-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.7"
+  },
+  {
+   "source": "FRM-HRM-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-1"
+  },
+  {
+   "source": "FRM-HRM-01",
+   "type": "RELATES_TO",
+   "target": "WSR",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-HRM-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.7"
+  },
+  {
+   "source": "FRM-HRM-02",
+   "type": "RELATES_TO",
+   "target": "COC",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-HRM-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.7"
+  },
+  {
+   "source": "REG-HRM-01",
+   "type": "IMPLEMENTS",
+   "target": "VER-1"
+  },
+  {
+   "source": "REG-HRM-01",
+   "type": "RELATES_TO",
+   "target": "WSR",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-HRM-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.7"
+  },
+  {
+   "source": "REG-HRM-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-COC-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.7"
+  },
+  {
+   "source": "POL-COC-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.5"
+  },
+  {
+   "source": "POL-COC-01",
+   "type": "RELATES_TO",
+   "target": "COC",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-COS-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.8"
+  },
+  {
+   "source": "POL-COS-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PLN-COS-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.8"
+  },
+  {
+   "source": "PLN-COS-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-COS-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.8"
+  },
+  {
+   "source": "PRO-COS-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-EDM-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.9"
+  },
+  {
+   "source": "POL-EDM-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PLN-EDM-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.9"
+  },
+  {
+   "source": "PLN-EDM-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-EDM-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.9"
+  },
+  {
+   "source": "PRO-EDM-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-EDM-01",
+   "type": "RELATES_TO",
+   "target": "WHSL",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-EDM-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-2.9"
+  },
+  {
+   "source": "REG-EDM-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-RGT-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.1"
+  },
+  {
+   "source": "POL-RGT-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.2"
+  },
+  {
+   "source": "POL-RGT-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-RGT-01",
+   "type": "RELATES_TO",
+   "target": "ACT",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-RGT-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.3"
+  },
+  {
+   "source": "POL-RGT-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-RGT-02",
+   "type": "RELATES_TO",
+   "target": "PRIV",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-RGT-03",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.4"
+  },
+  {
+   "source": "POL-RGT-03",
+   "type": "IMPLEMENTS",
+   "target": "SIL-1"
+  },
+  {
+   "source": "POL-RGT-03",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-RGT-03",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-RGT-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.1"
+  },
+  {
+   "source": "FRM-RGT-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.4"
+  },
+  {
+   "source": "FRM-RGT-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "STA-RGT-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.1"
+  },
+  {
+   "source": "STA-RGT-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.4"
+  },
+  {
+   "source": "STA-RGT-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.3"
+  },
+  {
+   "source": "STA-RGT-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "STA-RGT-01",
+   "type": "RELATES_TO",
+   "target": "COC",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SGD-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.5"
+  },
+  {
+   "source": "POL-SGD-01",
+   "type": "IMPLEMENTS",
+   "target": "SIL-2"
+  },
+  {
+   "source": "POL-SGD-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SGD-01",
+   "type": "RELATES_TO",
+   "target": "COC",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SGD-01",
+   "type": "RELATES_TO",
+   "target": "IMRI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SGD-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-1.5"
+  },
+  {
+   "source": "PRO-SGD-01",
+   "type": "IMPLEMENTS",
+   "target": "SIL-2"
+  },
+  {
+   "source": "PRO-SGD-01",
+   "type": "RELATES_TO",
+   "target": "IMRI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SGD-01",
+   "type": "RELATES_TO",
+   "target": "COC",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SUP-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.1"
+  },
+  {
+   "source": "POL-SUP-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SUP-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.1"
+  },
+  {
+   "source": "PRO-SUP-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-SUP-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.1"
+  },
+  {
+   "source": "FRM-SUP-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SUP-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.2"
+  },
+  {
+   "source": "POL-SUP-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SUP-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.2"
+  },
+  {
+   "source": "PRO-SUP-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-SUP-02",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.2"
+  },
+  {
+   "source": "FRM-SUP-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SUP-03",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.3"
+  },
+  {
+   "source": "POL-SUP-03",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "AGR-SUP-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.3"
+  },
+  {
+   "source": "AGR-SUP-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SUP-03",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.4"
+  },
+  {
+   "source": "PRO-SUP-03",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SUP-04",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.5"
+  },
+  {
+   "source": "POL-SUP-04",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SUP-04",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.5"
+  },
+  {
+   "source": "PRO-SUP-04",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-SUP-04",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.5"
+  },
+  {
+   "source": "FRM-SUP-04",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-SUP-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.3"
+  },
+  {
+   "source": "REG-SUP-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-3.1"
+  },
+  {
+   "source": "REG-SUP-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-ENV-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.1"
+  },
+  {
+   "source": "POL-ENV-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-ENV-01",
+   "type": "RELATES_TO",
+   "target": "WHSL",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-ENV-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.1"
+  },
+  {
+   "source": "PRO-ENV-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-ENV-01",
+   "type": "RELATES_TO",
+   "target": "WHSL",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-ENV-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.1"
+  },
+  {
+   "source": "FRM-ENV-01",
+   "type": "RELATES_TO",
+   "target": "WHSL",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-ENV-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.1"
+  },
+  {
+   "source": "REG-ENV-01",
+   "type": "RELATES_TO",
+   "target": "WHSL",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-MNY-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.2"
+  },
+  {
+   "source": "POL-MNY-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-MNY-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.2"
+  },
+  {
+   "source": "PRO-MNY-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-MNY-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.2"
+  },
+  {
+   "source": "FRM-MNY-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-MNY-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.2"
+  },
+  {
+   "source": "REG-MNY-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-MED-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.3"
+  },
+  {
+   "source": "POL-MED-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-MED-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.3"
+  },
+  {
+   "source": "PRO-MED-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "WIN-MED-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.3"
+  },
+  {
+   "source": "WIN-MED-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-MED-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.3"
+  },
+  {
+   "source": "FRM-MED-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-MTM-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.4"
+  },
+  {
+   "source": "POL-MTM-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-MTM-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.4"
+  },
+  {
+   "source": "PRO-MTM-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-3"
+  },
+  {
+   "source": "PRO-MTM-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-MTM-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.4"
+  },
+  {
+   "source": "FRM-MTM-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-WST-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.5"
+  },
+  {
+   "source": "POL-WST-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-WST-01",
+   "type": "RELATES_TO",
+   "target": "WHSL",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-WST-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.5"
+  },
+  {
+   "source": "PRO-WST-01",
+   "type": "RELATES_TO",
+   "target": "WHSL",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-HID-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-1"
+  },
+  {
+   "source": "POL-HID-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-2"
+  },
+  {
+   "source": "POL-HID-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-3"
+  },
+  {
+   "source": "POL-HID-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-4"
+  },
+  {
+   "source": "POL-HID-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-5"
+  },
+  {
+   "source": "POL-HID-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-6"
+  },
+  {
+   "source": "POL-HID-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-7"
+  },
+  {
+   "source": "POL-HID-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-8"
+  },
+  {
+   "source": "POL-HID-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-HID-01",
+   "type": "RELATES_TO",
+   "target": "QI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HID-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-1"
+  },
+  {
+   "source": "PRO-HID-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HID-02",
+   "type": "IMPLEMENTS",
+   "target": "M1-2"
+  },
+  {
+   "source": "PRO-HID-02",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HID-03",
+   "type": "IMPLEMENTS",
+   "target": "M1-3"
+  },
+  {
+   "source": "PRO-HID-03",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HID-04",
+   "type": "IMPLEMENTS",
+   "target": "M1-4"
+  },
+  {
+   "source": "PRO-HID-04",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HID-05",
+   "type": "IMPLEMENTS",
+   "target": "M1-5"
+  },
+  {
+   "source": "PRO-HID-05",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HID-06",
+   "type": "IMPLEMENTS",
+   "target": "M1-6"
+  },
+  {
+   "source": "PRO-HID-06",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HID-07",
+   "type": "IMPLEMENTS",
+   "target": "M1-7"
+  },
+  {
+   "source": "PRO-HID-07",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-HID-08",
+   "type": "IMPLEMENTS",
+   "target": "M1-8"
+  },
+  {
+   "source": "PRO-HID-08",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-HID-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-1"
+  },
+  {
+   "source": "FRM-HID-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-HID-01",
+   "type": "IMPLEMENTS",
+   "target": "M1-1"
+  },
+  {
+   "source": "REG-HID-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-HID-01",
+   "type": "RELATES_TO",
+   "target": "QI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-BSP-01",
+   "type": "IMPLEMENTS",
+   "target": "M2A-1"
+  },
+  {
+   "source": "POL-BSP-01",
+   "type": "IMPLEMENTS",
+   "target": "M2-1"
+  },
+  {
+   "source": "POL-BSP-01",
+   "type": "RELATES_TO",
+   "target": "RPBS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-BSP-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-BSP-01",
+   "type": "IMPLEMENTS",
+   "target": "M2A-4"
+  },
+  {
+   "source": "PRO-BSP-01",
+   "type": "IMPLEMENTS",
+   "target": "M2A-6"
+  },
+  {
+   "source": "PRO-BSP-01",
+   "type": "IMPLEMENTS",
+   "target": "M2A-8"
+  },
+  {
+   "source": "PRO-BSP-01",
+   "type": "RELATES_TO",
+   "target": "RPBS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-BSP-02",
+   "type": "IMPLEMENTS",
+   "target": "M2A-2"
+  },
+  {
+   "source": "PRO-BSP-02",
+   "type": "IMPLEMENTS",
+   "target": "M2A-5"
+  },
+  {
+   "source": "PRO-BSP-02",
+   "type": "IMPLEMENTS",
+   "target": "M2A-7"
+  },
+  {
+   "source": "PRO-BSP-02",
+   "type": "RELATES_TO",
+   "target": "RPBS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-BSP-02",
+   "type": "RELATES_TO",
+   "target": "IMRI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-BSP-03",
+   "type": "IMPLEMENTS",
+   "target": "M2-3"
+  },
+  {
+   "source": "PRO-BSP-03",
+   "type": "IMPLEMENTS",
+   "target": "M2-5"
+  },
+  {
+   "source": "PRO-BSP-03",
+   "type": "IMPLEMENTS",
+   "target": "M2-7"
+  },
+  {
+   "source": "PRO-BSP-03",
+   "type": "RELATES_TO",
+   "target": "RPBS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-BSP-01",
+   "type": "IMPLEMENTS",
+   "target": "M2A-5"
+  },
+  {
+   "source": "FRM-BSP-01",
+   "type": "IMPLEMENTS",
+   "target": "M2A-7"
+  },
+  {
+   "source": "FRM-BSP-01",
+   "type": "RELATES_TO",
+   "target": "RPBS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-BSP-01",
+   "type": "IMPLEMENTS",
+   "target": "M2A-2"
+  },
+  {
+   "source": "REG-BSP-01",
+   "type": "IMPLEMENTS",
+   "target": "M2A-5"
+  },
+  {
+   "source": "REG-BSP-01",
+   "type": "RELATES_TO",
+   "target": "RPBS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-ECS-01",
+   "type": "IMPLEMENTS",
+   "target": "M3-1"
+  },
+  {
+   "source": "POL-ECS-01",
+   "type": "IMPLEMENTS",
+   "target": "M3-2"
+  },
+  {
+   "source": "POL-ECS-01",
+   "type": "IMPLEMENTS",
+   "target": "M3-3"
+  },
+  {
+   "source": "POL-ECS-01",
+   "type": "IMPLEMENTS",
+   "target": "M3-4"
+  },
+  {
+   "source": "POL-ECS-01",
+   "type": "IMPLEMENTS",
+   "target": "M3-5"
+  },
+  {
+   "source": "POL-ECS-01",
+   "type": "IMPLEMENTS",
+   "target": "M3-6"
+  },
+  {
+   "source": "POL-ECS-01",
+   "type": "IMPLEMENTS",
+   "target": "M3-7"
+  },
+  {
+   "source": "POL-ECS-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-ECS-01",
+   "type": "IMPLEMENTS",
+   "target": "M3-2"
+  },
+  {
+   "source": "PRO-ECS-01",
+   "type": "IMPLEMENTS",
+   "target": "M3-4"
+  },
+  {
+   "source": "PRO-ECS-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SCO-01",
+   "type": "IMPLEMENTS",
+   "target": "M4-1"
+  },
+  {
+   "source": "POL-SCO-01",
+   "type": "IMPLEMENTS",
+   "target": "M4-2"
+  },
+  {
+   "source": "POL-SCO-01",
+   "type": "IMPLEMENTS",
+   "target": "M4-3"
+  },
+  {
+   "source": "POL-SCO-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SCO-01",
+   "type": "IMPLEMENTS",
+   "target": "M4-3"
+  },
+  {
+   "source": "PRO-SCO-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SDA-01",
+   "type": "IMPLEMENTS",
+   "target": "M5-1"
+  },
+  {
+   "source": "POL-SDA-01",
+   "type": "IMPLEMENTS",
+   "target": "M5-2"
+  },
+  {
+   "source": "POL-SDA-01",
+   "type": "IMPLEMENTS",
+   "target": "M5-3"
+  },
+  {
+   "source": "POL-SDA-01",
+   "type": "IMPLEMENTS",
+   "target": "M5-4"
+  },
+  {
+   "source": "POL-SDA-01",
+   "type": "IMPLEMENTS",
+   "target": "M5-5"
+  },
+  {
+   "source": "POL-SDA-01",
+   "type": "RELATES_TO",
+   "target": "SDAC",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SDA-01",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SDA-01",
+   "type": "IMPLEMENTS",
+   "target": "M5-4"
+  },
+  {
+   "source": "PRO-SDA-01",
+   "type": "IMPLEMENTS",
+   "target": "M5-5"
+  },
+  {
+   "source": "PRO-SDA-01",
+   "type": "RELATES_TO",
+   "target": "SDAC",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-SDA-01",
+   "type": "IMPLEMENTS",
+   "target": "M5-4"
+  },
+  {
+   "source": "REG-SDA-01",
+   "type": "RELATES_TO",
+   "target": "SDAC",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SIL-01",
+   "type": "IMPLEMENTS",
+   "target": "SIL-1"
+  },
+  {
+   "source": "PRO-SIL-01",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "FRM-SIL-01",
+   "type": "IMPLEMENTS",
+   "target": "SIL-1"
+  },
+  {
+   "source": "FRM-SIL-01",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SIL-02",
+   "type": "IMPLEMENTS",
+   "target": "SIL-2"
+  },
+  {
+   "source": "POL-SIL-02",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SIL-02",
+   "type": "RELATES_TO",
+   "target": "IMRI",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SIL-02",
+   "type": "IMPLEMENTS",
+   "target": "SIL-2"
+  },
+  {
+   "source": "PRO-SIL-02",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SIL-03",
+   "type": "IMPLEMENTS",
+   "target": "SIL-3"
+  },
+  {
+   "source": "POL-SIL-03",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-SIL-03",
+   "type": "RELATES_TO",
+   "target": "QI26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SIL-03",
+   "type": "IMPLEMENTS",
+   "target": "SIL-3"
+  },
+  {
+   "source": "PRO-SIL-03",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "PRO-SIL-04",
+   "type": "IMPLEMENTS",
+   "target": "SIL-4"
+  },
+  {
+   "source": "PRO-SIL-04",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "AGR-SIL-01",
+   "type": "IMPLEMENTS",
+   "target": "SIL-4"
+  },
+  {
+   "source": "AGR-SIL-01",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "REG-SIL-01",
+   "type": "IMPLEMENTS",
+   "target": "SIL-3"
+  },
+  {
+   "source": "REG-SIL-01",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "POL-WHS-01",
+   "type": "IMPLEMENTS",
+   "target": "CORE-4.1"
+  },
+  {
+   "source": "POL-WHS-01",
+   "type": "RELATES_TO",
+   "target": "WHSL",
+   "note": "Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "CORE",
+   "type": "PART_OF",
+   "target": "NDIS-PS",
+   "note": "Module of the NDIS Practice Standards"
+  },
+  {
+   "source": "VER",
+   "type": "PART_OF",
+   "target": "NDIS-PS",
+   "note": "Module of the NDIS Practice Standards"
+  },
+  {
+   "source": "M1",
+   "type": "PART_OF",
+   "target": "NDIS-PS",
+   "note": "Module of the NDIS Practice Standards"
+  },
+  {
+   "source": "M2",
+   "type": "PART_OF",
+   "target": "NDIS-PS",
+   "note": "Module of the NDIS Practice Standards"
+  },
+  {
+   "source": "M2A",
+   "type": "PART_OF",
+   "target": "NDIS-PS",
+   "note": "Module of the NDIS Practice Standards"
+  },
+  {
+   "source": "M3",
+   "type": "PART_OF",
+   "target": "NDIS-PS",
+   "note": "Module of the NDIS Practice Standards"
+  },
+  {
+   "source": "M4",
+   "type": "PART_OF",
+   "target": "NDIS-PS",
+   "note": "Module of the NDIS Practice Standards"
+  },
+  {
+   "source": "M5",
+   "type": "PART_OF",
+   "target": "NDIS-PS",
+   "note": "Module of the NDIS Practice Standards"
+  },
+  {
+   "source": "SIL",
+   "type": "PART_OF",
+   "target": "NDIS-PS",
+   "note": "Module of the NDIS Practice Standards"
+  },
+  {
+   "source": "NDIS-PS",
+   "type": "PUBLISHED_IN",
+   "target": "PRPS",
+   "note": "Practice Standards are set out in the Rules (delegated legislation)"
+  },
+  {
+   "source": "CORE-1.1",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-1.2",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-1.3",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-1.4",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-1.5",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-2.1",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-2.2",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-2.3",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-2.4",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-2.5",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-2.6",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-2.7",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-2.8",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-2.9",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-3.1",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-3.2",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-3.3",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-3.4",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-3.5",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-4.1",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-4.2",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-4.3",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-4.4",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "CORE-4.5",
+   "type": "PART_OF",
+   "target": "CORE"
+  },
+  {
+   "source": "VER-1",
+   "type": "PART_OF",
+   "target": "VER"
+  },
+  {
+   "source": "VER-2",
+   "type": "PART_OF",
+   "target": "VER"
+  },
+  {
+   "source": "VER-3",
+   "type": "PART_OF",
+   "target": "VER"
+  },
+  {
+   "source": "VER-4",
+   "type": "PART_OF",
+   "target": "VER"
+  },
+  {
+   "source": "M1-1",
+   "type": "PART_OF",
+   "target": "M1"
+  },
+  {
+   "source": "M1-2",
+   "type": "PART_OF",
+   "target": "M1"
+  },
+  {
+   "source": "M1-3",
+   "type": "PART_OF",
+   "target": "M1"
+  },
+  {
+   "source": "M1-4",
+   "type": "PART_OF",
+   "target": "M1"
+  },
+  {
+   "source": "M1-5",
+   "type": "PART_OF",
+   "target": "M1"
+  },
+  {
+   "source": "M1-6",
+   "type": "PART_OF",
+   "target": "M1"
+  },
+  {
+   "source": "M1-7",
+   "type": "PART_OF",
+   "target": "M1"
+  },
+  {
+   "source": "M1-8",
+   "type": "PART_OF",
+   "target": "M1"
+  },
+  {
+   "source": "M2-1",
+   "type": "PART_OF",
+   "target": "M2"
+  },
+  {
+   "source": "M2-2",
+   "type": "PART_OF",
+   "target": "M2"
+  },
+  {
+   "source": "M2-3",
+   "type": "PART_OF",
+   "target": "M2"
+  },
+  {
+   "source": "M2-4",
+   "type": "PART_OF",
+   "target": "M2"
+  },
+  {
+   "source": "M2-5",
+   "type": "PART_OF",
+   "target": "M2"
+  },
+  {
+   "source": "M2-6",
+   "type": "PART_OF",
+   "target": "M2"
+  },
+  {
+   "source": "M2-7",
+   "type": "PART_OF",
+   "target": "M2"
+  },
+  {
+   "source": "M2A-1",
+   "type": "PART_OF",
+   "target": "M2A"
+  },
+  {
+   "source": "M2A-2",
+   "type": "PART_OF",
+   "target": "M2A"
+  },
+  {
+   "source": "M2A-3",
+   "type": "PART_OF",
+   "target": "M2A"
+  },
+  {
+   "source": "M2A-4",
+   "type": "PART_OF",
+   "target": "M2A"
+  },
+  {
+   "source": "M2A-5",
+   "type": "PART_OF",
+   "target": "M2A"
+  },
+  {
+   "source": "M2A-6",
+   "type": "PART_OF",
+   "target": "M2A"
+  },
+  {
+   "source": "M2A-7",
+   "type": "PART_OF",
+   "target": "M2A"
+  },
+  {
+   "source": "M2A-8",
+   "type": "PART_OF",
+   "target": "M2A"
+  },
+  {
+   "source": "M3-1",
+   "type": "PART_OF",
+   "target": "M3"
+  },
+  {
+   "source": "M3-2",
+   "type": "PART_OF",
+   "target": "M3"
+  },
+  {
+   "source": "M3-3",
+   "type": "PART_OF",
+   "target": "M3"
+  },
+  {
+   "source": "M3-4",
+   "type": "PART_OF",
+   "target": "M3"
+  },
+  {
+   "source": "M3-5",
+   "type": "PART_OF",
+   "target": "M3"
+  },
+  {
+   "source": "M3-6",
+   "type": "PART_OF",
+   "target": "M3"
+  },
+  {
+   "source": "M3-7",
+   "type": "PART_OF",
+   "target": "M3"
+  },
+  {
+   "source": "M4-1",
+   "type": "PART_OF",
+   "target": "M4"
+  },
+  {
+   "source": "M4-2",
+   "type": "PART_OF",
+   "target": "M4"
+  },
+  {
+   "source": "M4-3",
+   "type": "PART_OF",
+   "target": "M4"
+  },
+  {
+   "source": "M5-1",
+   "type": "PART_OF",
+   "target": "M5"
+  },
+  {
+   "source": "M5-2",
+   "type": "PART_OF",
+   "target": "M5"
+  },
+  {
+   "source": "M5-3",
+   "type": "PART_OF",
+   "target": "M5"
+  },
+  {
+   "source": "M5-4",
+   "type": "PART_OF",
+   "target": "M5"
+  },
+  {
+   "source": "M5-5",
+   "type": "PART_OF",
+   "target": "M5"
+  },
+  {
+   "source": "SIL-1",
+   "type": "PART_OF",
+   "target": "SIL"
+  },
+  {
+   "source": "SIL-2",
+   "type": "PART_OF",
+   "target": "SIL"
+  },
+  {
+   "source": "SIL-3",
+   "type": "PART_OF",
+   "target": "SIL"
+  },
+  {
+   "source": "SIL-4",
+   "type": "PART_OF",
+   "target": "SIL"
+  },
+  {
+   "source": "PRPS",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "IMRI",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "CMR",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "RPBS",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "WSR",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "COC",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "SDAC",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "PD",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "QI",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "QI26",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "PRPS26",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "AQA",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "AQAR25",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "NCE",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "BSPA",
+   "type": "MADE_UNDER",
+   "target": "ACT"
+  },
+  {
+   "source": "PRPS26",
+   "type": "RELATES_TO",
+   "target": "PRPS",
+   "note": "Amending instrument (proposed AMENDS type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "QI26",
+   "type": "RELATES_TO",
+   "target": "QI",
+   "note": "Amending instrument (proposed AMENDS type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "IS26",
+   "type": "RELATES_TO",
+   "target": "ACT",
+   "note": "Amending Act (proposed AMENDS type - taxonomy v0.4 candidate)"
+  },
+  {
+   "source": "SIL",
+   "type": "RELATES_TO",
+   "target": "PRPS26",
+   "note": "SIL module introduced by the 2026 Amendment Rules"
+  }
+ ]
+}

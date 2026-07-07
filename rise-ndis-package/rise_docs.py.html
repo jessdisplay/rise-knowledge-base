@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rise_docs.py · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/rise_docs.py.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>python source</span><span>37,362 bytes</span></div>
+
+<h1>rise_docs.py</h1><pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;Generates the full provider document suite from the Rise graph:
+- suite/*.md            one markdown file per document (123)
+- docs_html.json        {doc_id: rendered_html} for embedding in the dossier
+Every compliance link is generated from the register edges - never hand-typed.
+Body content: fully drafted for the incident chain; authored policy statements for
+all policies; honest scaffolds elsewhere, each carrying a draft banner.&quot;&quot;&quot;
+import json, html, os, re
+import rise_build as rb
+
+esc = html.escape
+GEN = &quot;2026-07-06&quot;
+MODK = {m[0]: m[1] for m in rb.MODULES}
+
+OUT, IN = {}, {}
+for f, t, to, n in rb.E:
+    OUT.setdefault(f, []).append((t, to, n))
+    IN.setdefault(to, []).append((t, f, n))
+
+def nm(i):
+    if i in rb.DOCK: return rb.DOCK[i][&quot;title&quot;]
+    if i in rb.STDK: return rb.STDK[i][3]
+    if i in rb.LEGK: return rb.LEGK[i][1].replace(&quot;National Disability Insurance Scheme&quot;, &quot;NDIS&quot;)
+    return MODK.get(i, i)
+
+def isdoc(i): return i in rb.DOCK
+
+BANNER = (&quot;DRAFT v0.1 - scaffold generated from the Rise compliance graph on &quot; + GEN +
+ &quot;. All compliance links below are register-verified. Body content is a starting draft: &quot;
+ &quot;review, tailor to [Provider Name] and approve before use. Not legal advice.&quot;)
+
+PRIVACY = (&quot;We collect this information to support you safely and to meet our legal duties. &quot;
+ &quot;Only the people who need it will see it, and the NDIS Commission where the law requires. &quot;
+ &quot;You can ask to see information about you at any time. See POL-INF-01.&quot;)
+
+# ---------------- link table ----------------
+GLOSS = [
+ (&quot;IMPLEMENTS&quot;,&quot;EXISTS TO MEET&quot;,&quot;This document exists to meet&quot;),
+ (&quot;OPERATIONALISES&quot;,&quot;PUTS INTO PRACTICE&quot;,&quot;Puts this into day-to-day practice&quot;),
+ (&quot;USES&quot;,&quot;CARRIED OUT USING&quot;,&quot;Carried out using&quot;),
+ (&quot;RECORDS_TO&quot;,&quot;RECORDS END UP IN&quot;,&quot;Completed records are logged in&quot;),
+]
+def link_rows(d):
+    i = d[&quot;id&quot;]; rows = []
+    def tgt(x, extra=&quot;&quot;):
+        return (x, nm(x), extra)
+    for ty, lab, gl in GLOSS:
+        outs = [(to, n) for t, to, n in OUT.get(i, []) if t == ty]
+        if outs:
+            rows.append((lab, gl, [tgt(to, _std_extra(to)) for to, n in outs]))
+    refs = [(to, n) for t, to, n in OUT.get(i, []) if t == &quot;RELATES_TO&quot; and n.startswith(&quot;Statutory reference&quot;)]
+    if refs: rows.append((&quot;REFERENCES&quot;,&quot;Other law this document must follow&quot;,[tgt(to) for to, n in refs]))
+    invmap = {&quot;OPERATIONALISES&quot;:(&quot;PUT INTO PRACTICE BY&quot;,&quot;Put into day-to-day practice by&quot;),
+              &quot;USES&quot;:(&quot;USED WHEN CARRYING OUT&quot;,&quot;Filled in as part of&quot;),
+              &quot;RECORDS_TO&quot;:(&quot;RECORDS ARRIVE FROM&quot;,&quot;Rows in this register come from&quot;)}
+    for ty,(lab,gl) in invmap.items():
+        ins = [f for t, f, n in IN.get(i, []) if t == ty]
+        if ins: rows.append((lab, gl, [tgt(f) for f in ins]))
+    rel = [(to, n, 1) for t, to, n in OUT.get(i, []) if t == &quot;RELATES_TO&quot; and not n.startswith(&quot;Statutory reference&quot;)]
+    rel += [(f, n, 0) for t, f, n in IN.get(i, []) if t == &quot;RELATES_TO&quot; and not n.startswith(&quot;Statutory reference&quot;)]
+    for x, n, _ in rel:
+        rows.append((&quot;RELATED&quot;,&quot;Connected because&quot;, [ (x, nm(x), &quot; - &quot; + n if n else &quot;&quot;) ]))
+    return rows
+
+def _std_extra(sid):
+    if sid in rb.STDK:
+        c = rb.CIT.get(sid, &quot;&quot;); q = rb.QIREF.get(sid, &quot;&quot;)
+        bits = []
+        if c: bits.append(&quot;PRPS &quot; + c)
+        if q: bits.append(&quot;indicators: QI Guidelines &quot; + q)
+        return (&quot; - &quot; + &quot;; &quot;.join(bits)) if bits else &quot;&quot;
+    return &quot;&quot;
+
+# ---------------- content library ----------------
+S = {
+&quot;POL-GOV-01&quot;:[&quot;Our board and leadership own quality and safety, with decision-making delegations recorded in REG-GOV-01.&quot;,&quot;We keep our registration details current and notify the Commission of notifiable changes and events on time (PRO-GOV-02).&quot;,&quot;Decisions that affect participants are made at the right level and recorded.&quot;,&quot;We resource the systems this suite describes: risk, quality, complaints, incidents and people.&quot;,&quot;Leadership reviews compliance, incidents, complaints and improvement actions on a set cycle.&quot;],
+&quot;POL-GOV-02&quot;:[&quot;Everyone declares actual, potential and perceived conflicts of interest using FRM-GOV-01.&quot;,&quot;Declared conflicts are recorded in REG-GOV-02 and managed or removed before decisions are made.&quot;,&quot;Support coordination and SDA conflicts are handled under the specific module requirements.&quot;,&quot;No worker or key person may gain personally from a relationship with a participant.&quot;,&quot;The conflict register is reviewed by leadership on a set cycle.&quot;],
+&quot;POL-GOV-03&quot;:[&quot;Anyone - workers, participants, families, contractors - can report suspected wrongdoing, including anonymously.&quot;,&quot;We do not tolerate reprisals against anyone who speaks up in good faith.&quot;,&quot;A discloser&#x27;s identity is protected; revealing it without consent is itself a breach.&quot;,&quot;Reports are assessed promptly and investigated in proportion to what is alleged.&quot;,&quot;Our settings follow the strengthened whistleblower protections introduced in 2026 - obtain legal review of the final wording before approval.&quot;],
+&quot;POL-RSK-01&quot;:[&quot;We identify risks to participants, workers, finances, work health and safety, and service delivery.&quot;,&quot;Every identified risk is rated, given an owner and a treatment, and entered in REG-RSK-01.&quot;,&quot;Participant-specific risks feed directly into support planning.&quot;,&quot;Incidents, complaints and audit findings feed back into the risk register.&quot;,&quot;Leadership reviews the register on a set cycle and after any serious event.&quot;],
+&quot;POL-QMS-01&quot;:[&quot;We run a documented quality system that covers everything we deliver.&quot;,&quot;Documents are controlled: current versions only, with owners and review dates (this suite&#x27;s register is REG-GOV-03).&quot;,&quot;Improvements from any source - feedback, incidents, audits, ideas - are logged in REG-QMS-01 and followed through.&quot;,&quot;We audit ourselves against the Practice Standards on a planned schedule.&quot;,&quot;We measure whether changes actually worked before closing them.&quot;],
+&quot;POL-INF-01&quot;:[&quot;We collect only the information we need, with informed consent recorded on FRM-INF-01.&quot;,&quot;Information is stored securely and seen only by people who need it for their role.&quot;,&quot;Participants can see and correct information about them.&quot;,&quot;Suspected privacy breaches are handled immediately under PRO-INF-02, including our data-breach notification duties.&quot;,&quot;Records are kept, and destroyed, according to the retention rules that apply to them.&quot;],
+&quot;POL-FBK-01&quot;:[&quot;Feedback and complaints are welcome, easy to give, and can be made with support or anonymously.&quot;,&quot;No one is treated worse for complaining.&quot;,&quot;Complaints are acknowledged quickly and resolved fairly, with procedural fairness for everyone involved.&quot;,&quot;We always tell people about external options, including the NDIS Commission.&quot;,&quot;Every complaint is recorded in REG-FBK-01 and feeds our improvement register.&quot;],
+&quot;POL-INC-01&quot;:[&quot;The safety and wellbeing of participants comes before every other consideration when an incident occurs.&quot;,&quot;We record every incident, including near misses, in REG-INC-01.&quot;,&quot;We notify the NDIS Commission of reportable incidents within the timeframes set by the Incident Rules, using PRO-INC-02.&quot;,&quot;We support participants affected by an incident, including advocates and information they understand.&quot;,&quot;We review incidents to find causes and act on what we learn.&quot;,&quot;We never punish anyone for raising an incident in good faith.&quot;],
+&quot;POL-HRM-01&quot;:[&quot;Workers are screened before starting risk-assessed roles, with an NDIS Worker Screening Check verified and recorded.&quot;,&quot;Every worker is inducted on the NDIS Code of Conduct, safeguarding and the parts of this suite they use.&quot;,&quot;Workers are trained and assessed as competent for the supports they deliver, recorded in REG-HRM-02.&quot;,&quot;Workers receive regular supervision and honest performance feedback.&quot;,&quot;Only workers with current, assessed competence perform high intensity supports or administer medication.&quot;],
+&quot;POL-COC-01&quot;:[&quot;The NDIS Code of Conduct applies to every worker, key person, volunteer and contractor.&quot;,&quot;Everyone acknowledges the Code in writing before starting (FRM-HRM-02).&quot;,&quot;Code obligations are built into recruitment, induction, supervision and training.&quot;,&quot;We act on suspected breaches, including reporting where the law requires.&quot;],
+&quot;POL-COS-01&quot;:[&quot;Participants keep receiving their supports through disruptions, planned or not.&quot;,&quot;Worker absences are covered by planned backup arrangements participants know about.&quot;,&quot;We maintain and test a business continuity plan (PLN-COS-01).&quot;,&quot;Participants are told early and clearly when changes affect them.&quot;],
+&quot;POL-EDM-01&quot;:[&quot;We plan for emergencies and disasters for each service setting and each participant&#x27;s needs.&quot;,&quot;Everyone knows their role in an emergency, and plans are practised.&quot;,&quot;Plans are reviewed after every activation, drill, and relevant external event.&quot;,&quot;Emergency planning connects to continuity of supports so care does not stop.&quot;],
+&quot;POL-RGT-01&quot;:[&quot;Each participant directs their own supports; we fit around their choices, not the reverse.&quot;,&quot;Culture, identity, values and beliefs are respected in how supports are delivered.&quot;,&quot;We communicate in each participant&#x27;s preferred language, mode and pace.&quot;,&quot;We actively support access to advocates, interpreters and communication aids.&quot;],
+&quot;POL-RGT-02&quot;:[&quot;Personal care is delivered in a way that protects privacy and dignity, every time.&quot;,&quot;Personal information is handled under POL-INF-01 and shared only with consent or legal requirement.&quot;,&quot;Participants choose who is present and involved in their care wherever possible.&quot;],
+&quot;POL-RGT-03&quot;:[&quot;We presume every participant can make decisions, and we support decision-making rather than substitute for it.&quot;,&quot;Decisions are made with the participant, in their preferred way, with the people they choose.&quot;,&quot;Dignity of risk is respected: informed choices are supported and documented, not overridden.&quot;,&quot;Substitute decision-making is used only where the law provides, and recorded.&quot;,&quot;In SIL settings this policy operates through PRO-SIL-01 and FRM-SIL-01.&quot;],
+&quot;POL-SGD-01&quot;:[&quot;We have zero tolerance for violence, abuse, neglect, exploitation and discrimination.&quot;,&quot;Every worker can recognise the signs and knows how to respond and report, including reportable incidents.&quot;,&quot;We recruit safely, supervise actively, and act on concerns early.&quot;,&quot;Participants are supported to speak up safely, with advocates where wanted.&quot;,&quot;Concerns are never minimised because of a person&#x27;s disability or communication style.&quot;],
+&quot;POL-SUP-01&quot;:[&quot;Who we can support, and any entry criteria and costs, are clear and communicated accessibly.&quot;,&quot;Access decisions are non-discriminatory and recorded.&quot;,&quot;Waiting arrangements are transparent and reviewed.&quot;,&quot;We do not refuse or withdraw supports just because a participant makes an informed dignity-of-risk choice.&quot;],
+&quot;POL-SUP-02&quot;:[&quot;Every participant has a current support plan they led the development of.&quot;,&quot;Plans reflect preferences, goals, communication needs and assessed risks.&quot;,&quot;Plans are reviewed on schedule and whenever circumstances change.&quot;,&quot;Workers deliver to the plan, and say so when the plan needs to change.&quot;],
+&quot;POL-SUP-03&quot;:[&quot;A written service agreement is in place before or as supports start.&quot;,&quot;Agreements are in plain language, with Easy Read available, and the participant keeps a copy.&quot;,&quot;Agreements cover the supports, costs, how to change things, and how either party can end them.&quot;,&quot;Changes are agreed, not imposed.&quot;],
+&quot;POL-SUP-04&quot;:[&quot;Entries, exits and transitions are planned with the participant and the people they choose.&quot;,&quot;Information transfers to new providers only with consent, using FRM-SUP-04.&quot;,&quot;Supports are never withdrawn abruptly or punitively.&quot;,&quot;Transition risks are assessed and managed.&quot;],
+&quot;POL-ENV-01&quot;:[&quot;Every environment where we deliver supports is safe and fit for purpose.&quot;,&quot;Hazards are checked using FRM-ENV-01, recorded in REG-ENV-01, and fixed.&quot;,&quot;Work health and safety duties are met alongside participant safety (POL-WHS-01).&quot;],
+&quot;POL-MNY-01&quot;:[&quot;We handle participant money or property only with documented consent and a clear purpose.&quot;,&quot;Every transaction is recorded on FRM-MNY-01 with receipts, and logged in REG-MNY-01.&quot;,&quot;Verification controls apply to every transaction - no exceptions for small amounts.&quot;,&quot;Workers never borrow from, lend to, or benefit financially from participants.&quot;,&quot;The register is reconciled and reviewed on a set cycle.&quot;],
+&quot;POL-MED-01&quot;:[&quot;Only workers trained and assessed as competent administer or assist with medication.&quot;,&quot;Medication charts (FRM-MED-01) are current, complete and followed exactly.&quot;,&quot;PRN medication is given only per WIN-MED-01 and the participant&#x27;s plan.&quot;,&quot;Every medication error or near miss is an incident: reported, recorded and learned from.&quot;,&quot;Medication is stored and disposed of safely.&quot;],
+&quot;POL-MTM-01&quot;:[&quot;Mealtime needs are assessed and planned for each participant who needs support to eat or drink safely (FRM-MTM-01).&quot;,&quot;Texture modifications and positioning are followed exactly as planned.&quot;,&quot;Concerns about swallowing escalate promptly, including to PRO-HID-03 where dysphagia is assessed.&quot;,&quot;Workers who support mealtimes are trained for it.&quot;],
+&quot;POL-WST-01&quot;:[&quot;Waste, including clinical waste, is handled, stored and disposed of safely.&quot;,&quot;Standard infection control precautions apply across all services.&quot;,&quot;Jurisdictional waste and infection control requirements are identified and met.&quot;],
+&quot;POL-WHS-01&quot;:[&quot;Health and safety duties are owned from the top and resourced properly.&quot;,&quot;Workers are consulted on things that affect their health and safety.&quot;,&quot;Hazards, injuries and near misses are reported and acted on - psychosocial hazards included.&quot;,&quot;WHS obligations are managed alongside, never instead of, participant safety.&quot;],
+&quot;POL-HID-01&quot;:[&quot;High intensity supports are delivered only by workers trained and assessed against the HIDPA skills descriptors.&quot;,&quot;Training and assessment involve an appropriately qualified health practitioner, recorded in REG-HID-01.&quot;,&quot;Each participant receiving high intensity supports has a current health support plan (FRM-HID-01).&quot;,&quot;Escalation pathways to health practitioners are defined and known.&quot;,&quot;Competence is reassessed on a set cycle and after any incident.&quot;],
+&quot;POL-BSP-01&quot;:[&quot;We practise positive behaviour support and work to reduce and eliminate restrictive practices.&quot;,&quot;A regulated restrictive practice is used only when authorised, in a current behaviour support plan, as a last resort, least restrictive, for the shortest time.&quot;,&quot;Every use is recorded (FRM-BSP-01) and reported to the Commission as required, including monthly reporting.&quot;,&quot;Behaviour support plans are implemented as written, by trained workers, and reviewed.&quot;,&quot;Unauthorised use of a restrictive practice is a reportable incident.&quot;],
+&quot;POL-ECS-01&quot;:[&quot;Our early childhood supports are family-centred, inclusive and evidence-informed.&quot;,&quot;A key worker approach coordinates supports around the child and family.&quot;,&quot;Supports build family and community capacity and happen in natural settings where possible.&quot;,&quot;We measure outcomes that matter to the child and family.&quot;],
+&quot;POL-SCO-01&quot;:[&quot;The participant&#x27;s interests come first in every coordination decision.&quot;,&quot;Conflicts of interest - especially recommending our own services - are declared, recorded and managed.&quot;,&quot;Options presented to participants are genuine and documented.&quot;,&quot;We support participants to understand and direct their own supports.&quot;],
+&quot;POL-SDA-01&quot;:[&quot;SDA dwellings are enrolled, and kept compliant with, the SDA rules and design requirements.&quot;,&quot;Tenancy rights are respected; SDA and support provision conflicts are declared and managed.&quot;,&quot;Service agreements meet the SDA module requirements.&quot;,&quot;Dwelling condition and compliance are tracked in REG-SDA-01.&quot;],
+&quot;POL-SIL-02&quot;:[&quot;A SIL house is the participant&#x27;s home first; safeguards protect without controlling.&quot;,&quot;Home risks are assessed with participants, respecting dignity of risk (PRO-SIL-02).&quot;,&quot;Concerns about safety, abuse or neglect escalate immediately under POL-SGD-01 and the incident system.&quot;,&quot;Participants shape house rules and routines.&quot;],
+&quot;POL-SIL-03&quot;:[&quot;Every SIL house has clear practice governance: named supervision, planned rosters, recorded handovers.&quot;,&quot;House-level incidents, complaints and risks are visible to management, not just to the house.&quot;,&quot;Worker training specific to each participant&#x27;s needs is tracked and current.&quot;,&quot;Practice in each house is reviewed on a set cycle against the SIL indicators (QI Guidelines s 72D).&quot;],
+}
+
+PSTEPS = {
+&quot;PRO-INC-01&quot;:[(&quot;Any worker&quot;,&quot;Make the participant safe; get medical help if needed&quot;,&quot;- ; immediately&quot;),
+ (&quot;Any worker&quot;,&quot;Tell the Service Manager what happened&quot;,&quot;Verbal + FRM-INC-01 started ; same shift&quot;),
+ (&quot;Service Manager&quot;,&quot;Complete FRM-INC-01 with the worker; support the participant and involve their chosen supporters&quot;,&quot;FRM-INC-01 ; within 24 hours&quot;),
+ (&quot;Quality Manager&quot;,&quot;Enter the incident in REG-INC-01; classify severity; assess whether it is reportable&quot;,&quot;REG-INC-01 ; same business day&quot;),
+ (&quot;Quality Manager&quot;,&quot;If reportable or unsure - follow PRO-INC-02 now&quot;,&quot;Commission notification record&quot;),
+ (&quot;Quality Manager&quot;,&quot;Investigate cause; record corrective actions&quot;,&quot;REG-QMS-01 entry&quot;),
+ (&quot;Service Manager&quot;,&quot;Close the loop with the participant and workers involved&quot;,&quot;Note on FRM-INC-01&quot;)],
+&quot;PRO-INC-02&quot;:[(&quot;Quality Manager&quot;,&quot;Confirm the incident is (or may be) a reportable incident under the Incident Rules&quot;,&quot;Assessment noted on FRM-INC-01&quot;),
+ (&quot;Quality Manager&quot;,&quot;Notify the Commission within the statutory window - 24 hours for the most serious categories, with fuller detail within 5 business days; unauthorised restrictive practice within 5 business days. CONFIRM current categories and windows against IMRI (F2018L00633) before approving this procedure&quot;,&quot;Commission portal notification ; statutory&quot;),
+ (&quot;Quality Manager&quot;,&quot;Record the notification reference in REG-INC-01&quot;,&quot;REG-INC-01 updated&quot;),
+ (&quot;CEO&quot;,&quot;Oversee required follow-up, investigation and any Commission directions&quot;,&quot;Investigation record&quot;),
+ (&quot;Quality Manager&quot;,&quot;Keep the participant informed and supported throughout&quot;,&quot;Notes on FRM-INC-01&quot;)],
+&quot;PRO-GOV-02&quot;:[(&quot;Any manager&quot;,&quot;Identify that a notifiable change or event has occurred or is planned (ownership, key personnel, scale, adverse events)&quot;,&quot;Note to CEO ; immediately&quot;),
+ (&quot;CEO&quot;,&quot;Confirm the notification duty and the deadline that applies - the 2026 Rules SHORTENED several windows; confirm current timeframes against the amended PRPS rr 13-13A before approval&quot;,&quot;- ; statutory&quot;),
+ (&quot;CEO&quot;,&quot;Notify the Commission through the required channel within the window&quot;,&quot;Notification record&quot;),
+ (&quot;Quality Manager&quot;,&quot;File the notification and any Commission response with registration records&quot;,&quot;Registration file&quot;),
+ (&quot;CEO&quot;,&quot;Review whether the change triggers other updates (scope, documents, insurances)&quot;,&quot;REG-QMS-01 entry if needed&quot;)],
+&quot;PRO-FBK-01&quot;:[(&quot;Any worker&quot;,&quot;Receive feedback or a complaint in any form; offer support and an advocate&quot;,&quot;WIN-FBK-01 ; at the time&quot;),
+ (&quot;Quality Manager&quot;,&quot;Acknowledge the complaint promptly and record it&quot;,&quot;FRM-FBK-01 + REG-FBK-01&quot;),
+ (&quot;Quality Manager&quot;,&quot;Assess seriousness; check whether it is also an incident&quot;,&quot;Cross-reference to REG-INC-01 if so&quot;),
+ (&quot;Quality Manager&quot;,&quot;Resolve with procedural fairness - hear everyone affected&quot;,&quot;Resolution note&quot;),
+ (&quot;Quality Manager&quot;,&quot;Tell the complainant the outcome and their external options, including the NDIS Commission&quot;,&quot;Outcome letter/record&quot;),
+ (&quot;Quality Manager&quot;,&quot;Log improvements arising&quot;,&quot;REG-QMS-01&quot;)],
+&quot;PRO-SGD-01&quot;:[(&quot;Any worker&quot;,&quot;Act immediately on any sign of abuse, neglect or exploitation - safety first, 000 if needed&quot;,&quot;- ; immediately&quot;),
+ (&quot;Any worker&quot;,&quot;Report to the Service Manager the same day; never investigate alone&quot;,&quot;Verbal + FRM-INC-01&quot;),
+ (&quot;Quality Manager&quot;,&quot;Treat as an incident; assess reportability - most safeguarding matters are reportable&quot;,&quot;PRO-INC-02 pathway&quot;),
+ (&quot;Service Manager&quot;,&quot;Support the participant: safety, advocacy, information their way&quot;,&quot;Support notes&quot;),
+ (&quot;CEO&quot;,&quot;Oversee response incl. any worker stand-downs and external referrals&quot;,&quot;Decision record&quot;)],
+&quot;PRO-MED-01&quot;:[(&quot;Service Manager&quot;,&quot;Confirm the worker is assessed competent and the chart (FRM-MED-01) is current before any administration&quot;,&quot;REG-HRM-02 check&quot;),
+ (&quot;Worker&quot;,&quot;Check right person, medication, dose, route, time against the chart&quot;,&quot;FRM-MED-01 signed each time&quot;),
+ (&quot;Worker&quot;,&quot;Record administration immediately; record refusals and reasons&quot;,&quot;FRM-MED-01&quot;),
+ (&quot;Worker&quot;,&quot;Treat any error or near miss as an incident - report the same shift&quot;,&quot;FRM-INC-01&quot;),
+ (&quot;Service Manager&quot;,&quot;Review charts and errors on a set cycle&quot;,&quot;Chart audit note&quot;)],
+&quot;PRO-HRM-01&quot;:[(&quot;HR Manager&quot;,&quot;Screen before start: verify NDIS Worker Screening Check for risk-assessed roles; verify qualifications&quot;,&quot;FRM-HRM-01 + REG-HRM-01&quot;),
+ (&quot;HR Manager&quot;,&quot;Collect signed Code of Conduct acknowledgement&quot;,&quot;FRM-HRM-02&quot;),
+ (&quot;Service Manager&quot;,&quot;Induct on this suite, safeguarding, incidents and the participant&#x27;s plans&quot;,&quot;Induction record in REG-HRM-02&quot;),
+ (&quot;HR Manager&quot;,&quot;Set supervision and probation checkpoints&quot;,&quot;Supervision schedule&quot;),
+ (&quot;HR Manager&quot;,&quot;Diarise screening expiry and re-checks&quot;,&quot;REG-HRM-01&quot;)],
+&quot;PRO-SIL-01&quot;:[(&quot;House Supervisor&quot;,&quot;Learn how each participant prefers to make decisions, and who they want involved&quot;,&quot;FRM-SIL-01 started&quot;),
+ (&quot;Worker&quot;,&quot;Offer real choices in daily life; give information the participant&#x27;s way; allow time&quot;,&quot;Daily practice&quot;),
+ (&quot;House Supervisor&quot;,&quot;Record significant decisions and the support given - not to control, to evidence support&quot;,&quot;FRM-SIL-01&quot;),
+ (&quot;Service Manager&quot;,&quot;Review decision-support records for patterns of substitute decision-making&quot;,&quot;Review note&quot;),
+ (&quot;House Supervisor&quot;,&quot;Escalate where a participant&#x27;s decision is being overridden without lawful basis&quot;,&quot;POL-SGD-01 pathway&quot;)],
+&quot;PRO-BSP-02&quot;:[(&quot;Service Manager&quot;,&quot;Confirm any regulated restrictive practice is authorised and in a current behaviour support plan before use&quot;,&quot;BSP + authorisation on file&quot;),
+ (&quot;Worker&quot;,&quot;Use only as the plan describes: last resort, least restrictive, shortest time&quot;,&quot;FRM-BSP-01 each use&quot;),
+ (&quot;Service Manager&quot;,&quot;Record every use in REG-BSP-01 and report through the Commission&#x27;s monthly online reporting&quot;,&quot;Monthly report record ; per RPBS&quot;),
+ (&quot;Quality Manager&quot;,&quot;Treat any unauthorised use as a reportable incident - PRO-INC-02 immediately&quot;,&quot;REG-INC-01 + notification&quot;),
+ (&quot;Service Manager&quot;,&quot;Feed usage data into BSP review with the practitioner&quot;,&quot;Review note&quot;)],
+}
+
+WSTEPS = {
+&quot;WIN-INC-01&quot;:[&quot;Keep the participant safe. Move away from danger. Call 000 if anyone needs urgent help.&quot;,&quot;Stay calm and stay with the participant if you can.&quot;,&quot;Tell your Service Manager before your shift ends - phone, do not wait for email.&quot;,&quot;Write down what you saw while it is fresh: what happened, when, who was there.&quot;,&quot;Start the Incident Report Form (FRM-INC-01) with your manager.&quot;,&quot;Do not discuss the incident outside the team.&quot;,&quot;Ask for support if you are affected - that is what the debrief is for.&quot;],
+&quot;WIN-FBK-01&quot;:[&quot;Thank the person - feedback is welcome here.&quot;,&quot;Listen. Do not defend or explain yet.&quot;,&quot;Write down their words as close as you can.&quot;,&quot;Ask how they would like it fixed, and if they want an advocate.&quot;,&quot;Give it to the Quality Manager today using FRM-FBK-01.&quot;,&quot;Never treat anyone differently for complaining.&quot;],
+&quot;WIN-MED-01&quot;:[&quot;Check the chart: is this PRN authorised, and do the conditions apply right now?&quot;,&quot;Check right person, medication, dose, route, time.&quot;,&quot;Give the medication and watch for the effect the chart says to expect.&quot;,&quot;Record it on FRM-MED-01 immediately, with the reason.&quot;,&quot;If in doubt at any point - do not give it. Call your Service Manager.&quot;,&quot;Anything unexpected: treat as an incident and report this shift.&quot;],
+}
+
+REGCOLS = {
+&quot;REG-INC-01&quot;:[(&quot;Incident ID&quot;,&quot;auto number&quot;,&quot;Stable reference&quot;),(&quot;Date of incident / date recorded&quot;,&quot;dates&quot;,&quot;Timeliness is itself audited&quot;),(&quot;Participant ref&quot;,&quot;ID, not full name&quot;,&quot;Privacy-minimised link&quot;),(&quot;Summary&quot;,&quot;short text&quot;,&quot;Retrieval&quot;),(&quot;Severity&quot;,&quot;minor / moderate / major&quot;,&quot;Trends&quot;),(&quot;Reportable?&quot;,&quot;yes / no&quot;,&quot;Statutory pathway split&quot;),(&quot;Notified to Commission (date)&quot;,&quot;date&quot;,&quot;Deadline evidence (PRO-INC-02)&quot;),(&quot;Corrective action ref&quot;,&quot;REG-QMS-01 ID&quot;,&quot;Learning loop&quot;),(&quot;Status&quot;,&quot;open / closed&quot;,&quot;Nothing left hanging&quot;)],
+}
+
+AGRSEC = [&quot;Parties and start date&quot;,&quot;Supports to be provided, and how often&quot;,&quot;Costs and how payment works&quot;,&quot;Your rights, our responsibilities&quot;,&quot;How we change this agreement together&quot;,&quot;How either of us can end it, and what notice applies&quot;,&quot;Signatures - and a copy for you&quot;]
+SILAGR = [&quot;Who lives here and who provides support (they can be different agreements)&quot;,&quot;Your home: tenancy or occupancy terms, in plain language&quot;,&quot;Your supports: what, when, by whom&quot;,&quot;Costs, split clearly between housing and supports&quot;,&quot;How house decisions are made together&quot;,&quot;Changing or ending either agreement - your protections&quot;,&quot;Signatures - and Easy Read copies (QI Guidelines s 72E)&quot;]
+STASEC = [&quot;Welcome and how to use this handbook&quot;,&quot;Your rights (and what you can expect from us)&quot;,&quot;Choosing, changing and directing your supports&quot;,&quot;Service agreements and costs, in plain words&quot;,&quot;How to give feedback or make a complaint - including straight to the NDIS Commission&quot;,&quot;Staying safe: what happens if something goes wrong&quot;,&quot;Your privacy and your information&quot;,&quot;Advocates, interpreters and getting extra support&quot;]
+PLNSEC = [&quot;Purpose and scope&quot;,&quot;Roles and contact tree&quot;,&quot;Scenarios planned for&quot;,&quot;Participant-specific arrangements&quot;,&quot;Response actions&quot;,&quot;Recovery and return to normal supports&quot;,&quot;Testing, drills and review record&quot;]
+
+def purpose(d):
+    stds = &quot;; &quot;.join(f&quot;{s} {nm(s)}&quot; for s in d[&quot;imp&quot;][:2])
+    generic = {
+     &quot;Policy&quot;: f&quot;This policy states [Provider Name]&#x27;s commitments for {d[&#x27;title&#x27;].lower().replace(&#x27; policy&#x27;,&#x27;&#x27;)}, meeting {stds}.&quot;,
+     &quot;Procedure&quot;: f&quot;This procedure sets out how, who and when for {d[&#x27;title&#x27;].lower().replace(&#x27; procedure&#x27;,&#x27;&#x27;)}.&quot;,
+     &quot;Work Instruction&quot;: &quot;The one-page frontline version: exactly what you do, right now.&quot;,
+     &quot;Form&quot;: &quot;What we capture, the same way every time - completed copies become audit evidence.&quot;,
+     &quot;Register&quot;: &quot;The running log that proves this process operates over time. Auditors read registers first.&quot;,
+     &quot;Plan&quot;: &quot;A standing plan kept current and tested - the difference between a document and a capability.&quot;,
+     &quot;Agreement&quot;: &quot;The written agreement between the participant and [Provider Name], in plain language.&quot;,
+     &quot;Handbook&quot;: &quot;The participant-facing guide to their rights and our service, with an Easy Read companion.&quot;,
+    }
+    return generic.get(d[&quot;type&quot;], generic[&quot;Policy&quot;])
+
+def genpsteps(d):
+    uses = [to for t, to, n in OUT.get(d[&quot;id&quot;], []) if t == &quot;USES&quot;]
+    recs = []
+    for u in uses: recs += [to for t, to, n in OUT.get(u, []) if t == &quot;RECORDS_TO&quot;]
+    frm = uses[0] if uses else &quot;the relevant form&quot;
+    reg = recs[0] if recs else &quot;the relevant register&quot;
+    return [(&quot;Responsible role&quot;,&quot;Confirm the trigger applies and gather what is needed&quot;,&quot;-&quot;),
+     (&quot;Responsible role&quot;, f&quot;Carry out the task as this procedure&#x27;s parent policy commits, recording on {frm}&quot;, f&quot;{frm}&quot;),
+     (&quot;Responsible role&quot;, f&quot;Log the completed record in {reg}&quot;, f&quot;{reg}&quot;),
+     (&quot;Manager&quot;,&quot;Check completeness and escalate anything unresolved&quot;,&quot;Escalation note&quot;),
+     (&quot;Owner&quot;,&quot;Review samples on a set cycle and log improvements&quot;,&quot;REG-QMS-01&quot;)]
+
+def body_sections(d):
+    &quot;&quot;&quot;Returns list of (heading, kind, payload). kind: p (text), n (numbered), t (steps table), c (columns table), b (box).&quot;&quot;&quot;
+    i, ty = d[&quot;id&quot;], d[&quot;type&quot;]; sec = []
+    sec.append((&quot;Purpose&quot;,&quot;p&quot;, purpose(d)))
+    if ty == &quot;Policy&quot;:
+        sec.append((&quot;Scope&quot;,&quot;p&quot;,&quot;Applies to all workers, key personnel, volunteers and contractors of [Provider Name], across the services named in our registration. [Adjust if narrower.]&quot;))
+        sec.append((&quot;Policy statements&quot;,&quot;n&quot;, S.get(i) or [&quot;We meet the requirements of &quot; + &quot;; &quot;.join(nm(s) for s in d[&quot;imp&quot;]) + &quot; in everything this policy covers.&quot;,&quot;We keep records that show how.&quot;,&quot;Workers are trained on this policy and supported to follow it.&quot;,&quot;We review this policy on schedule and when the law or our services change.&quot;,&quot;Anyone can raise a concern under this policy without fear.&quot;]))
+        if d[&quot;ez&quot;] or i in (&quot;POL-INC-01&quot;,&quot;POL-SGD-01&quot;,&quot;POL-RGT-03&quot;):
+            sec.append((&quot;What this means for participants&quot;,&quot;b&quot;,&quot;[One short paragraph, first person, in the style of the SIL participant statements. Example for incidents: If something goes wrong, the people supporting me act quickly to keep me safe. They tell me what happened, listen to me, and involve the people I choose.]&quot;))
+        sec.append((&quot;Roles and responsibilities&quot;,&quot;p&quot;, f&quot;Owner: {d[&#x27;own&#x27;]}. All managers apply this policy in their services; all workers follow it and report concerns. [Add roles specific to your structure.]&quot;))
+    elif ty == &quot;Procedure&quot;:
+        sec.append((&quot;When this procedure starts&quot;,&quot;p&quot;,&quot;[The trigger, in one sentence a frontline worker recognises.]&quot;))
+        sec.append((&quot;Steps&quot;,&quot;t&quot;, PSTEPS.get(i) or genpsteps(d)))
+        sec.append((&quot;Escalation&quot;,&quot;p&quot;,&quot;If a step cannot be completed, or severity increases: escalate to the owner, then the CEO. Never leave a statutory deadline unowned.&quot;))
+    elif ty == &quot;Work Instruction&quot;:
+        sec.append((&quot;When to use this&quot;,&quot;p&quot;,&quot;[One sentence.]&quot;))
+        sec.append((&quot;What you do&quot;,&quot;n&quot;, WSTEPS.get(i) or [&quot;Confirm the task and the participant&#x27;s plan.&quot;,&quot;Do the task as trained - if anything differs from the plan, stop.&quot;,&quot;Record it straight away on the linked form.&quot;,&quot;Tell your manager anything unusual.&quot;,&quot;Stop and escalate if you are unsure at any point.&quot;]))
+        sec.append((&quot;Stop and escalate if&quot;,&quot;b&quot;,&quot;[2-4 red flags for this task. When in doubt - report anyway.]&quot;))
+    elif ty in (&quot;Form&quot;,&quot;Agreement&quot;):
+        sec.append((&quot;Privacy notice (printed on the form)&quot;,&quot;b&quot;, PRIVACY))
+        if ty == &quot;Agreement&quot;:
+            sec.append((&quot;Sections&quot;,&quot;n&quot;, SILAGR if i == &quot;AGR-SIL-01&quot; else AGRSEC))
+        else:
+            sec.append((&quot;Form sections&quot;,&quot;n&quot;, [&quot;A. Details - date, time, location, service&quot;,&quot;B. People - participant ref, workers, others involved&quot;,&quot;C. &quot; + d[&quot;title&quot;].replace(&quot; Form&quot;,&quot;&quot;).replace(&quot; Record&quot;,&quot;&quot;) + &quot; - the substance this form exists to capture [define fields]&quot;,&quot;D. Assessment / manager review [where applicable]&quot;,&quot;E. Sign-off - names, signatures, date entered in the linked register&quot;] if i != &quot;FRM-INC-01&quot; else [&quot;A. The incident - date and time; location; what happened; near miss? (Y/N)&quot;,&quot;B. People - participant(s) involved; workers present; witnesses&quot;,&quot;C. Immediate response - actions taken; medical help needed?; participant informed and supported?&quot;,&quot;D. Assessment (manager) - severity (minor/moderate/major); reportable? (yes / no / unsure - if yes or unsure, go to PRO-INC-02 now)&quot;,&quot;E. Sign-off - worker and manager signatures; date entered in REG-INC-01&quot;]))
+        sec.append((&quot;Completion and retention&quot;,&quot;p&quot;,&quot;[Who completes which sections, by when; where originals live; retention per the instrument cited above - cite, do not guess.]&quot;))
+    elif ty == &quot;Register&quot;:
+        cols = REGCOLS.get(i) or [(&quot;Ref&quot;,&quot;auto number&quot;,&quot;Stable reference&quot;),(&quot;Date&quot;,&quot;date&quot;,&quot;Timeliness&quot;),(&quot;Linked record&quot;,&quot;form/doc ID&quot;,&quot;The evidence trail&quot;),(&quot;Summary&quot;,&quot;short text&quot;,&quot;Retrieval&quot;),(&quot;Owner&quot;,&quot;role&quot;,&quot;Accountability&quot;),(&quot;Status&quot;,&quot;open / closed&quot;,&quot;Nothing left hanging&quot;),(&quot;Next action / review&quot;,&quot;date + note&quot;,&quot;Keeps it live&quot;)]
+        sec.append((&quot;Column specification&quot;,&quot;c&quot;, cols))
+        sec.append((&quot;Rhythm&quot;,&quot;p&quot;, f&quot;Maintained by the {d[&#x27;own&#x27;]}. Entries within the timeframes of the feeding procedure; reviewed on a set cycle; overdue items and trends reported upward.&quot;))
+        sec.append((&quot;Audit view&quot;,&quot;p&quot;,&quot;An auditor samples rows and traces each one back to its completed form and forward to actions taken. A current, complete register is the strongest single evidence this process is real; an empty one next to a perfect policy is a red flag.&quot;))
+    elif ty == &quot;Plan&quot;:
+        sec.append((&quot;Plan sections&quot;,&quot;n&quot;, PLNSEC))
+        sec.append((&quot;Keeping it real&quot;,&quot;p&quot;,&quot;A plan that is never tested is a document, not a capability. Record every drill and activation, and review after each.&quot;))
+    elif ty == &quot;Handbook&quot;:
+        sec.append((&quot;Contents&quot;,&quot;n&quot;, STASEC))
+        sec.append((&quot;Accessibility&quot;,&quot;p&quot;,&quot;Written to plain-English rules (short sentences, everyday words); an Easy Read companion is required before publication.&quot;))
+    if d[&quot;ez&quot;]:
+        sec.append((&quot;Easy Read&quot;,&quot;b&quot;,&quot;An Easy Read companion of this document is flagged as required in the register - produce before participant-facing use.&quot;))
+    sec.append((&quot;Review triggers&quot;,&quot;p&quot;,&quot;Review at the due date, and earlier if: any instrument in the links table is amended; a major audit finding or serious incident touches this document; our registration scope changes.&quot;))
+    return sec
+
+# ---------------- renderers ----------------
+def slug(t): return re.sub(r&quot;[^A-Za-z0-9]+&quot;,&quot;-&quot;,t).strip(&quot;-&quot;)
+
+def render_md(d):
+    L = [f&quot;# {d[&#x27;title&#x27;]}&quot;, &quot;&quot;, f&quot;**{d[&#x27;type&#x27;]} · {d[&#x27;id&#x27;]} · DRAFT v0.1**&quot;, &quot;&quot;, f&quot;&gt; {BANNER}&quot;, &quot;&quot;]
+    L += [&quot;## Document control&quot;,&quot;&quot;, &quot;| Field | Entry |&quot;,&quot;|---|---|&quot;,
+          f&quot;| Document ID / Type | {d[&#x27;id&#x27;]} · {d[&#x27;type&#x27;]} |&quot;,
+          &quot;| Version / Status | 0.1 · Draft |&quot;,
+          f&quot;| Owner (role) | {d[&#x27;own&#x27;]} |&quot;,
+          &quot;| Approved by / Effective from | [role] · [date] |&quot;,
+          f&quot;| Review cycle | {d[&#x27;rv&#x27;]} year(s), or on any trigger below |&quot;,
+          f&quot;| Applies to | {d[&#x27;applies&#x27;]} · Priority {d[&#x27;priority&#x27;]} |&quot;,&quot;&quot;]
+    L += [&quot;## Compliance links&quot;,&quot;&quot;, &quot;| Link type | Plain English | Linked to |&quot;,&quot;|---|---|---|&quot;]
+    for lab, gl, tgts in link_rows(d):
+        tt = &quot;; &quot;.join(f&quot;{x} {t}{e}&quot; for x, t, e in tgts)
+        L.append(f&quot;| {lab} | {gl} | {tt} |&quot;)
+    L.append(&quot;&quot;)
+    for h, kind, pay in body_sections(d):
+        L += [f&quot;## {h}&quot;,&quot;&quot;]
+        if kind == &quot;p&quot;: L += [pay,&quot;&quot;]
+        elif kind == &quot;b&quot;: L += [f&quot;&gt; {pay}&quot;,&quot;&quot;]
+        elif kind == &quot;n&quot;: L += [f&quot;{j+1}. {s}&quot; for j, s in enumerate(pay)] + [&quot;&quot;]
+        elif kind == &quot;t&quot;:
+            L += [&quot;| # | Who | What they do | Record / deadline |&quot;,&quot;|---|---|---|---|&quot;]
+            L += [f&quot;| {j+1} | {w} | {a} | {r} |&quot; for j,(w,a,r) in enumerate(pay)]; L.append(&quot;&quot;)
+        elif kind == &quot;c&quot;:
+            L += [&quot;| Column | Type / values | Why |&quot;,&quot;|---|---|---|&quot;]
+            L += [f&quot;| {c} | {t} | {y} |&quot; for c, t, y in pay]; L.append(&quot;&quot;)
+    L += [&quot;## Version history&quot;,&quot;&quot;,&quot;| Version | Date | Change | Approved |&quot;,&quot;|---|---|---|---|&quot;,
+          f&quot;| 0.1 | {GEN} | Generated scaffold from the Rise graph | - |&quot;,&quot;&quot;]
+    return &quot;\n&quot;.join(L)
+
+def render_html(d):
+    def a(x, t, e=&quot;&quot;):
+        h = &quot;#library&quot; if isdoc(x) else &quot;#graph&quot;
+        return f&#x27;&lt;a class=&quot;idlink&quot; data-node=&quot;{esc(x)}&quot; href=&quot;{h}&quot;&gt;{esc(x)}&lt;/a&gt; {esc(t)}{esc(e)}&#x27;
+    H = [f&#x27;&lt;p class=&quot;meta&quot;&gt;{esc(d[&quot;type&quot;])} · {esc(d[&quot;id&quot;])} · &lt;span class=&quot;stamp draft&quot;&gt;Draft v0.1 - scaffold&lt;/span&gt;&lt;/p&gt;&#x27;]
+    H.append(f&#x27;&lt;h1 style=&quot;font:700 24px Spectral,serif;margin:6px 0 10px&quot;&gt;{esc(d[&quot;title&quot;])}&lt;/h1&gt;&#x27;)
+    H.append(f&#x27;&lt;div class=&quot;watch&quot; style=&quot;border-left-color:#a06a00&quot;&gt;&lt;p&gt;{esc(BANNER)}&lt;/p&gt;&lt;/div&gt;&#x27;)
+    H.append(&#x27;&lt;h2 class=&quot;dh&quot;&gt;Document control&lt;/h2&gt;&lt;table class=&quot;doc&quot;&gt;&lt;tbody&gt;&#x27;)
+    for k, v in [(&quot;Document ID / Type&quot;, f&quot;{d[&#x27;id&#x27;]} · {d[&#x27;type&#x27;]}&quot;),(&quot;Version / Status&quot;,&quot;0.1 · Draft&quot;),
+                 (&quot;Owner (role)&quot;, d[&quot;own&quot;]),(&quot;Review cycle&quot;, f&quot;{d[&#x27;rv&#x27;]} year(s), or on triggers&quot;),
+                 (&quot;Applies to&quot;, f&quot;{d[&#x27;applies&#x27;]} · Priority {d[&#x27;priority&#x27;]}&quot;)]:
+        H.append(f&quot;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;{esc(k)}&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;{esc(v)}&lt;/td&gt;&lt;/tr&gt;&quot;)
+    H.append(&quot;&lt;/tbody&gt;&lt;/table&gt;&quot;)
+    H.append(&#x27;&lt;h2 class=&quot;dh&quot;&gt;Compliance links&lt;/h2&gt;&lt;table class=&quot;doc&quot;&gt;&lt;tbody&gt;&#x27;)
+    for lab, gl, tgts in link_rows(d):
+        tt = &quot;; &quot;.join(a(x, t, e) for x, t, e in tgts)
+        H.append(f&#x27;&lt;tr&gt;&lt;td style=&quot;white-space:nowrap&quot;&gt;&lt;span class=&quot;mono&quot; style=&quot;font-size:11px;font-weight:600&quot;&gt;{esc(lab)}&lt;/span&gt;&lt;div class=&quot;meta&quot;&gt;{esc(gl)}&lt;/div&gt;&lt;/td&gt;&lt;td&gt;{tt}&lt;/td&gt;&lt;/tr&gt;&#x27;)
+    H.append(&quot;&lt;/tbody&gt;&lt;/table&gt;&quot;)
+    for h, kind, pay in body_sections(d):
+        H.append(f&#x27;&lt;h2 class=&quot;dh&quot;&gt;{esc(h)}&lt;/h2&gt;&#x27;)
+        if kind == &quot;p&quot;: H.append(f&quot;&lt;p&gt;{esc(pay)}&lt;/p&gt;&quot;)
+        elif kind == &quot;b&quot;: H.append(f&#x27;&lt;div class=&quot;fact&quot;&gt;{esc(pay)}&lt;/div&gt;&#x27;)
+        elif kind == &quot;n&quot;: H.append(&quot;&lt;ol&gt;&quot; + &quot;&quot;.join(f&quot;&lt;li&gt;{esc(s)}&lt;/li&gt;&quot; for s in pay) + &quot;&lt;/ol&gt;&quot;)
+        elif kind == &quot;t&quot;:
+            H.append(&#x27;&lt;table class=&quot;doc&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;#&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Who&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;What they do&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Record / deadline&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&#x27;)
+            H += [f&quot;&lt;tr&gt;&lt;td&gt;{j+1}&lt;/td&gt;&lt;td&gt;{esc(w)}&lt;/td&gt;&lt;td&gt;{esc(x)}&lt;/td&gt;&lt;td&gt;{esc(r)}&lt;/td&gt;&lt;/tr&gt;&quot; for j,(w,x,r) in enumerate(pay)]
+            H.append(&quot;&lt;/tbody&gt;&lt;/table&gt;&quot;)
+        elif kind == &quot;c&quot;:
+            H.append(&#x27;&lt;table class=&quot;doc&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Column&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Type / values&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Why&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&#x27;)
+            H += [f&quot;&lt;tr&gt;&lt;td&gt;{esc(c)}&lt;/td&gt;&lt;td&gt;{esc(t)}&lt;/td&gt;&lt;td&gt;{esc(y)}&lt;/td&gt;&lt;/tr&gt;&quot; for c, t, y in pay]
+            H.append(&quot;&lt;/tbody&gt;&lt;/table&gt;&quot;)
+    H.append(f&#x27;&lt;p class=&quot;meta&quot;&gt;Version 0.1 · {GEN} · generated from the Rise graph. Round-trip rule: the graph is authoritative; this header regenerates from it.&lt;/p&gt;&#x27;)
+    return &quot;&quot;.join(H)
+
+os.makedirs(&quot;/home/claude/suite&quot;, exist_ok=True)
+dh = {}
+for d in rb.DOCS:
+    md = render_md(d)
+    open(f&quot;/home/claude/suite/{d[&#x27;id&#x27;]}_{slug(d[&#x27;title&#x27;])[:60]}.md&quot;,&quot;w&quot;).write(md)
+    dh[d[&quot;id&quot;]] = render_html(d)
+json.dump(dh, open(&quot;/home/claude/docs_html.json&quot;,&quot;w&quot;))
+print(&quot;suite:&quot;, len(rb.DOCS), &quot;documents |&quot;, sum(len(v) for v in dh.values())//1024, &quot;KB html&quot;)
+</code></pre>
+<div class="kbfoot">Read-only view. Original file: <a class="mono" href="rise_docs.py">rise_docs.py</a></div>
+</article></div>
+</body></html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rise-node-map.mermaid · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/rise-node-map.mermaid.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>mermaid diagram</span><span>3,392 bytes</span></div>
+
+<h1>rise-node-map.mermaid</h1><p id="mmnote" style="font-size:13.5px;color:var(--mut)">Attempting to render the diagram (needs internet for the mermaid library). If nothing appears below, you are offline — the diagram source follows either way.</p><div id="mm"></div><h2>Source</h2><pre><code>%% Rise node map v0.1 (2026-07-05)
+%% Meta-model: node TYPES and core typed edges. Instance data lives in
+%% rise-nodes-and-edges.json (218 nodes / 515 edges).
+%% Authoritative edge list: rise-relationship-taxonomy.md v0.3.
+%% Terminology: &quot;Standard&quot; here = &quot;Requirement&quot; in the edge taxonomy.
+%% Dashed edges = proposed v0.4 types or informal links (see legend node).
+flowchart TD
+  subgraph SHARED[&quot;SHARED REFERENCE LAYER - one copy, centrally maintained, bitemporal&quot;]
+    AMD[&quot;Instrument: amending Act or Rules&lt;br/&gt;(e.g. 2026 Amendment Rules)&quot;]
+    ACT[&quot;Instrument: NDIS Act 2013&quot;]
+    RUL[&quot;Instrument: Rules and Guidelines&lt;br/&gt;(PRPS, Incident, Complaints, RP, AQA...)&quot;]
+    PRV[&quot;Provision&lt;br/&gt;(Part / Schedule / clause - native numbering)&quot;]
+    FW[&quot;Framework: NDIS Practice Standards&lt;br/&gt;(parallel roots later: Aged Care, ISO)&quot;]
+    MOD[&quot;Module&lt;br/&gt;Core, Verification, M1, M2, M2A, M3, M4, M5, SIL&quot;]
+    STD[&quot;Standard&lt;br/&gt;(= &#x27;Requirement&#x27; in edge taxonomy; IMPLEMENTS target)&quot;]
+    QIN[&quot;Quality Indicator&lt;br/&gt;(QI Guidelines 2018 as amended)&quot;]
+    XRQ[&quot;Requirement in another framework&lt;br/&gt;(future crosswalks)&quot;]
+  end
+
+  subgraph TENANT[&quot;TENANT LAYER - private to each provider&quot;]
+    ORG[&quot;Organisation&quot;]
+    SCP[&quot;Registration Scope&lt;br/&gt;(drives gap detection: which Modules apply)&quot;]
+    SIT[&quot;Site / Home&quot;]
+    subgraph DOCS[&quot;Document (doc_type)&quot;]
+      POL[&quot;Policy&quot;]
+      PRO[&quot;Procedure&quot;]
+      WIN[&quot;Work Instruction&quot;]
+      FRM[&quot;Form / Agreement&quot;]
+      REGD[&quot;Register&quot;]
+      PLN[&quot;Plan / Handbook&quot;]
+    end
+    ROL[&quot;Role&quot;]
+    PPL[&quot;Person (PII-minimised)&quot;]
+    TRN[&quot;Training / Qualification&quot;]
+    RSK[&quot;Risk&quot;]
+    CTL[&quot;Control&quot;]
+    EVD[&quot;Evidence (immutable once frozen)&quot;]
+    AUD[&quot;Audit (certification / verification / mid-term / internal)&quot;]
+    FND[&quot;Finding&quot;]
+    IMP[&quot;Improvement Action&quot;]
+  end
+
+  RUL --&gt;|MADE_UNDER| ACT
+  AMD -.-&gt;|&quot;AMENDS - v0.4 candidate&lt;br/&gt;(today: RELATES_TO + note)&quot;| RUL
+  PRV --&gt;|PART_OF| RUL
+  FW --&gt;|PUBLISHED_IN| RUL
+  MOD --&gt;|PART_OF| FW
+  STD --&gt;|PART_OF| MOD
+  QIN --&gt;|PART_OF| STD
+  STD -.-&gt;|&quot;MAPS_TO (symmetric):&lt;br/&gt;strength, rationale, score 0-10&quot;| XRQ
+
+  POL --&gt;|IMPLEMENTS| STD
+  POL -.-&gt;|&quot;REFERENCES - v0.4 candidate&lt;br/&gt;(today: RELATES_TO + note)&quot;| RUL
+  PRO --&gt;|OPERATIONALISES| POL
+  WIN --&gt;|OPERATIONALISES| PRO
+  PRO --&gt;|USES| FRM
+  FRM --&gt;|RECORDS_TO| REGD
+
+  EVD --&gt;|GENERATED_BY| REGD
+  EVD --&gt;|EVIDENCES| STD
+  AUD --&gt;|ASSESSES| STD
+  FND --&gt;|RAISED_IN| AUD
+  FND --&gt;|CITES| EVD
+  FND --&gt;|CONCERNS| DOCS
+  IMP --&gt;|ADDRESSES| FND
+
+  CTL --&gt;|MITIGATES| RSK
+  DOCS --&gt;|OWNED_BY| ROL
+  PRO --&gt;|PERFORMED_BY| ROL
+  ROL --&gt;|REQUIRES| TRN
+  PPL -.-&gt;|&quot;assigned to (assignment record)&quot;| ROL
+  ORG --- SCP
+  ORG --- SIT
+  SCP -.-&gt;|&quot;scopes gap detection to&quot;| MOD
+
+  LGD[&quot;Not drawn, also in taxonomy v0.3:&lt;br/&gt;SUPERSEDES (new version to prior version, any versioned node)&lt;br/&gt;INTERPRETS (external frameworks e.g. ISO to Provision)&lt;br/&gt;CONFLICTS_WITH, DUPLICATES (symmetric review queues)&lt;br/&gt;RELATES_TO (escape hatch - note mandatory)&quot;]
+
+  classDef shared fill:#dbe8f8,stroke:#1f3864,color:#111
+  classDef tenant fill:#fdf3d8,stroke:#8a6d1a,color:#111
+  classDef docbox fill:#eaf6ea,stroke:#2e6b2e,color:#111
+  classDef legend fill:#f2f2f2,stroke:#888,color:#333,font-size:11px
+  class AMD,ACT,RUL,PRV,FW,MOD,STD,QIN,XRQ shared
+  class ORG,SCP,SIT,ROL,PPL,TRN,RSK,CTL,EVD,AUD,FND,IMP tenant
+  class POL,PRO,WIN,FRM,REGD,PLN docbox
+  class LGD legend
+</code></pre><script type="module">try{const m=await import('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs');m.default.initialize({startOnLoad:false,securityLevel:'strict'});const{svg}=await m.default.render('g1',"%% Rise node map v0.1 (2026-07-05)\n%% Meta-model: node TYPES and core typed edges. Instance data lives in\n%% rise-nodes-and-edges.json (218 nodes / 515 edges).\n%% Authoritative edge list: rise-relationship-taxonomy.md v0.3.\n%% Terminology: \"Standard\" here = \"Requirement\" in the edge taxonomy.\n%% Dashed edges = proposed v0.4 types or informal links (see legend node).\nflowchart TD\n  subgraph SHARED[\"SHARED REFERENCE LAYER - one copy, centrally maintained, bitemporal\"]\n    AMD[\"Instrument: amending Act or Rules<br/>(e.g. 2026 Amendment Rules)\"]\n    ACT[\"Instrument: NDIS Act 2013\"]\n    RUL[\"Instrument: Rules and Guidelines<br/>(PRPS, Incident, Complaints, RP, AQA...)\"]\n    PRV[\"Provision<br/>(Part / Schedule / clause - native numbering)\"]\n    FW[\"Framework: NDIS Practice Standards<br/>(parallel roots later: Aged Care, ISO)\"]\n    MOD[\"Module<br/>Core, Verification, M1, M2, M2A, M3, M4, M5, SIL\"]\n    STD[\"Standard<br/>(= 'Requirement' in edge taxonomy; IMPLEMENTS target)\"]\n    QIN[\"Quality Indicator<br/>(QI Guidelines 2018 as amended)\"]\n    XRQ[\"Requirement in another framework<br/>(future crosswalks)\"]\n  end\n\n  subgraph TENANT[\"TENANT LAYER - private to each provider\"]\n    ORG[\"Organisation\"]\n    SCP[\"Registration Scope<br/>(drives gap detection: which Modules apply)\"]\n    SIT[\"Site / Home\"]\n    subgraph DOCS[\"Document (doc_type)\"]\n      POL[\"Policy\"]\n      PRO[\"Procedure\"]\n      WIN[\"Work Instruction\"]\n      FRM[\"Form / Agreement\"]\n      REGD[\"Register\"]\n      PLN[\"Plan / Handbook\"]\n    end\n    ROL[\"Role\"]\n    PPL[\"Person (PII-minimised)\"]\n    TRN[\"Training / Qualification\"]\n    RSK[\"Risk\"]\n    CTL[\"Control\"]\n    EVD[\"Evidence (immutable once frozen)\"]\n    AUD[\"Audit (certification / verification / mid-term / internal)\"]\n    FND[\"Finding\"]\n    IMP[\"Improvement Action\"]\n  end\n\n  RUL -->|MADE_UNDER| ACT\n  AMD -.->|\"AMENDS - v0.4 candidate<br/>(today: RELATES_TO + note)\"| RUL\n  PRV -->|PART_OF| RUL\n  FW -->|PUBLISHED_IN| RUL\n  MOD -->|PART_OF| FW\n  STD -->|PART_OF| MOD\n  QIN -->|PART_OF| STD\n  STD -.->|\"MAPS_TO (symmetric):<br/>strength, rationale, score 0-10\"| XRQ\n\n  POL -->|IMPLEMENTS| STD\n  POL -.->|\"REFERENCES - v0.4 candidate<br/>(today: RELATES_TO + note)\"| RUL\n  PRO -->|OPERATIONALISES| POL\n  WIN -->|OPERATIONALISES| PRO\n  PRO -->|USES| FRM\n  FRM -->|RECORDS_TO| REGD\n\n  EVD -->|GENERATED_BY| REGD\n  EVD -->|EVIDENCES| STD\n  AUD -->|ASSESSES| STD\n  FND -->|RAISED_IN| AUD\n  FND -->|CITES| EVD\n  FND -->|CONCERNS| DOCS\n  IMP -->|ADDRESSES| FND\n\n  CTL -->|MITIGATES| RSK\n  DOCS -->|OWNED_BY| ROL\n  PRO -->|PERFORMED_BY| ROL\n  ROL -->|REQUIRES| TRN\n  PPL -.->|\"assigned to (assignment record)\"| ROL\n  ORG --- SCP\n  ORG --- SIT\n  SCP -.->|\"scopes gap detection to\"| MOD\n\n  LGD[\"Not drawn, also in taxonomy v0.3:<br/>SUPERSEDES (new version to prior version, any versioned node)<br/>INTERPRETS (external frameworks e.g. ISO to Provision)<br/>CONFLICTS_WITH, DUPLICATES (symmetric review queues)<br/>RELATES_TO (escape hatch - note mandatory)\"]\n\n  classDef shared fill:#dbe8f8,stroke:#1f3864,color:#111\n  classDef tenant fill:#fdf3d8,stroke:#8a6d1a,color:#111\n  classDef docbox fill:#eaf6ea,stroke:#2e6b2e,color:#111\n  classDef legend fill:#f2f2f2,stroke:#888,color:#333,font-size:11px\n  class AMD,ACT,RUL,PRV,FW,MOD,STD,QIN,XRQ shared\n  class ORG,SCP,SIT,ROL,PPL,TRN,RSK,CTL,EVD,AUD,FND,IMP tenant\n  class POL,PRO,WIN,FRM,REGD,PLN docbox\n  class LGD legend\n");document.getElementById('mm').innerHTML=svg;document.getElementById('mmnote').textContent='Rendered with mermaid (loaded from CDN). Source below.';}catch(e){document.getElementById('mmnote').textContent='Diagram library unavailable (offline?) — showing source only.';}</script>
+<div class="kbfoot">Original file: <a class="mono" href="rise-node-map.mermaid">rise-node-map.mermaid</a></div>
+</article></div>
+</body></html>

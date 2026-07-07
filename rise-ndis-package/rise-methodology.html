@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rise — Method &amp; Logic, in Plain English · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/rise-methodology.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: rise-methodology.md</span><span>7,246 bytes</span></div>
+
+<h1>Rise — Method &amp; Logic, in Plain English</h1>
+<p><strong>v0.1 — 5 July 2026.</strong> How this package was built and why you can trust it exactly as
+far as it says you can — no further. Companion to <code>rise-sources.md</code> (the evidence) and
+<code>rise-plain-english-guide.md</code> (the subject matter). Written to be challengeable: every
+rule below is stated so you can catch me breaking it.</p>
+<hr />
+<h2>1. The question the method answers</h2>
+<p>Compliance work dies from one disease: <strong>confident text nobody can trace.</strong> A policy
+cites "the Rules" without saying which clause; a consultant's summary gets copied as if
+it were the law; an old requirement lingers after an amendment. The method here is the
+cure applied consistently: every fact carries its evidence grade, every link carries
+its type, and everything regenerates from one source so nothing can silently drift.</p>
+<h2>2. Five rules the whole build follows</h2>
+<ol>
+<li><strong>One source of truth.</strong> All data lives in one script (<code>rise_build.py</code>). The
+   spreadsheet, the JSON, and the dossier are generated from it — never hand-edited.
+   If two outputs ever disagree, the generator is broken, not the truth.</li>
+<li><strong>Typed links only.</strong> Nothing "relates to" anything vaguely. Every connection has a
+   named type with a defined meaning ("implements", "records to", "made under"), and
+   the one deliberate escape hatch (<code>RELATES_TO</code>) legally requires a written reason —
+   and is counted as a smell to be refactored.</li>
+<li><strong>Every fact is stamped.</strong> Four grades: <strong>V</strong> (verified against the Federal
+   Register or the regulator's own pages, dated), <strong>C</strong> (corroborated — solid but not
+   primary-checked), <strong>T</strong> (training knowledge — confirm before relying externally),
+   <strong>D</strong> (draft source — the instrument exists but its final text isn't consolidated).
+   A stamp is metadata, not decoration: the build carries it into every output.</li>
+<li><strong>Primary beats secondary, always.</strong> A law firm's excellent summary can <em>alert</em> and
+   <em>corroborate</em>; only the instrument or the regulator can <em>verify</em>. When a
+   consultant's module numbering conflicted with the instrument, the instrument won
+   and the consultant's page was recorded as a cautionary example.</li>
+<li><strong>Official wording beats friendly wording.</strong> Where the Commission's booklet says
+   "Feedback and complaints management" and the Rules' clause heading says "Complaints
+   management and resolution", the register uses the clause heading — because
+   citations are the spine, and the clause is what an auditor can pinpoint.</li>
+</ol>
+<h2>3. The verification ladder — how a fact climbs</h2>
+<p>Worked example, the mealtime management standard:</p>
+<ul>
+<li><strong>Start (T):</strong> training knowledge said "added in 2021, Core module, clause unknown"
+  → recorded honestly as <code>Sch 1, Pt 5 — inserted by 2021 amendments, clause TBC</code>.</li>
+<li><strong>Corroborated (C):</strong> the Commission's published Practice Standards material
+  confirmed the standard exists in the Core module.</li>
+<li><strong>Verified (V):</strong> fetching the Rules' table of contents from the Federal Register
+  showed the clause itself — <strong>cl 26A</strong> — so the citation was written in, the stamp
+  flipped to V, and the access date recorded.</li>
+</ul>
+<p>The ladder only climbs on evidence; it never climbs on repetition. Ten consultants
+saying the same thing is still C. And it can climb <em>down</em>: if the July-scheduled
+compilation moves clause numbers, every affected V reverts to T until re-checked —
+that re-check list is exactly what the graph's legislative-change fan-out produces.</p>
+<h2>4. How the gaps were found (four sweeps)</h2>
+<ol>
+<li><strong>Instrument census.</strong> Our instrument list was diffed against the Commission's own
+   legislation index. Found: the Notice of Changes and Events Guidelines, the
+   Behaviour Support Practitioner Application Guidelines, the Approved Quality
+   Auditors Rules 2025. Also <em>deliberately excluded</em> after review (binding the
+   Commissioner rather than providers): the Protection and Disclosure of Information
+   Rules and the transitional instruments — exclusion decisions are recorded, not
+   silent.</li>
+<li><strong>Standards diff.</strong> Every standard name and citation was diffed against the Rules'
+   fetched table of contents. Found: title drift on eight standards, three unresolved
+   clause numbers (resolved), and confirmation the M2/M2A near-duplication is faithful
+   to the instrument, not an error.</li>
+<li><strong>Obligation scan of new law.</strong> The 2026 Amendment Act's provider-facing effects
+   were listed and matched against the document suite. Two obligations had no home:
+   whistleblower protection (→ new policy POL-GOV-03) and tightened change/event
+   notifications (→ new procedure PRO-GOV-02).</li>
+<li><strong>Logic audit.</strong> Each assumption in the chain was written down and graded: module
+   applicability derives from registration groups via the Commission's initial scope
+   of audit (mechanism verified; the mapping table itself not yet imported); registers
+   are the evidence auditors weigh most (practitioner consensus, not a rule); review
+   cycles and priorities are design recommendations, not law.</li>
+</ol>
+<h2>5. Interpreting disagreement between sources</h2>
+<p>Recorded precedence, applied twice this build: (a) "passed 1 April" (Commission) vs
+"Royal Assent 8 April" (portfolio) — not a conflict; both dates are real events and
+both are recorded, because bills pass and <em>then</em> receive assent; (b) compilation date
+vs "the standards apply from 1 July 2026" — also not a conflict; law can commence
+before the merged text is published, which is precisely why the D stamp exists.</p>
+<h2>6. Standards this method deliberately aligns with</h2>
+<p>Established: bitemporal record-keeping (what was true, and when we believed it) and
+role-based accountability. Verified in prior sessions: NIST's OLIR crosswalk model
+(the source of our mapping-strength dimensions), NIST OSCAL, W3C SKOS. Verified today:
+<strong>Akoma Ntoso / OASIS LegalDocML</strong> — the open standard for machine-readable
+legislation (OASIS Standard since 2018, revision due for approval late July 2026) —
+the recommended structure when full legislative text is imported; and the <strong>UK
+legislation.gov.uk open API</strong> as the benchmark for register integration. Emerging
+practice, my interpretation: treating verification status as first-class provenance
+on every node and edge — the same instinct as the W3C PROV family, applied to
+compliance data.</p>
+<h2>7. What this method cannot do</h2>
+<p>It cannot make anything legal advice. It cannot verify what isn't published (SIL's
+consolidated text). It cannot turn a static snapshot into a live feed — the honest
+version of "live" today is: outbound links to authorised sources plus a regeneration
+script plus a watch list; the automated version awaits confirmation of programmatic
+FRL access (see the source register's negative findings). And it cannot substitute
+for a professional's judgement about how a standard applies to one provider's facts.</p>
+<h2>8. Reproduce or challenge it</h2>
+<p>Run <code>python3 rise_build.py</code> then <code>python3 rise_dossier.py</code>: the workbook, JSON and
+dossier rebuild from scratch, and the build refuses to complete if any link dangles.
+To challenge a fact: find its stamp, open <code>rise-sources.md</code> to see what stands behind
+it, and check the primary source — the package is designed to lose that argument
+gracefully whenever the instrument says otherwise.</p>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="rise-methodology.md">rise-methodology.md</a></div>
+</article></div>
+</body></html>

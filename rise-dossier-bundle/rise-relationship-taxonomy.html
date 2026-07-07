@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rise Relationship Taxonomy — v0.3 (research-validated draft) · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-dossier-bundle/rise-relationship-taxonomy.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: rise-relationship-taxonomy.md</span><span>20,136 bytes</span></div>
+
+<h1>Rise Relationship Taxonomy — v0.3 (research-validated draft)</h1>
+<p>Defines the controlled vocabulary of relationship (edge) types for the Rise compliance
+knowledge graph, the metadata every edge carries, and the rules for extending the
+vocabulary. All claims previously flagged unverified have now been checked against
+primary sources; remaining unknowns are listed in §10.</p>
+<h2>Changelog</h2>
+<ul>
+<li><strong>v0.3 (2026-07-05):</strong> OLIR specification verified from the primary source (NIST
+  IR 8278Ar1): <code>rationale</code> enum locked to syntactic/semantic/functional;
+  <code>strength_score</code> <strong>corrected</strong> from "1–9" to the full 0–10 scale with fixed
+  endpoint values and an N/A case. §8.1 expanded with patent-family findings: the
+  UCF schema family is US + PCT only with no Australian entry, continuations active
+  into 2024, litigation confirmed; adjacent IBM patents flagged. §9.2 gains OLIR's
+  lowest-abstraction guidance as supporting practice.</li>
+<li><strong>v0.2 (2026-07-05):</strong> §9.1 resolved — NDIS Practice Standards housing verified.
+  Added <code>PUBLISHED_IN</code> (25th type); narrowed <code>INTERPRETS</code>. Extended <code>MAPS_TO</code> with
+  <code>rationale</code> and <code>strength_score</code>. Added reviewed non-mappings recommendation,
+  OSCAL Mapping model citation, UCF patent risk note. Rewrote §9–10.</li>
+<li><strong>v0.1:</strong> initial draft; two claims flagged unverified.</li>
+</ul>
+<hr />
+<h2>1. What this replaces</h2>
+<p>The vision document's single list — <em>Exact Match / Related / Partial Match / Inferred /
+Needs Review</em> — conflates three independent dimensions. This taxonomy separates them:</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Question it answers</th>
+<th>Where it lives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Semantic type</strong></td>
+<td>What <em>kind</em> of link is this?</td>
+<td><code>type</code> (§4)</td>
+</tr>
+<tr>
+<td><strong>Assertion source</strong></td>
+<td>Who or what claimed it?</td>
+<td><code>assertion_source</code> (§3)</td>
+</tr>
+<tr>
+<td><strong>Verification status</strong></td>
+<td>Has a human confirmed it?</td>
+<td><code>verification_status</code> (§3)</td>
+</tr>
+</tbody>
+</table>
+<p>Mapping of the old values: <em>Exact Match</em> → <code>MAPS_TO strength=equal</code> (or any verified
+edge) · <em>Partial Match</em> → <code>MAPS_TO strength=subset|superset|intersects</code> · <em>Related</em> →
+<code>CITES</code> or <code>RELATES_TO</code> · <em>Inferred</em> → <code>assertion_source=ai|rule</code> · <em>Needs Review</em> →
+<code>verification_status=needs_review</code>.</p>
+<hr />
+<h2>2. Design principles</h2>
+<ol>
+<li><strong>Edges are first-class objects</strong> — own identity, metadata, history. Never bare
+   foreign keys.</li>
+<li><strong>Type ≠ confidence.</strong> Never encode certainty in a type name
+   (<code>IMPLEMENTS_PARTIALLY</code> is an anti-pattern).</li>
+<li><strong>Small, governed vocabulary.</strong> 25 types below. New types must clear the bar in §8.</li>
+<li><strong>One stored direction, two display labels.</strong> Every type has a canonical direction
+   and a named inverse; store once, render both ways.</li>
+<li><strong>Direction convention:</strong> edges point <em>from the dependent artefact toward its source
+   of authority or subject</em>. Outbound traversal answers "why does this exist?";
+   inbound answers "what depends on this?".</li>
+<li><strong>Everything effective-dated.</strong> Edges carry real-world validity dates <em>and</em> a
+   record-keeping timestamp (bitemporal), so "compliance state as at 30 June 2025"
+   is a query and audit snapshots are reconstructable. Adopt OSCAL's change
+   discipline (verified NIST practice): any content change to a versioned node or
+   document produces a new version identifier plus an updated last-modified stamp,
+   so tools can detect change without diffing.</li>
+</ol>
+<hr />
+<h2>3. Universal edge properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Values</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>UUID</td>
+<td>Stable edge identity</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>one of §4</td>
+<td>Controlled vocabulary, validated</td>
+</tr>
+<tr>
+<td><code>from</code> / <code>to</code></td>
+<td>node refs</td>
+<td>Validated against the type's domain/range</td>
+</tr>
+<tr>
+<td><code>valid_from</code> / <code>valid_to</code></td>
+<td>dates</td>
+<td>Real-world effectivity</td>
+</tr>
+<tr>
+<td><code>recorded_at</code> / <code>recorded_by</code></td>
+<td>timestamp, actor</td>
+<td>Audit-trail axis; edges are never silently mutated — supersede instead</td>
+</tr>
+<tr>
+<td><code>assertion_source</code></td>
+<td><code>human</code> | <code>import</code> | <code>rule</code> | <code>ai</code></td>
+<td>AI/rule edges default to <code>needs_review</code></td>
+</tr>
+<tr>
+<td><code>verification_status</code></td>
+<td><code>verified</code> | <code>needs_review</code> | <code>rejected</code></td>
+<td>Workflow state</td>
+</tr>
+<tr>
+<td><code>confidence</code></td>
+<td>0.00–1.00</td>
+<td>AI-asserted edges only</td>
+</tr>
+<tr>
+<td><code>strength</code></td>
+<td><code>equal</code> | <code>subset</code> | <code>superset</code> | <code>intersects</code> | <code>not_related</code></td>
+<td><code>MAPS_TO</code> only (§6)</td>
+</tr>
+<tr>
+<td><code>rationale</code></td>
+<td><code>syntactic</code> | <code>semantic</code> | <code>functional</code></td>
+<td><code>MAPS_TO</code> only; how the judgement was made. Verified enum (NIST IR 8278Ar1 §3.2.5)</td>
+</tr>
+<tr>
+<td><code>strength_score</code></td>
+<td>integer 0–10, or N/A</td>
+<td><code>MAPS_TO</code> only. Fixed values: <code>equal</code>→10, <code>not_related</code>→0. Judged 1–9 for the three partial types (1–3 mostly dissimilar, 4–6 balanced, 7–9 mostly similar). N/A when elements sit at very different abstraction levels (non-lateral). Verified (IR 8278Ar1 §3.2.12)</td>
+</tr>
+<tr>
+<td><code>note</code></td>
+<td>text</td>
+<td><strong>Required</strong> for <code>RELATES_TO</code></td>
+</tr>
+</tbody>
+</table>
+<p>Cardinality is many-to-many for every type at the storage level. <em>Expected</em>
+cardinalities (e.g. "every Requirement should have ≥1 inbound <code>IMPLEMENTS</code>") are
+gap-detection rules (§7), configured per framework — not schema constraints.</p>
+<hr />
+<h2>4. Core taxonomy (25 types)</h2>
+<h3>4.1 Structure &amp; authority — mostly shared/reference content</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>From → To</th>
+<th>Inverse</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PART_OF</code></td>
+<td>Section/Clause → Act/Rule; Indicator → Outcome → Module → Framework</td>
+<td><code>CONTAINS</code></td>
+<td>Hierarchical decomposition within one published source. Original numbering (1.1, 2.3, 4.7) is preserved as node attributes — never renumbered.</td>
+</tr>
+<tr>
+<td><code>MADE_UNDER</code></td>
+<td>Rules/Regulation/Instrument → Act or Rules</td>
+<td><code>EMPOWERS</code></td>
+<td>Delegated legislation or instrument created under an enabling provision. <strong>Capture the actual enabling provision per instrument during ingestion — do not assume it.</strong></td>
+</tr>
+<tr>
+<td><code>AMENDS</code></td>
+<td>Amending instrument → Principal instrument</td>
+<td><code>AMENDED_BY</code></td>
+<td>Legislative change; the trigger for impact fan-out. Live examples (verified): the Provider Registration Amendment (Mandatory Registration and Other Matters) Rules 2026 amend the 2018 Rules; the Quality Indicators Amendment (Supported Independent Living) Guidelines 2026 amend the 2018 Guidelines.</td>
+</tr>
+<tr>
+<td><code>PUBLISHED_IN</code></td>
+<td>Framework/Module/Outcome/Requirement/Indicator → Act/Rules/Notifiable Instrument</td>
+<td><code>PUBLISHES</code></td>
+<td>The framework element's authoritative text lives in this instrument. Used when a framework <strong>is</strong> delegated legislation or official guidance — verified for both flagship frameworks (§9.1). Implies the node-type list needs a notifiable-instrument/guideline type distinct from legislative rules, since legal weight differs.</td>
+</tr>
+<tr>
+<td><code>INTERPRETS</code></td>
+<td>Requirement/Outcome → Section/Rule</td>
+<td><code>INTERPRETED_BY</code></td>
+<td>Reserved for frameworks <strong>external</strong> to the legislation they address (e.g. ISO 27001 controls relative to Privacy Act obligations). For frameworks housed in delegated legislation — the norm in Australian human-services regulation — use <code>PUBLISHED_IN</code> + <code>MADE_UNDER</code> instead.</td>
+</tr>
+<tr>
+<td><code>CITES</code></td>
+<td>any → any</td>
+<td><code>CITED_BY</code></td>
+<td>Explicit textual reference; no stronger claim implied. Also used for Finding → Evidence.</td>
+</tr>
+</tbody>
+</table>
+<h3>4.2 Implementation — tenant content</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>From → To</th>
+<th>Inverse</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IMPLEMENTS</code></td>
+<td>Policy/Procedure/Control/Training → Requirement/Indicator/Section</td>
+<td><code>IMPLEMENTED_BY</code></td>
+<td><strong>The compliance claim</strong>: "this artefact exists to satisfy that obligation." Core edge for gap detection and impact analysis.</td>
+</tr>
+<tr>
+<td><code>OPERATIONALISES</code></td>
+<td>Procedure → Policy; Work Instruction → Procedure</td>
+<td><code>OPERATIONALISED_BY</code></td>
+<td>Internal cascade from intent to method.</td>
+</tr>
+<tr>
+<td><code>USES</code></td>
+<td>Procedure/Work Instruction → Form/Asset/System</td>
+<td><code>USED_BY</code></td>
+<td>Tooling employed while executing.</td>
+</tr>
+<tr>
+<td><code>RECORDS_TO</code></td>
+<td>Form → Register</td>
+<td><code>CAPTURES</code></td>
+<td>Where completed form data lands.</td>
+</tr>
+</tbody>
+</table>
+<h3>4.3 Evidence &amp; assurance</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>From → To</th>
+<th>Inverse</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EVIDENCES</code></td>
+<td>Evidence → Requirement/Indicator/Control/Policy/Procedure</td>
+<td><code>EVIDENCED_BY</code></td>
+<td><strong>The assurance claim.</strong> Frozen into immutable snapshots at audit time.</td>
+</tr>
+<tr>
+<td><code>GENERATED_BY</code></td>
+<td>Evidence → Register/Form/Procedure/System/Training</td>
+<td><code>GENERATES</code></td>
+<td>Provenance: where the evidence artefact came from.</td>
+</tr>
+<tr>
+<td><code>ASSESSES</code></td>
+<td>Audit → Framework/Module/Requirement</td>
+<td><code>ASSESSED_BY</code></td>
+<td>Audit scope.</td>
+</tr>
+<tr>
+<td><code>RAISED_IN</code></td>
+<td>Finding → Audit</td>
+<td><code>RAISED</code></td>
+<td>Origin of a finding.</td>
+</tr>
+<tr>
+<td><code>CONCERNS</code></td>
+<td>Finding/Risk → any governed object</td>
+<td><code>SUBJECT_OF</code></td>
+<td>What a finding or risk is <em>about</em>.</td>
+</tr>
+<tr>
+<td><code>ADDRESSES</code></td>
+<td>Improvement Action → Finding/Risk</td>
+<td><code>ADDRESSED_BY</code></td>
+<td>Remediation link; closes the loop.</td>
+</tr>
+</tbody>
+</table>
+<h3>4.4 Risk &amp; governance</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>From → To</th>
+<th>Inverse</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MITIGATES</code></td>
+<td>Control → Risk</td>
+<td><code>MITIGATED_BY</code></td>
+<td>Standard GRC semantics.</td>
+</tr>
+<tr>
+<td><code>OWNED_BY</code></td>
+<td>any governed object → Role</td>
+<td><code>OWNS</code></td>
+<td>Single accountable <strong>role</strong>; people are assigned to roles separately.</td>
+</tr>
+<tr>
+<td><code>PERFORMED_BY</code></td>
+<td>Procedure/Control/Training → Role</td>
+<td><code>PERFORMS</code></td>
+<td>Who executes.</td>
+</tr>
+<tr>
+<td><code>REQUIRES</code></td>
+<td>Role → Training/Qualification</td>
+<td><code>REQUIRED_BY</code></td>
+<td>Competency prerequisites.</td>
+</tr>
+</tbody>
+</table>
+<h3>4.5 Versioning &amp; cross-framework</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>From → To</th>
+<th>Inverse</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SUPERSEDES</code></td>
+<td>new version → prior version</td>
+<td><code>SUPERSEDED_BY</code></td>
+<td>Any versioned node: legislation compilations, framework editions, policy versions. The 2026 NDIS amendments make framework-edition versioning a day-one need (§9.5).</td>
+</tr>
+<tr>
+<td><code>MAPS_TO</code></td>
+<td>Requirement ↔ Requirement (cross-framework)</td>
+<td><em>symmetric</em></td>
+<td>Crosswalk edge with three dimensions: <code>strength</code>, <code>rationale</code>, <code>strength_score</code> (§6). Powers "comply once, satisfy many frameworks."</td>
+</tr>
+<tr>
+<td><code>CONFLICTS_WITH</code></td>
+<td>Policy ↔ Policy; Requirement ↔ Requirement</td>
+<td><em>symmetric</em></td>
+<td>Contradictory obligations or instructions; feeds a review queue.</td>
+</tr>
+<tr>
+<td><code>DUPLICATES</code></td>
+<td>same-type ↔ same-type</td>
+<td><em>symmetric</em></td>
+<td>Redundancy detection.</td>
+</tr>
+<tr>
+<td><code>RELATES_TO</code></td>
+<td>any ↔ any</td>
+<td><em>symmetric</em></td>
+<td><strong>Escape hatch.</strong> Requires a <code>note</code>. Reported as a modelling smell to be refined.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. The vision document's chain, retyped</h2>
+<table>
+<thead>
+<tr>
+<th>Original arrow</th>
+<th>Stored edge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Legislation → Act → Regulation → Rule</td>
+<td><code>PART_OF</code> hierarchy + <code>MADE_UNDER</code></td>
+</tr>
+<tr>
+<td>Rule → Section → Reference number</td>
+<td><code>PART_OF</code> (numbering preserved as attributes)</td>
+</tr>
+<tr>
+<td>Legislation → Framework</td>
+<td><code>PUBLISHED_IN</code> + <code>MADE_UNDER</code> (NDIS, Aged Care) <strong>or</strong> <code>INTERPRETS</code> (external frameworks like ISO)</td>
+</tr>
+<tr>
+<td>Framework → Module → Outcome → Requirement → Indicator</td>
+<td><code>PART_OF</code></td>
+</tr>
+<tr>
+<td>Requirement → Policy</td>
+<td>Policy <code>IMPLEMENTS</code> Requirement</td>
+</tr>
+<tr>
+<td>Policy → Procedure</td>
+<td>Procedure <code>OPERATIONALISES</code> Policy</td>
+</tr>
+<tr>
+<td>Procedure → Work Instruction</td>
+<td>Work Instruction <code>OPERATIONALISES</code> Procedure</td>
+</tr>
+<tr>
+<td>Procedure → Form</td>
+<td>Procedure <code>USES</code> Form</td>
+</tr>
+<tr>
+<td>Form → Register</td>
+<td>Form <code>RECORDS_TO</code> Register</td>
+</tr>
+<tr>
+<td>Register → Evidence</td>
+<td>Evidence <code>GENERATED_BY</code> Register</td>
+</tr>
+<tr>
+<td>Evidence → Audit Finding</td>
+<td>Finding <code>CITES</code> Evidence</td>
+</tr>
+<tr>
+<td>Audit Finding → Improvement Action</td>
+<td>Action <code>ADDRESSES</code> Finding</td>
+</tr>
+</tbody>
+</table>
+<p>The chain is the <em>most common</em> path, not an enforced one. The schema permits skipping
+layers; gap rules decide per framework whether that is acceptable.</p>
+<hr />
+<h2>6. Cross-framework mapping (<code>MAPS_TO</code>) — three dimensions (all now verified)</h2>
+<ol>
+<li><strong><code>strength</code></strong> (set relation): <code>equal</code> / <code>subset</code> / <code>superset</code> / <code>intersects</code> /
+   <code>not_related</code> — the five OLIR set-theory values, verified from IR 8278Ar1.</li>
+<li><strong><code>rationale</code></strong>: how the judgement was made. Verified enum with a strictness
+   ordering: <strong>syntactic</strong> (word-for-word, no interpretation — strictest, typical
+   when one document quotes another), <strong>semantic</strong> (some interpretation of the
+   language), <strong>functional</strong> (outcomes compared rather than words — least strict).
+   NIST guidance: select the strictest <em>provable</em> rationale. The same pair can map
+   differently under different rationales, so allow multiple <code>MAPS_TO</code> edges per
+   pair, differing by rationale.</li>
+<li><strong><code>strength_score</code></strong>: verified 0–10 integer scale. <code>equal</code> is always 10 and
+   <code>not_related</code> is always 0 — so Rise should auto-fill those and prompt reviewers
+   only for the three partial types (1–3 / 4–6 / 7–9 buckets). Score is N/A when the
+   two elements sit at very different levels of abstraction (non-lateral pairs).</li>
+</ol>
+<p><strong>Recording reviewed non-mappings (recommendation):</strong> OLIR stores "not related to"
+as an explicit assertion. Distinguishing "no one has reviewed this pair" from
+"reviewed and confirmed unrelated" matters for gap detection and audit
+defensibility. Default: <code>MAPS_TO strength=not_related</code> edges (review state lives in
+the graph). Alternative: a separate review-log table (no negative edges, but a split
+audit trail).</p>
+<p><strong>Prior art (all verified):</strong> W3C SKOS mapping vocabulary; NIST OLIR / IR 8477 set
+theory relationship mapping; OSCAL's Mapping model for cross-framework control
+relationships. <strong>Possible future extension</strong> (IR 8278Ar1): OLIR's third style,
+"supportive relationship mapping" — supports / is supported by / identical /
+equivalent / contrary — with relationship properties (example of, integral to,
+precedes), relevant if Rise later maps controls to requirements rather than
+requirements to requirements.</p>
+<hr />
+<h2>7. Gap detection = typed-edge queries (examples)</h2>
+<ul>
+<li><strong>Unimplemented requirement:</strong> Requirement with zero inbound <code>IMPLEMENTS</code> where
+  <code>verification_status=verified</code> and the edge is valid today (per-framework config).</li>
+<li><strong>Unevidenced claim:</strong> object with inbound <code>IMPLEMENTS</code> but zero inbound
+  <code>EVIDENCES</code> within the last N months.</li>
+<li><strong>Orphan evidence:</strong> Evidence node with zero outbound <code>EVIDENCES</code>.</li>
+<li><strong>Ownerless object:</strong> governed object with zero <code>OWNED_BY</code>.</li>
+<li><strong>Stale AI suggestions:</strong> <code>assertion_source=ai</code> and <code>needs_review</code> older than X days.</li>
+<li><strong>Unreviewed framework pairs:</strong> requirements in overlapping frameworks with neither
+  a <code>MAPS_TO</code> (any strength) nor a review-log entry.</li>
+<li><strong>Legislative impact fan-out:</strong> from an amended Section, traverse inbound
+  <code>PUBLISHED_IN</code>/<code>INTERPRETS</code> → inbound <code>IMPLEMENTS</code> → inbound <code>EVIDENCES</code>. The July
+  2026 NDIS amendments are a ready-made test case.</li>
+</ul>
+<hr />
+<h2>8. Extension governance &amp; anti-patterns</h2>
+<p>Adding a new type requires: a written definition, domain/range, an inverse label, at
+least ~5 real instances that no existing type can express, and sign-off. Any type with
+fewer than ~5 instances after NDIS ingestion is a merge candidate.</p>
+<p>Anti-patterns: encoding confidence in type names; bespoke types per node-pair;
+free-text relationship labels; using <code>RELATES_TO</code> to avoid modelling decisions.</p>
+<h3>8.1 IP risk note (updated in v0.3 — not legal advice)</h3>
+<p><strong>Verified from patent records:</strong> Unified Compliance (Network Frontiers) holds
+granted, active US patents on compliance-framework database schemas and mapping
+methodology. The core "Compliance framework database schema" family (family ID
+50115163, priority 2012) comprises <strong>10 US applications and 1 PCT application
+(WO2014071318A1) — no Australian national-phase entry appears in this family</strong>.
+Continuations remain active, with 2024-filed members granted (US12530383B2,
+US12541539B2); the original grant's anticipated expiration is 2032. Litigation is
+confirmed: a US case in the Oregon District Court (3:19-cv-00771) plus a family-level
+litigation flag in Darts-ip data.</p>
+<p><strong>Caveats:</strong> (a) that is one family — UCF holds others not individually checked for
+AU entries (e.g. automatic compliance tools US10769379B1 / US10824817B1 /
+US11120227B1, structured dictionary US10606945B2, multi-word expressions
+US11386270B2, retrieval interface US11928531B1); (b) Google Patents itself states
+its legal-status data is an assumption, not a legal conclusion.</p>
+<p><strong>Adjacent third-party IP (existence verified, relevance unknown):</strong> IBM holds
+US10922621B2 (facilitating mapping of control policies to regulatory documents) and
+US11537602B2 (computer-implemented <strong>live crosswalks in compliance mappings in
+response to regulatory changes</strong>) — the latter is conceptually close to Rise's
+legislative-change fan-out feature.</p>
+<p><strong>Technical observation, not a legal opinion:</strong> the UCF schema family's claims centre
+on extracting noun-verb pairs from citations and harmonising them into deduplicated
+common controls (with SNED editorial statuses and checksum change-detection). Rise's
+design as specified does not use that mechanism. Whether that distinction matters
+legally is strictly a question for patent counsel.</p>
+<p><strong>Action unchanged:</strong> professional freedom-to-operate review plus an AusPat search
+before locking the cross-framework mapping feature set or entering the US market.</p>
+<hr />
+<h2>9. Open questions — updated after research</h2>
+<ol>
+<li><strong>Resolved — legislation/framework split.</strong> Verified: the NDIS Practice Standards
+   and their outcomes are set out in the NDIS (Provider Registration and Practice
+   Standards) Rules 2018 [F2018L00631] — Part 6 plus per-module Schedules — while the
+   quality indicators live in a <em>separate notifiable instrument</em>, the NDIS (Quality
+   Indicators for NDIS Practice Standards) Guidelines 2018 [F2018N00041]. Both were
+   amended in 2026. Resolution: <code>PUBLISHED_IN</code> added; <code>INTERPRETS</code> narrowed.
+   Follow-on: node-type list needs a notifiable-instrument type; capture each
+   instrument's enabling provision at ingestion.</li>
+<li><strong>Partially resolved — indicator granularity.</strong> The Commission describes quality
+   indicators as what auditors use to assess compliance, so indicators are plausibly
+   valid <code>EVIDENCES</code> targets. Supporting practice from OLIR (verified): NIST directs
+   mappers to work at the <strong>lowest level of abstraction where practical</strong>. Still
+   open: whether tenant evidence links at indicator or outcome level in real NDIS
+   audit practice — resolve from actual audit reports.</li>
+<li><strong>Still open:</strong> does <code>OPERATIONALISES</code> earn its keep vs collapsing into
+   <code>IMPLEMENTS</code>? Revisit after ingesting one real provider's document set.</li>
+<li><strong>Still open, with new data:</strong> the strengthened Aged Care Quality Standards
+   (commenced 1 Nov 2025 with the Aged Care Act 2024, housed in the Aged Care Rules
+   2025) are structured as expectation statement → outcomes → actions. The generic
+   element hierarchy holds across both flagship frameworks, but element <em>semantics</em>
+   differ, so per-framework config must declare which level is the
+   <code>IMPLEMENTS</code>/<code>EVIDENCES</code> target.</li>
+<li><strong>New — framework-edition versioning under live reform.</strong> Verified churn as of
+   July 2026: SIL/platform mandatory registration commenced 1 July 2026; new SIL
+   Practice Standards; a Commission-wide Practice Standards review; the Integrity and
+   Safeguarding Act 2026 (passed ~31 March–1 April 2026; secondary sources differ by
+   a day); expansion of mandatory registration to personal care, daily living
+   supports, and closed settings from July 2027 with full rollout by end 2030.
+   Decide <em>before build</em>: how a framework edition is snapshotted for audits that
+   straddle an amendment.</li>
+</ol>
+<hr />
+<h2>10. Epistemic status</h2>
+<ul>
+<li><strong>Verified against primary sources:</strong> NDIS instrument housing and register IDs; the
+  2026 NDIS amendment instruments and reform timeline; Aged Care Act 2024 +
+  strengthened Standards commencement and housing; OLIR's five set-relation values,
+  the syntactic/semantic/functional rationale enum, the 0–10 strength scale with
+  fixed endpoints, and the lowest-abstraction mapping guidance (all IR 8278Ar1);
+  IR 8477 rationale-dependence; OSCAL's seven models, Mapping model, and
+  version-identifier discipline; UCF schema-family jurisdictions (US + PCT, no AU
+  entry), active 2024 continuations, and Oregon litigation; existence of IBM's
+  adjacent patents.</li>
+<li><strong>Established practice:</strong> SKOS mapping vocabulary; control-mitigates-risk semantics.</li>
+<li><strong>My design/recommendation:</strong> the 25-type list and names, <code>PUBLISHED_IN</code>, the
+  direction convention, the escape-hatch policy, extension rules, recording reviewed
+  non-mappings, and auto-filling derivable strength scores.</li>
+<li><strong>Unknown / lower confidence:</strong> AU status of UCF's <em>other</em> patent families (needs
+  AusPat/counsel); whether any claim reads on Rise's design (counsel only);
+  completeness of Google Patents family data (it disclaims legal accuracy); §9
+  items 2 (partially), 3, and 4.</li>
+<li><strong>Cautionary specimen:</strong> secondary sources conflict on the penalty for delivering
+  SIL unregistered (2 years / 120 penalty units vs a 5-year maximum). Neither was
+  checked against the Act itself — a live demonstration of why Rise must anchor
+  claims to primary instruments and why <code>assertion_source</code> exists.</li>
+</ul>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="rise-relationship-taxonomy.md">rise-relationship-taxonomy.md</a></div>
+</article></div>
+</body></html>

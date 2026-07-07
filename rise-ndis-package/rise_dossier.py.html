@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rise_dossier.py · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/rise_dossier.py.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>python source</span><span>40,705 bytes</span></div>
+
+<h1>rise_dossier.py</h1><pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;Generates rise-dossier.html - a single-file, browser-viewable dossier of the entire
+Rise NDIS dataset with live links to the Federal Register of Legislation and NDIS
+Commission. Static snapshot; regenerate after editing rise_build.py.&quot;&quot;&quot;
+import html, json
+import rise_build as rb
+
+esc = html.escape
+FRL = {&quot;ACT&quot;:&quot;C2013A00020&quot;,&quot;PRPS&quot;:&quot;F2018L00631&quot;,&quot;IMRI&quot;:&quot;F2018L00633&quot;,&quot;CMR&quot;:&quot;F2018L00634&quot;,
+ &quot;RPBS&quot;:&quot;F2018L00632&quot;,&quot;WSR&quot;:&quot;F2018L00887&quot;,&quot;COC&quot;:&quot;F2018L00629&quot;,&quot;SDAC&quot;:&quot;F2018L00627&quot;,
+ &quot;PD&quot;:&quot;F2018L00628&quot;,&quot;QI&quot;:&quot;F2018N00041&quot;,&quot;AQA&quot;:&quot;F2018N00114&quot;,&quot;AQAR25&quot;:&quot;F2025L01383&quot;}
+VSTAMP = {&quot;V&quot;:(&quot;verified&quot;,&quot;Verified — FRL / Commission, 5 Jul 2026&quot;),
+ &quot;C&quot;:(&quot;corrob&quot;,&quot;Corroborated — confirm before external use&quot;),
+ &quot;T&quot;:(&quot;check&quot;,&quot;Training knowledge — confirm vs compilation&quot;),
+ &quot;D&quot;:(&quot;draft&quot;,&quot;Draft source — confirm vs made 2026 Rules&quot;)}
+
+def stamp(v):
+    cls, label = VSTAMP.get(v, (&quot;check&quot;, v))
+    return f&#x27;&lt;span class=&quot;stamp {cls}&quot;&gt;{esc(label)}&lt;/span&gt;&#x27;
+
+def frl_link(key):
+    if key in FRL:
+        i = FRL[key]
+        return f&#x27;&lt;a class=&quot;cite&quot; href=&quot;https://www.legislation.gov.au/{i}/latest&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;{i}&lt;/a&gt;&#x27;
+    return &#x27;&lt;span class=&quot;cite dim&quot;&gt;FRL id TBC&lt;/span&gt;&#x27;
+
+# ---------- legislation rows ----------
+leg_rows = &quot;&quot;
+for k, title, kind, notes, v, role in rb.LEG:
+    leg_rows += f&#x27;&#x27;&#x27;&lt;tr data-kind=&quot;{esc(kind)}&quot;&gt;&lt;td&gt;&lt;a class=&quot;mono id idlink&quot; href=&quot;#graph&quot; data-node=&quot;{esc(k)}&quot;&gt;{esc(k)}&lt;/a&gt;&lt;br&gt;{frl_link(k)}&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;{esc(title)}&lt;/strong&gt;&lt;div class=&quot;meta&quot;&gt;{esc(kind)} · {esc(role)}&lt;/div&gt;&lt;div class=&quot;note&quot;&gt;{esc(notes)}&lt;/div&gt;&lt;/td&gt;
+&lt;td&gt;{stamp(v)}&lt;/td&gt;&lt;/tr&gt;\n&#x27;&#x27;&#x27;
+
+# ---------- standards rows ----------
+std_rows = &quot;&quot;
+for sid, mod, div, name, v in rb.STD:
+    cit = rb.CIT.get(sid, &quot;&quot;); qi = rb.QIREF.get(sid, &quot;&quot;)
+    qcell = f&#x27;&lt;span class=&quot;mono cite&quot;&gt;{esc(cit)}&lt;/span&gt;&#x27; + (f&#x27;&lt;br&gt;&lt;span class=&quot;mono cite dim&quot;&gt;indicators: QI {esc(qi)}&lt;/span&gt;&#x27; if qi else &quot;&quot;)
+    std_rows += f&#x27;&#x27;&#x27;&lt;tr data-mod=&quot;{esc(mod)}&quot;&gt;&lt;td&gt;&lt;a class=&quot;mono id idlink&quot; href=&quot;#graph&quot; data-node=&quot;{esc(sid)}&quot;&gt;{esc(sid)}&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;{esc(name)}&lt;/strong&gt;&lt;div class=&quot;meta&quot;&gt;{esc(div)}&lt;/div&gt;&lt;/td&gt;
+&lt;td&gt;{qcell}&lt;/td&gt;&lt;td&gt;{stamp(v)}&lt;/td&gt;&lt;/tr&gt;\n&#x27;&#x27;&#x27;
+mod_chips = &quot;&quot;.join(f&#x27;&lt;button class=&quot;chip&quot; data-chip=&quot;{esc(m[0])}&quot;&gt;{esc(m[0])}&lt;/button&gt;&#x27; for m in rb.MODULES)
+
+# ---------- document rows ----------
+doc_rows = &quot;&quot;
+clusters = sorted({x[&quot;cluster&quot;] for x in rb.DOCS})
+dtypes = sorted({x[&quot;type&quot;] for x in rb.DOCS})
+for x in rb.DOCS:
+    outs = rb.outg.get(x[&quot;id&quot;], []); ins = rb.inc.get(x[&quot;id&quot;], [])
+    links = &quot;&quot;
+    if outs or ins:
+        li = &quot;&quot;.join(f&quot;&lt;li&gt;{esc(l)}&lt;/li&gt;&quot; for l in outs) + &quot;&quot;.join(f&quot;&lt;li class=&#x27;dim&#x27;&gt;{esc(l)}&lt;/li&gt;&quot; for l in ins)
+        links = f&quot;&lt;details&gt;&lt;summary&gt;{len(outs)+len(ins)} typed links&lt;/summary&gt;&lt;ul class=&#x27;mono links&#x27;&gt;{li}&lt;/ul&gt;&lt;/details&gt;&quot;
+    ez = &#x27; · &lt;span class=&quot;ez&quot;&gt;Easy Read&lt;/span&gt;&#x27; if x[&quot;ez&quot;] else &quot;&quot;
+    doc_rows += f&#x27;&#x27;&#x27;&lt;tr data-type=&quot;{esc(x[&quot;type&quot;])}&quot; data-cluster=&quot;{esc(x[&quot;cluster&quot;])}&quot; data-pri=&quot;{esc(x[&quot;priority&quot;])}&quot;&gt;
+&lt;td&gt;&lt;a class=&quot;mono id idlink&quot; href=&quot;#library&quot; data-node=&quot;{esc(x[&quot;id&quot;])}&quot;&gt;{esc(x[&quot;id&quot;])}&lt;/a&gt;&lt;div class=&quot;meta&quot;&gt;{esc(x[&quot;priority&quot;])}&lt;/div&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;{esc(x[&quot;title&quot;])}&lt;/strong&gt;&lt;div class=&quot;meta&quot;&gt;{esc(x[&quot;type&quot;])} · {esc(x[&quot;cluster&quot;])} · applies: {esc(x[&quot;applies&quot;])}{ez}&lt;/div&gt;
+&lt;div class=&quot;note&quot;&gt;Implements &lt;span class=&quot;mono&quot;&gt;{esc(&quot;; &quot;.join(x[&quot;imp&quot;]))}&lt;/span&gt; · Owner: {esc(x[&quot;own&quot;])} · Review: {x[&quot;rv&quot;]} yr&lt;/div&gt;{links}&lt;/td&gt;&lt;/tr&gt;\n&#x27;&#x27;&#x27;
+
+cl_opts = &quot;&quot;.join(f&#x27;&lt;option&gt;{esc(c)}&lt;/option&gt;&#x27; for c in clusters)
+ty_opts = &quot;&quot;.join(f&#x27;&lt;option&gt;{esc(t)}&lt;/option&gt;&#x27; for t in dtypes)
+
+# ---------- graph explorer data ----------
+gnodes = {}
+for k, title, kind, notes, v, role in rb.LEG: gnodes[k] = dict(t=title, k=&quot;Instrument&quot;, l=&quot;shared&quot;)
+gnodes[&quot;NDIS-PS&quot;] = dict(t=&quot;NDIS Practice Standards&quot;, k=&quot;Framework&quot;, l=&quot;shared&quot;)
+for m in rb.MODULES: gnodes[m[0]] = dict(t=m[1], k=&quot;Module&quot;, l=&quot;shared&quot;)
+for s in rb.STD: gnodes[s[0]] = dict(t=s[3], k=&quot;Standard&quot;, l=&quot;shared&quot;)
+for x in rb.DOCS: gnodes[x[&quot;id&quot;]] = dict(t=x[&quot;title&quot;], k=x[&quot;type&quot;], l=&quot;tenant&quot;)
+TN = {
+ &quot;Act&quot;:(&quot;shared&quot;,&quot;The root of authority - the NDIS Act 2013.&quot;,&quot;kind, jurisdiction, FRL id, status, bitemporal pair&quot;),
+ &quot;Rules / Guidelines&quot;:(&quot;shared&quot;,&quot;Delegated legislation made under the Act.&quot;,&quot;kind, FRL id, compilation no, status, bitemporal pair&quot;),
+ &quot;Amending instrument&quot;:(&quot;shared&quot;,&quot;An Act or Rules that changes another instrument - the fan-out trigger.&quot;,&quot;target instrument, commencement dates&quot;),
+ &quot;Provision&quot;:(&quot;shared&quot;,&quot;A Part, Schedule or clause inside an instrument. Planned import.&quot;,&quot;native citation, provision kind&quot;),
+ &quot;Framework&quot;:(&quot;shared&quot;,&quot;A quality framework as a whole - NDIS Practice Standards.&quot;,&quot;regulator, audit scheme&quot;),
+ &quot;Module&quot;:(&quot;shared&quot;,&quot;Core, Verification, M1-M5, M2A, SIL - switches on by what you deliver.&quot;,&quot;applies-when, commencement&quot;),
+ &quot;Standard&quot;:(&quot;shared&quot;,&quot;The auditable requirement (edge taxonomy calls it Requirement).&quot;,&quot;division, citation, outcome ref, participant-statement ref&quot;),
+ &quot;Quality Indicator&quot;:(&quot;shared&quot;,&quot;What auditors look for under a standard. Planned import.&quot;,&quot;indicator ref&quot;),
+ &quot;Organisation&quot;:(&quot;tenant&quot;,&quot;The provider - the tenant root.&quot;,&quot;registration no, registration groups, audit pathway&quot;),
+ &quot;Registration Scope&quot;:(&quot;tenant&quot;,&quot;What the provider is registered for - drives gap detection.&quot;,&quot;modules in scope, effective dates&quot;),
+ &quot;Site / Home&quot;:(&quot;tenant&quot;,&quot;A physical service setting, e.g. a SIL house.&quot;,&quot;site kind&quot;),
+ &quot;Policy&quot;:(&quot;tenant&quot;,&quot;The commitments made against standards - the why.&quot;,&quot;doc type, version, owner role, review cycle, Easy Read flags&quot;),
+ &quot;Procedure&quot;:(&quot;tenant&quot;,&quot;How, who, when - step by step.&quot;,&quot;as Policy&quot;),
+ &quot;Work Instruction&quot;:(&quot;tenant&quot;,&quot;One task, one page, frontline voice.&quot;,&quot;as Policy&quot;),
+ &quot;Form / Agreement&quot;:(&quot;tenant&quot;,&quot;Captures each event the same way, every time.&quot;,&quot;as Policy&quot;),
+ &quot;Register&quot;:(&quot;tenant&quot;,&quot;The running log - the evidence auditors read first.&quot;,&quot;as Policy&quot;),
+ &quot;Plan / Handbook&quot;:(&quot;tenant&quot;,&quot;Standing plans and participant-facing packs.&quot;,&quot;as Policy&quot;),
+ &quot;Role&quot;:(&quot;tenant&quot;,&quot;Accountable role, not a person - survives turnover.&quot;,&quot;role kind&quot;),
+ &quot;Person&quot;:(&quot;tenant&quot;,&quot;Only where worker-level evidence is needed. PII-minimised.&quot;,&quot;screening ref, expiry&quot;),
+ &quot;Training / Qualification&quot;:(&quot;tenant&quot;,&quot;Competency targets, e.g. HIDPA skills.&quot;,&quot;delivered-by kind&quot;),
+ &quot;Risk&quot;:(&quot;tenant&quot;,&quot;Entry in the risk register.&quot;,&quot;category, current and target rating&quot;),
+ &quot;Control&quot;:(&quot;tenant&quot;,&quot;A mitigation - often is a document.&quot;,&quot;control kind&quot;),
+ &quot;Evidence&quot;:(&quot;tenant&quot;,&quot;Proof something happened. Immutable once frozen.&quot;,&quot;evidence kind, generated-by, frozen-at&quot;),
+ &quot;Audit&quot;:(&quot;tenant&quot;,&quot;Certification, verification, mid-term or internal.&quot;,&quot;audit kind, auditor&quot;),
+ &quot;Finding&quot;:(&quot;tenant&quot;,&quot;Conformity or non-conformity from an audit.&quot;,&quot;severity&quot;),
+ &quot;Improvement Action&quot;:(&quot;tenant&quot;,&quot;Closes the loop on a finding.&quot;,&quot;due date, closed-at&quot;),
+}
+TE = [
+ [&quot;Rules / Guidelines&quot;,&quot;MADE_UNDER&quot;,&quot;Act&quot;,&quot;&quot;],
+ [&quot;Amending instrument&quot;,&quot;AMENDS&quot;,&quot;Rules / Guidelines&quot;,&quot;v0.4 candidate - today RELATES_TO + note&quot;],
+ [&quot;Provision&quot;,&quot;PART_OF&quot;,&quot;Rules / Guidelines&quot;,&quot;&quot;],
+ [&quot;Framework&quot;,&quot;PUBLISHED_IN&quot;,&quot;Rules / Guidelines&quot;,&quot;&quot;],
+ [&quot;Module&quot;,&quot;PART_OF&quot;,&quot;Framework&quot;,&quot;&quot;],
+ [&quot;Standard&quot;,&quot;PART_OF&quot;,&quot;Module&quot;,&quot;&quot;],
+ [&quot;Quality Indicator&quot;,&quot;PART_OF&quot;,&quot;Standard&quot;,&quot;&quot;],
+ [&quot;Standard&quot;,&quot;MAPS_TO&quot;,&quot;Standard&quot;,&quot;symmetric cross-framework crosswalk: strength, rationale, score 0-10&quot;],
+ [&quot;Policy&quot;,&quot;IMPLEMENTS&quot;,&quot;Standard&quot;,&quot;&quot;],
+ [&quot;Policy&quot;,&quot;REFERENCES&quot;,&quot;Rules / Guidelines&quot;,&quot;v0.4 candidate - today RELATES_TO + note&quot;],
+ [&quot;Procedure&quot;,&quot;OPERATIONALISES&quot;,&quot;Policy&quot;,&quot;&quot;],
+ [&quot;Work Instruction&quot;,&quot;OPERATIONALISES&quot;,&quot;Procedure&quot;,&quot;&quot;],
+ [&quot;Procedure&quot;,&quot;USES&quot;,&quot;Form / Agreement&quot;,&quot;&quot;],
+ [&quot;Form / Agreement&quot;,&quot;RECORDS_TO&quot;,&quot;Register&quot;,&quot;&quot;],
+ [&quot;Evidence&quot;,&quot;GENERATED_BY&quot;,&quot;Register&quot;,&quot;&quot;],
+ [&quot;Evidence&quot;,&quot;EVIDENCES&quot;,&quot;Standard&quot;,&quot;&quot;],
+ [&quot;Audit&quot;,&quot;ASSESSES&quot;,&quot;Standard&quot;,&quot;&quot;],
+ [&quot;Finding&quot;,&quot;RAISED_IN&quot;,&quot;Audit&quot;,&quot;&quot;],
+ [&quot;Finding&quot;,&quot;CITES&quot;,&quot;Evidence&quot;,&quot;&quot;],
+ [&quot;Finding&quot;,&quot;CONCERNS&quot;,&quot;Policy&quot;,&quot;target may be any governed object&quot;],
+ [&quot;Improvement Action&quot;,&quot;ADDRESSES&quot;,&quot;Finding&quot;,&quot;&quot;],
+ [&quot;Control&quot;,&quot;MITIGATES&quot;,&quot;Risk&quot;,&quot;&quot;],
+ [&quot;Policy&quot;,&quot;OWNED_BY&quot;,&quot;Role&quot;,&quot;applies to any document&quot;],
+ [&quot;Procedure&quot;,&quot;PERFORMED_BY&quot;,&quot;Role&quot;,&quot;&quot;],
+ [&quot;Role&quot;,&quot;REQUIRES&quot;,&quot;Training / Qualification&quot;,&quot;&quot;],
+ [&quot;Person&quot;,&quot;assigned to&quot;,&quot;Role&quot;,&quot;assignment record, not a taxonomy edge&quot;],
+ [&quot;Registration Scope&quot;,&quot;scopes gap detection to&quot;,&quot;Module&quot;,&quot;informal - applicability logic&quot;],
+ [&quot;Organisation&quot;,&quot;has&quot;,&quot;Registration Scope&quot;,&quot;informal&quot;],
+ [&quot;Organisation&quot;,&quot;operates&quot;,&quot;Site / Home&quot;,&quot;informal&quot;],
+]
+tnodes = {k: dict(t=v[1], k=&quot;Type&quot;, l=v[0], a=v[2]) for k, v in TN.items()}
+GRAPH = json.dumps(dict(n=gnodes, e=[list(e) for e in rb.E], tn=tnodes, te=TE), separators=(&quot;,&quot;, &quot;:&quot;)).replace(&quot;&lt;/&quot;, &quot;&lt;\\/&quot;)
+
+DOCSH = json.load(open(&quot;/home/claude/docs_html.json&quot;))
+DOCSJSON = json.dumps(DOCSH, separators=(&quot;,&quot;,&quot;:&quot;)).replace(&quot;&lt;/&quot;, &quot;&lt;\\/&quot;)
+doc_opts = &quot;&quot;.join(f&#x27;&lt;option value=&quot;{esc(x[&quot;id&quot;])}&quot;&gt;{esc(x[&quot;title&quot;][:60])}&lt;/option&gt;&#x27; for x in rb.DOCS)
+
+SOURCES = [
+ (&quot;Tier 1 - primary law and the regulator&quot;, [
+  (&quot;Federal Register of Legislation - PRPS Rules 2018 full table of contents (compilation C04, 15 Nov 2021). The keystone: every schedule, clause citation and official heading.&quot;,&quot;https://www.legislation.gov.au/F2018L00631/latest/text&quot;),
+  (&quot;FRL series pages for all NDIS instruments in the Legislation section (links on each row).&quot;,&quot;https://www.legislation.gov.au/&quot;),
+  (&quot;NDIS Commission - reform hub: SIL standards from 1 Jul 2026; mandatory SIL + platform registration; 2026 amendment instruments; tightened notification duties.&quot;,&quot;https://www.ndiscommission.gov.au/about-us/ndis-commission-reform-hub&quot;),
+  (&quot;NDIS Commission - legislation, rules and policies index (the instrument census).&quot;,&quot;https://www.ndiscommission.gov.au/about-us/legislation-rules-and-policies&quot;),
+  (&quot;NDIS Commission - types of audits: 14-day / 28-day report windows, audit conduct.&quot;,&quot;https://www.ndiscommission.gov.au/provider-registration/apply-registration/types-audits&quot;),
+  (&quot;Dept of Health, Disability and Ageing - 2026 NDIS Act amendments: Integrity and Safeguarding Act passed 1 Apr, assent 8 Apr 2026; Securing the NDIS Bill introduced 14 May 2026.&quot;,&quot;https://www.health.gov.au/our-work/ndis-legislation-changes/amendments&quot;),
+  (&quot;NDIS (ministerial release, 1 Apr 2026) - new offences and penalties incl. unregistered provision of registration-required supports.&quot;,&quot;https://ndis.gov.au/news/11506-parliament-passes-tough-new-laws-protect-ndis-fraudsters-predators-and-shonks&quot;),
+ ]),
+ (&quot;Tier 2 - standards bodies and comparators&quot;, [
+  (&quot;OASIS Akoma Ntoso / LegalDocML v1.0 (OASIS Standard, 29 Aug 2018) - the open standard for machine-readable legislation; revision scheduled for approval late Jul 2026.&quot;,&quot;https://www.oasis-open.org/news/announcements/akoma-ntoso-v1-0-akn-oasis-standard-published/&quot;),
+  (&quot;legislation.gov.uk API documentation - the benchmark open register API (bulk access, open licences, CORS).&quot;,&quot;https://legislation.github.io/data-documentation/api/overview.html&quot;),
+ ]),
+ (&quot;Tier 3 - professional secondary (corroboration only, never sole basis for a Verified stamp)&quot;, [
+  (&quot;MinterEllison (Apr 2026) - IS26 commencement split and penalty analysis.&quot;,&quot;https://www.minterellison.com/articles/ndis-legislative-amendments&quot;),
+  (&quot;Team DSC (Apr 2026) - whistleblower mechanics and information-notice compression.&quot;,&quot;https://teamdsc.com.au/resources/what-you-need-to-know-about-the-ndis-amendment-integrity-and-safeguarding-bill-2026/&quot;),
+  (&quot;Michael West Media (Jun 2026) - registration statistics; journalistic, single-sourced - do not republish without a primary source.&quot;,&quot;https://michaelwest.com.au/the-54b-question-ndis-compliance-looms-247000-providers-yet-to-be-registered/&quot;),
+ ]),
+]
+src_html = &quot;&quot;
+for tier, items in SOURCES:
+    lis = &quot;&quot;.join(f&#x27;&lt;li&gt;{esc(d)} &lt;a class=&quot;cite&quot; href=&quot;{u}&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;source&lt;/a&gt;&lt;/li&gt;&#x27; for d, u in items)
+    src_html += f&#x27;&lt;div class=&quot;fact&quot;&gt;&lt;b&gt;{esc(tier)}&lt;/b&gt;&lt;ul class=&quot;srcs&quot;&gt;{lis}&lt;/ul&gt;&lt;/div&gt;&#x27;
+src_html += &#x27;&lt;div class=&quot;watch&quot;&gt;&lt;h3&gt;Negative findings - searched for, not found&lt;/h3&gt;&lt;p&gt;No public API documentation for legislation.gov.au (the US and UK register APIs are different systems); no post-2026 PRPS compilation published yet; FRL ids for two 2019/2020 Commission guidelines not yet located; support-coordination mandatory-registration timing unresolved. Full trace and access dates: rise-sources.md.&lt;/p&gt;&lt;/div&gt;&#x27;
+
+node_opts = &quot;&quot;.join(f&#x27;&lt;option value=&quot;{esc(i)}&quot;&gt;{esc(d[&quot;t&quot;][:60])}&lt;/option&gt;&#x27; for i, d in gnodes.items())
+
+nV = sum(1 for s in rb.STD if s[4]==&quot;V&quot;); nD = sum(1 for s in rb.STD if s[4]==&quot;D&quot;)
+counts = dict(docs=len(rb.DOCS), stds=len(rb.STD), leg=len(rb.LEG), edges=len(rb.E), v=nV, d=nD)
+
+WATCH = [
+ (&quot;NDIS Amendment (Securing the NDIS for Future Generations) Bill 2026&quot;,&quot;Third tranche of NDIS Act reform, introduced to Parliament 14 May 2026. Not yet law - track passage and commencements.&quot;,&quot;https://www.health.gov.au/our-work/ndis-legislation-changes/amendments&quot;),
+ (&quot;Mandatory registration expansion to 2030&quot;,&quot;SIL and platform providers mandatory from 1 Jul 2026; broader phased program flagged through 2030 (secondary reporting). Timing for other categories - including support coordination - unresolved; confirm before relying on it.&quot;,&quot;&quot;),
+ (&quot;SIL (Module 5A) - PRPS clause pinpoints&quot;,&quot;RESOLVED on the indicators side: QI Guidelines compilation C03 (1 Jul 2026) consolidates Module 5A, ss 72B-72E - names verified. Still open: the PRPS Rules compilation remains C04 (2021), so SIL schedule/clause pinpoints in the Standards sheet stay TBC until the next PRPS compilation.&quot;,&quot;https://www.legislation.gov.au/F2018L00631/latest&quot;),
+ (&quot;NDIS Practice Standards Review&quot;,&quot;Commission review of the Practice Standards under way; may reshape modules and introduce expectation statements. Any change fans out across this whole register.&quot;,&quot;https://www.ndiscommission.gov.au/about-us/ndis-commission-reform-hub&quot;),
+ (&quot;Approved Quality Auditors Rules 2025 vs 2018 Scheme Guidelines&quot;,&quot;Both listed as current; the relationship (supplement or partial replacement) is unconfirmed. New AQA approvals are suspended during the reform program.&quot;,&quot;https://www.legislation.gov.au/F2025L01383/latest&quot;),
+ (&quot;Quality Indicators import&quot;,&quot;The QI Guidelines 2018 (as amended for SIL) contain the indicators auditors actually assess - not yet imported into the graph. Next shared-data task.&quot;,&quot;&quot;),
+ (&quot;Jurisdictional overlays&quot;,&quot;State/Territory NDIS worker screening schemes, WHS law, and child-safe requirements (relevant to Module 3) vary by jurisdiction and are represented only as adjacent placeholders.&quot;,&quot;&quot;),
+ (&quot;Akoma Ntoso revision - late July 2026&quot;,&quot;A revision of the OASIS LegalDocML standard is scheduled for approval this month. Relevant to how Rise structures full-text legislative imports; adopt the new revision if ratified.&quot;,&quot;https://www.oasis-open.org/news/announcements/akoma-ntoso-v1-0-akn-oasis-standard-published/&quot;),
+ (&quot;FRL programmatic access - unconfirmed&quot;,&quot;No public API documentation found for legislation.gov.au (the UK register&#x27;s open API is the benchmark). Resolve by contacting the Office of Parliamentary Counsel; until then, integrate at page level with respectful caching.&quot;,&quot;https://legislation.github.io/data-documentation/api/overview.html&quot;),
+]
+watch_rows = &quot;&quot;.join(
+    f&#x27;&#x27;&#x27;&lt;div class=&quot;watch&quot;&gt;&lt;h3&gt;{esc(t)}&lt;/h3&gt;&lt;p&gt;{esc(d)}&lt;/p&gt;{f&#x27;&lt;a class=&quot;cite&quot; href=&quot;{u}&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;source / track here&lt;/a&gt;&#x27; if u else &#x27;&#x27;}&lt;/div&gt;&#x27;&#x27;&#x27;
+    for t, d, u in WATCH)
+
+page = &quot;&quot;&quot;&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;title&gt;Rise · NDIS Regulatory Dossier — snapshot 5 July 2026&lt;/title&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&amp;family=Public+Sans:wght@400;600;700&amp;family=IBM+Plex+Mono:wght@400;600&amp;display=swap&quot; media=&quot;all&quot; onerror=&quot;this.media=&#x27;none&#x27;&quot;&gt;
+&lt;style&gt;
+:root{--navy:#12284b;--navy2:#1d3a66;--bg:#eef1f2;--panel:#fff;--ink:#17202b;--mut:#5a6673;
+--rule:#c9d1d6;--ok:#1e7a4f;--okbg:#e5f2ea;--amb:#8a5b00;--ambbg:#f6ecd6;--chk:#7a4a1e;--chkbg:#f3e7dc;}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 &quot;Public Sans&quot;,-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Roboto,system-ui,sans-serif}
+.mast{background:var(--navy);color:#e9eef6;padding:40px 20px 28px}
+.mast .wrap{max-width:1060px;margin:0 auto;display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end;justify-content:space-between}
+.eyebrow{font:600 12px/1 &quot;Public Sans&quot;;letter-spacing:.22em;text-transform:uppercase;color:#9fb3d1;margin:0 0 10px}
+h1{font:800 clamp(30px,4.5vw,44px)/1.08 Spectral,serif;margin:0;max-width:640px}
+h1 em{font-style:italic;font-weight:500;color:#b9c9e2}
+.stampbox{border:2px solid #8fa5c8;padding:12px 16px;font:600 12px/1.7 &quot;IBM Plex Mono&quot;,monospace;
+letter-spacing:.06em;color:#cdd9ec;text-transform:uppercase;transform:rotate(-1.2deg);white-space:nowrap}
+.stampbox b{color:#fff}
+nav{position:sticky;top:0;background:var(--navy2);z-index:9;box-shadow:0 2px 8px rgba(10,20,40,.25)}
+nav .wrap{max-width:1060px;margin:0 auto;display:flex;flex-wrap:wrap}
+nav a{color:#dbe4f2;text-decoration:none;font:600 13px/1 &quot;Public Sans&quot;;letter-spacing:.04em;padding:14px 16px}
+nav a:hover,nav a:focus-visible{background:rgba(255,255,255,.12);outline:none}
+main{max-width:1060px;margin:0 auto;padding:12px 20px 80px}
+section{margin-top:56px}
+h2{font:700 26px/1.2 Spectral,serif;border-bottom:3px solid var(--navy);padding-bottom:8px;margin:0 0 6px}
+.lede{color:var(--mut);max-width:72ch;margin:8px 0 18px}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:0;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+td{padding:12px 14px;border-top:1px solid var(--rule);vertical-align:top}
+tr:first-child td{border-top:none}
+.mono{font-family:&quot;IBM Plex Mono&quot;,monospace}
+.id{font-weight:600;font-size:13.5px;background:#eef2f7;border:1px solid #d5dde8;padding:2px 7px;border-radius:3px;white-space:nowrap}
+.cite{font-family:&quot;IBM Plex Mono&quot;,monospace;font-size:12.5px;color:var(--navy);text-decoration:none;border-bottom:1px dotted var(--navy)}
+a.cite:hover{background:#e7edf6}
+.cite.dim{color:var(--mut);border-bottom:none}
+.meta{color:var(--mut);font-size:12.5px;margin-top:3px}
+.note{font-size:13px;margin-top:6px;max-width:80ch}
+.stamp{display:inline-block;font:600 10.5px/1.2 &quot;IBM Plex Mono&quot;,monospace;letter-spacing:.05em;text-transform:uppercase;
+border:1.5px solid;padding:4px 8px;border-radius:2px;white-space:normal;max-width:150px}
+.stamp.verified{color:var(--ok);border-color:var(--ok);background:var(--okbg)}
+.stamp.draft{color:var(--amb);border-color:var(--amb);background:var(--ambbg)}
+.stamp.corrob,.stamp.check{color:var(--chk);border-color:var(--chk);background:var(--chkbg)}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 12px;align-items:center}
+input[type=search],select{font:14px &quot;Public Sans&quot;;padding:9px 12px;border:1px solid var(--rule);border-radius:4px;background:#fff;min-width:200px}
+input[type=search]:focus-visible,select:focus-visible,.chip:focus-visible,summary:focus-visible{outline:2px solid var(--navy);outline-offset:1px}
+.chip{font:600 12.5px &quot;IBM Plex Mono&quot;;padding:7px 11px;border:1px solid var(--rule);background:#fff;border-radius:3px;cursor:pointer}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.ladder{background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:22px 24px;font-size:15px}
+.rung{display:flex;gap:14px;padding:9px 0;border-top:1px dashed var(--rule);align-items:baseline}
+.rung:first-child{border-top:none}
+.rung .mono{color:var(--navy);font-weight:600;font-size:12px;min-width:170px;text-transform:uppercase;letter-spacing:.05em}
+.links{columns:1;font-size:12px;color:#3a4756;margin:6px 0 0;padding-left:18px}
+.links .dim{color:#8792a0}
+details summary{cursor:pointer;font-size:12.5px;color:var(--navy);margin-top:6px;font-weight:600}
+.ez{color:var(--ok);font-weight:700;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase}
+.watch{background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--amb);border-radius:4px;padding:16px 18px;margin-bottom:12px}
+.watch h3{margin:0 0 6px;font:700 17px Spectral,serif}
+.watch p{margin:0 0 6px;font-size:14px;max-width:85ch}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.fact{background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:14px 16px;font-size:14px}
+.fact b{font-family:&quot;IBM Plex Mono&quot;;color:var(--navy)}
+footer{border-top:3px solid var(--navy);margin-top:70px;padding:22px 20px;color:var(--mut);font-size:13px}
+footer .wrap{max-width:1060px;margin:0 auto}
+.gwrap{background:var(--panel);border:1px solid var(--rule);border-radius:4px}
+#gsvg{width:100%;height:auto;display:block}
+a.idlink{text-decoration:none;color:inherit;cursor:pointer}
+a.idlink:hover,a.idlink:focus-visible{background:#dfe7f2;outline:none}
+.gnode{cursor:pointer}
+.gedge{stroke:#93a3b3;stroke-width:1.4;fill:none}
+.gedge.in{stroke-dasharray:5 4}
+.glab{font:600 9.5px &quot;IBM Plex Mono&quot;;fill:#415061}
+#glist ul{margin:6px 0 0;padding-left:18px;font:12px/1.6 &quot;IBM Plex Mono&quot;;color:#3a4756;list-style:square}
+#glist .dim{color:#8792a0}
+#gchain .rung .mono{min-width:140px}
+.srcs{margin:8px 0 0;padding-left:18px;font-size:13px}
+.srcs li{margin-bottom:7px}
+.gnode:focus{outline:none}
+.gnode:focus rect,.gnode:focus-visible rect{stroke-width:3.2}
+.dh{font:700 17px Spectral,serif;border-bottom:2px solid var(--rule);padding-bottom:4px;margin:20px 0 8px}
+#dread table{margin:4px 0 10px}
+#dread ol{padding-left:22px}
+#dread ol li{margin-bottom:6px}
+@media(max-width:640px){.rung .mono{min-width:110px}td{padding:10px}}
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+
+&lt;header class=&quot;mast&quot;&gt;&lt;div class=&quot;wrap&quot;&gt;
+&lt;div&gt;&lt;p class=&quot;eyebrow&quot;&gt;Rise · Compliance Knowledge Graph&lt;/p&gt;
+&lt;h1&gt;NDIS Regulatory Dossier &lt;em&gt;— every instrument, standard and document, in one traceable chain&lt;/em&gt;&lt;/h1&gt;&lt;/div&gt;
+&lt;div class=&quot;stampbox&quot;&gt;Snapshot · compiled 5 Jul 2026&lt;br&gt;&lt;b&gt;__DOCS__ documents · __STDS__ standards&lt;/b&gt;&lt;br&gt;__LEG__ instruments · __EDGES__ typed links&lt;br&gt;static register — outbound links live&lt;/div&gt;
+&lt;/div&gt;&lt;/header&gt;
+
+&lt;nav&gt;&lt;div class=&quot;wrap&quot;&gt;
+&lt;a href=&quot;#logic&quot;&gt;The logic&lt;/a&gt;&lt;a href=&quot;#legislation&quot;&gt;Legislation&lt;/a&gt;&lt;a href=&quot;#standards&quot;&gt;Standards&lt;/a&gt;
+&lt;a href=&quot;#documents&quot;&gt;Documents&lt;/a&gt;&lt;a href=&quot;#library&quot;&gt;Reader&lt;/a&gt;&lt;a href=&quot;#graph&quot;&gt;Graph explorer&lt;/a&gt;&lt;a href=&quot;#verification&quot;&gt;Verification&lt;/a&gt;&lt;a href=&quot;#sources&quot;&gt;Sources&lt;/a&gt;&lt;a href=&quot;#watch&quot;&gt;Watch list&lt;/a&gt;
+&lt;/div&gt;&lt;/nav&gt;
+
+&lt;main&gt;
+&lt;section id=&quot;logic&quot;&gt;&lt;h2&gt;The logic, top to bottom&lt;/h2&gt;
+&lt;p class=&quot;lede&quot;&gt;One chain explains the whole system. Every layer below answers to the layer above it, and every link in this dossier is one of these typed relationships.&lt;/p&gt;
+&lt;div class=&quot;ladder&quot;&gt;
+&lt;div class=&quot;rung&quot;&gt;&lt;span class=&quot;mono&quot;&gt;Parliament&lt;/span&gt;&lt;span&gt;makes the &lt;strong&gt;NDIS Act 2013&lt;/strong&gt; — the source of all authority.&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;rung&quot;&gt;&lt;span class=&quot;mono&quot;&gt;Made under the Act&lt;/span&gt;&lt;span&gt;&lt;strong&gt;Rules and Guidelines&lt;/strong&gt; (delegated legislation) — registration, incidents, complaints, restrictive practices, worker screening, the Code of Conduct, audit scheme.&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;rung&quot;&gt;&lt;span class=&quot;mono&quot;&gt;Set out in the Rules&lt;/span&gt;&lt;span&gt;The &lt;strong&gt;NDIS Practice Standards&lt;/strong&gt; — Core module for everyone on the certification pathway, plus modules that switch on with what you deliver (high-intensity supports, behaviour support, early childhood, support coordination, SDA, and from 1 July 2026, SIL).&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;rung&quot;&gt;&lt;span class=&quot;mono&quot;&gt;Implements&lt;/span&gt;&lt;span&gt;Your &lt;strong&gt;policies&lt;/strong&gt; — the commitments you make against each standard.&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;rung&quot;&gt;&lt;span class=&quot;mono&quot;&gt;Operationalises&lt;/span&gt;&lt;span&gt;Your &lt;strong&gt;procedures and work instructions&lt;/strong&gt; — how, who, when.&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;rung&quot;&gt;&lt;span class=&quot;mono&quot;&gt;Uses → records to&lt;/span&gt;&lt;span&gt;&lt;strong&gt;Forms&lt;/strong&gt; capture each event; &lt;strong&gt;registers&lt;/strong&gt; keep the running log.&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;rung&quot;&gt;&lt;span class=&quot;mono&quot;&gt;Evidences&lt;/span&gt;&lt;span&gt;Completed records become &lt;strong&gt;evidence&lt;/strong&gt;; an approved quality auditor samples it against the standards; findings drive improvement actions. The loop closes.&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;grid2&quot; style=&quot;margin-top:14px&quot;&gt;
+&lt;div class=&quot;fact&quot;&gt;&lt;b&gt;Who checks?&lt;/b&gt; Independent approved quality auditors — certification audits for higher-risk supports, desktop verification for lower-risk ones — reporting to the NDIS Commission.&lt;/div&gt;
+&lt;div class=&quot;fact&quot;&gt;&lt;b&gt;What changed in 2026?&lt;/b&gt; SIL and platform providers must register from 1 July; new SIL Practice Standards apply; and the Integrity and Safeguarding Act sharply raises penalties, including for delivering registration-required supports while unregistered.&lt;/div&gt;
+&lt;div class=&quot;fact&quot;&gt;&lt;b&gt;Why a graph?&lt;/b&gt; When any instrument changes, following the links backwards produces the exact review list of affected documents — the fan-out that keeps a provider current.&lt;/div&gt;
+&lt;/div&gt;&lt;/section&gt;
+
+&lt;section id=&quot;legislation&quot;&gt;&lt;h2&gt;Legislation — __LEG__ instruments&lt;/h2&gt;
+&lt;p class=&quot;lede&quot;&gt;FRL codes link to the Federal Register of Legislation (always the live, current version). The Commission maintains its own index of &lt;a class=&quot;cite&quot; href=&quot;https://www.ndiscommission.gov.au/about-us/legislation-rules-and-policies&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;legislation, rules and policies&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&quot;tools&quot;&gt;&lt;input type=&quot;search&quot; placeholder=&quot;Search instruments…&quot; data-filter=&quot;#legtable&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;panel&quot;&gt;&lt;table id=&quot;legtable&quot;&gt;&lt;tbody&gt;__LEGROWS__&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/section&gt;
+
+&lt;section id=&quot;standards&quot;&gt;&lt;h2&gt;Practice Standards — __STDS__ standards&lt;/h2&gt;
+&lt;p class=&quot;lede&quot;&gt;Citations pinpoint the schedule and clause of the Provider Registration and Practice Standards Rules 2018 (latest published compilation C04, 15 Nov 2021 — SIL locations pending consolidation). Each standard also shows the section of the Quality Indicators Guidelines (compilation C03, 1 Jul 2026) auditors assess it against.&lt;/p&gt;
+&lt;div class=&quot;tools&quot;&gt;&lt;input type=&quot;search&quot; placeholder=&quot;Search standards…&quot; data-filter=&quot;#stdtable&quot;&gt;&lt;button class=&quot;chip on&quot; data-chip=&quot;&quot;&gt;All modules&lt;/button&gt;__MODCHIPS__&lt;/div&gt;
+&lt;div class=&quot;panel&quot;&gt;&lt;table id=&quot;stdtable&quot;&gt;&lt;tbody&gt;__STDROWS__&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/section&gt;
+
+&lt;section id=&quot;documents&quot;&gt;&lt;h2&gt;Provider document suite — __DOCS__ documents&lt;/h2&gt;
+&lt;p class=&quot;lede&quot;&gt;The full best-practice suite: what to write, what each document implements, and how the pieces connect. Priority P1 is the audit-critical first wave. Expand a row for its typed links.&lt;/p&gt;
+&lt;div class=&quot;tools&quot;&gt;&lt;input type=&quot;search&quot; placeholder=&quot;Search documents…&quot; data-filter=&quot;#doctable&quot;&gt;
+&lt;select data-sel=&quot;type&quot; data-target=&quot;#doctable&quot;&gt;&lt;option value=&quot;&quot;&gt;All types&lt;/option&gt;__TYOPTS__&lt;/select&gt;
+&lt;select data-sel=&quot;cluster&quot; data-target=&quot;#doctable&quot;&gt;&lt;option value=&quot;&quot;&gt;All clusters&lt;/option&gt;__CLOPTS__&lt;/select&gt;
+&lt;select data-sel=&quot;pri&quot; data-target=&quot;#doctable&quot;&gt;&lt;option value=&quot;&quot;&gt;All priorities&lt;/option&gt;&lt;option&gt;P1&lt;/option&gt;&lt;option&gt;P2&lt;/option&gt;&lt;option&gt;P3&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;
+&lt;div class=&quot;panel&quot;&gt;&lt;table id=&quot;doctable&quot;&gt;&lt;tbody&gt;__DOCROWS__&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/section&gt;
+
+&lt;section id=&quot;library&quot;&gt;&lt;h2&gt;Document reader — every document, drafted and linked&lt;/h2&gt;
+&lt;p class=&quot;lede&quot;&gt;All __DOCS__ documents exist as living drafts generated straight from the graph. Click any document ID anywhere in this dossier to open it here. Inside a document, every link is live: standards and legislation open in the graph explorer, documents open here. &lt;span class=&quot;stamp draft&quot;&gt;All drafts v0.1 — review before approval&lt;/span&gt;&lt;/p&gt;
+&lt;div class=&quot;tools&quot;&gt;&lt;input id=&quot;dpick&quot; list=&quot;gdocs&quot; type=&quot;search&quot; placeholder=&quot;Open a document, e.g. POL-INC-01&quot; style=&quot;min-width:280px&quot;&gt;&lt;datalist id=&quot;gdocs&quot;&gt;__DOCOPTS__&lt;/datalist&gt;&lt;button class=&quot;chip&quot; id=&quot;dgraph&quot; type=&quot;button&quot;&gt;Open current in graph explorer&lt;/button&gt;&lt;/div&gt;
+&lt;article id=&quot;dread&quot; class=&quot;panel&quot; style=&quot;padding:22px 26px&quot; aria-live=&quot;polite&quot;&gt;&lt;p class=&quot;meta&quot;&gt;Pick a document to read it here.&lt;/p&gt;&lt;/article&gt;
+&lt;/section&gt;
+
+&lt;section id=&quot;graph&quot;&gt;&lt;h2&gt;Graph explorer — travel the linkages&lt;/h2&gt;
+&lt;p class=&quot;lede&quot;&gt;Pick any node — a policy, a form, a standard, an instrument — and see what it connects to, with every link typed. Solid lines point outward (toward authority or the things this node uses); dashed lines point in. &lt;strong&gt;Click any neighbour to travel.&lt;/strong&gt; Click any ID anywhere in this dossier to jump here. Busy nodes show their 22 strongest links in the picture; the complete list is always below.&lt;/p&gt;
+&lt;div class=&quot;tools&quot;&gt;&lt;button class=&quot;chip on&quot; id=&quot;gmI&quot; type=&quot;button&quot;&gt;Instances&lt;/button&gt;&lt;button class=&quot;chip&quot; id=&quot;gmM&quot; type=&quot;button&quot;&gt;Data model&lt;/button&gt;&lt;input id=&quot;gpick&quot; list=&quot;gnodes&quot; type=&quot;search&quot; placeholder=&quot;Type an ID or title, e.g. POL-INC-01&quot; style=&quot;min-width:280px&quot;&gt;&lt;datalist id=&quot;gnodes&quot;&gt;__NODEOPTS__&lt;/datalist&gt;&lt;span class=&quot;meta&quot; id=&quot;gcrumb&quot; aria-live=&quot;polite&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;gwrap&quot;&gt;&lt;svg id=&quot;gsvg&quot; viewBox=&quot;0 0 1000 620&quot; role=&quot;img&quot; aria-label=&quot;Node linkage diagram&quot;&gt;&lt;/svg&gt;&lt;/div&gt;
+&lt;div class=&quot;grid2&quot; style=&quot;margin-top:12px&quot;&gt;
+&lt;div class=&quot;fact&quot;&gt;&lt;b id=&quot;gptitle&quot;&gt;Authority chain&lt;/b&gt;&lt;div id=&quot;gchain&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;fact&quot;&gt;&lt;b&gt;All links for this node&lt;/b&gt;&lt;div id=&quot;glist&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/section&gt;
+
+&lt;section id=&quot;verification&quot;&gt;&lt;h2&gt;Verification &amp; known gaps&lt;/h2&gt;
+&lt;p class=&quot;lede&quot;&gt;Nothing in this dossier hides its epistemic status. Every row carries a stamp.&lt;/p&gt;
+&lt;div class=&quot;grid2&quot;&gt;
+&lt;div class=&quot;fact&quot;&gt;&lt;span class=&quot;stamp verified&quot;&gt;Verified — FRL / Commission, 5 Jul 2026&lt;/span&gt;&lt;p&gt;Checked against the Federal Register or the Commission&#x27;s own pages. __V__ of __STDS__ standards, including the full Core, all supplementary modules and the verification module, traced to schedule and clause.&lt;/p&gt;&lt;/div&gt;
+&lt;div class=&quot;fact&quot;&gt;&lt;span class=&quot;stamp draft&quot;&gt;Draft source — confirm vs made 2026 Rules&lt;/span&gt;&lt;p&gt;The __D__ SIL standards. The module commenced 1 Jul 2026 but no consolidated compilation is published yet; names derive from the Commission&#x27;s draft module.&lt;/p&gt;&lt;/div&gt;
+&lt;div class=&quot;fact&quot;&gt;&lt;span class=&quot;stamp corrob&quot;&gt;Corroborated / check&lt;/span&gt;&lt;p&gt;Adjacent-law placeholders (Privacy, WHS, discrimination, state worker screening) and two Commission guidelines whose FRL ids are still to be pulled.&lt;/p&gt;&lt;/div&gt;
+&lt;div class=&quot;fact&quot;&gt;&lt;b&gt;Not yet in the graph&lt;/b&gt;&lt;p&gt;Quality-indicator text (the thing auditors actually assess); registration-group → module applicability table; provision-level nodes; Easy Read companion documents as their own rows; jurisdictional overlays.&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/section&gt;
+
+&lt;section id=&quot;sources&quot;&gt;&lt;h2&gt;Sources - what stands behind every stamp&lt;/h2&gt;
+&lt;p class=&quot;lede&quot;&gt;Verified stamps rest only on Tier 1. Lower tiers corroborate and alert - never verify alone. Full register with access dates and the claim-by-claim trace: &lt;span class=&quot;mono&quot;&gt;rise-sources.md&lt;/span&gt;. All accessed 5 July 2026.&lt;/p&gt;
+&lt;div class=&quot;grid2&quot;&gt;__SOURCES__&lt;/div&gt;&lt;/section&gt;
+
+&lt;section id=&quot;watch&quot;&gt;&lt;h2&gt;Watch list — moving parts&lt;/h2&gt;
+&lt;p class=&quot;lede&quot;&gt;Live reform items that will change this register. Each is a standing research task.&lt;/p&gt;
+__WATCH__&lt;/section&gt;
+&lt;/main&gt;
+
+&lt;footer&gt;&lt;div class=&quot;wrap&quot;&gt;&lt;strong&gt;Rise dossier v0.1.&lt;/strong&gt; Static snapshot generated 5 July 2026 by rise_build.py / rise_dossier.py — regenerate after any data change. Outbound links resolve to live sources. Suite composition, priorities and review cycles are design recommendations. This dossier is a compliance-engineering artefact, not legal advice.&lt;/div&gt;&lt;/footer&gt;
+
+&lt;script&gt;
+(function(){
+function rows(t){return Array.from(document.querySelectorAll(t+&quot; tbody tr&quot;))}
+document.querySelectorAll(&quot;input[data-filter]&quot;).forEach(function(inp){
+  inp.addEventListener(&quot;input&quot;,function(){
+    var q=inp.value.toLowerCase();
+    rows(inp.dataset.filter).forEach(function(r){
+      r.style.display = r.textContent.toLowerCase().indexOf(q)&gt;-1 ? &quot;&quot; : &quot;none&quot;;});});});
+var mod=&quot;&quot;;
+document.querySelectorAll(&quot;.chip&quot;).forEach(function(c){
+  c.addEventListener(&quot;click&quot;,function(){
+    document.querySelectorAll(&quot;.chip&quot;).forEach(function(x){x.classList.remove(&quot;on&quot;)});
+    c.classList.add(&quot;on&quot;); mod=c.dataset.chip;
+    rows(&quot;#stdtable&quot;).forEach(function(r){
+      r.style.display = (!mod || r.dataset.mod===mod) ? &quot;&quot; : &quot;none&quot;;});});});
+var sels={type:&quot;&quot;,cluster:&quot;&quot;,pri:&quot;&quot;};
+document.querySelectorAll(&quot;select[data-sel]&quot;).forEach(function(s){
+  s.addEventListener(&quot;change&quot;,function(){
+    sels[s.dataset.sel]=s.value;
+    rows(s.dataset.target).forEach(function(r){
+      var ok=(!sels.type||r.dataset.type===sels.type)&amp;&amp;(!sels.cluster||r.dataset.cluster===sels.cluster)&amp;&amp;(!sels.pri||r.dataset.pri===sels.pri);
+      r.style.display = ok ? &quot;&quot; : &quot;none&quot;;});});});
+})();
+&lt;/script&gt;
+&lt;script type=&quot;application/json&quot; id=&quot;graphdata&quot;&gt;__GRAPH__&lt;/script&gt;
+&lt;script type=&quot;application/json&quot; id=&quot;docdata&quot;&gt;__DOCSJSON__&lt;/script&gt;
+&lt;script&gt;
+(function(){
+var D=JSON.parse(document.getElementById(&quot;graphdata&quot;).textContent);
+function mkAdj(E){var a={};E.forEach(function(e){
+ (a[e[0]]=a[e[0]]||[]).push({o:1,ty:e[1],x:e[2],n:e[3]||&quot;&quot;});
+ (a[e[2]]=a[e[2]]||[]).push({o:0,ty:e[1],x:e[0],n:e[3]||&quot;&quot;});});return a}
+var adjI=mkAdj(D.e),adjM=mkAdj(D.te),mode=&quot;i&quot;;
+function adjOf(){return mode===&quot;i&quot;?adjI:adjM}
+function NODES(){return mode===&quot;i&quot;?D.n:D.tn}
+var adj=adjI;
+var PRI={IMPLEMENTS:0,OPERATIONALISES:1,USES:2,RECORDS_TO:3,PART_OF:4,PUBLISHED_IN:5,MADE_UNDER:6};
+function pri(t){return PRI[t]!==undefined?PRI[t]:8}
+var DOCSH=JSON.parse(document.getElementById(&quot;docdata&quot;).textContent);
+var dread=document.getElementById(&quot;dread&quot;),dpick=document.getElementById(&quot;dpick&quot;),curDoc=null;
+var svg=document.getElementById(&quot;gsvg&quot;),chainEl=document.getElementById(&quot;gchain&quot;),
+listEl=document.getElementById(&quot;glist&quot;),crumb=document.getElementById(&quot;gcrumb&quot;),
+pick=document.getElementById(&quot;gpick&quot;),trail=[];
+function nk(i){return NODES()[i]||{t:i,k:&quot;?&quot;,l:&quot;shared&quot;}}
+function esc(s){return String(s).replace(/&amp;/g,&quot;&amp;amp;&quot;).replace(/&lt;/g,&quot;&amp;lt;&quot;).replace(/&gt;/g,&quot;&amp;gt;&quot;).replace(/&quot;/g,&quot;&amp;quot;&quot;)}
+function cut(s,n){s=String(s);return s.length&gt;n?s.slice(0,n-1)+&quot;\u2026&quot;:s}
+function box(id,x,y,c,tip){var n=nk(id),w=176,h=46;
+ var f=c?&quot;#12284b&quot;:(n.l===&quot;shared&quot;?&quot;#eef2f7&quot;:&quot;#fdf6e7&quot;);
+ var st=c?&quot;#12284b&quot;:(n.l===&quot;shared&quot;?&quot;#12284b&quot;:&quot;#a06a00&quot;);
+ var t1=c?&quot;#fff&quot;:&quot;#12284b&quot;,t2=c?&quot;#cdd9ec&quot;:&quot;#5a6673&quot;;
+ return &#x27;&lt;g class=&quot;gnode&quot; tabindex=&quot;0&quot; role=&quot;button&quot; aria-label=&quot;&#x27;+esc(id)+&#x27;&quot; data-id=&quot;&#x27;+esc(id)+&#x27;&quot;&gt;&#x27;+(tip?&#x27;&lt;title&gt;&#x27;+esc(tip)+&#x27;&lt;/title&gt;&#x27;:&#x27;&#x27;)+
+ &#x27;&lt;rect x=&quot;&#x27;+(x-w/2)+&#x27;&quot; y=&quot;&#x27;+(y-h/2)+&#x27;&quot; width=&quot;&#x27;+w+&#x27;&quot; height=&quot;&#x27;+h+&#x27;&quot; fill=&quot;&#x27;+f+&#x27;&quot; stroke=&quot;&#x27;+st+&#x27;&quot; stroke-width=&quot;1.6&quot; rx=&quot;5&quot;/&gt;&#x27;+
+ &#x27;&lt;text x=&quot;&#x27;+x+&#x27;&quot; y=&quot;&#x27;+(y-6)+&#x27;&quot; text-anchor=&quot;middle&quot; style=&quot;font:600 11px IBM Plex Mono,monospace&quot; fill=&quot;&#x27;+t1+&#x27;&quot;&gt;&#x27;+esc(cut(id,24))+&#x27;&lt;/text&gt;&#x27;+
+ &#x27;&lt;text x=&quot;&#x27;+x+&#x27;&quot; y=&quot;&#x27;+(y+11)+&#x27;&quot; text-anchor=&quot;middle&quot; style=&quot;font:10.5px Public Sans,sans-serif&quot; fill=&quot;&#x27;+t2+&#x27;&quot;&gt;&#x27;+esc(cut(n.t,30))+&#x27;&lt;/text&gt;&lt;/g&gt;&#x27;;}
+function step(id,ty){var m=(adj[id]||[]).filter(function(e){return e.o&amp;&amp;e.ty===ty})[0];return m?m.x:null}
+function rung(a,b){return &#x27;&lt;div class=&quot;rung&quot;&gt;&lt;span class=&quot;mono&quot;&gt;&#x27;+esc(a)+&#x27;&lt;/span&gt;&lt;span&gt;&#x27;+esc(b)+&#x27;&lt;/span&gt;&lt;/div&gt;&#x27;}
+function chainFrom(std){var out=&quot;&quot;;
+ out+=rung(&quot;standard&quot;,std+&quot; \u2014 &quot;+nk(std).t);
+ var mod=step(std,&quot;PART_OF&quot;);if(!mod)return out;
+ out+=rung(&quot;part of module&quot;,cut(mod+&quot; \u2014 &quot;+nk(mod).t,70));
+ var fw=step(mod,&quot;PART_OF&quot;);if(!fw)return out;
+ out+=rung(&quot;framework&quot;,nk(fw).t);
+ var ru=step(fw,&quot;PUBLISHED_IN&quot;);if(!ru)return out;
+ out+=rung(&quot;set out in&quot;,cut(nk(ru).t,72));
+ var act=step(ru,&quot;MADE_UNDER&quot;);if(act)out+=rung(&quot;made under&quot;,nk(act).t);
+ return out;}
+function chain(id){var n=nk(id),h=&quot;&quot;;
+ if(n.k===&quot;Standard&quot;)return chainFrom(id);
+ if(n.k===&quot;Module&quot;){h+=rung(&quot;module&quot;,cut(nk(id).t,70));var fw=step(id,&quot;PART_OF&quot;);
+  if(fw){h+=rung(&quot;framework&quot;,nk(fw).t);var ru=step(fw,&quot;PUBLISHED_IN&quot;);
+   if(ru){h+=rung(&quot;set out in&quot;,cut(nk(ru).t,72));var a=step(ru,&quot;MADE_UNDER&quot;);if(a)h+=rung(&quot;made under&quot;,nk(a).t);}}
+  return h;}
+ if(n.k===&quot;Instrument&quot;||n.k===&quot;Framework&quot;){h+=rung(n.k.toLowerCase(),cut(n.t,72));
+  var a2=step(id,&quot;MADE_UNDER&quot;);if(a2)h+=rung(&quot;made under&quot;,nk(a2).t);
+  var r2=step(id,&quot;PUBLISHED_IN&quot;);if(r2)h+=rung(&quot;set out in&quot;,cut(nk(r2).t,72));
+  return h;}
+ h+=rung(n.k.toLowerCase(),id+&quot; \u2014 &quot;+cut(n.t,60));
+ var stds=(adj[id]||[]).filter(function(e){return e.o&amp;&amp;e.ty===&quot;IMPLEMENTS&quot;}).map(function(e){return e.x});
+ if(!stds.length)return h+&quot;&lt;p class=meta&gt;No IMPLEMENTS link \u2014 this node reaches law only via its related documents.&lt;/p&gt;&quot;;
+ if(stds.length&gt;1)h+=rung(&quot;implements&quot;,stds.join(&quot;; &quot;)+&quot; (chain shown for the first)&quot;);
+ return h+chainFrom(stds[0]);}
+function typeInfo(id){var n=nk(id);
+ return rung(&quot;purpose&quot;,n.t)+rung(&quot;key attributes&quot;,n.a||&quot;see node taxonomy&quot;)+rung(&quot;layer&quot;,n.l===&quot;shared&quot;?&quot;shared reference - one copy, centrally maintained&quot;:&quot;tenant - private to each provider&quot;);}
+function fillPick(){var o=&quot;&quot;;Object.keys(NODES()).forEach(function(k){o+=&#x27;&lt;option value=&quot;&#x27;+esc(k)+&#x27;&quot;&gt;&#x27;+esc(cut(nk(k).t,60))+&quot;&lt;/option&gt;&quot;});document.getElementById(&quot;gnodes&quot;).innerHTML=o;}
+function setMode(m,start){mode=m;trail=[];
+ document.getElementById(&quot;gmI&quot;).classList.toggle(&quot;on&quot;,m===&quot;i&quot;);
+ document.getElementById(&quot;gmM&quot;).classList.toggle(&quot;on&quot;,m===&quot;m&quot;);
+ fillPick();sel(start);}
+document.getElementById(&quot;gmI&quot;).addEventListener(&quot;click&quot;,function(){setMode(&quot;i&quot;,&quot;POL-INC-01&quot;)});
+document.getElementById(&quot;gmM&quot;).addEventListener(&quot;click&quot;,function(){setMode(&quot;m&quot;,&quot;Policy&quot;)});
+function linkList(id,nb){var o=&quot;&lt;ul&gt;&quot;;
+ nb.forEach(function(m){
+  o+=&quot;&lt;li&quot;+(m.o?&quot;&quot;:&quot; class=dim&quot;)+&quot;&gt;&quot;+(m.o?esc(m.ty)+&quot; \u2192 &quot;:&quot;\u2190 &quot;+esc(m.ty)+&quot; &quot;)+
+  &#x27;&lt;a class=&quot;idlink&quot; data-node=&quot;&#x27;+esc(m.x)+&#x27;&quot; href=&quot;#graph&quot;&gt;&#x27;+esc(m.x)+&quot;&lt;/a&gt;&quot;+
+  (m.n?&quot; \u00b7 &lt;span style=color:#8792a0&gt;&quot;+esc(cut(m.n,80))+&quot;&lt;/span&gt;&quot;:&quot;&quot;)+&quot;&lt;/li&gt;&quot;;});
+ return o+&quot;&lt;/ul&gt;&quot;;}
+function sel(id){if(!NODES()[id])return;adj=adjOf();
+ if(trail[trail.length-1]!==id)trail.push(id);
+ if(trail.length&gt;6)trail=trail.slice(-6);
+ crumb.textContent=&quot;Path: &quot;+trail.join(&quot; \u2192 &quot;);
+ var nb=(adj[id]||[]).slice().sort(function(a,b){return pri(a.ty)-pri(b.ty)});
+ var shown=nb.slice(0,22),extra=nb.length-shown.length;
+ var W=1000,H=620,cx=W/2,cy=H/2,out=&quot;&quot;;
+ shown.forEach(function(m,i){var a=-Math.PI/2+i*2*Math.PI/Math.max(shown.length,1);
+  m._x=cx+Math.cos(a)*370;m._y=cy+Math.sin(a)*245;
+  out+=&#x27;&lt;path class=&quot;gedge&#x27;+(m.o?&quot;&quot;:&quot; in&quot;)+&#x27;&quot; d=&quot;M&#x27;+cx+&quot; &quot;+cy+&quot; L&quot;+m._x+&quot; &quot;+m._y+&#x27;&quot;/&gt;&#x27;;
+  var lx=cx+(m._x-cx)*0.55,ly=cy+(m._y-cy)*0.55;
+  out+=&#x27;&lt;text class=&quot;glab&quot; x=&quot;&#x27;+lx+&#x27;&quot; y=&quot;&#x27;+(ly-3)+&#x27;&quot; text-anchor=&quot;middle&quot;&gt;&#x27;+esc(m.ty)+(m.o?&quot; \u2192&quot;:&quot; \u2190&quot;)+&quot;&lt;/text&gt;&quot;;});
+ shown.forEach(function(m){out+=box(m.x,m._x,m._y,false,m.n)});
+ out+=box(id,cx,cy,true,&quot;&quot;);
+ if(extra&gt;0)out+=&#x27;&lt;text class=&quot;glab&quot; x=&quot;&#x27;+cx+&#x27;&quot; y=&quot;&#x27;+(H-10)+&#x27;&quot; text-anchor=&quot;middle&quot;&gt;+&#x27;+extra+&quot; more \u2014 complete list below&lt;/text&gt;&quot;;
+ svg.innerHTML=out;
+ svg.querySelectorAll(&quot;.gnode&quot;).forEach(function(g){function go(){sel(g.getAttribute(&quot;data-id&quot;))}g.addEventListener(&quot;click&quot;,go);g.addEventListener(&quot;keydown&quot;,function(ev){if(ev.key===&quot;Enter&quot;||ev.key===&quot; &quot;){ev.preventDefault();go()}})});
+ document.getElementById(&quot;gptitle&quot;).textContent=(mode===&quot;i&quot;?&quot;Authority chain&quot;:&quot;Type details&quot;);chainEl.innerHTML=(mode===&quot;i&quot;?chain(id):typeInfo(id));listEl.innerHTML=linkList(id,nb);pick.value=id;
+}
+pick.addEventListener(&quot;change&quot;,function(){var q=pick.value.trim();
+ if(D.n[q])return sel(q);
+ var qq=q.toLowerCase(),hit=null;
+ Object.keys(D.n).forEach(function(k){if(!hit&amp;&amp;(k.toLowerCase()===qq||nk(k).t.toLowerCase().indexOf(qq)&gt;-1))hit=k});
+ if(hit)sel(hit);});
+function openDoc(id){if(!DOCSH[id])return;curDoc=id;dread.innerHTML=DOCSH[id];dpick.value=id;}
+function route(n){if(DOCSH[n]){openDoc(n)}else{if(mode!==&quot;i&quot;){setMode(&quot;i&quot;,n)}else{sel(n)}}}
+document.addEventListener(&quot;click&quot;,function(ev){var a=ev.target.closest(&quot;a.idlink[data-node]&quot;);if(!a)return;route(a.getAttribute(&quot;data-node&quot;));});
+dpick.addEventListener(&quot;change&quot;,function(){var q=dpick.value.trim();if(DOCSH[q])return openDoc(q);
+ var qq=q.toLowerCase(),hit=null;Object.keys(DOCSH).forEach(function(k){if(!hit&amp;&amp;D.n[k]&amp;&amp;D.n[k].t.toLowerCase().indexOf(qq)&gt;-1)hit=k});if(hit)openDoc(hit);});
+document.getElementById(&quot;dgraph&quot;).addEventListener(&quot;click&quot;,function(){if(!curDoc)return;if(mode!==&quot;i&quot;){setMode(&quot;i&quot;,curDoc)}else{sel(curDoc)}location.hash=&quot;#graph&quot;;});
+sel(&quot;POL-INC-01&quot;);openDoc(&quot;POL-INC-01&quot;);
+})();
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;&quot;&quot;&quot;
+
+for k, v in [(&quot;__DOCS__&quot;,counts[&quot;docs&quot;]),(&quot;__STDS__&quot;,counts[&quot;stds&quot;]),(&quot;__LEG__&quot;,counts[&quot;leg&quot;]),
+ (&quot;__EDGES__&quot;,counts[&quot;edges&quot;]),(&quot;__V__&quot;,counts[&quot;v&quot;]),(&quot;__D__&quot;,counts[&quot;d&quot;]),
+ (&quot;__LEGROWS__&quot;,leg_rows),(&quot;__STDROWS__&quot;,std_rows),(&quot;__DOCROWS__&quot;,doc_rows),
+ (&quot;__MODCHIPS__&quot;,mod_chips),(&quot;__TYOPTS__&quot;,ty_opts),(&quot;__CLOPTS__&quot;,cl_opts),(&quot;__WATCH__&quot;,watch_rows),(&quot;__GRAPH__&quot;,GRAPH),(&quot;__NODEOPTS__&quot;,node_opts),(&quot;__SOURCES__&quot;,src_html),(&quot;__DOCSJSON__&quot;,DOCSJSON),(&quot;__DOCOPTS__&quot;,doc_opts)]:
+    page = page.replace(k, str(v))
+
+open(&quot;/home/claude/rise-dossier.html&quot;,&quot;w&quot;).write(page)
+print(&quot;dossier written:&quot;, len(page), &quot;bytes&quot;)
+</code></pre>
+<div class="kbfoot">Read-only view. Original file: <a class="mono" href="rise_dossier.py">rise_dossier.py</a></div>
+</article></div>
+</body></html>

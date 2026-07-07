@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How an NDIS Auditor Checks a Provider Against the Practice Standards · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-audit-pack/01-guide/how-ndis-auditors-check-practice-standards.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: how-ndis-auditors-check-practice-standards.md</span><span>35,761 bytes</span></div>
+
+<h1>How an NDIS Auditor Checks a Provider Against the Practice Standards</h1>
+<h3>A layered guide (age-5 → data-model) + a best-practice checklist</h3>
+<p><strong>Prepared for:</strong> Rise Development
+<strong>Date:</strong> 6 July 2026
+<strong>Purpose:</strong> Deep-research reference on how an Approved Quality Auditor (AQA) tests a provider's <em>policies, procedures, forms, registers and records</em> against the NDIS Practice Standards and Quality Indicators — plus a best-practice checklist and an analysis of a real audit report.</p>
+<hr />
+<h2>0. How to read this document (source discipline)</h2>
+<p>Every substantive claim below carries an epistemic label, matching the V/C/T/D convention used in prior Rise sessions:</p>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>[V]</strong></td>
+<td><strong>Verified</strong> this session against a primary or authoritative source (NDIS Commission text, legislation-derived instrument, or a real audit report).</td>
+</tr>
+<tr>
+<td><strong>[C]</strong></td>
+<td><strong>Corroborated</strong> — multiple independent secondary sources agree, but I did not confirm against the primary instrument this session.</td>
+</tr>
+<tr>
+<td><strong>[T]</strong></td>
+<td><strong>Tentative</strong> — a single source, or a source with a commercial interest, or otherwise weak.</td>
+</tr>
+<tr>
+<td><strong>[D]</strong></td>
+<td><strong>Draft / inference</strong> — my synthesis or interpretation, not a sourced fact.</td>
+</tr>
+<tr>
+<td><strong>[M-unverified]</strong></td>
+<td>Carried from prior-session Rise memory (e.g. specific FRL IDs / section numbers) that I <strong>did not re-verify this session</strong>. Treat as a claim to check, not a fact.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Two honesty notes up front:</strong></p>
+<ol>
+<li><strong>I could not fetch <code>ndiscommission.gov.au</code> pages directly</strong> — the site blocks automated retrieval. Everything attributed to the Commission below comes from its own text surfaced via search snippets, which I judged reliable but is not the same as reading the published instrument end-to-end. Where a detail matters for Rise's graph, verify against the live page or the Federal Register of Legislation.</li>
+<li><strong>The "real audit report" evidence is genuine and strong.</strong> I read a full 54-page NDIS <em>Re-certification Audit Report</em> (SAI Global, for a Victorian provider, 2022) that the provider published on its own website. That is the single most useful artefact here for your crosswalk work, because it shows <em>exactly</em> how an auditor maps documents → indicators. <strong>[V]</strong></li>
+</ol>
+<hr />
+<h2>Level 1 — Explain like I'm 5</h2>
+<p>Imagine you run a shop that helps people. <strong>[D]</strong></p>
+<p>A grown-up whose job is to <em>check</em> comes to visit. They are <strong>not</strong> from the government and they are <strong>not</strong> your boss — they're an independent checker the government trusts. <strong>[V]</strong></p>
+<p>They have a <strong>list of promises</strong> every helper-shop must keep: <em>be kind, be safe, listen to the person, keep secrets safe, don't hurt anyone, fix mistakes.</em> <strong>[C]</strong></p>
+<p>The checker does three things, over and over: <strong>[V]</strong></p>
+<ol>
+<li><strong>"Show me the rule."</strong> → <em>Do you have it written down?</em> (your <strong>policy</strong>)</li>
+<li><strong>"Show me how you do it."</strong> → <em>Is there a step-by-step?</em> (your <strong>procedure</strong>, and the <strong>forms</strong> people fill in)</li>
+<li><strong>"Show me it really happens."</strong> → They ask your workers, they ask the people you help, and they look around. <strong>[V]</strong></li>
+</ol>
+<p>If all three match — <em>written down, steps exist, and it really happens</em> — you get a <strong>tick</strong>. <strong>[D]</strong>
+If something's missing, you get a <strong>"please fix this."</strong> A small fix = you keep going and fix it soon. A big fix = you must fix it before you're allowed to keep going. <strong>[V]</strong></p>
+<p>That's the whole game: <strong>say it, do it, prove it.</strong></p>
+<hr />
+<h2>Level 2 — Plain English (the shape of the system)</h2>
+<p><strong>[C] unless marked.</strong></p>
+<ul>
+<li>Anyone who wants to be a <strong>registered</strong> NDIS provider must pass an independent <strong>quality audit</strong> before (and periodically after) registration. The NDIS Commission itself does not run the audit; it <em>authorises</em> private certification bodies — <strong>Approved Quality Auditors (AQAs)</strong> — to do it. <strong>[V]</strong></li>
+<li>The AQAs are accredited and monitored by <strong>JAS-ANZ</strong> (the Joint Accreditation System of Australia and New Zealand) on the Commission's behalf; the accreditation is anchored in the international conformity-assessment standard <strong>ISO/IEC 17065</strong>. <strong>[V]</strong></li>
+<li>What the auditor measures a provider against is the <strong>NDIS Practice Standards</strong> (high-level, participant-focused <em>outcomes</em>) plus the <strong>Quality Indicators</strong> (the concrete things an auditor looks for to decide whether each outcome is met). <strong>[V]</strong></li>
+<li>There are <strong>two audit pathways</strong>, decided by the <em>risk/complexity of the registration groups</em> the provider applies for — not by the provider's preference: <strong>[V]</strong></li>
+<li><strong>Verification audit</strong> — lower-risk / lower-complexity supports. A <strong>desktop review</strong> of a defined document set (qualifications, insurance, complaints, incidents, worker screening, self-assessment). Usually one auditor, no site visit. <strong>[V/C]</strong></li>
+<li><strong>Certification audit</strong> — higher-risk / more complex supports. <strong>Two stages</strong>: Stage 1 (document/system review, usually off-site) then Stage 2 (on-site: interviews with staff <em>and</em> participants, file reviews, observation). At least <strong>two auditors</strong>. <strong>[V/C]</strong></li>
+<li>The output is an <strong>audit report</strong> with a <strong>rating against every applicable standard and indicator</strong>, submitted to the Commission. The Commission — not the auditor — makes the actual <strong>registration decision</strong>. <strong>[V]</strong></li>
+<li>Certification registration runs up to <strong>3 years</strong> with a <strong>mid-term audit</strong> (~18 months) focused on governance/operational management plus any prior problem areas. Verification registration runs up to <strong>5 years</strong> with a renewal audit at expiry. <strong>[C]</strong> <em>(Timeframes are widely and consistently reported by AQAs; confirm the mid-term basis against the Provider Registration &amp; Practice Standards Rules if precision matters — see §7.)</em></li>
+</ul>
+<hr />
+<h2>Level 3 — The regulatory stack (the part that matters most for Rise)</h2>
+<p>This is the hierarchy your typed-edge graph is trying to represent. Direction of authority runs <strong>upward</strong> (dependent artefact → its authority), matching your v0.3 convention (procedure → policy → standard → indicator → rules → Act). <strong>[D for the framing; underlying facts labelled below.]</strong></p>
+<pre><code>National Disability Insurance Scheme Act 2013 (primary legislation)      [C]
+        ▲
+NDIS (Provider Registration and Practice Standards) Rules 2018           [V that the Standards live here]
+  → contains / gives force to the NDIS Practice Standards (the OUTCOMES)  [M-unverified FRL: F2018L00631]
+        ▲
+NDIS (Quality Indicators) Guidelines 2018 (the INDICATORS auditors use)  [V that indicators are a separate instrument]
+  → 2026 amendment added Supported Independent Living indicators          [V: &quot;…Quality Indicators…Amendment (Supported Independent Living) Guidelines 2026&quot;]
+        ▲
+──────── (the line where regulation stops and the PROVIDER begins) ────────
+        ▲
+Provider POLICIES        (the provider's written commitment per outcome)  [V from real report]
+        ▲
+Provider PROCEDURES      (the step-by-step that operationalises a policy)  [V]
+        ▲
+FORMS / TEMPLATES / REGISTERS  (consent forms, service agreements,
+   risk registers, incident registers, RAR register, CI register…)        [V]
+        ▲
+RECORDS / EVIDENCE       (completed forms, file notes, minutes, training
+   logs, interviews, site observation — what proves it actually happens)   [V]
+</code></pre>
+<p><strong>The single most important mechanic for your crosswalk:</strong> the auditor does <strong>not</strong> grade a policy in isolation. For each <em>indicator</em>, they assemble a <strong>bundle</strong> of artefacts that together demonstrate the outcome, then <strong>triangulate</strong> across three evidence modes — <strong>document review + interview + observation</strong>. A policy with no procedure, or a procedure with no completed records, or records that contradict what staff say in interview, does not pass. <strong>[V — this is exactly what the real report shows.]</strong></p>
+<p>The Commission's own description of the auditor's stance captures it: the auditor examines the documented system, then repeatedly asks <em>"Can you show me?"</em> — moving from what's written to what's evidenced in board minutes, incident reports, risk registers, improvement logs, and lived practice. <strong>[V]</strong></p>
+<blockquote>
+<p><strong>Rise modelling note [D]:</strong> In the real report, the provider had <strong>"mapped policies and procedures to the standards."</strong> That artefact — a provider-side policy-to-indicator crosswalk — is functionally the same object Rise generates. An auditor treats its <em>existence and currency</em> as evidence under Quality Management (Outcome 2.3). This is a concrete product hook: Rise's crosswalk is not just internal scaffolding, it is itself an auditable artefact.</p>
+</blockquote>
+<hr />
+<h2>Level 4 — How the auditor actually works (mechanics)</h2>
+<p><strong>[V/C] as marked. Grounded in the Commission's auditor guidance and the real report.</strong></p>
+<h3>4.1 Before arriving</h3>
+<p>The auditor reviews the provider's <strong>scope of registration</strong>, <strong>previous audit history</strong>, and any <strong>higher-risk modules</strong>, and plans a <strong>sampling approach</strong> (which sites, which participant files, which workers). Their role is to <em>evaluate</em>, explicitly <strong>not</strong> to consult or coach. <strong>[V]</strong></p>
+<h3>4.2 Certification: Stage 1 then Stage 2</h3>
+<ul>
+<li><strong>Stage 1 (documentation/system review):</strong> reviews the <strong>self-assessment</strong> and the policy/procedure suite; identifies gaps and readiness. Stage 1 findings must be given to the provider before Stage 2 (reported as ~2 weeks prior if a non-conformity was found, ~1 week if not). <strong>[C]</strong></li>
+<li><strong>Stage 2 (on-site):</strong> tests <strong>implementation</strong> — interviews <strong>key personnel, workers who directly deliver support, and participants</strong> (individually, not only in groups; face-to-face where possible; guided by participant preference), reviews participant and staff <strong>files</strong>, and <strong>observes</strong> the environment/service. <strong>[V]</strong></li>
+</ul>
+<h3>4.3 The three evidence modes (triangulation)</h3>
+<ol>
+<li><strong>Document review</strong> — policies, procedures, forms, registers, plans, minutes, training records, staff files. <strong>[V]</strong></li>
+<li><strong>Interview</strong> — do workers <em>know</em> the procedure? do participants <em>experience</em> the outcome? <strong>[V]</strong></li>
+<li><strong>Observation / site inspection</strong> — signage, safety equipment, environment, physical practice. <strong>[V]</strong></li>
+</ol>
+<h3>4.4 Sampling</h3>
+<p>Auditors sample rather than review everything. Real-report example: a <strong>minimum of 5 participants</strong> interviewed (or all, if the provider has ≤5); staff files sampled (6 of 12 in the real case). Site sampling determines which locations are physically visited. <strong>[V]</strong></p>
+<h3>4.5 The rating scale (per standard <em>and</em> per indicator)</h3>
+<p>A <strong>0–3</strong> scale is applied. <strong>[V — appears in the real report; wording corroborated against the AQA Scheme Guidelines via secondary source.]</strong></p>
+<table>
+<thead>
+<tr>
+<th>Score</th>
+<th>Label</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>3</strong></td>
+<td>Conformity with elements of best practice</td>
+<td>Clearly demonstrates best practice — innovative, responsive, continuous improvement. <strong>[C]</strong></td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Conformity</td>
+<td>Outcomes/indicators met, proportionate to size and scale. <strong>[V — the rating used throughout the real report]</strong></td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>Minor non-conformity</td>
+<td>Gap that does <em>not</em> immediately risk participants; longer to fix; registration can continue. <strong>[V]</strong></td>
+</tr>
+<tr>
+<td><strong>0</strong></td>
+<td>Major non-conformity</td>
+<td>Serious gap; <strong>3 months</strong> to fix; registration does <strong>not</strong> progress until closed and re-audited. <strong>[V]</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Critical risk</strong> (uncontrolled risk to participant safety, incl. matters under the Incident Management &amp; Reportable Incidents Rules 2018) → the auditor must <strong>notify the Commission immediately or within 24 hours</strong>, and this usually triggers an on-site follow-up/re-audit within 3 months. <strong>[V]</strong></li>
+<li>After the audit the auditor requests a <strong>corrective action plan (CAP)</strong> for any non-conformity; unresolved 0/1 ratings become <strong>"open non-conformities"</strong> followed up within set timeframes (desktop or on-site). <strong>[V]</strong></li>
+</ul>
+<h3>4.6 Report → review → submission → decision</h3>
+<p>The draft report is shown to the provider for <strong>factual-accuracy</strong> correction (not to negotiate findings), then a <strong>technical reviewer</strong> independent of the audit checks it is accurate, complete, and properly documents any auditor/provider disagreement. It is submitted to the Commission — <strong>within ~14 days (verification)</strong> or <strong>~28 days (certification / mid-term)</strong>. The Commission then decides registration, may request more information, or impose conditions. <strong>[V]</strong></p>
+<hr />
+<h2>Level 5 — Anatomy of a REAL audit report (SAI Global, 2022) <strong>[V]</strong></h2>
+<p>This is the structure you asked to "look at." Reproduced as <em>structure</em>, paraphrased (not verbatim), from a genuine published NDIS re-certification report covering the Core Module + Module 4 (Specialised Support Coordination).</p>
+<p><strong>Report sections, in order:</strong></p>
+<ol>
+<li><strong>Cover / metadata</strong> — organisation, trading name, <strong>all site addresses</strong>, <strong>scope</strong> (each registration group by code, e.g. <code>0132 Support Coordination</code>, <code>0136 Group &amp; Centre-Based Activities</code>), audit dates, audit team (Lead Auditor + Auditor), work-item IDs, report version.</li>
+<li><strong>Background information</strong> — purpose, the ISO/IEC 17065 + ISO 19011 basis, the <strong>sampling caveat</strong> (audit is based on a sample, not exhaustive).</li>
+<li><strong>Executive overview</strong> — narrative of what was found, changes to the plan (e.g. a site toured remotely), overall effectiveness, and <strong>named strengths</strong>.</li>
+<li><strong>Recommendation</strong> — which groups get a <strong>Certification</strong> recommendation vs <strong>Provisional Certification</strong> (groups with no current participants).</li>
+<li><strong>Meeting attendance register</strong> — who was in the opening/closing meetings, entry/exit.</li>
+<li><strong>Organisational overview</strong> — what the provider does, history, whether it serves children (0–16).</li>
+<li><strong>Staff numbers + number of staff files audited</strong> (e.g. 6 of 12).</li>
+<li><strong>Participant interview methodology &amp; file reviews</strong> — a <strong>table by registration group</strong>: participants, number interviewed, method (phone/face-to-face/carer), files reviewed; opt-outs and reasons.</li>
+<li><strong>Client &amp; stakeholder feedback summary</strong> — direct positive quotes and <strong>"opportunities for improvement"</strong> raised by participants/families.</li>
+<li><strong>Staff file review details</strong> — a <strong>per-worker table</strong>: role, risk category, <strong>Worker Screening (NDIS check number + expiry, WWCC)</strong>, qualifications/training (incl. <strong>NDIS Worker Orientation module</strong>, infection-control modules), and HR documentation (signed Code of Conduct, PD, induction checklist, references, supervision notes).</li>
+<li><strong>Summary of audit findings (the rating table)</strong> — every standard and sub-outcome listed with its score. In this case: <strong>Core Module 1.1–1.5, 2.1–2.9, 3.1–3.5, 4.1–4.5, and Module 4's three standards — all "2 – Conformity."</strong></li>
+<li><strong>Per-outcome findings</strong> — for <strong>each</strong> indicator: the <strong>Outcome</strong> statement, a per-indicator <strong>Rating</strong>, then three labelled blocks:<ul>
+<li><strong>EVIDENCE:</strong> — a dense list of the <em>named documents with version numbers and dates</em> that demonstrate the outcome, followed by what <strong>interviews</strong> and <strong>site tours</strong> confirmed.</li>
+<li><strong>Opportunities for improvement</strong> — non-binding observations (e.g. <em>consent forms "not as easy-read as they could be"</em>; a first-aid kit with expired items; an org chart with inconsistent titles).</li>
+<li><strong>Non-conformity</strong> — here, N/A throughout.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Why this artefact is gold for Rise [D]:</strong> Section 12 <em>is</em> a crosswalk instance. For <strong>Outcome 1.1 (Person-Centred Supports)</strong> alone, the auditor cited: <em>NDIS Participants Rights &amp; Responsibilities Policy &amp; Procedure; Participant Charter; Participant Handbook (V12, dated); Service Delivery Policy &amp; Procedure; Physical Accessibility Policy &amp; Procedure; Decision-Making &amp; Choice Policy &amp; Procedure; Policy Manual; Your Rights &amp; Responsibilities (V4); Client Charter (V7); Service Agreement — easy read (V9); Staff Orientation &amp; Induction Checklist (V1)</em> — <strong>plus</strong> staff interviews and reviewed welcome packs. That is a <strong>many-to-one edge fan-in</strong>: many provider artefacts → one indicator → one outcome. Every one of those documents carried a <strong>version and date</strong>, which is precisely the <strong>bitemporal / version discipline</strong> your model treats as day-one. The auditor's implicit test is: <em>is this version current, approved, and consistent with practice?</em></p>
+<hr />
+<h2>6. THE BEST-PRACTICE CHECKLIST</h2>
+<p><strong>How to use it [D]:</strong> For each Core Module outcome, the checklist states <em>what the auditor is testing</em>, the <em>artefacts that typically map to it</em>, and the <em>evidence modes</em> they'll triangulate. Aim for <strong>"say it (policy) → do it (procedure + form) → prove it (records + interview + observation)."</strong> Every document should be <strong>version-controlled, approved, dated, and reflected in real practice</strong> — the most common audit failure is the <strong>gap between what the policy says and what actually happens</strong>. <strong>[C]</strong></p>
+<blockquote>
+<p>The mapping of documents→outcomes below is <strong>[C/D]</strong>: it reflects what the real report and multiple provider-guidance sources show auditors looking for. It is <em>typical</em>, not a legislated list. Treat it as a strong default to verify against the current Practice Standards + Quality Indicators text for the provider's specific scope.</p>
+</blockquote>
+<h3>Module structure (what applies to whom) <strong>[V/C]</strong></h3>
+<ul>
+<li><strong>Core Module — Groups 1 &amp; 2 (Rights &amp; Responsibilities; Governance &amp; Operational Management): apply to EVERY registered provider.</strong> <strong>[V]</strong></li>
+<li><strong>Core Module — Group 3 (Provision of Supports) &amp; Group 4 (Support Provision Environment):</strong> apply depending on whether the provider delivers direct/ongoing supports and, for environment, settings like SIL/shared living. <em>(Some sources order these differently — confirm against the current module text.)</em> <strong>[T on the exact Group-3/4 ordering; V that both exist.]</strong></li>
+<li><strong>Supplementary modules</strong> apply by registration group: High-Intensity Daily Personal Activities; Specialist Behaviour Support (+ Implementing BSPs); Early Childhood; Specialised Support Coordination (Module 4); Specialist Disability Accommodation; <strong>Supported Independent Living (new — see §7).</strong> <strong>[V/C]</strong></li>
+<li><strong>Verification Module</strong> — the pared-down outcome set for verification-only providers. <strong>[C]</strong></li>
+</ul>
+<hr />
+<h3>Group 1 — Rights and Responsibility (all providers)</h3>
+<p><strong>1.1 Person-Centred Supports</strong> — <em>rights understood and built into everyday practice; accessible communication; supported to engage with support network.</em>
+- [ ] Rights &amp; Responsibilities policy <strong>and</strong> procedure, referencing UN CRPD / human-rights &amp; disability legislation <strong>[V pattern]</strong>
+- [ ] Participant Charter + Participant Handbook (accessible / easy-read versions)
+- [ ] Accessible-communication / interpreter provisions documented
+- [ ] Evidence in <strong>practice</strong>: staff can describe it; participants confirm information was clear
+- <strong>Auditor tests:</strong> document review + participant interview + staff interview.</p>
+<p><strong>1.2 Individual Values and Beliefs</strong> — <em>culture, diversity, values, beliefs identified and respected.</em>
+- [ ] Cultural responsiveness in service-delivery / decision-making procedures
+- [ ] Prompts for cultural/religious context in planning templates
+- [ ] Participants/families confirm culturally appropriate support.</p>
+<p><strong>1.3 Privacy and Dignity</strong> — <em>consistent privacy practices; confidentiality explained accessibly; informed consent incl. audio/visual.</em>
+- [ ] Privacy &amp; Confidentiality policy/procedure + <strong>easy-read privacy flyer</strong>
+- [ ] Consent / image-release <strong>forms</strong> (ideally granular, not blanket)
+- [ ] Signage for any cameras/recording; observed in site tour
+- <strong>Real-report gotcha:</strong> blanket consent with no "program-use-only" option was flagged as an <em>opportunity for improvement</em>. <strong>[V]</strong></p>
+<p><strong>1.4 Independence and Informed Choice</strong> — <em>active decision-making; dignity of risk; autonomy incl. intimacy/sexual expression; time to decide; advocate access.</em>
+- [ ] Decision-Making &amp; Choice policy referencing guardianship/administration law
+- [ ] "Your Right to Advocacy" information + advocate contacts
+- [ ] Dignity-of-risk documented, not just "safety-first"
+- [ ] Files show participants given time; consent re-signed periodically.</p>
+<p><strong>1.5 Violence, Abuse, Neglect, Exploitation &amp; Discrimination (VANED)</strong> — <em>active prevention; advocate access on allegation; allegations acted on, recorded, learned from.</em>
+- [ ] Protecting-Participants-from-Harm policy with definitions, prevention, response, investigation (incl. concurrent police involvement)
+- [ ] Anti-discrimination / harassment policy
+- [ ] Link to incident system + advocacy
+- [ ] Screened, risk-assessed roles.</p>
+<hr />
+<h3>Group 2 — Provider Governance and Operational Management (all providers)</h3>
+<p><strong>2.1 Governance &amp; Operational Management</strong> — <em>robust, proportionate governance; people-with-disability input; defined structure meeting legislative/financial/regulatory duties; delegations; conflict of interest.</em>
+- [ ] Governance framework / policy + <strong>organisational chart with clear accountability</strong>
+- [ ] Strategic + business plan referencing legislative requirements &amp; risks
+- [ ] <strong>Delegations register</strong> (incl. absence delegations)
+- [ ] <strong>Conflict-of-Interest register / policy</strong>
+- [ ] Key-personnel records; board/management oversight evidence (minutes)
+- <strong>Real-report gotcha:</strong> inconsistent role titles across documents, and surveys not run per policy during COVID, were flagged. <strong>[V]</strong></p>
+<p><strong>2.2 Risk Management</strong> — <em>risks to participants/workers/provider identified, analysed, treated; system covers incidents, complaints, financial, governance, HR, information, WHS, emergency/disaster; infection control where relevant; appropriate insurance.</em>
+- [ ] Risk Management policy + <strong>Risk Register</strong> (identify→analyse→treat→monitor→report)
+- [ ] Individual participant risk assessments
+- [ ] Financial-management controls (delegations, anti-fraud, accounting-standard reference)
+- [ ] <strong>Insurance register + current certificates</strong> (public liability, professional indemnity, accident/WorkCover)
+- <strong>Real-report gotcha:</strong> untested/untagged electrical equipment and expired first-aid items at a delivery site. <strong>[V]</strong></p>
+<p><strong>2.3 Quality Management</strong> — <em>proportionate QMS defining how legislation &amp; standards are met; documented internal-audit program; continuous improvement from outcomes, risk data, feedback.</em>
+- [ ] QMS / Policy &amp; Procedures Manual, <strong>version-controlled</strong>
+- [ ] <strong>Policies mapped to the Practice Standards</strong> ← <em>this is the crosswalk artefact</em>
+- [ ] Internal-audit schedule + completed internal-audit records
+- [ ] <strong>Continuous Improvement Register</strong> with action / owner / timeline
+- <strong>Rise hook [D]:</strong> currency of the policy-to-standard map is itself audited here.</p>
+<p><strong>2.4 Information Management</strong> — <em>participant info identifiable, accurate, current, confidential, accessible to the participant, appropriately used by workers; consent to collect/use/disclose; storage/retention/destruction.</em>
+- [ ] Records &amp; Information Management policy (retention aligned to legislated timeframes)
+- [ ] Data-breach notification provision
+- [ ] Access/correction/withdraw-consent process
+- <strong>Real-report gotcha:</strong> a worker's health-identifier number (HIN) visible on vaccination records. <strong>[V]</strong></p>
+<p><strong>2.5 Feedback &amp; Complaints Management</strong> — <em>accessible complaints system compliant with the Complaints Management &amp; Resolution Rules 2018; procedural fairness; external avenues incl. Commission; continuous improvement; workers trained.</em>
+- [ ] Feedback/Complaints policy referencing the Complaints Rules
+- [ ] Accessible complaints flyer + Commission contact details
+- [ ] <strong>Feedback/Complaints register</strong> with resolution + trend review
+- [ ] Staff trained (records).</p>
+<p><strong>2.6 Incident Management</strong> — <em>system compliant with the Incident Management &amp; Reportable Incidents Rules 2018; participants informed; continuous improvement; workers trained.</em>
+- [ ] Incident Management policy referencing the Incident Rules (definitions, reportable-incident <strong>timeframes</strong>)
+- [ ] <strong>Incident register</strong> + incident report forms
+- [ ] Cross-references to other regulators where relevant
+- [ ] Staff trained (records).</p>
+<p><strong>2.7 Human Resource Management</strong> — <em>role skills defined; pre-employment checks; orientation incl. mandatory NDIS Worker Orientation; training system; supervision; performance management; emergency-capable workforce; infection-control training; contact + secondary-employment details recorded.</em>
+- [ ] Position descriptions with role requirements + <strong>risk-assessed-role (RAR) determination</strong>
+- [ ] <strong>Worker Screening</strong>: NDIS Worker Screening Check (valid 5 yrs) + WWCC where relevant; register with numbers/expiries
+- [ ] NDIS Worker Orientation module completion
+- [ ] Training calendar + records (incl. infection control + refreshers)
+- [ ] Supervision + performance records
+- <strong>Real-report gotcha:</strong> infection-control records missing from newer staff files; a qualification not retained on file. <strong>[V]</strong></p>
+<p><strong>2.8 Continuity of Supports</strong> — <em>no interruption; cover for absence/vacancy; documented preferences given to workers; arrangements across the service agreement.</em>
+- [ ] Continuity arrangements + business-continuity plan
+- [ ] Absence/vacancy cover documented
+- <strong>Real-report gotcha:</strong> a "business continuity plan" that was really an infection-control statement and didn't address staff absence. <strong>[V]</strong></p>
+<p><strong>2.9 Emergency &amp; Disaster Management</strong> — <em>plans for continuity of critical supports before/during/after; governing-body-owned, tested, reviewed, communicated; each worker trained.</em> (A comparatively recent addition — watch for providers whose older maps predate it.)
+- [ ] Emergency Management Plan + evacuation plans per site
+- [ ] Evidence of <strong>testing</strong> and periodic review, with participant consultation
+- [ ] Worker training records.</p>
+<hr />
+<h3>Group 3 — Provision of Supports (providers delivering direct supports)</h3>
+<p><strong>3.1 Access to Supports</strong> — <em>supports &amp; entry criteria/costs defined &amp; communicated accessibly; reasonable adjustments; supports not withdrawn solely for a dignity-of-risk choice.</em>
+- [ ] Service Access policy (waitlist fairness, entry/exit/eligibility/cost)
+- [ ] Information pack; documented reasons for any refusal.</p>
+<p><strong>3.2 Support Planning</strong> — <em>participant actively involved; plans reflect needs/goals/strengths; risk assessments in plans; annual (or earlier) review; preventative-health &amp; emergency responses incorporated.</em>
+- [ ] Assessment/Planning/Review policy
+- [ ] Individual support plans + individual risk assessments
+- [ ] Annual review evidence in files.</p>
+<p><strong>3.3 Service Agreements</strong> — <em>collaboratively developed; understood accessibly; signed copy provided (or reason recorded); SIL-in-SDA arrangements documented; emergency arrangements set out.</em>
+- [ ] Service-agreement template (accessible/easy-read) + signed copies in files
+- [ ] Record kept where a participant declines / can't receive a copy
+- <strong>Real-report note:</strong> the "easy-read" agreement still read at a grade-10 level — a quality nuance auditors notice. <strong>[V]</strong></p>
+<p><strong>3.4 Responsive Support Provision</strong> — <em>least-intrusive, evidence-informed supports; links to health/allied providers with consent; participant involved in worker selection incl. gender for personal care; workers trained to specific needs.</em>
+- [ ] Individualised support records / activity logs
+- [ ] Evidence of least-restrictive, responsive practice.</p>
+<p><strong>3.5 Transitions To/From the Provider</strong> — <em>planned, collaborative, documented transition; transition risks (incl. temporary transitions like hospitalisation) identified and responded to.</em>
+- [ ] Exit &amp; Transition policy (incl. temporary transitions)
+- [ ] Transition/exit plans in files.</p>
+<hr />
+<h3>Group 4 — Support Provision Environment (settings-based, incl. SIL/shared living)</h3>
+<p><strong>4.1 Safe Environment</strong> — <em>appropriate, safe setting; workers identifiable; medical-emergency protocols &amp; trained workers; escalation; infection prevention &amp; control incl. PPE, cleaning, hand-hygiene training.</em>
+- [ ] Site safety checklists (per site) + observed conditions
+- [ ] IPC precautions, PPE availability, cleaning of touch-points, training records.</p>
+<p><strong>4.2 Participant Money and Property</strong> — <em>safe handling; protection against financial loss.</em>
+- [ ] Money/property-handling procedure + records.</p>
+<p><strong>4.3 Management of Medication</strong> — <em>safe storage, administration, recording (where in scope).</em>
+- [ ] Medication policy — or a clear <strong>"not in scope"</strong> statement if the provider doesn't administer.
+- <strong>Real-report note:</strong> provider explicitly scoped medication <em>out</em>, and the auditor accepted that. Scope-out statements are legitimate evidence. <strong>[V]</strong></p>
+<p><strong>4.4 Mealtime Management</strong> — <em>safe mealtime/dysphagia management where relevant.</em>
+- [ ] Mealtime-management / dysphagia procedures where applicable.</p>
+<p><strong>4.5 Management of Waste</strong> — <em>safe storage/disposal of hazardous/infectious waste per legislation; incidents reported; emergency plan; workers trained.</em>
+- [ ] Waste-management procedure + training records.</p>
+<hr />
+<h3>Cross-cutting "evidence hygiene" checklist (applies to everything) <strong>[D, distilled from the real report]</strong></h3>
+<ul>
+<li>[ ] Every document <strong>version-numbered and dated</strong>; superseded versions traceable <em>(your immutable-supersede edges map directly to this)</em></li>
+<li>[ ] Every policy has a matching <strong>procedure</strong> and, where relevant, a <strong>form/register</strong></li>
+<li>[ ] Every form has <strong>completed instances</strong> on file (proof of operation)</li>
+<li>[ ] <strong>Registers are live</strong> (incidents, complaints, risks, CI, delegations, insurance, RAR) — not empty templates</li>
+<li>[ ] Policy references to <strong>legislation/rules are current</strong> (watch renamed departments, superseded rules)</li>
+<li>[ ] <strong>Staff can articulate</strong> the procedure in interview</li>
+<li>[ ] <strong>Participants confirm</strong> the lived experience</li>
+<li>[ ] A <strong>policy-to-standard map</strong> exists and is current</li>
+<li>[ ] <strong>Self-assessment</strong> completed against the <em>current</em> standards (incl. newer outcomes like Emergency &amp; Disaster Management)</li>
+<li>[ ] Proportionality is explicit: everything scaled to the provider's <strong>size, scale, scope and complexity</strong> (this phrase recurs in almost every indicator). <strong>[V]</strong></li>
+</ul>
+<hr />
+<h2>7. The 2026 changes you must account for (with verification flags)</h2>
+<p>Because Rise is explicitly built to survive regulatory churn, here is what I could and could not verify this session.</p>
+<p><strong>Verified this session [V]:</strong>
+- <strong>SIL providers and NDIS digital-platform providers must be registered from 1 July 2026</strong>, announced Dec 2025 by the Minister for the NDIS (Jenny McAllister). <strong>[V]</strong>
+- The Commissioner made <strong>two instruments</strong> to give effect to this: the <strong>NDIS (Provider Registration and Practice Standards) Amendment (Mandatory Registration and Other Matters) Rules 2026</strong> and the <strong>NDIS (Quality Indicators for NDIS Practice Standards) Amendment (Supported Independent Living) Guidelines 2026.</strong> <strong>[V]</strong>
+- New <strong>SIL-specific Practice Standards</strong> commence 1 July 2026, co-designed with Inclusion Australia and pilot-tested in an audit pilot (Feb–Mar 2026). They <strong>sit alongside</strong> the Core Module — providers must meet <strong>both</strong>. <strong>[V]</strong>
+- SIL registration is a <strong>Certification</strong> pathway; existing registered SIL providers are assessed against the new SIL standards <strong>at their next scheduled audit</strong> (mid-term or renewal). <strong>[C]</strong>
+- The <strong>NDIS Amendment (Integrity and Safeguarding) Bill 2026 passed Parliament on 1 April 2026</strong> — i.e. it amends the <strong>NDIS Act 2013</strong>; it is <em>not</em> a standalone "Integrity and Safeguarding Act." <strong>[V]</strong></p>
+<p><strong>Reported but not primary-verified this session [T]:</strong>
+- A new registration group <strong>"0138 Assistance with Supported Independent Living"</strong> commencing 1 July 2026, and the SIL standards described as a <strong>"Supplementary Module."</strong> <strong>[T — single commercial source; plausible and consistent, but confirm on the Commission's SIL page / FRL.]</strong>
+- Various consultancies describe the new SIL standards as <strong>"four domains"</strong> (e.g. tenancy/housing-separate-from-support, choice &amp; control, worker capability, quality of support). The Commission's own page frames SIL as a supplementary module with an Evidence Guide and Reflective Questions for Participants. <strong>The exact published structure should be read from the final module, not from consultancy summaries.</strong> <strong>[T]</strong>
+- A broader <strong>Practice Standards Review</strong> (KPMG-led) proposing to replace the Core Module with <strong>four "Core Practice Domains"</strong> (Individual Rights, Provider Leadership, Safe Support Practice, Effective &amp; Impactful Support) and to replace supplementary modules with outcomes-focused "Supplementary Quality Standards." <strong>This is proposed / consultative, not commenced.</strong> Do not model it as current law. <strong>[C that a review exists and these are proposed; T on specifics.]</strong></p>
+<p><strong>Carried from Rise memory, NOT re-verified this session [M-unverified]:</strong>
+- FRL IDs <code>F2018L00631</code> (PRPS Rules), <code>F2026C00528</code> / "C03 compilation" (QI Guidelines).
+- SIL sections <strong>"ss 72B–72E."</strong> I found no confirmation of those specific section numbers this session — <strong>verify against the Federal Register of Legislation before relying on them in the graph or any provider-facing artefact.</strong></p>
+<hr />
+<h2>8. Negative findings &amp; open questions (worth recording per Rise practice)</h2>
+<ul>
+<li><strong>NDIS certification/verification audit reports do not appear to be centrally published</strong> by the Commission (unlike aged care, where quality-audit outcomes are publicly surfaced). The real report used here was <strong>self-published by the provider on its own website</strong> — a voluntary act, not a public register. <strong>Confidence: [T].</strong> I did not do an exhaustive search for a public register; I found none. <em>What would resolve it:</em> checking the Commission's provider-finder/registration pages and any FOI/disclosure logs. <strong>Implication for Rise:</strong> you cannot assume a corpus of real audit reports to train/validate against — your validation pilot's own provider documents are more valuable precisely because public exemplars are scarce.</li>
+<li><strong>The document→outcome mappings in §6 are typical, not authoritative.</strong> They are induced from one real report plus provider guidance. The authoritative test is always the <em>current</em> Practice Standards + Quality Indicators text for the provider's specific registration groups. <strong>[D]</strong></li>
+<li><strong>Group 3 vs Group 4 ordering / naming</strong> varies between sources; treat the module ordering in §6 as indicative until confirmed against the current module. <strong>[T]</strong></li>
+<li><strong>Mid-term audit basis</strong> (18 months; governance-focused) is consistently reported but I did not read it from the Rules this session. <strong>[C]</strong></li>
+</ul>
+<hr />
+<h2>9. Sources (what each is worth)</h2>
+<p><strong>Primary / authoritative [V-grade]:</strong>
+- NDIS Quality &amp; Safeguards Commission — <em>The quality audit process</em>; <em>Information for quality auditors</em>; <em>NDIS Practice Standards</em> + <em>Core Module</em> pages; <em>Supplementary module: Supported independent living</em>; <em>NDIS regulatory reform / reform hub</em> (accessed via search snippets; direct fetch blocked by the site).
+- <strong>Real audit report:</strong> SAI Global, <em>NDIS (Practice Standards) Re-certification Audit Report — Core Module + Module 4</em>, Prioletti Consultants Pty Ltd (t/a Catalyst), 2022 — full 54-page PDF read this session.
+- NDIS (Approved Quality Auditors Scheme) Guidelines 2018 (via NDS-hosted copy) — for the ISO/IEC 17065 conformity-assessment basis and audit-program proportionality.</p>
+<p><strong>Corroborating secondary [C-grade]:</strong> Team DSC (rating-scale wording); NDS factsheet (registration/audit pathways); multiple AQA sites (HDAA, IHCA, Australian QC, Engels Floyd, GCC) and provider-guidance blogs (NDISCompliant, ClinicComply, Nomotix, iinduct) for pathway/timeframe/module details.</p>
+<p><strong>Tentative [T-grade]:</strong> consultancy posts describing the <em>proposed</em> Practice Standards Review "four domains," the SIL "four domains," and registration group 0138 — directionally useful, not authoritative.</p>
+<hr />
+<p><em>Prepared by Claude for Rise Development. Files are session-scoped — download and retain this document; it will not persist in a later conversation. Every mapping and 2026 detail flagged </em><em>[T]</em><em> or </em><em>[M-unverified]</em><em> should be confirmed against the current Commission text / Federal Register of Legislation before it enters the Rise graph or any provider-facing artefact.</em></p>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="how-ndis-auditors-check-practice-standards.md">how-ndis-auditors-check-practice-standards.md</a></div>
+</article></div>
+</body></html>

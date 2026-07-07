@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rise_build.py · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/rise_build.py.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>python source</span><span>47,007 bytes</span></div>
+
+<h1>rise_build.py</h1><pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;Rise document-suite builder: generates rise-document-register.xlsx and rise-nodes-and-edges.json
+from one dataset. Verification labels: V=verified vs primary/regulator source Jul 2026;
+C=training knowledge corroborated by secondary sources; T=training knowledge, confirm against
+current compilation; D=draft instrument, confirm final wording.&quot;&quot;&quot;
+import json, datetime
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from openpyxl.utils import get_column_letter
+
+TODAY = &quot;2026-07-05&quot;
+
+# ---------------- LEGISLATION NODES ----------------
+# key, title, kind, register_id/notes, verification, graph role
+LEG = [
+ (&quot;ACT&quot;,&quot;National Disability Insurance Scheme Act 2013 (Cth)&quot;,&quot;Act&quot;,&quot;Principal Act; amended by Integrity and Safeguarding Act 2026&quot;,&quot;V&quot;,&quot;Root authority&quot;),
+ (&quot;IS26&quot;,&quot;National Disability Insurance Scheme Amendment (Integrity and Safeguarding) Act 2026&quot;,&quot;Amending Act&quot;,&quot;Passed 1 Apr 2026; Royal Assent 8 Apr 2026. Sch 1 (Commission powers) and Sch 3 (whistleblower) commenced 9 Apr 2026; Sch 2 (NDIA operational incl. electronic claims) 6 May 2026. Provider effects: serious-contravention civil penalties; offence to provide registration-required supports while unregistered; expanded banning orders incl. auditors and advisors; anti-promotion orders; stronger whistleblower protections&quot;,&quot;V&quot;,&quot;Amends ACT&quot;),
+ (&quot;PRPS&quot;,&quot;NDIS (Provider Registration and Practice Standards) Rules 2018&quot;,&quot;Rules (delegated legislation)&quot;,&quot;FRL series F2018L00631. Practice Standards housed in Schedules 1-8 (Core = Sch 1; HIDPA = Sch 2; M2 = Sch 3; M2A = Sch 4; M3 = Sch 5; M4 = Sch 6; M5 SDA = Sch 7; Verification &#x27;Module 6&#x27; = Sch 8). Body: s 7 registration classes, s 13B mid-term audit, s 20 applicable standards, s 24 QI Guidelines link. Latest published compilation C04 = F2021C01137 (15 Nov 2021) as at 5 Jul 2026 - the 2026 SIL amendments are made but not yet consolidated at this URL&quot;,&quot;V&quot;,&quot;Practice Standards PUBLISHED_IN here; MADE_UNDER ACT (registration power incl. s 73E(1))&quot;),
+ (&quot;PRPS26&quot;,&quot;NDIS (Provider Registration and Practice Standards) Amendment (Mandatory Registration and Other Matters) Rules 2026&quot;,&quot;Amending Rules&quot;,&quot;Mandatory SIL &amp; platform provider registration + SIL Practice Standards, from 1 Jul 2026&quot;,&quot;V&quot;,&quot;Amends PRPS&quot;),
+ (&quot;QI&quot;,&quot;NDIS (Quality Indicators for NDIS Practice Standards) Guidelines 2018&quot;,&quot;Guidelines&quot;,&quot;F2018N00041; made under s 181D(2) of the Act; registered 18 May 2018, commenced 1 Jul 2018. Renamed from (Quality Indicators) Guidelines 2018. Current compilation C03 = F2026C00528, in force 1 Jul 2026 - includes the Module 5A (SIL) indicators at ss 72B-72E&quot;,&quot;V&quot;,&quot;One section of indicators per standard; auditors assess against these&quot;),
+ (&quot;AQA&quot;,&quot;NDIS (Approved Quality Auditors Scheme) Guidelines 2018&quot;,&quot;Guidelines (notifiable instrument)&quot;,&quot;F2018N00114. Governs certification and verification audits; audit reports due to Commission 14 days (verification) / 28 days (certification, mid-term) after completion. New AQA approvals suspended pending 2025-26 reforms; see also AQAR25&quot;,&quot;V&quot;,&quot;Governs the Audit node lifecycle&quot;),
+ (&quot;AQAR25&quot;,&quot;NDIS (Approved Quality Auditors) Rules 2025&quot;,&quot;Rules&quot;,&quot;F2025L01383, listed on the Commission legislation page (May 2026); relationship to the 2018 AQA Scheme Guidelines to be confirmed&quot;,&quot;V&quot;,&quot;Audit scheme (newer instrument)&quot;),
+ (&quot;QI26&quot;,&quot;NDIS (Quality Indicators for NDIS Practice Standards) Amendment (Supported Independent Living) Guidelines 2026&quot;,&quot;Amending Guidelines&quot;,&quot;SIL quality indicators; consolidated into the principal Guidelines at compilation C03 (1 Jul 2026)&quot;,&quot;V&quot;,&quot;Amends QI&quot;),
+ (&quot;IMRI&quot;,&quot;NDIS (Incident Management and Reportable Incidents) Rules 2018&quot;,&quot;Rules&quot;,&quot;F2018L00633; incident systems + reportable incident notification&quot;,&quot;V&quot;,&quot;MADE_UNDER ACT&quot;),
+ (&quot;CMR&quot;,&quot;NDIS (Complaints Management and Resolution) Rules 2018&quot;,&quot;Rules&quot;,&quot;F2018L00634; complaints systems + records&quot;,&quot;V&quot;,&quot;MADE_UNDER ACT&quot;),
+ (&quot;RPBS&quot;,&quot;NDIS (Restrictive Practices and Behaviour Support) Rules 2018&quot;,&quot;Rules&quot;,&quot;Series F2018L00632 (compilations incl. F2020C01087); regulated restrictive practices, BSPs, monthly RP reporting&quot;,&quot;V&quot;,&quot;MADE_UNDER ACT&quot;),
+ (&quot;WSR&quot;,&quot;NDIS (Practice Standards - Worker Screening) Rules 2018&quot;,&quot;Rules&quot;,&quot;F2018L00887. Worker screening obligations for risk-assessed roles&quot;,&quot;V&quot;,&quot;MADE_UNDER ACT&quot;),
+ (&quot;COC&quot;,&quot;NDIS (Code of Conduct) Rules 2018&quot;,&quot;Rules&quot;,&quot;F2018L00629. NDIS Code of Conduct for providers and workers&quot;,&quot;V&quot;,&quot;MADE_UNDER ACT&quot;),
+ (&quot;SDAC&quot;,&quot;NDIS (Specialist Disability Accommodation Conditions) Rule 2018&quot;,&quot;Rule&quot;,&quot;Series F2018L00627 (compilations incl. F2020C00549); SDA conditions&quot;,&quot;V&quot;,&quot;MADE_UNDER ACT&quot;),
+ (&quot;PD&quot;,&quot;NDIS (Provider Definition) Rule 2018&quot;,&quot;Rule&quot;,&quot;Series F2018L00628 (compilations incl. F2021C00694)&quot;,&quot;V&quot;,&quot;MADE_UNDER ACT&quot;),
+ (&quot;NCE&quot;,&quot;NDIS (Registered NDIS Provider Notice of Changes and Events) Guidelines 2019&quot;,&quot;Guidelines&quot;,&quot;Listed on the Commission legislation page (May 2026); FRL id TBC. Read with PRPS rr 13-13A; PRPS26 shortens notification timeframes and strengthens change-of-ownership notice (per Commission summary of the amendments)&quot;,&quot;V&quot;,&quot;Guides r 13/13A notifications&quot;),
+ (&quot;BSPA&quot;,&quot;NDIS (NDIS Behaviour Support Practitioner Application) Guidelines 2020&quot;,&quot;Guidelines&quot;,&quot;Listed on the Commission legislation page (May 2026); FRL id TBC. Practitioner suitability process for behaviour support&quot;,&quot;V&quot;,&quot;Applies to M2 specialist providers&quot;),
+ (&quot;STWS&quot;,&quot;State/Territory NDIS worker screening laws (jurisdictional)&quot;,&quot;Act (adjacent)&quot;,&quot;NDIS Worker Screening Check is issued under state/territory schemes - identify applicable jurisdiction(s)&quot;,&quot;C&quot;,&quot;Adjacent law referenced by documents&quot;),
+ (&quot;DDA&quot;,&quot;Disability Discrimination Act 1992 (Cth)&quot;,&quot;Act (adjacent)&quot;,&quot;Anti-discrimination duties relevant to rights standards&quot;,&quot;C&quot;,&quot;Adjacent law referenced by documents&quot;),
+ (&quot;PRIV&quot;,&quot;Privacy Act 1988 (Cth) incl. Australian Privacy Principles &amp; Notifiable Data Breaches scheme&quot;,&quot;Act (adjacent)&quot;,&quot;Applies to handling of personal information&quot;,&quot;C&quot;,&quot;Adjacent law referenced by documents&quot;),
+ (&quot;WHSL&quot;,&quot;Work Health and Safety Act (jurisdictional)&quot;,&quot;Act (adjacent)&quot;,&quot;State/Territory WHS law; identify applicable jurisdiction&quot;,&quot;C&quot;,&quot;Adjacent law referenced by documents&quot;),
+]
+
+# ---------------- FRAMEWORK: MODULES + STANDARDS ----------------
+MODULES = [
+ (&quot;CORE&quot;,&quot;Core Module&quot;,&quot;All registered providers of higher-risk supports (certification pathway)&quot;,&quot;V&quot;),
+ (&quot;VER&quot;,&quot;Module 6: Verification (Sch 8)&quot;,&quot;Providers of lower-risk supports (verification pathway); legislative label is Module 6&quot;,&quot;V&quot;),
+ (&quot;M1&quot;,&quot;Module 1: High Intensity Daily Personal Activities (Sch 2)&quot;,&quot;Providers delivering HIDPA supports; read with HIDPA skills descriptors&quot;,&quot;V&quot;),
+ (&quot;M2&quot;,&quot;Module 2: Specialist Behaviour Support (Sch 3)&quot;,&quot;Specialist behaviour support providers (developing BSPs)&quot;,&quot;V&quot;),
+ (&quot;M2A&quot;,&quot;Module 2A: Implementing Behaviour Support Plans (Sch 4)&quot;,&quot;Providers implementing BSPs incl. regulated restrictive practices&quot;,&quot;V&quot;),
+ (&quot;M3&quot;,&quot;Module 3: Early Childhood Supports&quot;,&quot;Providers of early childhood supports&quot;,&quot;V&quot;),
+ (&quot;M4&quot;,&quot;Module 4: Specialised Support Coordination&quot;,&quot;Providers of specialised support coordination&quot;,&quot;V&quot;),
+ (&quot;M5&quot;,&quot;Module 5: Specialist Disability Accommodation&quot;,&quot;SDA providers&quot;,&quot;V&quot;),
+ (&quot;SIL&quot;,&quot;Module 5A: Assistance with Supported Independent Living (SIL)&quot;,&quot;SIL providers; commenced 1 Jul 2026 with mandatory registration; official module name per QI Guidelines C03, Part 8A&quot;,&quot;V&quot;),
+]
+# std_id, module, division, name, verification, citation (PRPS Rules, per compilation F2020C00051;
+# 2021/2026 insertions marked TBC pending check of the latest compilation)
+STD = [
+ # Core Division 1
+ (&quot;CORE-1.1&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 2 - Rights of participants &amp; responsibilities of providers&quot;,&quot;Person-centred supports&quot;,&quot;V&quot;),
+ (&quot;CORE-1.2&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 2 - Rights of participants &amp; responsibilities of providers&quot;,&quot;Individual values and beliefs&quot;,&quot;V&quot;),
+ (&quot;CORE-1.3&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 2 - Rights of participants &amp; responsibilities of providers&quot;,&quot;Privacy and dignity&quot;,&quot;V&quot;),
+ (&quot;CORE-1.4&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 2 - Rights of participants &amp; responsibilities of providers&quot;,&quot;Independence and informed choice&quot;,&quot;V&quot;),
+ (&quot;CORE-1.5&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 2 - Rights of participants &amp; responsibilities of providers&quot;,&quot;Freedom from violence, abuse, neglect, exploitation or discrimination&quot;,&quot;V&quot;),
+ # Core Division 2
+ (&quot;CORE-2.1&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 3 - Provider governance &amp; operational management&quot;,&quot;Governance and operational management&quot;,&quot;V&quot;),
+ (&quot;CORE-2.2&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 3 - Provider governance &amp; operational management&quot;,&quot;Risk management&quot;,&quot;V&quot;),
+ (&quot;CORE-2.3&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 3 - Provider governance &amp; operational management&quot;,&quot;Quality management&quot;,&quot;V&quot;),
+ (&quot;CORE-2.4&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 3 - Provider governance &amp; operational management&quot;,&quot;Information management&quot;,&quot;V&quot;),
+ (&quot;CORE-2.5&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 3 - Provider governance &amp; operational management&quot;,&quot;Complaints management and resolution&quot;,&quot;V&quot;),
+ (&quot;CORE-2.6&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 3 - Provider governance &amp; operational management&quot;,&quot;Incident management&quot;,&quot;V&quot;),
+ (&quot;CORE-2.7&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 3 - Provider governance &amp; operational management&quot;,&quot;Human resource management&quot;,&quot;V&quot;),
+ (&quot;CORE-2.8&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 3 - Provider governance &amp; operational management&quot;,&quot;Continuity of supports&quot;,&quot;V&quot;),
+ (&quot;CORE-2.9&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 3 - Provider governance &amp; operational management&quot;,&quot;Emergency and disaster management (added 2021)&quot;,&quot;V&quot;),
+ # Core Division 3
+ (&quot;CORE-3.1&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 4 - Provision of supports&quot;,&quot;Access to supports&quot;,&quot;V&quot;),
+ (&quot;CORE-3.2&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 4 - Provision of supports&quot;,&quot;Support planning&quot;,&quot;V&quot;),
+ (&quot;CORE-3.3&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 4 - Provision of supports&quot;,&quot;Service agreements&quot;,&quot;V&quot;),
+ (&quot;CORE-3.4&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 4 - Provision of supports&quot;,&quot;Responsive support provision&quot;,&quot;V&quot;),
+ (&quot;CORE-3.5&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 4 - Provision of supports&quot;,&quot;Transitions to and from a provider&quot;,&quot;V&quot;),
+ # Core Division 4
+ (&quot;CORE-4.1&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 5 - Support provision environment&quot;,&quot;Safe environment&quot;,&quot;V&quot;),
+ (&quot;CORE-4.2&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 5 - Support provision environment&quot;,&quot;Participant money and property&quot;,&quot;V&quot;),
+ (&quot;CORE-4.3&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 5 - Support provision environment&quot;,&quot;Management of medication&quot;,&quot;V&quot;),
+ (&quot;CORE-4.4&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 5 - Support provision environment&quot;,&quot;Mealtime management (added 2021)&quot;,&quot;V&quot;),
+ (&quot;CORE-4.5&quot;,&quot;CORE&quot;,&quot;Sch 1 Pt 5 - Support provision environment&quot;,&quot;Management of waste&quot;,&quot;V&quot;),
+ # Verification module (verified against Commission website 5 Jul 2026)
+ (&quot;VER-1&quot;,&quot;VER&quot;,&quot;Verification&quot;,&quot;Human resource management&quot;,&quot;V&quot;),
+ (&quot;VER-2&quot;,&quot;VER&quot;,&quot;Verification&quot;,&quot;Incident management&quot;,&quot;V&quot;),
+ (&quot;VER-3&quot;,&quot;VER&quot;,&quot;Verification&quot;,&quot;Complaints management and resolution&quot;,&quot;V&quot;),
+ (&quot;VER-4&quot;,&quot;VER&quot;,&quot;Verification&quot;,&quot;Risk management&quot;,&quot;V&quot;),
+ # Module 1 HIDPA skills areas
+ (&quot;M1-1&quot;,&quot;M1&quot;,&quot;HIDPA&quot;,&quot;Complex bowel care&quot;,&quot;V&quot;),
+ (&quot;M1-2&quot;,&quot;M1&quot;,&quot;HIDPA&quot;,&quot;Enteral (naso-gastric tube-jejunum or duodenum) feeding and management&quot;,&quot;V&quot;),
+ (&quot;M1-3&quot;,&quot;M1&quot;,&quot;HIDPA&quot;,&quot;Severe dysphagia management (added 2021)&quot;,&quot;V&quot;),
+ (&quot;M1-4&quot;,&quot;M1&quot;,&quot;HIDPA&quot;,&quot;Tracheostomy management&quot;,&quot;V&quot;),
+ (&quot;M1-5&quot;,&quot;M1&quot;,&quot;HIDPA&quot;,&quot;Urinary catheter management&quot;,&quot;V&quot;),
+ (&quot;M1-6&quot;,&quot;M1&quot;,&quot;HIDPA&quot;,&quot;Ventilator management&quot;,&quot;V&quot;),
+ (&quot;M1-7&quot;,&quot;M1&quot;,&quot;HIDPA&quot;,&quot;Subcutaneous injections&quot;,&quot;V&quot;),
+ (&quot;M1-8&quot;,&quot;M1&quot;,&quot;HIDPA&quot;,&quot;Complex wound management&quot;,&quot;V&quot;),
+ # Module 2 (Sch 3) - specialist behaviour support providers
+ (&quot;M2-1&quot;,&quot;M2&quot;,&quot;Specialist behaviour support&quot;,&quot;Behaviour support in the NDIS&quot;,&quot;V&quot;),
+ (&quot;M2-2&quot;,&quot;M2&quot;,&quot;Specialist behaviour support&quot;,&quot;Regulated restrictive practices&quot;,&quot;V&quot;),
+ (&quot;M2-3&quot;,&quot;M2&quot;,&quot;Specialist behaviour support&quot;,&quot;Behaviour support plans&quot;,&quot;V&quot;),
+ (&quot;M2-4&quot;,&quot;M2&quot;,&quot;Specialist behaviour support&quot;,&quot;Supporting the implementation of a behaviour support plan&quot;,&quot;V&quot;),
+ (&quot;M2-5&quot;,&quot;M2&quot;,&quot;Specialist behaviour support&quot;,&quot;Behaviour support plan monitoring and review&quot;,&quot;V&quot;),
+ (&quot;M2-6&quot;,&quot;M2&quot;,&quot;Specialist behaviour support&quot;,&quot;Reportable incidents involving the use of a regulated restrictive practice&quot;,&quot;V&quot;),
+ (&quot;M2-7&quot;,&quot;M2&quot;,&quot;Specialist behaviour support&quot;,&quot;Interim behaviour support plans&quot;,&quot;V&quot;),
+ # Module 2A (Sch 4) - providers implementing BSPs / using regulated restrictive practices
+ (&quot;M2A-1&quot;,&quot;M2A&quot;,&quot;Implementing behaviour support plans&quot;,&quot;Behaviour support in the NDIS&quot;,&quot;V&quot;),
+ (&quot;M2A-2&quot;,&quot;M2A&quot;,&quot;Implementing behaviour support plans&quot;,&quot;Regulated restrictive practices&quot;,&quot;V&quot;),
+ (&quot;M2A-3&quot;,&quot;M2A&quot;,&quot;Implementing behaviour support plans&quot;,&quot;Supporting the assessment and development of behaviour support plans&quot;,&quot;V&quot;),
+ (&quot;M2A-4&quot;,&quot;M2A&quot;,&quot;Implementing behaviour support plans&quot;,&quot;Supporting the implementation of a behaviour support plan&quot;,&quot;V&quot;),
+ (&quot;M2A-5&quot;,&quot;M2A&quot;,&quot;Implementing behaviour support plans&quot;,&quot;Monitoring and reporting the use of regulated restrictive practices&quot;,&quot;V&quot;),
+ (&quot;M2A-6&quot;,&quot;M2A&quot;,&quot;Implementing behaviour support plans&quot;,&quot;Behaviour support plan monitoring and review&quot;,&quot;V&quot;),
+ (&quot;M2A-7&quot;,&quot;M2A&quot;,&quot;Implementing behaviour support plans&quot;,&quot;Reportable incidents involving the use of a regulated restrictive practice&quot;,&quot;V&quot;),
+ (&quot;M2A-8&quot;,&quot;M2A&quot;,&quot;Implementing behaviour support plans&quot;,&quot;Interim behaviour support plans&quot;,&quot;V&quot;),
+ # Module 3 (training knowledge - confirm)
+ (&quot;M3-1&quot;,&quot;M3&quot;,&quot;Early childhood&quot;,&quot;The child&quot;,&quot;V&quot;),
+ (&quot;M3-2&quot;,&quot;M3&quot;,&quot;Early childhood&quot;,&quot;The family&quot;,&quot;V&quot;),
+ (&quot;M3-3&quot;,&quot;M3&quot;,&quot;Early childhood&quot;,&quot;Inclusion&quot;,&quot;V&quot;),
+ (&quot;M3-4&quot;,&quot;M3&quot;,&quot;Early childhood&quot;,&quot;Collaboration&quot;,&quot;V&quot;),
+ (&quot;M3-5&quot;,&quot;M3&quot;,&quot;Early childhood&quot;,&quot;Capacity building&quot;,&quot;V&quot;),
+ (&quot;M3-6&quot;,&quot;M3&quot;,&quot;Early childhood&quot;,&quot;Evidence-informed supports&quot;,&quot;V&quot;),
+ (&quot;M3-7&quot;,&quot;M3&quot;,&quot;Early childhood&quot;,&quot;Outcome based approach&quot;,&quot;V&quot;),
+ # Module 4
+ (&quot;M4-1&quot;,&quot;M4&quot;,&quot;Support coordination&quot;,&quot;Specialised support coordination&quot;,&quot;V&quot;),
+ (&quot;M4-2&quot;,&quot;M4&quot;,&quot;Support coordination&quot;,&quot;Management of supports&quot;,&quot;V&quot;),
+ (&quot;M4-3&quot;,&quot;M4&quot;,&quot;Support coordination&quot;,&quot;Conflict of interest&quot;,&quot;V&quot;),
+ # Module 5 SDA
+ (&quot;M5-1&quot;,&quot;M5&quot;,&quot;SDA&quot;,&quot;Rights and responsibilities&quot;,&quot;V&quot;),
+ (&quot;M5-2&quot;,&quot;M5&quot;,&quot;SDA&quot;,&quot;Conflict of interest&quot;,&quot;V&quot;),
+ (&quot;M5-3&quot;,&quot;M5&quot;,&quot;SDA&quot;,&quot;Service agreements with participants&quot;,&quot;V&quot;),
+ (&quot;M5-4&quot;,&quot;M5&quot;,&quot;SDA&quot;,&quot;Enrolment of SDA dwellings&quot;,&quot;V&quot;),
+ (&quot;M5-5&quot;,&quot;M5&quot;,&quot;SDA&quot;,&quot;Tenancy management&quot;,&quot;V&quot;),
+ # SIL module (draft published by Commission; commences 1 Jul 2026)
+ (&quot;SIL-1&quot;,&quot;SIL&quot;,&quot;Module 5A (SIL)&quot;,&quot;Supported decision-making&quot;,&quot;V&quot;),
+ (&quot;SIL-2&quot;,&quot;SIL&quot;,&quot;Module 5A (SIL)&quot;,&quot;Safeguarding&quot;,&quot;V&quot;),
+ (&quot;SIL-3&quot;,&quot;SIL&quot;,&quot;Module 5A (SIL)&quot;,&quot;Practice governance&quot;,&quot;V&quot;),
+ (&quot;SIL-4&quot;,&quot;SIL&quot;,&quot;Module 5A (SIL)&quot;,&quot;Agreements about tenancy, housing and support arrangements&quot;,&quot;V&quot;),
+]
+
+# Clause citations, NDIS (Provider Registration and Practice Standards) Rules 2018 (F2018L00631),
+# read from compilation F2020C00051 ToC. Amending-instrument insertions marked TBC.
+TBC21 = &quot;inserted by 2021 amendments - clause no. TBC vs latest compilation&quot;
+CIT = {}
+for n,i in enumerate([&quot;1.1&quot;,&quot;1.2&quot;,&quot;1.3&quot;,&quot;1.4&quot;,&quot;1.5&quot;]): CIT[&quot;CORE-&quot;+i] = f&quot;Sch 1, Pt 2, cl {n+3}&quot;
+for n,i in enumerate([&quot;2.1&quot;,&quot;2.2&quot;,&quot;2.3&quot;,&quot;2.4&quot;,&quot;2.5&quot;,&quot;2.6&quot;,&quot;2.7&quot;,&quot;2.8&quot;]): CIT[&quot;CORE-&quot;+i] = f&quot;Sch 1, Pt 3, cl {n+9}&quot;
+CIT[&quot;CORE-2.9&quot;] = &quot;Sch 1, Pt 3, cl 16A&quot;
+for n,i in enumerate([&quot;3.1&quot;,&quot;3.2&quot;,&quot;3.3&quot;,&quot;3.4&quot;,&quot;3.5&quot;]): CIT[&quot;CORE-&quot;+i] = f&quot;Sch 1, Pt 4, cl {n+18}&quot;
+for n,i in enumerate([&quot;4.1&quot;,&quot;4.2&quot;,&quot;4.3&quot;]): CIT[&quot;CORE-&quot;+i] = f&quot;Sch 1, Pt 5, cl {n+24}&quot;
+CIT[&quot;CORE-4.4&quot;] = &quot;Sch 1, Pt 5, cl 26A&quot;
+CIT[&quot;CORE-4.5&quot;] = &quot;Sch 1, Pt 5, cl 27&quot;
+for n,i in enumerate([1,2]): CIT[f&quot;M1-{i}&quot;] = f&quot;Sch 2, cl {n+3}&quot;
+CIT[&quot;M1-3&quot;] = &quot;Sch 2, cl 4A&quot;
+for n,i in enumerate([4,5,6,7,8]): CIT[f&quot;M1-{i}&quot;] = f&quot;Sch 2, cl {n+5}&quot;
+for i in range(1,8): CIT[f&quot;M2-{i}&quot;] = f&quot;Sch 3, cl {i+2}&quot;
+for i in range(1,9): CIT[f&quot;M2A-{i}&quot;] = f&quot;Sch 4, cl {i+2}&quot;
+for i in range(1,8): CIT[f&quot;M3-{i}&quot;] = f&quot;Sch 5, cl {i+2}&quot;
+for i in range(1,4): CIT[f&quot;M4-{i}&quot;] = f&quot;Sch 6, cl {i+2}&quot;
+for i in range(1,6): CIT[f&quot;M5-{i}&quot;] = f&quot;Sch 7, cl {i+2}&quot;
+CIT.update({&quot;VER-1&quot;:&quot;Sch 8, cl 6&quot;,&quot;VER-2&quot;:&quot;Sch 8, cl 5&quot;,&quot;VER-3&quot;:&quot;Sch 8, cl 4&quot;,&quot;VER-4&quot;:&quot;Sch 8, cl 3&quot;})
+for i in range(1,5): CIT[f&quot;SIL-{i}&quot;] = &quot;Inserted by 2026 Amendment Rules - Sch/cl TBC (check latest compilation)&quot;
+
+# ---- Quality indicator section per standard (QI Guidelines 2018, compilation C03, 1 Jul 2026; ToC verified 6 Jul 2026) ----
+QIREF = {}
+for i, n in enumerate([&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,&quot;10&quot;]): QIREF[f&quot;CORE-1.{i+1}&quot;] = &quot;s &quot; + n
+for i, n in enumerate([&quot;11&quot;,&quot;12&quot;,&quot;13&quot;,&quot;14&quot;,&quot;15&quot;,&quot;16&quot;,&quot;17&quot;,&quot;18&quot;,&quot;18A&quot;]): QIREF[f&quot;CORE-2.{i+1}&quot;] = &quot;s &quot; + n
+for i, n in enumerate([&quot;19&quot;,&quot;20&quot;,&quot;21&quot;,&quot;22&quot;,&quot;23&quot;]): QIREF[f&quot;CORE-3.{i+1}&quot;] = &quot;s &quot; + n
+for i, n in enumerate([&quot;24&quot;,&quot;25&quot;,&quot;26&quot;,&quot;26A&quot;,&quot;27&quot;]): QIREF[f&quot;CORE-4.{i+1}&quot;] = &quot;s &quot; + n
+for i, n in enumerate([&quot;29&quot;,&quot;30&quot;,&quot;30A&quot;,&quot;31&quot;,&quot;32&quot;,&quot;33&quot;,&quot;34&quot;,&quot;35&quot;]): QIREF[f&quot;M1-{i+1}&quot;] = &quot;s &quot; + n
+for i in range(7): QIREF[f&quot;M2-{i+1}&quot;] = &quot;s &quot; + str(38+i)
+for i in range(8): QIREF[f&quot;M2A-{i+1}&quot;] = &quot;s &quot; + str(47+i)
+for i in range(7): QIREF[f&quot;M3-{i+1}&quot;] = &quot;s &quot; + str(56+i)
+for i in range(3): QIREF[f&quot;M4-{i+1}&quot;] = &quot;s &quot; + str(64+i)
+for i in range(5): QIREF[f&quot;M5-{i+1}&quot;] = &quot;s &quot; + str(68+i)
+for i, n in enumerate([&quot;72B&quot;,&quot;72C&quot;,&quot;72D&quot;,&quot;72E&quot;]): QIREF[f&quot;SIL-{i+1}&quot;] = &quot;s &quot; + n
+for i, n in enumerate([&quot;74&quot;,&quot;75&quot;,&quot;76&quot;,&quot;77&quot;]): QIREF[f&quot;VER-{i+1}&quot;] = &quot;s &quot; + n
+QIMOD = {&quot;CORE&quot;:&quot;ss 5, 11A, 19A, 24A&quot;,&quot;M1&quot;:&quot;s 28&quot;,&quot;M2&quot;:&quot;ss 36-37&quot;,&quot;M2A&quot;:&quot;ss 45-46&quot;,&quot;M3&quot;:&quot;s 55&quot;,&quot;M4&quot;:&quot;s 63&quot;,&quot;M5&quot;:&quot;s 67&quot;,&quot;SIL&quot;:&quot;s 72A&quot;,&quot;VER&quot;:&quot;s 73&quot;}
+
+# ---------------- DOCUMENT SUITE ----------------
+# (id, type, title, cluster, applies, priority, implements[], legislation keys[], easy_read, owner, review_yrs)
+def d(i,t,ti,cl,ap,pr,imp,leg,ez=0,own=&quot;Quality Manager&quot;,rv=2):
+    return dict(id=i,type=t,title=ti,cluster=cl,applies=ap,priority=pr,imp=imp,leg=leg,ez=ez,own=own,rv=rv)
+DOCS = [
+ # Governance
+ d(&quot;POL-GOV-01&quot;,&quot;Policy&quot;,&quot;Governance and Operational Management Policy&quot;,&quot;Governance&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-2.1&quot;],[&quot;PRPS&quot;,&quot;ACT&quot;],0,&quot;Board / CEO&quot;),
+ d(&quot;PRO-GOV-01&quot;,&quot;Procedure&quot;,&quot;Delegations and Decision-Making Procedure&quot;,&quot;Governance&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.1&quot;],[&quot;PRPS&quot;],0,&quot;CEO&quot;),
+ d(&quot;REG-GOV-01&quot;,&quot;Register&quot;,&quot;Delegations Register&quot;,&quot;Governance&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.1&quot;],[&quot;PRPS&quot;],0,&quot;CEO&quot;,1),
+ d(&quot;POL-GOV-02&quot;,&quot;Policy&quot;,&quot;Conflict of Interest Policy&quot;,&quot;Governance&quot;,&quot;Core; M4; M5&quot;,&quot;P1&quot;,[&quot;CORE-2.1&quot;,&quot;M4-3&quot;,&quot;M5-2&quot;],[&quot;PRPS&quot;],0,&quot;Board / CEO&quot;),
+ d(&quot;FRM-GOV-01&quot;,&quot;Form&quot;,&quot;Conflict of Interest Declaration Form&quot;,&quot;Governance&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.1&quot;],[&quot;PRPS&quot;],0,&quot;CEO&quot;,1),
+ d(&quot;REG-GOV-02&quot;,&quot;Register&quot;,&quot;Conflict of Interest Register&quot;,&quot;Governance&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.1&quot;],[&quot;PRPS&quot;],0,&quot;CEO&quot;,1),
+ d(&quot;REG-GOV-03&quot;,&quot;Register&quot;,&quot;Master Document Register (this workbook)&quot;,&quot;Governance&quot;,&quot;All&quot;,&quot;P1&quot;,[&quot;CORE-2.3&quot;],[&quot;PRPS&quot;],0,&quot;Quality Manager&quot;,1),
+ d(&quot;POL-GOV-03&quot;,&quot;Policy&quot;,&quot;Whistleblower and Disclosure Protection Policy&quot;,&quot;Governance&quot;,&quot;All&quot;,&quot;P1&quot;,[&quot;CORE-2.1&quot;,&quot;CORE-2.5&quot;],[&quot;IS26&quot;,&quot;ACT&quot;,&quot;COC&quot;],0,&quot;Board / CEO&quot;),
+ d(&quot;PRO-GOV-02&quot;,&quot;Procedure&quot;,&quot;Notification of Changes and Events Procedure (Commission notice under rr 13-13A)&quot;,&quot;Governance&quot;,&quot;All&quot;,&quot;P1&quot;,[&quot;CORE-2.1&quot;],[&quot;PRPS&quot;,&quot;PRPS26&quot;,&quot;NCE&quot;],0,&quot;CEO&quot;),
+ # Risk
+ d(&quot;POL-RSK-01&quot;,&quot;Policy&quot;,&quot;Risk Management Policy&quot;,&quot;Risk&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.2&quot;,&quot;VER-4&quot;],[&quot;PRPS&quot;]),
+ d(&quot;PRO-RSK-01&quot;,&quot;Procedure&quot;,&quot;Risk Assessment and Treatment Procedure&quot;,&quot;Risk&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.2&quot;,&quot;VER-4&quot;],[&quot;PRPS&quot;]),
+ d(&quot;FRM-RSK-01&quot;,&quot;Form&quot;,&quot;Risk Assessment Form&quot;,&quot;Risk&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.2&quot;],[&quot;PRPS&quot;],0,&quot;Quality Manager&quot;,1),
+ d(&quot;REG-RSK-01&quot;,&quot;Register&quot;,&quot;Risk Register&quot;,&quot;Risk&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.2&quot;,&quot;VER-4&quot;],[&quot;PRPS&quot;],0,&quot;Quality Manager&quot;,1),
+ # Quality
+ d(&quot;POL-QMS-01&quot;,&quot;Policy&quot;,&quot;Quality Management and Continuous Improvement Policy&quot;,&quot;Quality&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-2.3&quot;],[&quot;PRPS&quot;]),
+ d(&quot;PRO-QMS-01&quot;,&quot;Procedure&quot;,&quot;Continuous Improvement Procedure&quot;,&quot;Quality&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.3&quot;],[&quot;PRPS&quot;]),
+ d(&quot;PRO-QMS-02&quot;,&quot;Procedure&quot;,&quot;Document and Records Control Procedure&quot;,&quot;Quality&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-2.3&quot;,&quot;CORE-2.4&quot;],[&quot;PRPS&quot;]),
+ d(&quot;PRO-QMS-03&quot;,&quot;Procedure&quot;,&quot;Internal Audit and Self-Assessment Procedure&quot;,&quot;Quality&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.3&quot;],[&quot;PRPS&quot;,&quot;QI&quot;]),
+ d(&quot;FRM-QMS-01&quot;,&quot;Form&quot;,&quot;Improvement / Corrective Action Request Form&quot;,&quot;Quality&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.3&quot;],[&quot;PRPS&quot;],0,&quot;Quality Manager&quot;,1),
+ d(&quot;REG-QMS-01&quot;,&quot;Register&quot;,&quot;Continuous Improvement Register&quot;,&quot;Quality&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-2.3&quot;],[&quot;PRPS&quot;],0,&quot;Quality Manager&quot;,1),
+ d(&quot;REG-QMS-02&quot;,&quot;Register&quot;,&quot;Internal Audit Schedule and Register&quot;,&quot;Quality&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.3&quot;],[&quot;PRPS&quot;,&quot;QI&quot;],0,&quot;Quality Manager&quot;,1),
+ # Information &amp; privacy
+ d(&quot;POL-INF-01&quot;,&quot;Policy&quot;,&quot;Information Management and Privacy Policy&quot;,&quot;Information&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-2.4&quot;,&quot;CORE-1.3&quot;],[&quot;PRPS&quot;,&quot;PRIV&quot;]),
+ d(&quot;PRO-INF-01&quot;,&quot;Procedure&quot;,&quot;Records Management Procedure&quot;,&quot;Information&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.4&quot;],[&quot;PRPS&quot;,&quot;PRIV&quot;]),
+ d(&quot;PRO-INF-02&quot;,&quot;Procedure&quot;,&quot;Privacy and Data Breach Response Procedure&quot;,&quot;Information&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.4&quot;],[&quot;PRIV&quot;]),
+ d(&quot;FRM-INF-01&quot;,&quot;Form&quot;,&quot;Consent to Collect, Use and Share Information Form&quot;,&quot;Information&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-2.4&quot;,&quot;CORE-1.4&quot;],[&quot;PRPS&quot;,&quot;PRIV&quot;],1,&quot;Quality Manager&quot;,1),
+ d(&quot;REG-INF-01&quot;,&quot;Register&quot;,&quot;Data Breach Register&quot;,&quot;Information&quot;,&quot;Core&quot;,&quot;P3&quot;,[&quot;CORE-2.4&quot;],[&quot;PRIV&quot;],0,&quot;Quality Manager&quot;,1),
+ # Feedback &amp; complaints
+ d(&quot;POL-FBK-01&quot;,&quot;Policy&quot;,&quot;Feedback and Complaints Policy&quot;,&quot;Complaints&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.5&quot;,&quot;VER-3&quot;],[&quot;PRPS&quot;,&quot;CMR&quot;],1),
+ d(&quot;PRO-FBK-01&quot;,&quot;Procedure&quot;,&quot;Complaints Handling and Resolution Procedure&quot;,&quot;Complaints&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.5&quot;,&quot;VER-3&quot;],[&quot;CMR&quot;]),
+ d(&quot;WIN-FBK-01&quot;,&quot;Work Instruction&quot;,&quot;Receiving and Recording a Complaint (frontline)&quot;,&quot;Complaints&quot;,&quot;Core; Verification&quot;,&quot;P2&quot;,[&quot;CORE-2.5&quot;],[&quot;CMR&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;FRM-FBK-01&quot;,&quot;Form&quot;,&quot;Feedback and Complaints Form&quot;,&quot;Complaints&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.5&quot;,&quot;VER-3&quot;],[&quot;CMR&quot;],1,&quot;Quality Manager&quot;,1),
+ d(&quot;REG-FBK-01&quot;,&quot;Register&quot;,&quot;Complaints Register&quot;,&quot;Complaints&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.5&quot;,&quot;VER-3&quot;],[&quot;CMR&quot;],0,&quot;Quality Manager&quot;,1),
+ # Incidents
+ d(&quot;POL-INC-01&quot;,&quot;Policy&quot;,&quot;Incident Management Policy&quot;,&quot;Incidents&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.6&quot;,&quot;VER-2&quot;],[&quot;PRPS&quot;,&quot;IMRI&quot;]),
+ d(&quot;PRO-INC-01&quot;,&quot;Procedure&quot;,&quot;Incident Management Procedure&quot;,&quot;Incidents&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.6&quot;,&quot;VER-2&quot;],[&quot;IMRI&quot;]),
+ d(&quot;PRO-INC-02&quot;,&quot;Procedure&quot;,&quot;Reportable Incidents Notification Procedure&quot;,&quot;Incidents&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.6&quot;,&quot;VER-2&quot;],[&quot;IMRI&quot;]),
+ d(&quot;WIN-INC-01&quot;,&quot;Work Instruction&quot;,&quot;Responding to an Incident (frontline)&quot;,&quot;Incidents&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.6&quot;],[&quot;IMRI&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;FRM-INC-01&quot;,&quot;Form&quot;,&quot;Incident Report Form&quot;,&quot;Incidents&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.6&quot;,&quot;VER-2&quot;],[&quot;IMRI&quot;],0,&quot;Quality Manager&quot;,1),
+ d(&quot;REG-INC-01&quot;,&quot;Register&quot;,&quot;Incident Register&quot;,&quot;Incidents&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.6&quot;,&quot;VER-2&quot;],[&quot;IMRI&quot;],0,&quot;Quality Manager&quot;,1),
+ # Human resources
+ d(&quot;POL-HRM-01&quot;,&quot;Policy&quot;,&quot;Human Resource Management Policy&quot;,&quot;People&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.7&quot;,&quot;VER-1&quot;],[&quot;PRPS&quot;,&quot;WSR&quot;]),
+ d(&quot;PRO-HRM-01&quot;,&quot;Procedure&quot;,&quot;Recruitment, Screening and Induction Procedure&quot;,&quot;People&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.7&quot;,&quot;VER-1&quot;],[&quot;WSR&quot;,&quot;COC&quot;],0,&quot;HR Manager&quot;),
+ d(&quot;PRO-HRM-02&quot;,&quot;Procedure&quot;,&quot;Supervision and Performance Procedure&quot;,&quot;People&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.7&quot;],[&quot;PRPS&quot;],0,&quot;HR Manager&quot;),
+ d(&quot;PRO-HRM-03&quot;,&quot;Procedure&quot;,&quot;Training and Competency Procedure&quot;,&quot;People&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-2.7&quot;],[&quot;PRPS&quot;],0,&quot;HR Manager&quot;),
+ d(&quot;FRM-HRM-01&quot;,&quot;Form&quot;,&quot;Worker Screening and Credential Checklist&quot;,&quot;People&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.7&quot;,&quot;VER-1&quot;],[&quot;WSR&quot;],0,&quot;HR Manager&quot;,1),
+ d(&quot;FRM-HRM-02&quot;,&quot;Form&quot;,&quot;NDIS Code of Conduct Acknowledgement Form&quot;,&quot;People&quot;,&quot;All&quot;,&quot;P1&quot;,[&quot;CORE-2.7&quot;],[&quot;COC&quot;],0,&quot;HR Manager&quot;,1),
+ d(&quot;REG-HRM-01&quot;,&quot;Register&quot;,&quot;Worker Screening Register&quot;,&quot;People&quot;,&quot;Core; Verification&quot;,&quot;P1&quot;,[&quot;CORE-2.7&quot;,&quot;VER-1&quot;],[&quot;WSR&quot;],0,&quot;HR Manager&quot;,1),
+ d(&quot;REG-HRM-02&quot;,&quot;Register&quot;,&quot;Training and Competency Register&quot;,&quot;People&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-2.7&quot;],[&quot;PRPS&quot;],0,&quot;HR Manager&quot;,1),
+ d(&quot;POL-COC-01&quot;,&quot;Policy&quot;,&quot;NDIS Code of Conduct Policy&quot;,&quot;People&quot;,&quot;All&quot;,&quot;P1&quot;,[&quot;CORE-2.7&quot;,&quot;CORE-1.5&quot;],[&quot;COC&quot;],1,&quot;CEO&quot;),
+ # Continuity
+ d(&quot;POL-COS-01&quot;,&quot;Policy&quot;,&quot;Continuity of Supports Policy&quot;,&quot;Continuity&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.8&quot;],[&quot;PRPS&quot;]),
+ d(&quot;PLN-COS-01&quot;,&quot;Plan&quot;,&quot;Business Continuity Plan&quot;,&quot;Continuity&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.8&quot;],[&quot;PRPS&quot;],0,&quot;CEO&quot;,1),
+ d(&quot;PRO-COS-01&quot;,&quot;Procedure&quot;,&quot;Worker Absence and Backup Arrangements Procedure&quot;,&quot;Continuity&quot;,&quot;Core&quot;,&quot;P3&quot;,[&quot;CORE-2.8&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;),
+ # Emergency &amp; disaster
+ d(&quot;POL-EDM-01&quot;,&quot;Policy&quot;,&quot;Emergency and Disaster Management Policy&quot;,&quot;Emergency&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.9&quot;],[&quot;PRPS&quot;]),
+ d(&quot;PLN-EDM-01&quot;,&quot;Plan&quot;,&quot;Emergency and Disaster Management Plan&quot;,&quot;Emergency&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.9&quot;],[&quot;PRPS&quot;],1,&quot;Service Manager&quot;,1),
+ d(&quot;PRO-EDM-01&quot;,&quot;Procedure&quot;,&quot;Emergency Response and Evacuation Procedure&quot;,&quot;Emergency&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-2.9&quot;],[&quot;PRPS&quot;,&quot;WHSL&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;REG-EDM-01&quot;,&quot;Register&quot;,&quot;Emergency Preparedness and Drills Register&quot;,&quot;Emergency&quot;,&quot;Core&quot;,&quot;P3&quot;,[&quot;CORE-2.9&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;,1),
+ # Rights &amp; safeguarding
+ d(&quot;POL-RGT-01&quot;,&quot;Policy&quot;,&quot;Person-Centred Supports Policy&quot;,&quot;Rights&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-1.1&quot;,&quot;CORE-1.2&quot;],[&quot;PRPS&quot;,&quot;ACT&quot;],1),
+ d(&quot;POL-RGT-02&quot;,&quot;Policy&quot;,&quot;Privacy and Dignity Policy&quot;,&quot;Rights&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-1.3&quot;],[&quot;PRPS&quot;,&quot;PRIV&quot;],1),
+ d(&quot;POL-RGT-03&quot;,&quot;Policy&quot;,&quot;Independence, Informed Choice and Supported Decision-Making Policy&quot;,&quot;Rights&quot;,&quot;Core; SIL&quot;,&quot;P1&quot;,[&quot;CORE-1.4&quot;,&quot;SIL-1&quot;],[&quot;PRPS&quot;,&quot;PRPS26&quot;],1),
+ d(&quot;FRM-RGT-01&quot;,&quot;Form&quot;,&quot;Communication, Advocacy and Support Preferences Form&quot;,&quot;Rights&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-1.1&quot;,&quot;CORE-1.4&quot;],[&quot;PRPS&quot;],1,&quot;Service Manager&quot;,1),
+ d(&quot;STA-RGT-01&quot;,&quot;Handbook&quot;,&quot;Participant Handbook / Welcome Pack&quot;,&quot;Rights&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-1.1&quot;,&quot;CORE-1.4&quot;,&quot;CORE-3.3&quot;],[&quot;PRPS&quot;,&quot;COC&quot;],1,&quot;Service Manager&quot;),
+ d(&quot;POL-SGD-01&quot;,&quot;Policy&quot;,&quot;Safeguarding Policy (zero tolerance of violence, abuse, neglect, exploitation and discrimination)&quot;,&quot;Safeguarding&quot;,&quot;Core; SIL&quot;,&quot;P1&quot;,[&quot;CORE-1.5&quot;,&quot;SIL-2&quot;],[&quot;PRPS&quot;,&quot;COC&quot;,&quot;IMRI&quot;],1,&quot;CEO&quot;),
+ d(&quot;PRO-SGD-01&quot;,&quot;Procedure&quot;,&quot;Responding to Abuse, Neglect and Exploitation Procedure&quot;,&quot;Safeguarding&quot;,&quot;Core; SIL&quot;,&quot;P1&quot;,[&quot;CORE-1.5&quot;,&quot;SIL-2&quot;],[&quot;IMRI&quot;,&quot;COC&quot;]),
+ # Provision of supports
+ d(&quot;POL-SUP-01&quot;,&quot;Policy&quot;,&quot;Access to Supports Policy&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-3.1&quot;],[&quot;PRPS&quot;],1),
+ d(&quot;PRO-SUP-01&quot;,&quot;Procedure&quot;,&quot;Intake, Eligibility and Waitlist Procedure&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-3.1&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;),
+ d(&quot;FRM-SUP-01&quot;,&quot;Form&quot;,&quot;Referral and Intake Form&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-3.1&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;POL-SUP-02&quot;,&quot;Policy&quot;,&quot;Support Planning Policy&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-3.2&quot;],[&quot;PRPS&quot;],1),
+ d(&quot;PRO-SUP-02&quot;,&quot;Procedure&quot;,&quot;Support Planning and Review Procedure&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-3.2&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;),
+ d(&quot;FRM-SUP-02&quot;,&quot;Form&quot;,&quot;Participant Support Plan Template&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-3.2&quot;],[&quot;PRPS&quot;],1,&quot;Service Manager&quot;,1),
+ d(&quot;POL-SUP-03&quot;,&quot;Policy&quot;,&quot;Service Agreements Policy&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-3.3&quot;],[&quot;PRPS&quot;],1),
+ d(&quot;AGR-SUP-01&quot;,&quot;Agreement&quot;,&quot;Service Agreement Template&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-3.3&quot;],[&quot;PRPS&quot;],1,&quot;Service Manager&quot;,1),
+ d(&quot;PRO-SUP-03&quot;,&quot;Procedure&quot;,&quot;Responsive Support Provision Procedure&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-3.4&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;),
+ d(&quot;POL-SUP-04&quot;,&quot;Policy&quot;,&quot;Transitions To and From the Provider Policy&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-3.5&quot;],[&quot;PRPS&quot;]),
+ d(&quot;PRO-SUP-04&quot;,&quot;Procedure&quot;,&quot;Entry, Exit and Transition Procedure&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-3.5&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;),
+ d(&quot;FRM-SUP-04&quot;,&quot;Form&quot;,&quot;Transition and Exit Checklist&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P3&quot;,[&quot;CORE-3.5&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;REG-SUP-01&quot;,&quot;Register&quot;,&quot;Participant and Service Agreement Register&quot;,&quot;Supports&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-3.3&quot;,&quot;CORE-3.1&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;,1),
+ # Support environment
+ d(&quot;POL-ENV-01&quot;,&quot;Policy&quot;,&quot;Safe Environment Policy&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-4.1&quot;],[&quot;PRPS&quot;,&quot;WHSL&quot;]),
+ d(&quot;PRO-ENV-01&quot;,&quot;Procedure&quot;,&quot;Home and Workplace Safety Check Procedure&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-4.1&quot;],[&quot;PRPS&quot;,&quot;WHSL&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;FRM-ENV-01&quot;,&quot;Form&quot;,&quot;Environmental Safety Checklist&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-4.1&quot;],[&quot;WHSL&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;REG-ENV-01&quot;,&quot;Register&quot;,&quot;Hazard and Maintenance Register&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-4.1&quot;],[&quot;WHSL&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;POL-MNY-01&quot;,&quot;Policy&quot;,&quot;Participant Money and Property Policy&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-4.2&quot;],[&quot;PRPS&quot;],1),
+ d(&quot;PRO-MNY-01&quot;,&quot;Procedure&quot;,&quot;Handling Participant Money and Property Procedure&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-4.2&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;),
+ d(&quot;FRM-MNY-01&quot;,&quot;Form&quot;,&quot;Participant Money Transaction Record&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-4.2&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;REG-MNY-01&quot;,&quot;Register&quot;,&quot;Participant Money and Property Register&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-4.2&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;POL-MED-01&quot;,&quot;Policy&quot;,&quot;Medication Management Policy&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-4.3&quot;],[&quot;PRPS&quot;]),
+ d(&quot;PRO-MED-01&quot;,&quot;Procedure&quot;,&quot;Medication Administration Procedure&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-4.3&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;),
+ d(&quot;WIN-MED-01&quot;,&quot;Work Instruction&quot;,&quot;Administering PRN Medication (frontline)&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-4.3&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;FRM-MED-01&quot;,&quot;Form&quot;,&quot;Medication Administration Record (chart)&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P1&quot;,[&quot;CORE-4.3&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;POL-MTM-01&quot;,&quot;Policy&quot;,&quot;Mealtime Management Policy&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-4.4&quot;],[&quot;PRPS&quot;]),
+ d(&quot;PRO-MTM-01&quot;,&quot;Procedure&quot;,&quot;Mealtime Management Procedure&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-4.4&quot;,&quot;M1-3&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;),
+ d(&quot;FRM-MTM-01&quot;,&quot;Form&quot;,&quot;Mealtime Management Plan&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P2&quot;,[&quot;CORE-4.4&quot;],[&quot;PRPS&quot;],1,&quot;Service Manager&quot;,1),
+ d(&quot;POL-WST-01&quot;,&quot;Policy&quot;,&quot;Waste Management and Infection Control Policy&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P3&quot;,[&quot;CORE-4.5&quot;],[&quot;PRPS&quot;,&quot;WHSL&quot;]),
+ d(&quot;PRO-WST-01&quot;,&quot;Procedure&quot;,&quot;Infection Control and Waste Handling Procedure&quot;,&quot;Environment&quot;,&quot;Core&quot;,&quot;P3&quot;,[&quot;CORE-4.5&quot;],[&quot;WHSL&quot;],0,&quot;Service Manager&quot;,1),
+ # Module 1 HIDPA
+ d(&quot;POL-HID-01&quot;,&quot;Policy&quot;,&quot;High Intensity Supports Policy&quot;,&quot;High intensity&quot;,&quot;M1&quot;,&quot;P1&quot;,[&quot;M1-1&quot;,&quot;M1-2&quot;,&quot;M1-3&quot;,&quot;M1-4&quot;,&quot;M1-5&quot;,&quot;M1-6&quot;,&quot;M1-7&quot;,&quot;M1-8&quot;],[&quot;PRPS&quot;,&quot;QI&quot;]),
+ d(&quot;PRO-HID-01&quot;,&quot;Procedure&quot;,&quot;Complex Bowel Care Procedure&quot;,&quot;High intensity&quot;,&quot;M1&quot;,&quot;P1&quot;,[&quot;M1-1&quot;],[&quot;PRPS&quot;],0,&quot;Clinical Lead&quot;,1),
+ d(&quot;PRO-HID-02&quot;,&quot;Procedure&quot;,&quot;Enteral Feeding and Management Procedure&quot;,&quot;High intensity&quot;,&quot;M1&quot;,&quot;P1&quot;,[&quot;M1-2&quot;],[&quot;PRPS&quot;],0,&quot;Clinical Lead&quot;,1),
+ d(&quot;PRO-HID-03&quot;,&quot;Procedure&quot;,&quot;Severe Dysphagia Management Procedure&quot;,&quot;High intensity&quot;,&quot;M1&quot;,&quot;P1&quot;,[&quot;M1-3&quot;],[&quot;PRPS&quot;],0,&quot;Clinical Lead&quot;,1),
+ d(&quot;PRO-HID-04&quot;,&quot;Procedure&quot;,&quot;Tracheostomy Management Procedure&quot;,&quot;High intensity&quot;,&quot;M1&quot;,&quot;P1&quot;,[&quot;M1-4&quot;],[&quot;PRPS&quot;],0,&quot;Clinical Lead&quot;,1),
+ d(&quot;PRO-HID-05&quot;,&quot;Procedure&quot;,&quot;Urinary Catheter Management Procedure&quot;,&quot;High intensity&quot;,&quot;M1&quot;,&quot;P1&quot;,[&quot;M1-5&quot;],[&quot;PRPS&quot;],0,&quot;Clinical Lead&quot;,1),
+ d(&quot;PRO-HID-06&quot;,&quot;Procedure&quot;,&quot;Ventilator Management Procedure&quot;,&quot;High intensity&quot;,&quot;M1&quot;,&quot;P1&quot;,[&quot;M1-6&quot;],[&quot;PRPS&quot;],0,&quot;Clinical Lead&quot;,1),
+ d(&quot;PRO-HID-07&quot;,&quot;Procedure&quot;,&quot;Subcutaneous Injections Procedure&quot;,&quot;High intensity&quot;,&quot;M1&quot;,&quot;P1&quot;,[&quot;M1-7&quot;],[&quot;PRPS&quot;],0,&quot;Clinical Lead&quot;,1),
+ d(&quot;PRO-HID-08&quot;,&quot;Procedure&quot;,&quot;Complex Wound Management Procedure&quot;,&quot;High intensity&quot;,&quot;M1&quot;,&quot;P1&quot;,[&quot;M1-8&quot;],[&quot;PRPS&quot;],0,&quot;Clinical Lead&quot;,1),
+ d(&quot;FRM-HID-01&quot;,&quot;Form&quot;,&quot;Participant Health Support Plan&quot;,&quot;High intensity&quot;,&quot;M1&quot;,&quot;P1&quot;,[&quot;M1-1&quot;],[&quot;PRPS&quot;],0,&quot;Clinical Lead&quot;,1),
+ d(&quot;REG-HID-01&quot;,&quot;Register&quot;,&quot;High Intensity Training and Competency Register&quot;,&quot;High intensity&quot;,&quot;M1&quot;,&quot;P1&quot;,[&quot;M1-1&quot;],[&quot;PRPS&quot;,&quot;QI&quot;],0,&quot;Clinical Lead&quot;,1),
+ # Modules 2 / 2A
+ d(&quot;POL-BSP-01&quot;,&quot;Policy&quot;,&quot;Positive Behaviour Support Policy&quot;,&quot;Behaviour support&quot;,&quot;M2; M2A&quot;,&quot;P1&quot;,[&quot;M2A-1&quot;,&quot;M2-1&quot;],[&quot;RPBS&quot;,&quot;PRPS&quot;]),
+ d(&quot;PRO-BSP-01&quot;,&quot;Procedure&quot;,&quot;Behaviour Support Plan Implementation and Monitoring Procedure&quot;,&quot;Behaviour support&quot;,&quot;M2A&quot;,&quot;P1&quot;,[&quot;M2A-4&quot;,&quot;M2A-6&quot;,&quot;M2A-8&quot;],[&quot;RPBS&quot;],0,&quot;Service Manager&quot;),
+ d(&quot;PRO-BSP-02&quot;,&quot;Procedure&quot;,&quot;Regulated Restrictive Practices Authorisation, Use and Reporting Procedure&quot;,&quot;Behaviour support&quot;,&quot;M2A&quot;,&quot;P1&quot;,[&quot;M2A-2&quot;,&quot;M2A-5&quot;,&quot;M2A-7&quot;],[&quot;RPBS&quot;,&quot;IMRI&quot;],0,&quot;Service Manager&quot;),
+ d(&quot;PRO-BSP-03&quot;,&quot;Procedure&quot;,&quot;Behaviour Support Plan Development and Review Procedure (specialist providers)&quot;,&quot;Behaviour support&quot;,&quot;M2&quot;,&quot;P2&quot;,[&quot;M2-3&quot;,&quot;M2-5&quot;,&quot;M2-7&quot;],[&quot;RPBS&quot;],0,&quot;Clinical Lead&quot;),
+ d(&quot;FRM-BSP-01&quot;,&quot;Form&quot;,&quot;Restrictive Practice Use Record&quot;,&quot;Behaviour support&quot;,&quot;M2A&quot;,&quot;P1&quot;,[&quot;M2A-5&quot;,&quot;M2A-7&quot;],[&quot;RPBS&quot;],0,&quot;Service Manager&quot;,1),
+ d(&quot;REG-BSP-01&quot;,&quot;Register&quot;,&quot;Restrictive Practices Register&quot;,&quot;Behaviour support&quot;,&quot;M2A&quot;,&quot;P1&quot;,[&quot;M2A-2&quot;,&quot;M2A-5&quot;],[&quot;RPBS&quot;],0,&quot;Service Manager&quot;,1),
+ # Module 3
+ d(&quot;POL-ECS-01&quot;,&quot;Policy&quot;,&quot;Early Childhood Supports Policy&quot;,&quot;Early childhood&quot;,&quot;M3&quot;,&quot;P2&quot;,[&quot;M3-1&quot;,&quot;M3-2&quot;,&quot;M3-3&quot;,&quot;M3-4&quot;,&quot;M3-5&quot;,&quot;M3-6&quot;,&quot;M3-7&quot;],[&quot;PRPS&quot;]),
+ d(&quot;PRO-ECS-01&quot;,&quot;Procedure&quot;,&quot;Family-Centred Practice and Key Worker Procedure&quot;,&quot;Early childhood&quot;,&quot;M3&quot;,&quot;P2&quot;,[&quot;M3-2&quot;,&quot;M3-4&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;),
+ # Module 4
+ d(&quot;POL-SCO-01&quot;,&quot;Policy&quot;,&quot;Specialised Support Coordination Policy&quot;,&quot;Support coordination&quot;,&quot;M4&quot;,&quot;P2&quot;,[&quot;M4-1&quot;,&quot;M4-2&quot;,&quot;M4-3&quot;],[&quot;PRPS&quot;]),
+ d(&quot;PRO-SCO-01&quot;,&quot;Procedure&quot;,&quot;Support Coordination Conflict of Interest Procedure&quot;,&quot;Support coordination&quot;,&quot;M4&quot;,&quot;P2&quot;,[&quot;M4-3&quot;],[&quot;PRPS&quot;],0,&quot;Service Manager&quot;),
+ # Module 5
+ d(&quot;POL-SDA-01&quot;,&quot;Policy&quot;,&quot;Specialist Disability Accommodation Policy&quot;,&quot;SDA&quot;,&quot;M5&quot;,&quot;P2&quot;,[&quot;M5-1&quot;,&quot;M5-2&quot;,&quot;M5-3&quot;,&quot;M5-4&quot;,&quot;M5-5&quot;],[&quot;SDAC&quot;,&quot;PRPS&quot;]),
+ d(&quot;PRO-SDA-01&quot;,&quot;Procedure&quot;,&quot;SDA Dwelling Enrolment and Compliance Procedure&quot;,&quot;SDA&quot;,&quot;M5&quot;,&quot;P2&quot;,[&quot;M5-4&quot;,&quot;M5-5&quot;],[&quot;SDAC&quot;],0,&quot;Service Manager&quot;),
+ d(&quot;REG-SDA-01&quot;,&quot;Register&quot;,&quot;SDA Dwelling Register&quot;,&quot;SDA&quot;,&quot;M5&quot;,&quot;P2&quot;,[&quot;M5-4&quot;],[&quot;SDAC&quot;],0,&quot;Service Manager&quot;,1),
+ # SIL module
+ d(&quot;PRO-SIL-01&quot;,&quot;Procedure&quot;,&quot;Supported Decision-Making Procedure&quot;,&quot;SIL&quot;,&quot;SIL&quot;,&quot;P1&quot;,[&quot;SIL-1&quot;],[&quot;PRPS26&quot;],1,&quot;House Supervisor&quot;),
+ d(&quot;FRM-SIL-01&quot;,&quot;Form&quot;,&quot;Decision Support Record&quot;,&quot;SIL&quot;,&quot;SIL&quot;,&quot;P1&quot;,[&quot;SIL-1&quot;],[&quot;PRPS26&quot;],1,&quot;House Supervisor&quot;,1),
+ d(&quot;POL-SIL-02&quot;,&quot;Policy&quot;,&quot;Safeguarding in the Home Policy (SIL)&quot;,&quot;SIL&quot;,&quot;SIL&quot;,&quot;P1&quot;,[&quot;SIL-2&quot;],[&quot;PRPS26&quot;,&quot;IMRI&quot;],1),
+ d(&quot;PRO-SIL-02&quot;,&quot;Procedure&quot;,&quot;Home Risk, Dignity of Risk and Safeguarding Procedure&quot;,&quot;SIL&quot;,&quot;SIL&quot;,&quot;P1&quot;,[&quot;SIL-2&quot;],[&quot;PRPS26&quot;],1,&quot;House Supervisor&quot;),
+ d(&quot;POL-SIL-03&quot;,&quot;Policy&quot;,&quot;SIL Practice Governance Policy&quot;,&quot;SIL&quot;,&quot;SIL&quot;,&quot;P1&quot;,[&quot;SIL-3&quot;],[&quot;PRPS26&quot;,&quot;QI26&quot;]),
+ d(&quot;PRO-SIL-03&quot;,&quot;Procedure&quot;,&quot;House Governance, Handover and Worker Training Procedure&quot;,&quot;SIL&quot;,&quot;SIL&quot;,&quot;P1&quot;,[&quot;SIL-3&quot;],[&quot;PRPS26&quot;],0,&quot;House Supervisor&quot;),
+ d(&quot;PRO-SIL-04&quot;,&quot;Procedure&quot;,&quot;Tenancy and Support Agreements Procedure (SIL)&quot;,&quot;SIL&quot;,&quot;SIL&quot;,&quot;P1&quot;,[&quot;SIL-4&quot;],[&quot;PRPS26&quot;],1,&quot;Service Manager&quot;),
+ d(&quot;AGR-SIL-01&quot;,&quot;Agreement&quot;,&quot;SIL Tenancy and Support Agreement Templates&quot;,&quot;SIL&quot;,&quot;SIL&quot;,&quot;P1&quot;,[&quot;SIL-4&quot;],[&quot;PRPS26&quot;],1,&quot;Service Manager&quot;,1),
+ d(&quot;REG-SIL-01&quot;,&quot;Register&quot;,&quot;SIL Homes Register&quot;,&quot;SIL&quot;,&quot;SIL&quot;,&quot;P2&quot;,[&quot;SIL-3&quot;],[&quot;PRPS26&quot;],0,&quot;Service Manager&quot;,1),
+ # Adjacent
+ d(&quot;POL-WHS-01&quot;,&quot;Policy&quot;,&quot;Work Health and Safety Policy&quot;,&quot;Environment&quot;,&quot;All&quot;,&quot;P2&quot;,[&quot;CORE-4.1&quot;],[&quot;WHSL&quot;]),
+]
+
+# ---------------- STRUCTURAL DOCUMENT EDGES ----------------
+E = []
+def e(f,t,to,note=&quot;&quot;): E.append((f,t,to,note))
+OP = [(&quot;PRO-GOV-01&quot;,&quot;POL-GOV-01&quot;),(&quot;PRO-GOV-02&quot;,&quot;POL-GOV-01&quot;),(&quot;PRO-RSK-01&quot;,&quot;POL-RSK-01&quot;),(&quot;PRO-QMS-01&quot;,&quot;POL-QMS-01&quot;),
+ (&quot;PRO-QMS-02&quot;,&quot;POL-QMS-01&quot;),(&quot;PRO-QMS-03&quot;,&quot;POL-QMS-01&quot;),(&quot;PRO-INF-01&quot;,&quot;POL-INF-01&quot;),
+ (&quot;PRO-INF-02&quot;,&quot;POL-INF-01&quot;),(&quot;PRO-FBK-01&quot;,&quot;POL-FBK-01&quot;),(&quot;WIN-FBK-01&quot;,&quot;PRO-FBK-01&quot;),
+ (&quot;PRO-INC-01&quot;,&quot;POL-INC-01&quot;),(&quot;PRO-INC-02&quot;,&quot;POL-INC-01&quot;),(&quot;WIN-INC-01&quot;,&quot;PRO-INC-01&quot;),
+ (&quot;PRO-HRM-01&quot;,&quot;POL-HRM-01&quot;),(&quot;PRO-HRM-02&quot;,&quot;POL-HRM-01&quot;),(&quot;PRO-HRM-03&quot;,&quot;POL-HRM-01&quot;),
+ (&quot;PRO-COS-01&quot;,&quot;POL-COS-01&quot;),(&quot;PLN-COS-01&quot;,&quot;POL-COS-01&quot;),(&quot;PRO-EDM-01&quot;,&quot;POL-EDM-01&quot;),
+ (&quot;PLN-EDM-01&quot;,&quot;POL-EDM-01&quot;),(&quot;PRO-SGD-01&quot;,&quot;POL-SGD-01&quot;),(&quot;PRO-SUP-01&quot;,&quot;POL-SUP-01&quot;),
+ (&quot;PRO-SUP-02&quot;,&quot;POL-SUP-02&quot;),(&quot;PRO-SUP-03&quot;,&quot;POL-SUP-03&quot;),(&quot;PRO-SUP-04&quot;,&quot;POL-SUP-04&quot;),
+ (&quot;PRO-ENV-01&quot;,&quot;POL-ENV-01&quot;),(&quot;PRO-MNY-01&quot;,&quot;POL-MNY-01&quot;),(&quot;PRO-MED-01&quot;,&quot;POL-MED-01&quot;),
+ (&quot;WIN-MED-01&quot;,&quot;PRO-MED-01&quot;),(&quot;PRO-MTM-01&quot;,&quot;POL-MTM-01&quot;),(&quot;PRO-WST-01&quot;,&quot;POL-WST-01&quot;),
+ (&quot;PRO-HID-01&quot;,&quot;POL-HID-01&quot;),(&quot;PRO-HID-02&quot;,&quot;POL-HID-01&quot;),(&quot;PRO-HID-03&quot;,&quot;POL-HID-01&quot;),
+ (&quot;PRO-HID-04&quot;,&quot;POL-HID-01&quot;),(&quot;PRO-HID-05&quot;,&quot;POL-HID-01&quot;),(&quot;PRO-HID-06&quot;,&quot;POL-HID-01&quot;),
+ (&quot;PRO-HID-07&quot;,&quot;POL-HID-01&quot;),(&quot;PRO-HID-08&quot;,&quot;POL-HID-01&quot;),(&quot;PRO-BSP-01&quot;,&quot;POL-BSP-01&quot;),
+ (&quot;PRO-BSP-02&quot;,&quot;POL-BSP-01&quot;),(&quot;PRO-BSP-03&quot;,&quot;POL-BSP-01&quot;),(&quot;PRO-ECS-01&quot;,&quot;POL-ECS-01&quot;),
+ (&quot;PRO-SCO-01&quot;,&quot;POL-SCO-01&quot;),(&quot;PRO-SDA-01&quot;,&quot;POL-SDA-01&quot;),(&quot;PRO-SIL-01&quot;,&quot;POL-RGT-03&quot;),
+ (&quot;PRO-SIL-02&quot;,&quot;POL-SIL-02&quot;),(&quot;PRO-SIL-03&quot;,&quot;POL-SIL-03&quot;),(&quot;PRO-SIL-04&quot;,&quot;POL-SUP-03&quot;)]
+for f,t in OP: e(f,&quot;OPERATIONALISES&quot;,t)
+USES = [(&quot;PRO-GOV-01&quot;,&quot;FRM-GOV-01&quot;),(&quot;PRO-RSK-01&quot;,&quot;FRM-RSK-01&quot;),(&quot;PRO-QMS-01&quot;,&quot;FRM-QMS-01&quot;),
+ (&quot;PRO-INF-01&quot;,&quot;FRM-INF-01&quot;),(&quot;PRO-FBK-01&quot;,&quot;FRM-FBK-01&quot;),(&quot;PRO-INC-01&quot;,&quot;FRM-INC-01&quot;),
+ (&quot;PRO-HRM-01&quot;,&quot;FRM-HRM-01&quot;),(&quot;PRO-HRM-01&quot;,&quot;FRM-HRM-02&quot;),(&quot;PRO-SUP-01&quot;,&quot;FRM-SUP-01&quot;),
+ (&quot;PRO-SUP-02&quot;,&quot;FRM-SUP-02&quot;),(&quot;PRO-SUP-04&quot;,&quot;FRM-SUP-04&quot;),(&quot;PRO-ENV-01&quot;,&quot;FRM-ENV-01&quot;),
+ (&quot;PRO-MNY-01&quot;,&quot;FRM-MNY-01&quot;),(&quot;PRO-MED-01&quot;,&quot;FRM-MED-01&quot;),(&quot;PRO-MTM-01&quot;,&quot;FRM-MTM-01&quot;),
+ (&quot;PRO-HID-01&quot;,&quot;FRM-HID-01&quot;),(&quot;PRO-BSP-02&quot;,&quot;FRM-BSP-01&quot;),(&quot;PRO-SIL-01&quot;,&quot;FRM-SIL-01&quot;),
+ (&quot;PRO-SUP-03&quot;,&quot;AGR-SUP-01&quot;),(&quot;PRO-SIL-04&quot;,&quot;AGR-SIL-01&quot;),(&quot;PRO-RGT? &quot;,&quot;&quot;)]
+USES = [u for u in USES if u[1]]
+for f,t in USES: e(f,&quot;USES&quot;,t)
+REC = [(&quot;FRM-GOV-01&quot;,&quot;REG-GOV-02&quot;),(&quot;FRM-RSK-01&quot;,&quot;REG-RSK-01&quot;),(&quot;FRM-QMS-01&quot;,&quot;REG-QMS-01&quot;),
+ (&quot;FRM-FBK-01&quot;,&quot;REG-FBK-01&quot;),(&quot;FRM-INC-01&quot;,&quot;REG-INC-01&quot;),(&quot;FRM-HRM-01&quot;,&quot;REG-HRM-01&quot;),
+ (&quot;FRM-SUP-02&quot;,&quot;REG-SUP-01&quot;),(&quot;AGR-SUP-01&quot;,&quot;REG-SUP-01&quot;),(&quot;FRM-ENV-01&quot;,&quot;REG-ENV-01&quot;),
+ (&quot;FRM-MNY-01&quot;,&quot;REG-MNY-01&quot;),(&quot;FRM-BSP-01&quot;,&quot;REG-BSP-01&quot;),(&quot;AGR-SIL-01&quot;,&quot;REG-SIL-01&quot;)]
+for f,t in REC: e(f,&quot;RECORDS_TO&quot;,t)
+REL = [(&quot;POL-GOV-03&quot;,&quot;PRO-FBK-01&quot;,&quot;Disclosures may arrive via the complaints channel; both must protect the discloser&quot;),
+ (&quot;PRO-INF-02&quot;,&quot;PRO-INC-01&quot;,&quot;A privacy breach is also managed as an incident&quot;),
+ (&quot;PRO-SGD-01&quot;,&quot;PRO-INC-02&quot;,&quot;Abuse or neglect triggers reportable-incident notification&quot;),
+ (&quot;PRO-BSP-02&quot;,&quot;PRO-INC-02&quot;,&quot;Unauthorised restrictive practice is a reportable incident&quot;),
+ (&quot;PRO-MED-01&quot;,&quot;PRO-INC-01&quot;,&quot;Medication errors are recorded and managed as incidents&quot;),
+ (&quot;POL-RGT-03&quot;,&quot;PRO-SIL-01&quot;,&quot;Supported decision-making applies org-wide and in SIL homes&quot;),
+ (&quot;POL-WHS-01&quot;,&quot;POL-ENV-01&quot;,&quot;WHS duties and safe-environment obligations overlap&quot;),
+ (&quot;PRO-MTM-01&quot;,&quot;PRO-HID-03&quot;,&quot;Mealtime management escalates to dysphagia procedure where assessed&quot;)]
+for f,to,n in REL: e(f,&quot;RELATES_TO&quot;,to,n)
+
+# ---------------- BUILD ----------------
+LEGK = {l[0]: l for l in LEG}; STDK = {s[0]: s for s in STD}; DOCK = {x[&quot;id&quot;]: x for x in DOCS}
+# implements edges + statutory-reference edges
+for x in DOCS:
+    for s in x[&quot;imp&quot;]: e(x[&quot;id&quot;],&quot;IMPLEMENTS&quot;,s)
+    for l in x[&quot;leg&quot;]: e(x[&quot;id&quot;],&quot;RELATES_TO&quot;,l,&quot;Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate)&quot;)
+# legislative / framework layer edges
+for m in MODULES: e(m[0],&quot;PART_OF&quot;,&quot;NDIS-PS&quot;,&quot;Module of the NDIS Practice Standards&quot;)
+e(&quot;NDIS-PS&quot;,&quot;PUBLISHED_IN&quot;,&quot;PRPS&quot;,&quot;Practice Standards are set out in the Rules (delegated legislation)&quot;)
+for s in STD: e(s[0],&quot;PART_OF&quot;,s[1])
+for k in [&quot;PRPS&quot;,&quot;IMRI&quot;,&quot;CMR&quot;,&quot;RPBS&quot;,&quot;WSR&quot;,&quot;COC&quot;,&quot;SDAC&quot;,&quot;PD&quot;,&quot;QI&quot;,&quot;QI26&quot;,&quot;PRPS26&quot;,&quot;AQA&quot;,&quot;AQAR25&quot;,&quot;NCE&quot;,&quot;BSPA&quot;]:
+    e(k,&quot;MADE_UNDER&quot;,&quot;ACT&quot;)
+e(&quot;PRPS26&quot;,&quot;RELATES_TO&quot;,&quot;PRPS&quot;,&quot;Amending instrument (proposed AMENDS type - taxonomy v0.4 candidate)&quot;)
+e(&quot;QI26&quot;,&quot;RELATES_TO&quot;,&quot;QI&quot;,&quot;Amending instrument (proposed AMENDS type - taxonomy v0.4 candidate)&quot;)
+e(&quot;IS26&quot;,&quot;RELATES_TO&quot;,&quot;ACT&quot;,&quot;Amending Act (proposed AMENDS type - taxonomy v0.4 candidate)&quot;)
+e(&quot;SIL&quot;,&quot;RELATES_TO&quot;,&quot;PRPS26&quot;,&quot;SIL module introduced by the 2026 Amendment Rules&quot;)
+
+# validation
+ids = set(DOCK)|set(STDK)|set(LEGK)|{m[0] for m in MODULES}|{&quot;NDIS-PS&quot;}
+bad = [(f,t,to) for f,t,to,_ in E if f not in ids or to not in ids]
+assert not bad, f&quot;Dangling edges: {bad}&quot;
+
+outg = {}; inc = {}
+for f,t,to,n in E:
+    if f in DOCK and (to in DOCK or to in STDK):
+        outg.setdefault(f,[]).append(f&quot;{t} {to}&quot;)
+    if to in DOCK and f in DOCK:
+        inc.setdefault(to,[]).append(f&quot;{f} {t} this&quot;)
+
+# ---------------- XLSX ----------------
+wb = Workbook(); AR = Font(name=&quot;Arial&quot;, size=10)
+H = Font(name=&quot;Arial&quot;, size=10, bold=True, color=&quot;FFFFFF&quot;)
+FILL = PatternFill(&quot;solid&quot;, start_color=&quot;1F3864&quot;)
+FILL2 = PatternFill(&quot;solid&quot;, start_color=&quot;DDEBF7&quot;)
+WRAP = Alignment(wrap_text=True, vertical=&quot;top&quot;)
+thin = Border(*[Side(style=&quot;thin&quot;, color=&quot;B0B0B0&quot;)]*4)
+
+def sheet(ws, headers, widths):
+    for c,(h,w) in enumerate(zip(headers,widths),1):
+        cell = ws.cell(1,c,h); cell.font=H; cell.fill=FILL; cell.alignment=WRAP
+        ws.column_dimensions[get_column_letter(c)].width=w
+    ws.freeze_panes=&quot;A2&quot;
+
+rm = wb.active; rm.title=&quot;READ ME&quot;
+rm.column_dimensions[&quot;A&quot;].width=30; rm.column_dimensions[&quot;B&quot;].width=100
+rows = [
+ (&quot;RISE - NDIS PROVIDER DOCUMENT REGISTER&quot;,&quot;&quot;),
+ (&quot;Purpose&quot;,&quot;Master map of a best-practice NDIS provider document suite: every policy, procedure, work instruction, form, register, plan and agreement, with typed links to the Practice Standards and legislation. This workbook is itself REG-GOV-03 in the suite and doubles as the human-readable node/edge store for the Rise compliance graph.&quot;),
+ (&quot;Generated&quot;,TODAY+&quot; | Suite design v0.1 | Companion machine file: rise-nodes-and-edges.json | Edge types per rise-relationship-taxonomy.md v0.3&quot;),
+ (&quot;&quot;,&quot;&quot;),
+ (&quot;HOW TO READ THE TYPED LINKS (plain English)&quot;,&quot;&quot;),
+ (&quot;IMPLEMENTS&quot;,&quot;This document exists to meet that Practice Standard.&quot;),
+ (&quot;OPERATIONALISES&quot;,&quot;This procedure/work instruction puts that policy/procedure into day-to-day practice.&quot;),
+ (&quot;USES&quot;,&quot;This procedure is carried out using that form.&quot;),
+ (&quot;RECORDS_TO&quot;,&quot;Completed copies of this form/agreement are logged in that register.&quot;),
+ (&quot;PART_OF / PUBLISHED_IN / MADE_UNDER&quot;,&quot;Standard sits in a module; the Standards are set out in the 2018 Rules; the Rules are made under the NDIS Act 2013.&quot;),
+ (&quot;RELATES_TO&quot;,&quot;Governed escape hatch (always carries a note). Statutory references and amendments use it pending proposed edge types REFERENCES and AMENDS (taxonomy v0.4 candidates).&quot;),
+ (&quot;&quot;,&quot;&quot;),
+ (&quot;SHEETS&quot;,&quot;&quot;),
+ (&quot;Documents&quot;,&quot;The full suite ({} documents). Filters on. Priority: P1 = audit-critical first wave, P2 = core completion, P3 = supporting.&quot;),
+ (&quot;Standards&quot;,&quot;Every Practice Standard node with its module, division and verification status.&quot;),
+ (&quot;Legislation&quot;,&quot;Instrument nodes (Acts, Rules, Guidelines) and their role in the graph.&quot;),
+ (&quot;Edges&quot;,&quot;Every link as From / Type / To / Note - machine-readable mirror of the JSON.&quot;),
+ (&quot;&quot;,&quot;&quot;),
+ (&quot;COUNTS&quot;,&quot;&quot;),
+ (&quot;Policies&quot;,&#x27;=COUNTIF(Documents!B:B,&quot;Policy&quot;)&#x27;),
+ (&quot;Procedures&quot;,&#x27;=COUNTIF(Documents!B:B,&quot;Procedure&quot;)&#x27;),
+ (&quot;Work instructions&quot;,&#x27;=COUNTIF(Documents!B:B,&quot;Work Instruction&quot;)&#x27;),
+ (&quot;Forms&quot;,&#x27;=COUNTIF(Documents!B:B,&quot;Form&quot;)+COUNTIF(Documents!B:B,&quot;Agreement&quot;)&#x27;),
+ (&quot;Registers&quot;,&#x27;=COUNTIF(Documents!B:B,&quot;Register&quot;)&#x27;),
+ (&quot;Plans / handbooks&quot;,&#x27;=COUNTIF(Documents!B:B,&quot;Plan&quot;)+COUNTIF(Documents!B:B,&quot;Handbook&quot;)&#x27;),
+ (&quot;Total documents&quot;,&quot;=COUNTA(Documents!A:A)-1&quot;),
+ (&quot;Total edges&quot;,&quot;=COUNTA(Edges!A:A)-1&quot;),
+ (&quot;&quot;,&quot;&quot;),
+ (&quot;VERIFICATION LEGEND (Standards &amp; Legislation sheets)&quot;,&quot;&quot;),
+ (&quot;V&quot;,&quot;Verified against the NDIS Commission website or instrument listing, 5 Jul 2026.&quot;),
+ (&quot;C&quot;,&quot;Established knowledge corroborated by secondary sources; low risk.&quot;),
+ (&quot;T&quot;,&quot;Training knowledge - confirm against the current compilation on the Federal Register of Legislation before relying on it externally.&quot;),
+ (&quot;D&quot;,&quot;Draft-source. As of 6 Jul 2026 none remain at standard level: SIL names verified via QI Guidelines compilation C03. PRPS clause pinpoints for SIL still await the next PRPS compilation and stay TBC in the Citation column.&quot;),
+ (&quot;&quot;,&quot;&quot;),
+ (&quot;EPISTEMIC NOTES&quot;,&quot;The suite composition, IDs, priorities, owners and review cycles are design recommendations, not regulatory requirements. Which modules apply to a given provider depends on their registration groups. Core Module standard names reflect the 2021 v4 structure; the 2026 Amendment Rules and any Practice Standards Review outcomes should be checked against this register before an audit. Schedule/clause citations on the Standards sheet come from the design-stage compilation review; spot-check clause numbers and PRPS body-section references against the live Federal Register compilation before external publication.&quot;),
+]
+rows[13] = (&quot;Documents&quot;, rows[13][1].format(len(DOCS)))
+for r,(a,b) in enumerate(rows,1):
+    ca=rm.cell(r,1,a); cb=rm.cell(r,2,b); ca.font=Font(name=&quot;Arial&quot;,size=10,bold=True); cb.font=AR
+    ca.alignment=WRAP; cb.alignment=WRAP
+rm.cell(1,1).font=Font(name=&quot;Arial&quot;, size=14, bold=True, color=&quot;1F3864&quot;)
+
+ws = wb.create_sheet(&quot;Documents&quot;)
+hdr=[&quot;Doc ID&quot;,&quot;Type&quot;,&quot;Title&quot;,&quot;Cluster&quot;,&quot;Applies to&quot;,&quot;Priority&quot;,&quot;Implements (standards)&quot;,&quot;Key legislation&quot;,&quot;Links out (typed)&quot;,&quot;Linked from (typed)&quot;,&quot;Easy Read&quot;,&quot;Owner (role)&quot;,&quot;Review (yrs)&quot;,&quot;Status&quot;]
+sheet(ws,hdr,[12,13,44,15,16,8,22,30,34,34,9,16,9,10])
+for x in DOCS:
+    leg = &quot;; &quot;.join(LEGK[k][1].replace(&quot;National Disability Insurance Scheme&quot;,&quot;NDIS&quot;) for k in x[&quot;leg&quot;])
+    row=[x[&quot;id&quot;],x[&quot;type&quot;],x[&quot;title&quot;],x[&quot;cluster&quot;],x[&quot;applies&quot;],x[&quot;priority&quot;],
+         &quot;; &quot;.join(x[&quot;imp&quot;]),leg,&quot;\n&quot;.join(outg.get(x[&quot;id&quot;],[])),&quot;\n&quot;.join(inc.get(x[&quot;id&quot;],[])),
+         &quot;Yes&quot; if x[&quot;ez&quot;] else &quot;&quot;,x[&quot;own&quot;],x[&quot;rv&quot;],&quot;Planned&quot;]
+    ws.append(row)
+for r in ws.iter_rows(min_row=2):
+    for c in r: c.font=AR; c.alignment=WRAP; c.border=thin
+    if r[0].row%2==0:
+        for c in r: c.fill=FILL2
+ws.auto_filter.ref = f&quot;A1:N{ws.max_row}&quot;
+
+ws = wb.create_sheet(&quot;Standards&quot;)
+sheet(ws,[&quot;Std ID&quot;,&quot;Module&quot;,&quot;Division&quot;,&quot;Standard&quot;,&quot;Citation - PRPS Rules 2018 as amended&quot;,&quot;Quality indicators - QI Guidelines C03&quot;,&quot;Verification&quot;],[10,10,30,42,32,16,12])
+for s in STD:
+    ws.append([s[0],s[1],s[2],s[3],CIT.get(s[0],&quot;&quot;),QIREF.get(s[0],&quot;&quot;),s[4]])
+for r in ws.iter_rows(min_row=2):
+    for c in r: c.font=AR; c.alignment=WRAP; c.border=thin
+ws.auto_filter.ref=f&quot;A1:F{ws.max_row}&quot;
+
+ws = wb.create_sheet(&quot;Legislation&quot;)
+sheet(ws,[&quot;Key&quot;,&quot;Instrument&quot;,&quot;Kind&quot;,&quot;Notes&quot;,&quot;Verification&quot;,&quot;Role in graph&quot;],[8,52,20,42,12,30])
+for l in LEG: ws.append(list(l[:2])+[l[2],l[3],l[4],l[5]])
+for r in ws.iter_rows(min_row=2):
+    for c in r: c.font=AR; c.alignment=WRAP; c.border=thin
+
+ws = wb.create_sheet(&quot;Edges&quot;)
+sheet(ws,[&quot;From&quot;,&quot;Edge type&quot;,&quot;To&quot;,&quot;Note&quot;],[16,18,16,60])
+for f,t,to,n in E: ws.append([f,t,to,n])
+for r in ws.iter_rows(min_row=2):
+    for c in r: c.font=AR; c.alignment=WRAP; c.border=thin
+ws.auto_filter.ref=f&quot;A1:D{ws.max_row}&quot;
+
+wb.save(&quot;/home/claude/rise-document-register.xlsx&quot;)
+
+# ---------------- JSON ----------------
+nodes=[]
+for l in LEG: nodes.append(dict(id=l[0],node_type=&quot;Instrument&quot;,kind=l[2],title=l[1],layer=&quot;shared&quot;,verification=l[4],note=l[3]))
+nodes.append(dict(id=&quot;NDIS-PS&quot;,node_type=&quot;Framework&quot;,title=&quot;NDIS Practice Standards&quot;,layer=&quot;shared&quot;,verification=&quot;V&quot;))
+for m in MODULES: nodes.append(dict(id=m[0],node_type=&quot;Module&quot;,title=m[1],applies_to=m[2],layer=&quot;shared&quot;,verification=m[3]))
+for s in STD: nodes.append(dict(id=s[0],node_type=&quot;Standard&quot;,title=s[3],module=s[1],division=s[2],citation=CIT.get(s[0],&quot;&quot;),qi_ref=QIREF.get(s[0],&quot;&quot;),layer=&quot;shared&quot;,verification=s[4]))
+for x in DOCS: nodes.append(dict(id=x[&quot;id&quot;],node_type=&quot;Document&quot;,doc_type=x[&quot;type&quot;],title=x[&quot;title&quot;],cluster=x[&quot;cluster&quot;],applies_to=x[&quot;applies&quot;],priority=x[&quot;priority&quot;],easy_read=bool(x[&quot;ez&quot;]),owner_role=x[&quot;own&quot;],review_years=x[&quot;rv&quot;],status=&quot;Planned&quot;,layer=&quot;tenant&quot;))
+edges=[dict(source=f,type=t,target=to,**({&quot;note&quot;:n} if n else {})) for f,t,to,n in E]
+meta=dict(version=&quot;0.1&quot;,generated=TODAY,edge_taxonomy=&quot;rise-relationship-taxonomy.md v0.3&quot;,
+ assertion_source=&quot;human-design&quot;,verification_legend=dict(V=&quot;verified vs regulator/primary source Jul 2026&quot;,C=&quot;corroborated training knowledge&quot;,T=&quot;training knowledge - confirm vs current compilation&quot;,D=&quot;draft instrument - confirm final wording&quot;))
+json.dump(dict(meta=meta,nodes=nodes,edges=edges),open(&quot;/home/claude/rise-nodes-and-edges.json&quot;,&quot;w&quot;),indent=1)
+print(&quot;docs&quot;,len(DOCS),&quot;standards&quot;,len(STD),&quot;instruments&quot;,len(LEG),&quot;edges&quot;,len(E),&quot;nodes&quot;,len(nodes))
+</code></pre>
+<div class="kbfoot">Read-only view. Original file: <a class="mono" href="rise_build.py">rise_build.py</a></div>
+</article></div>
+</body></html>

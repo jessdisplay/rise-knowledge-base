@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Rise compliance pyramid — model and complete placement map · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-dossier-bundle/rise-compliance-pyramid-model.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: rise-compliance-pyramid-model.md</span><span>10,457 bytes</span></div>
+
+<h1>The Rise compliance pyramid — model and complete placement map</h1>
+<p><strong>What this is.</strong> The pyramid model for presenting the NDIS compliance stack, plus
+the exact position ("address") of every practice standard in it. Verified against
+the National Disability Insurance Scheme (Quality Indicators for NDIS Practice
+Standards) Guidelines 2018, Compilation No. 1 (15 November 2021), fetched in full
+from the Federal Register of Legislation on 6 July 2026.</p>
+<hr />
+<h2>1. The seven tiers</h2>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Layer</th>
+<th>Count</th>
+<th>Status of the count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>NDIS Act 2013</td>
+<td>1</td>
+<td>Verified</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Legal instruments (the Rules 2018, the Quality Indicators Guidelines 2018, and the companion rulebooks the indicators name: incident management, complaints, restrictive practices, and SDA conditions rules)</td>
+<td>2 core + at least 4 companions</td>
+<td>Verified (companions named inside the indicator text; more exist beyond these)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Modules</td>
+<td>8 (9+ once the 2026 supported independent living module is included)</td>
+<td>8 verified; SIL placement unverified</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Practice standards</td>
+<td>66 (70 with SIL, per the Rise build)</td>
+<td>66 verified; the 70 reconciliation is inference</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Quality indicators</td>
+<td>Several hundred</td>
+<td>Not counted — deliberately unstated</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Provider documents</td>
+<td>123</td>
+<td>The Rise build's figure — not independently checked</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Evidence records</td>
+<td>Unbounded, grows daily</td>
+<td>By nature uncountable</td>
+</tr>
+</tbody>
+</table>
+<h2>2. How to use this model — and how not to</h2>
+<p><strong>Use it as the lens, not the engine.</strong> The pyramid is the default <em>view</em>: authority
+flows down, volume grows down, and each layer explains why the one below exists.
+But the underlying data must stay a graph, because three verified realities pierce
+a strict hierarchy:</p>
+<ol>
+<li>Indicators name companion rulebooks sideways (e.g. the incident management
+   standard requires compliance with the incident rules — a different instrument).</li>
+<li>The Guidelines cross-reference themselves (the housing tenancy section points
+   back to the core service-agreement section).</li>
+<li>One provider policy legitimately serves many indicators at once — pyramids force
+   single parents; reality is many-to-many.</li>
+</ol>
+<p>In graph terms: the pyramid is what you see when you render only the "part of" and
+"published in" relationships and hide all others. One dataset, one honest hierarchy
+view, no duplicate model to maintain. (Design opinion, consistent with the Rise
+relationship taxonomy v0.3.)</p>
+<h2>3. The addressing scheme</h2>
+<p>Every practice standard has a unique address made of three coordinates:</p>
+<p><strong>Module → where the standard lives in the Rules (schedule, clause) → where its
+indicators live in the Guidelines (section).</strong></p>
+<p>Example: <em>Conflict of interest (housing)</em> = Module 5 → Schedule 7, clause 4 →
+section 69. Every pairing below is taken from the eleven statutory mapping tables
+in the Guidelines — none are inferred.</p>
+<hr />
+<h2>4. Complete placement map — all 66 standards</h2>
+<h3>Tier 3, Module: CORE (Schedule 1 · indicators sections 6–27)</h3>
+<p><strong>Division 1 — rights and responsibilities</strong></p>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Rules address</th>
+<th>Indicators address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Person-centred supports</td>
+<td>Schedule 1, clause 3</td>
+<td>section 6</td>
+</tr>
+<tr>
+<td>Individual values and beliefs</td>
+<td>Schedule 1, clause 4</td>
+<td>section 7</td>
+</tr>
+<tr>
+<td>Privacy and dignity</td>
+<td>Schedule 1, clause 5</td>
+<td>section 8</td>
+</tr>
+<tr>
+<td>Independence and informed choice</td>
+<td>Schedule 1, clause 6</td>
+<td>section 9</td>
+</tr>
+<tr>
+<td>Violence, abuse, neglect, exploitation and discrimination</td>
+<td>Schedule 1, clause 7</td>
+<td>section 10</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Division 2 — governance and operational management</strong></p>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Rules address</th>
+<th>Indicators address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Governance and operational management</td>
+<td>Schedule 1, clause 9</td>
+<td>section 11</td>
+</tr>
+<tr>
+<td>Risk management</td>
+<td>Schedule 1, clause 10</td>
+<td>section 12</td>
+</tr>
+<tr>
+<td>Quality management</td>
+<td>Schedule 1, clause 11</td>
+<td>section 13</td>
+</tr>
+<tr>
+<td>Information management</td>
+<td>Schedule 1, clause 12</td>
+<td>section 14</td>
+</tr>
+<tr>
+<td>Feedback and complaints management</td>
+<td>Schedule 1, clause 13</td>
+<td>section 15</td>
+</tr>
+<tr>
+<td>Incident management</td>
+<td>Schedule 1, clause 14</td>
+<td>section 16</td>
+</tr>
+<tr>
+<td>Human resource management</td>
+<td>Schedule 1, clause 15</td>
+<td>section 17</td>
+</tr>
+<tr>
+<td>Continuity of supports</td>
+<td>Schedule 1, clause 16</td>
+<td>section 18</td>
+</tr>
+<tr>
+<td>Emergency and disaster management</td>
+<td>Schedule 1, clause 16A</td>
+<td>section 18A</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Division 3 — provision of supports</strong></p>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Rules address</th>
+<th>Indicators address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Access to supports</td>
+<td>Schedule 1, clause 18</td>
+<td>section 19</td>
+</tr>
+<tr>
+<td>Support planning</td>
+<td>Schedule 1, clause 19</td>
+<td>section 20</td>
+</tr>
+<tr>
+<td>Service agreements with participants</td>
+<td>Schedule 1, clause 20</td>
+<td>section 21</td>
+</tr>
+<tr>
+<td>Responsive support provision</td>
+<td>Schedule 1, clause 21</td>
+<td>section 22</td>
+</tr>
+<tr>
+<td>Transitions to or from a provider</td>
+<td>Schedule 1, clause 22</td>
+<td>section 23</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Division 4 — support provision environment</strong></p>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Rules address</th>
+<th>Indicators address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Safe environment</td>
+<td>Schedule 1, clause 24</td>
+<td>section 24</td>
+</tr>
+<tr>
+<td>Participant money and property</td>
+<td>Schedule 1, clause 25</td>
+<td>section 25</td>
+</tr>
+<tr>
+<td>Management of medication</td>
+<td>Schedule 1, clause 26</td>
+<td>section 26</td>
+</tr>
+<tr>
+<td>Mealtime management</td>
+<td>Schedule 1, clause 26A</td>
+<td>section 26A</td>
+</tr>
+<tr>
+<td>Management of waste</td>
+<td>Schedule 1, clause 27</td>
+<td>section 27</td>
+</tr>
+</tbody>
+</table>
+<h3>Tier 3, Module 1: high intensity daily personal activities (Schedule 2 · sections 29–35)</h3>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Rules address</th>
+<th>Indicators address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Complex bowel care</td>
+<td>Schedule 2, clause 3</td>
+<td>section 29</td>
+</tr>
+<tr>
+<td>Enteral feeding and management</td>
+<td>Schedule 2, clause 4</td>
+<td>section 30</td>
+</tr>
+<tr>
+<td>Severe dysphagia management</td>
+<td>Schedule 2, clause 4A</td>
+<td>section 30A</td>
+</tr>
+<tr>
+<td>Tracheostomy management</td>
+<td>Schedule 2, clause 5</td>
+<td>section 31</td>
+</tr>
+<tr>
+<td>Urinary catheter management</td>
+<td>Schedule 2, clause 6</td>
+<td>section 32</td>
+</tr>
+<tr>
+<td>Ventilator management</td>
+<td>Schedule 2, clause 7</td>
+<td>section 33</td>
+</tr>
+<tr>
+<td>Subcutaneous injections</td>
+<td>Schedule 2, clause 8</td>
+<td>section 34</td>
+</tr>
+<tr>
+<td>Complex wound management</td>
+<td>Schedule 2, clause 9</td>
+<td>section 35</td>
+</tr>
+</tbody>
+</table>
+<h3>Tier 3, Module 2: specialist behaviour support (Schedule 3 · sections 38–44)</h3>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Rules address</th>
+<th>Indicators address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Behaviour support in the NDIS</td>
+<td>Schedule 3, clause 3</td>
+<td>section 38</td>
+</tr>
+<tr>
+<td>Restrictive practices</td>
+<td>Schedule 3, clause 4</td>
+<td>section 39</td>
+</tr>
+<tr>
+<td>Functional behaviour assessments and behaviour support plans</td>
+<td>Schedule 3, clause 5</td>
+<td>section 40</td>
+</tr>
+<tr>
+<td>Supporting the implementation of the behaviour support plan</td>
+<td>Schedule 3, clause 6</td>
+<td>section 41</td>
+</tr>
+<tr>
+<td>Behaviour support plan monitoring and review</td>
+<td>Schedule 3, clause 7</td>
+<td>section 42</td>
+</tr>
+<tr>
+<td>Reportable incidents involving the use of a restrictive practice</td>
+<td>Schedule 3, clause 8</td>
+<td>section 43</td>
+</tr>
+<tr>
+<td>Interim behaviour support plans</td>
+<td>Schedule 3, clause 9</td>
+<td>section 44</td>
+</tr>
+</tbody>
+</table>
+<h3>Tier 3, Module 2A: implementing behaviour support plans (Schedule 4 · sections 47–54)</h3>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Rules address</th>
+<th>Indicators address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Behaviour support in the NDIS</td>
+<td>Schedule 4, clause 3</td>
+<td>section 47</td>
+</tr>
+<tr>
+<td>Regulated restrictive practices</td>
+<td>Schedule 4, clause 4</td>
+<td>section 48</td>
+</tr>
+<tr>
+<td>Supporting the assessment and development of behaviour support plans</td>
+<td>Schedule 4, clause 5</td>
+<td>section 49</td>
+</tr>
+<tr>
+<td>Behaviour support plan implementation</td>
+<td>Schedule 4, clause 6</td>
+<td>section 50</td>
+</tr>
+<tr>
+<td>Monitoring and reporting the use of regulated restrictive practices</td>
+<td>Schedule 4, clause 7</td>
+<td>section 51</td>
+</tr>
+<tr>
+<td>Behaviour support plan review</td>
+<td>Schedule 4, clause 8</td>
+<td>section 52</td>
+</tr>
+<tr>
+<td>Reportable incidents involving the use of a restrictive practice</td>
+<td>Schedule 4, clause 9</td>
+<td>section 53</td>
+</tr>
+<tr>
+<td>Interim behaviour support plans</td>
+<td>Schedule 4, clause 10</td>
+<td>section 54</td>
+</tr>
+</tbody>
+</table>
+<h3>Tier 3, Module 3: early childhood supports (Schedule 5 · sections 56–62)</h3>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Rules address</th>
+<th>Indicators address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The child</td>
+<td>Schedule 5, clause 3</td>
+<td>section 56</td>
+</tr>
+<tr>
+<td>The family</td>
+<td>Schedule 5, clause 4</td>
+<td>section 57</td>
+</tr>
+<tr>
+<td>Inclusion</td>
+<td>Schedule 5, clause 5</td>
+<td>section 58</td>
+</tr>
+<tr>
+<td>Collaboration</td>
+<td>Schedule 5, clause 6</td>
+<td>section 59</td>
+</tr>
+<tr>
+<td>Capacity building</td>
+<td>Schedule 5, clause 7</td>
+<td>section 60</td>
+</tr>
+<tr>
+<td>Evidence-informed practice</td>
+<td>Schedule 5, clause 8</td>
+<td>section 61</td>
+</tr>
+<tr>
+<td>Outcome based approach</td>
+<td>Schedule 5, clause 9</td>
+<td>section 62</td>
+</tr>
+</tbody>
+</table>
+<h3>Tier 3, Module 4: specialised support coordination (Schedule 6 · sections 64–66)</h3>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Rules address</th>
+<th>Indicators address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Specialised support coordination</td>
+<td>Schedule 6, clause 3</td>
+<td>section 64</td>
+</tr>
+<tr>
+<td>Management of a participant's NDIS supports</td>
+<td>Schedule 6, clause 4</td>
+<td>section 65</td>
+</tr>
+<tr>
+<td>Conflict of interest</td>
+<td>Schedule 6, clause 5</td>
+<td>section 66</td>
+</tr>
+</tbody>
+</table>
+<h3>Tier 3, Module 5: specialist disability accommodation (Schedule 7 · sections 68–72)</h3>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Rules address</th>
+<th>Indicators address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rights and responsibilities</td>
+<td>Schedule 7, clause 3</td>
+<td>section 68</td>
+</tr>
+<tr>
+<td>Conflict of interest</td>
+<td>Schedule 7, clause 4</td>
+<td>section 69</td>
+</tr>
+<tr>
+<td>Service agreements with participants</td>
+<td>Schedule 7, clause 5</td>
+<td>section 70</td>
+</tr>
+<tr>
+<td>Enrolment of SDA properties</td>
+<td>Schedule 7, clause 6</td>
+<td>section 71</td>
+</tr>
+<tr>
+<td>Tenancy management</td>
+<td>Schedule 7, clause 7</td>
+<td>section 72</td>
+</tr>
+</tbody>
+</table>
+<h3>Tier 3, Verification module (Schedule 8 · sections 74–77 — <strong>paired in reverse order</strong>)</h3>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Rules address</th>
+<th>Indicators address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Human resource management</td>
+<td>Schedule 8, clause 6</td>
+<td>section 74</td>
+</tr>
+<tr>
+<td>Incident management</td>
+<td>Schedule 8, clause 5</td>
+<td>section 75</td>
+</tr>
+<tr>
+<td>Complaints management</td>
+<td>Schedule 8, clause 4</td>
+<td>section 76</td>
+</tr>
+<tr>
+<td>Risk management</td>
+<td>Schedule 8, clause 3</td>
+<td>section 77</td>
+</tr>
+</tbody>
+</table>
+<h3>Missing from this map</h3>
+<p>The supported independent living standards (2026) — their schedule, clauses and
+section numbers are not in the compilation available to me and are <strong>not</strong> listed
+here. Do not fill this gap from memory; fill it from the 1 July 2026 compilation.</p>
+<hr />
+<h2>5. What sits below tier 4</h2>
+<p>Each standard's indicators (tier 5) are printed in full at its Guidelines section —
+the plain-English summaries of all 66 are in the companion document
+<code>ndis-standards-quality-indicators-plain-english-map.md</code>. Tier 6 (provider
+documents) and tier 7 (evidence) are organisation-specific: in the pyramid view,
+each provider document hangs beneath every standard it implements — and because one
+document typically serves several standards, this is exactly where the pyramid
+stops being a tree and the graph takes over.</p>
+<h2>6. Epistemic status</h2>
+<ul>
+<li><strong>Verified:</strong> tiers 1–4, every address in section 4, the reverse-order quirk, and
+  the companion rulebooks named in the indicators — all from the instrument text.</li>
+<li><strong>Inference:</strong> 66 + SIL ≈ 70; the pyramid-as-view recommendation is design
+  opinion.</li>
+<li><strong>Unverified:</strong> the indicator count (uncounted), the 123-document figure (the
+  Rise build's number), all SIL placements, and the current 1 July 2026
+  compilation, which I have not fetched.</li>
+</ul>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="rise-compliance-pyramid-model.md">rise-compliance-pyramid-model.md</a></div>
+</article></div>
+</body></html>

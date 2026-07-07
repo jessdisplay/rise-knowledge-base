@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rise — Developer Handoff: NDIS Document &amp; Graph Import Package · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/rise-developer-handoff.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: rise-developer-handoff.md</span><span>12,915 bytes</span></div>
+
+<h1>Rise — Developer Handoff: NDIS Document &amp; Graph Import Package</h1>
+<p><strong>v0.1 — 2026-07-05.</strong> Everything needed to start importing legislation, standards,
+policies, procedures, forms and registers into the Rise platform. Read this file first;
+it indexes the rest.</p>
+<hr />
+<h2>1. What this package is</h2>
+<p>A complete, internally consistent seed for the Rise compliance graph and its document
+layer, for the NDIS framework as at July 2026 (including the SIL module that commenced
+1 July 2026). It contains the <strong>schema</strong> (node + edge taxonomies), the <strong>seed data</strong>
+(224 nodes, 528 edges), the <strong>human-readable register</strong> (the workbook), the <strong>document
+templates</strong> the content will be authored into, and the <strong>canonical examples</strong> a developer
+implements against. The generator script is included so the dataset can be regenerated
+from one source of truth.</p>
+<p>One file referenced throughout is <strong>not</strong> in this package because it was delivered in an
+earlier session: <code>rise-relationship-taxonomy.md</code> <strong>v0.3</strong> — the authoritative edge
+taxonomy (25 typed edges, five groups). Put it in the repo beside these files.</p>
+<h2>2. File manifest</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it is</th>
+<th>Role tomorrow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rise-developer-handoff.md</code></td>
+<td>This index</td>
+<td>Start here</td>
+</tr>
+<tr>
+<td><code>rise-document-register.xlsx</code></td>
+<td>Master register: READ ME, Documents (123), Standards (70, clause-cited), Legislation (21), Edges (528)</td>
+<td>Human-readable mirror of the seed data; the suite build plan; itself document REG-GOV-03</td>
+</tr>
+<tr>
+<td><code>rise-nodes-and-edges.json</code></td>
+<td>Machine-readable seed: 224 nodes, 528 edges</td>
+<td>The import payload</td>
+</tr>
+<tr>
+<td><code>rise-node-examples.json</code></td>
+<td>One fully-attributed example per node type + representative edges</td>
+<td>The shapes to implement (bitemporal fields, enums, MAPS_TO dimensions)</td>
+</tr>
+<tr>
+<td><code>rise-node-map.mermaid</code></td>
+<td>Meta-model diagram: every node type, core typed edges, both layers</td>
+<td>The picture for the wall / repo README</td>
+</tr>
+<tr>
+<td><code>rise-dossier.html</code></td>
+<td>Live-linked dossier: the whole dataset browsable in any browser, with verification stamps and FRL/Commission links</td>
+<td>Share/view online; regenerate via <code>rise_dossier.py</code></td>
+</tr>
+<tr>
+<td><code>rise-plain-english-guide.md</code></td>
+<td>The whole system explained for anyone</td>
+<td>Onboarding; participant-facing tone reference</td>
+</tr>
+<tr>
+<td><code>rise-document-suite-v0.1.zip</code></td>
+<td>All 123 documents as Markdown drafts — full compliance headers generated from the graph; incident chain fully drafted; other bodies are marked scaffolds</td>
+<td>The authoring baseline; also embedded, clickable, in the dossier's Reader</td>
+</tr>
+<tr>
+<td><code>rise-auditor-focus-map.md</code></td>
+<td>Plain-English map of every area auditors examine, with QI Guidelines section numbers (C03) and the Rise documents that answer each</td>
+<td>The retrieval patterns the platform must serve</td>
+</tr>
+<tr>
+<td><code>rise-sources.md</code></td>
+<td>Tiered source register: every claim traced, access-dated, incl. negative findings</td>
+<td>Provenance; also rendered in the dossier's Sources section</td>
+</tr>
+<tr>
+<td><code>rise-methodology.md</code></td>
+<td>The build logic in plain English: verification ladder, gap sweeps, conflict rules</td>
+<td>How to challenge or extend the dataset</td>
+</tr>
+<tr>
+<td><code>rise-node-taxonomy.md</code> v0.1</td>
+<td>Node-type schema (companion to edge taxonomy v0.3)</td>
+<td>Schema reference</td>
+</tr>
+<tr>
+<td><code>rise-document-architecture.md</code> v0.1</td>
+<td>How documents render the graph: Compliance Header spec, ID scheme, traceability views, accessibility rules</td>
+<td>Governs document generation and the header round-trip</td>
+</tr>
+<tr>
+<td><code>TPL-POL / PRO / WIN / FRM / REG</code> (.md + .docx)</td>
+<td>The five document templates, incident chain as worked example</td>
+<td>Authoring targets for the 121 planned documents</td>
+</tr>
+<tr>
+<td><code>rise_build.py</code> + <code>rise_docs.py</code> + <code>rise_dossier.py</code></td>
+<td>Generators: one dataset → xlsx + JSON + 123 documents + HTML dossier, with a dangling-edge assertion</td>
+<td>Regeneration and future edits</td>
+</tr>
+</tbody>
+</table>
+<h2>3. The data model on one page</h2>
+<p>Two layers. <strong>Shared</strong> (one copy, centrally maintained): Instrument → Provision;
+Framework → Module → Standard → Quality Indicator. <strong>Tenant</strong> (per provider):
+Organisation, Registration Scope, Site, Document (8 doc_types), Role, Person, Training,
+Risk, Control, Evidence, Audit, Finding, Improvement Action. Edges cross the layer
+boundary read-only from the tenant side (<code>IMPLEMENTS</code>, <code>EVIDENCES</code>, <code>ASSESSES</code>,
+<code>MAPS_TO</code>).</p>
+<p><strong>Terminology mapping (important):</strong> what the node taxonomy and this package call a
+<strong>Standard</strong> is what the edge taxonomy v0.3 calls a <strong>Requirement</strong> (its hierarchy reads
+Framework → Module → Outcome → Requirement → Indicator; we collapsed Outcome into the
+<code>division</code> attribute). Same object, two names — pick one in code (recommendation:
+<code>Standard</code>, matching NDIS language) and note the alias.</p>
+<p><strong>Everything is bitemporal</strong> (<code>effective_from/to</code> + <code>recorded_at/superseded_at</code>) and
+everything carries <code>assertion_source</code> + <code>verification_status</code> as independent dimensions.
+Edge direction points <strong>toward authority</strong>. <code>RELATES_TO</code> always requires a note.</p>
+<p>The one non-negotiable product behaviour this enables: <strong>legislative-change fan-out</strong> —
+an amendment lands on an Instrument, and a graph traversal produces the review list of
+every affected document.</p>
+<h2>4. Import plan (recommended order)</h2>
+<ol>
+<li><strong>Shared instruments</strong> — <code>nodes</code> where <code>node_type=Instrument</code> (17). Then the
+   legislative edges (<code>MADE_UNDER</code>, the <code>RELATES_TO</code> amendment edges).</li>
+<li><strong>Framework layer</strong> — Framework, 9 Modules, 70 Standards (with <code>citation</code>), then
+   <code>PART_OF</code> / <code>PUBLISHED_IN</code> edges.</li>
+<li><strong>Tenant document nodes</strong> — the 121 Documents (all <code>status: Planned</code>), expanding each
+   to the full shape in <code>rise-node-examples.json</code> (defaults: <code>recorded_at=now</code>,
+   <code>assertion_source=human</code>).</li>
+<li><strong>Document edges</strong> — <code>IMPLEMENTS</code>, <code>OPERATIONALISES</code>, <code>USES</code>, <code>RECORDS_TO</code>, and the
+   noted <code>RELATES_TO</code> set.</li>
+<li><strong>Validation gates</strong> (fail the import on any): no dangling endpoints (the generator
+   already asserts this); domain/range legality per taxonomy v0.3; every <code>RELATES_TO</code>
+   has a note; every node has both temporal pairs; every Document has ≥1 <code>IMPLEMENTS</code>
+   or an explicit exemption.</li>
+<li><strong>Smoke queries</strong> — "all documents implementing CORE-2.6", "all documents citing the
+   PRPS Rules" (fan-out dry run), "standards in scope with no IMPLEMENTS edge" (gap
+   detection; needs a RegistrationScope row — see the ExampleCare sample).</li>
+</ol>
+<p>The workbook's Documents sheet is the same data with filters — use it to eyeball what
+the queries should return.</p>
+<h2>5. Verification state — what to trust</h2>
+<p>Legend (workbook READ ME): <strong>V</strong> verified against regulator/FRL sources on 5 Jul 2026 ·
+<strong>C</strong> corroborated training knowledge · <strong>T</strong> confirm against the current compilation ·
+<strong>D</strong> draft-source (SIL wording). Current spread: 66 of 70 standards verified <strong>to schedule and clause</strong> against the FRL compilation table of contents (fetched 5 Jul 2026); the 4 SIL standards remain draft-source. 21 instruments, all V or C, with FRL series IDs verified where published (F2018L00631 PRPS,
+F2018N00114 AQA Guidelines, F2018L00632 RP Rules, F2018L00629 Code of Conduct,
+F2018L00887 Worker Screening, F2018N00041 QI Guidelines, plus the new <strong>Approved Quality Auditors Rules 2025, F2025L01383</strong>, and the NDIS Act itself at C2013A00020). The three 2021 insertions now cite cleanly (emergency &amp; disaster management Sch 1 cl 16A; mealtime management cl 26A; severe dysphagia Sch 2 cl 4A), and standard titles align to the official clause headings.</p>
+<p>Known soft spots, in order of priority: (a) <strong>SIL standards final wording</strong> — commenced
+1 Jul 2026; register carries draft-derived names, confirm against the made Amendment
+Rules; (b) the latest <strong>published compilation is C04 (15 Nov 2021)</strong> — the 2026 amendments are law but not yet consolidated at the FRL 'latest' URL, so SIL clause locations stay TBC; (c) <strong>quality indicators</strong> — the QI
+Guidelines' indicator text is <em>not yet imported</em> (placeholder shape only; never invent
+indicator text); (d) two Commission guidelines (Notice of Changes and Events 2019; Behaviour Support Practitioner Application 2020) still need their FRL ids pulled. UPDATE 6 Jul: quality-indicator references are now verified for all 70 standards against QI Guidelines compilation C03 (F2026C00528, 1 Jul 2026), which also consolidates Module 5A (SIL) — SIL standard names upgraded to Verified; only their PRPS clause pinpoints remain TBC. Indicator TEXT stays pointer-only by design (copyright and never-invent rules); full-text ingestion is the platform task.</p>
+<p>Suite composition, IDs, priorities, owners and review cycles are <strong>design
+recommendations</strong>, not regulatory requirements.</p>
+<h2>6. What's worth taking from the IBM OpenPages review (5 Jul session)</h2>
+<ol>
+<li><strong>Structural parallel, verified:</strong> OpenPages RCM models a Mandate → Sub-Mandate →
+   Requirement hierarchy with regulatory-feed connectors, retains past and future
+   versions of regulatory text on Requirements, and auto-generates workflows from
+   regulatory events. Independent commercial validation of two Rise day-one choices:
+   versioned requirement nodes and change fan-out. Worth mirroring: keep dated text
+   versions retrievable <em>on the Standard/Provision node</em>, not only in documents.</li>
+<li><strong>Freedom-to-operate signal, verified:</strong> even IBM licenses UCF content via a
+   connector rather than replicating UCF's model. Rise should keep doing the same —
+   build no UCF-shaped harmonised-control layer without an FTO review. Related caution
+   from the earlier patent search: IBM holds an adjacent patent on live compliance
+   crosswalks responding to regulatory change — proximate to our fan-out feature;
+   flag for FTO review alongside UCF.</li>
+<li><strong>AI-agent direction, verified:</strong> OpenPages now ships an MCP Server for agents to
+   create/query/update GRC objects. Rise's <code>ai_proposed</code> + <code>unverified</code> pipeline is the
+   same trajectory; an MCP interface over the graph is a natural roadmap item.</li>
+<li><strong>Differentiation, inference (not verified):</strong> OpenPages appears to be an
+   object-association relational model — no evidence found of typed-edge semantics,
+   set-theoretic crosswalks, or bitemporal snapshots. That gap is plausibly Rise's
+   moat; treat as open until someone gets hands-on with the trial.</li>
+<li><strong>Useful further reading</strong> (from that session, links in the chat): the OpenPages
+   Solutions Guide object-model PDF (v7.4 — concepts, not current state) and the RCM
+   demo video.</li>
+</ol>
+<p>Other standing references from the taxonomy work: NIST OSCAL (mapping model as prior
+art), NIST IR 8278Ar1/OLIR (source of the verified MAPS_TO dimensions), W3C SKOS, and —
+noted but not re-verified — Akoma Ntoso / OASIS LegalDocML as the XML standard worth
+following when full legislative text is imported into Instrument/Provision nodes.</p>
+<h2>7. Open decisions (need answers, none block tomorrow's import)</h2>
+<ol>
+<li><strong>Version modelling</strong> — separate node per document version sharing a <code>logical_id</code>,
+   vs one node + history table. The <code>SUPERSEDES</code> example in <code>rise-node-examples.json</code>
+   shows the question concretely. My lean: separate nodes (auditors ask for "the policy
+   as it stood on date X", and <code>SUPERSEDES</code> edges then do the work), at the cost of
+   more nodes.</li>
+<li><strong>Edge taxonomy v0.4</strong> — adopt <code>REFERENCES</code> (Document → Instrument/Provision) and
+   <code>AMENDS</code> (Instrument → Instrument). Today ~130 <code>RELATES_TO</code> edges carry these as
+   notes; that's the escape-hatch smell the taxonomy says to refactor.</li>
+<li><strong>Participant node</strong> — deliberately excluded (privacy blast radius); participant
+   records key to the CRM. Revisit only if per-participant compliance views become core.</li>
+<li><strong>QI Guidelines import</strong> — the next shared-data task after tomorrow.</li>
+<li><strong>Registration-group → module applicability table</strong> — the dataset that lets
+   RegistrationScope auto-derive which modules apply (the Commission's 'initial scope
+   of audit' mechanism). Needed before gap detection can run for a real tenant.</li>
+<li><strong>Standing watch list</strong> — tracked in the dossier's Watch section: the Securing the
+   NDIS for Future Generations Bill 2026, mandatory-registration phasing to 2030
+   (support-coordination timing unresolved), the Practice Standards Review, the AQA
+   Rules 2025 / 2018 Guidelines relationship, QI import, jurisdictional overlays, the Akoma Ntoso/LegalDocML revision due late Jul 2026 (structure future legislative-text imports on it), and FRL programmatic-access status — no public API found for legislation.gov.au; the UK register's open API is the integration benchmark.</li>
+<li>Two fragments from your earlier voice note I still can't resolve: something about
+   "the financial" (no financial document exists in any Rise chat I can search) and
+   "going into that country". If either matters for the import, clarify and I'll fold
+   it in.</li>
+</ol>
+<h2>8. Regenerating the dataset</h2>
+<p>Edit the data blocks in <code>rise_build.py</code> (LEG / MODULES / STD / DOCS / edge lists), run
+<code>python3 rise_build.py</code>, then recalculate the workbook. The script asserts referential
+integrity before writing anything. Markdown is canonical for documents; docx is an
+export — never edit the docx as master.</p>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="rise-developer-handoff.md">rise-developer-handoff.md</a></div>
+</article></div>
+</body></html>

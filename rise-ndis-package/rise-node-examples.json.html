@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rise-node-examples.json · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/rise-node-examples.json.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>json data</span><span>17,134 bytes</span></div>
+
+<h1>rise-node-examples.json</h1><pre><code>{
+  &quot;meta&quot;: {
+    &quot;file&quot;: &quot;rise-node-examples.json&quot;,
+    &quot;version&quot;: &quot;0.1&quot;,
+    &quot;generated&quot;: &quot;2026-07-05&quot;,
+    &quot;purpose&quot;: &quot;Canonical, fully-attributed examples - one per node type plus representative edges. The SHAPE (fields, enums, bitemporal pairs) is normative per rise-node-taxonomy.md v0.1 and rise-relationship-taxonomy.md v0.3. Attribute VALUES are illustrative unless verification says &#x27;verified&#x27;. Companion file rise-nodes-and-edges.json holds the full 218-node seed dataset with a lighter attribute set; on import, expand seed nodes to these shapes with system defaults.&quot;,
+    &quot;bitemporal_convention&quot;: &quot;effective_from/effective_to = when true in the world (valid time). recorded_at/superseded_at = when the database believed it (transaction time, system-set). Open effective_to and null superseded_at = current.&quot;,
+    &quot;enums&quot;: {
+      &quot;assertion_source&quot;: [&quot;human&quot;, &quot;import&quot;, &quot;rule&quot;, &quot;ai_proposed&quot;],
+      &quot;verification_status&quot;: [&quot;verified&quot;, &quot;corroborated&quot;, &quot;unverified&quot;, &quot;draft_source&quot;],
+      &quot;document_status&quot;: [&quot;draft&quot;, &quot;in_review&quot;, &quot;approved&quot;, &quot;superseded&quot;, &quot;retired&quot;],
+      &quot;instrument_status&quot;: [&quot;in_force&quot;, &quot;amended&quot;, &quot;repealed&quot;],
+      &quot;maps_to_strength&quot;: [&quot;equal&quot;, &quot;subset&quot;, &quot;superset&quot;, &quot;intersects&quot;, &quot;not_related&quot;],
+      &quot;maps_to_rationale&quot;: [&quot;syntactic&quot;, &quot;semantic&quot;, &quot;functional&quot;]
+    }
+  },
+  &quot;node_examples&quot;: [
+    {
+      &quot;id&quot;: &quot;IMRI&quot;,
+      &quot;node_type&quot;: &quot;Instrument&quot;,
+      &quot;layer&quot;: &quot;shared&quot;,
+      &quot;title&quot;: &quot;National Disability Insurance Scheme (Incident Management and Reportable Incidents) Rules 2018&quot;,
+      &quot;kind&quot;: &quot;Rules&quot;,
+      &quot;jurisdiction&quot;: &quot;Cth&quot;,
+      &quot;frl_id&quot;: &quot;F2018L00633&quot;,
+      &quot;compilation_no&quot;: &quot;check latest on FRL&quot;,
+      &quot;status&quot;: &quot;in_force&quot;,
+      &quot;effective_from&quot;: &quot;2018-07-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;verified&quot;,
+      &quot;note&quot;: &quot;FRL series ID verified 2026-07-05. Commencement date illustrative - confirm against FRL.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;IMRI-PT-REPORTABLE&quot;,
+      &quot;node_type&quot;: &quot;Provision&quot;,
+      &quot;layer&quot;: &quot;shared&quot;,
+      &quot;title&quot;: &quot;Reportable incident notification provisions&quot;,
+      &quot;citation&quot;: &quot;TBC - populate Part/section from the current FRL compilation&quot;,
+      &quot;provision_kind&quot;: &quot;Part&quot;,
+      &quot;part_of&quot;: &quot;IMRI&quot;,
+      &quot;status&quot;: &quot;in_force&quot;,
+      &quot;effective_from&quot;: &quot;2018-07-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;,
+      &quot;note&quot;: &quot;Demonstrates the honest-uncertainty pattern: a Provision node may exist with citation TBC, but it cannot reach &#x27;verified&#x27; until checked against the compilation.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;NDIS-PS&quot;,
+      &quot;node_type&quot;: &quot;Framework&quot;,
+      &quot;layer&quot;: &quot;shared&quot;,
+      &quot;title&quot;: &quot;NDIS Practice Standards&quot;,
+      &quot;regulator&quot;: &quot;NDIS Quality and Safeguards Commission&quot;,
+      &quot;audit_scheme&quot;: &quot;Approved Quality Auditors Scheme (certification / verification / mid-term audits)&quot;,
+      &quot;status&quot;: &quot;in_force&quot;,
+      &quot;effective_from&quot;: &quot;2018-07-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;verified&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SIL&quot;,
+      &quot;node_type&quot;: &quot;Module&quot;,
+      &quot;layer&quot;: &quot;shared&quot;,
+      &quot;title&quot;: &quot;SIL Module: Supported Independent Living Practice Standards&quot;,
+      &quot;applies_when&quot;: &quot;Provider delivers supported independent living; registration mandatory from commencement&quot;,
+      &quot;commencement&quot;: &quot;2026-07-01&quot;,
+      &quot;status&quot;: &quot;in_force&quot;,
+      &quot;effective_from&quot;: &quot;2026-07-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;verified&quot;,
+      &quot;note&quot;: &quot;Module existence and commencement verified via NDIS Commission (Jul 2026). Internal standard wording still carries draft_source until checked against the made Amendment Rules.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;CORE-2.6&quot;,
+      &quot;node_type&quot;: &quot;Standard&quot;,
+      &quot;layer&quot;: &quot;shared&quot;,
+      &quot;title&quot;: &quot;Incident management&quot;,
+      &quot;module&quot;: &quot;CORE&quot;,
+      &quot;division&quot;: &quot;Div 2 Governance &amp; operational management&quot;,
+      &quot;citation&quot;: &quot;Sch 1, Pt 3, cl 14&quot;,
+      &quot;outcome_statement_ref&quot;: &quot;PRPS Rules 2018, Sch 1, Pt 3, cl 14 (pointer, not a copy of the text)&quot;,
+      &quot;participant_statement_ref&quot;: null,
+      &quot;status&quot;: &quot;in_force&quot;,
+      &quot;effective_from&quot;: &quot;2018-07-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;verified&quot;,
+      &quot;note&quot;: &quot;Clause citation from design-stage compilation review - spot-check against live compilation before external publication.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SIL-1&quot;,
+      &quot;node_type&quot;: &quot;Standard&quot;,
+      &quot;layer&quot;: &quot;shared&quot;,
+      &quot;title&quot;: &quot;Supported decision-making&quot;,
+      &quot;module&quot;: &quot;SIL&quot;,
+      &quot;division&quot;: &quot;SIL&quot;,
+      &quot;citation&quot;: &quot;Inserted by 2026 Amendment Rules - Sch/cl TBC (check latest compilation)&quot;,
+      &quot;outcome_statement_ref&quot;: &quot;TBC&quot;,
+      &quot;participant_statement_ref&quot;: &quot;SIL standards pair a participant statement with each provider statement - capture both refs on import&quot;,
+      &quot;status&quot;: &quot;in_force&quot;,
+      &quot;effective_from&quot;: &quot;2026-07-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;draft_source&quot;
+    },
+    {
+      &quot;id&quot;: &quot;QI-CORE-2.6-A&quot;,
+      &quot;node_type&quot;: &quot;QualityIndicator&quot;,
+      &quot;layer&quot;: &quot;shared&quot;,
+      &quot;title&quot;: &quot;Example quality indicator under Incident management&quot;,
+      &quot;indicator_ref&quot;: &quot;QI Guidelines 2018 (F2018N00041) - indicator text and numbering to be imported from the Guidelines&quot;,
+      &quot;part_of&quot;: &quot;CORE-2.6&quot;,
+      &quot;status&quot;: &quot;in_force&quot;,
+      &quot;effective_from&quot;: &quot;2018-07-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;,
+      &quot;note&quot;: &quot;Placeholder shape only. Importing the full indicator set from the QI Guidelines is a listed next task - do not invent indicator text.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;ORG-EXAMPLECARE&quot;,
+      &quot;node_type&quot;: &quot;Organisation&quot;,
+      &quot;layer&quot;: &quot;tenant&quot;,
+      &quot;title&quot;: &quot;ExampleCare Pty Ltd (fictitious)&quot;,
+      &quot;registration_no&quot;: &quot;4-XXXXXXX (illustrative)&quot;,
+      &quot;registration_groups&quot;: [&quot;0115 Daily Personal Activities&quot;, &quot;0104 High Intensity Daily Personal Activities&quot;, &quot;0106 Assistance in Coordinating Life Stages (illustrative set)&quot;],
+      &quot;audit_pathway&quot;: &quot;certification&quot;,
+      &quot;status&quot;: &quot;approved&quot;,
+      &quot;effective_from&quot;: &quot;2024-01-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;,
+      &quot;note&quot;: &quot;Entirely fictitious tenant used across the tenant-layer examples.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SCOPE-EXAMPLECARE-2026&quot;,
+      &quot;node_type&quot;: &quot;RegistrationScope&quot;,
+      &quot;layer&quot;: &quot;tenant&quot;,
+      &quot;title&quot;: &quot;ExampleCare registration scope from 1 Jul 2026&quot;,
+      &quot;organisation&quot;: &quot;ORG-EXAMPLECARE&quot;,
+      &quot;modules_in_scope&quot;: [&quot;CORE&quot;, &quot;M1&quot;, &quot;SIL&quot;],
+      &quot;status&quot;: &quot;approved&quot;,
+      &quot;effective_from&quot;: &quot;2026-07-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-06-20T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;,
+      &quot;note&quot;: &quot;Bitemporal showcase: a prior scope record (CORE, M1 only) would carry effective_to 2026-06-30 and remain queryable - &#x27;compliance as at 30 June&#x27; resolves against it. Gap detection runs only over modules_in_scope.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SITE-EC-HOUSE-01&quot;,
+      &quot;node_type&quot;: &quot;Site&quot;,
+      &quot;layer&quot;: &quot;tenant&quot;,
+      &quot;title&quot;: &quot;Example Street SIL house&quot;,
+      &quot;site_kind&quot;: &quot;SIL home&quot;,
+      &quot;organisation&quot;: &quot;ORG-EXAMPLECARE&quot;,
+      &quot;address_ref&quot;: &quot;CRM address record - not stored in the graph&quot;,
+      &quot;status&quot;: &quot;approved&quot;,
+      &quot;effective_from&quot;: &quot;2026-07-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;
+    },
+    {
+      &quot;id&quot;: &quot;POL-INC-01&quot;,
+      &quot;node_type&quot;: &quot;Document&quot;,
+      &quot;layer&quot;: &quot;tenant&quot;,
+      &quot;doc_type&quot;: &quot;policy&quot;,
+      &quot;title&quot;: &quot;Incident Management Policy&quot;,
+      &quot;cluster&quot;: &quot;Incidents&quot;,
+      &quot;applies_to&quot;: &quot;Core; Verification&quot;,
+      &quot;priority&quot;: &quot;P1&quot;,
+      &quot;version&quot;: &quot;1.0&quot;,
+      &quot;status&quot;: &quot;approved&quot;,
+      &quot;owner_role&quot;: &quot;ROLE-QM&quot;,
+      &quot;review_cycle_months&quot;: 24,
+      &quot;easy_read_available&quot;: false,
+      &quot;easy_read_of&quot;: null,
+      &quot;format&quot;: [&quot;md&quot;, &quot;docx&quot;],
+      &quot;effective_from&quot;: &quot;2026-08-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;,
+      &quot;note&quot;: &quot;Matches register row POL-INC-01. Dates illustrative (register status is Planned). Compliance Header renders from this node plus its edges - round-trip rule: graph wins, headers regenerate.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;ROLE-QM&quot;,
+      &quot;node_type&quot;: &quot;Role&quot;,
+      &quot;layer&quot;: &quot;tenant&quot;,
+      &quot;title&quot;: &quot;Quality Manager&quot;,
+      &quot;role_kind&quot;: &quot;management&quot;,
+      &quot;status&quot;: &quot;approved&quot;,
+      &quot;effective_from&quot;: &quot;2024-01-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;
+    },
+    {
+      &quot;id&quot;: &quot;TRN-HIDPA-BOWEL&quot;,
+      &quot;node_type&quot;: &quot;TrainingCourse&quot;,
+      &quot;layer&quot;: &quot;tenant&quot;,
+      &quot;title&quot;: &quot;Complex bowel care competency&quot;,
+      &quot;delivered_by_kind&quot;: &quot;training and assessment by an appropriately qualified health practitioner, per HIDPA skills descriptors&quot;,
+      &quot;status&quot;: &quot;approved&quot;,
+      &quot;effective_from&quot;: &quot;2024-01-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;corroborated&quot;,
+      &quot;note&quot;: &quot;Descriptor phrasing from HIDPA skills descriptor material - confirm current wording on the Commission site before relying on it in policy text.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;RISK-MED-ERROR&quot;,
+      &quot;node_type&quot;: &quot;Risk&quot;,
+      &quot;layer&quot;: &quot;tenant&quot;,
+      &quot;title&quot;: &quot;Medication administration error causing participant harm&quot;,
+      &quot;category&quot;: &quot;clinical&quot;,
+      &quot;rating_current&quot;: &quot;high&quot;,
+      &quot;rating_target&quot;: &quot;medium&quot;,
+      &quot;status&quot;: &quot;approved&quot;,
+      &quot;effective_from&quot;: &quot;2026-07-01&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;
+    },
+    {
+      &quot;id&quot;: &quot;EVD-FRM-INC-2026-014&quot;,
+      &quot;node_type&quot;: &quot;Evidence&quot;,
+      &quot;layer&quot;: &quot;tenant&quot;,
+      &quot;title&quot;: &quot;Completed incident report #2026-014&quot;,
+      &quot;evidence_kind&quot;: &quot;completed_form&quot;,
+      &quot;generated_by&quot;: &quot;REG-INC-01&quot;,
+      &quot;frozen_at&quot;: &quot;2026-09-30T17:00:00+10:00&quot;,
+      &quot;status&quot;: &quot;approved&quot;,
+      &quot;effective_from&quot;: &quot;2026-09-12&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-09-12T15:40:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;,
+      &quot;note&quot;: &quot;Immutable once frozen_at is set (audit snapshot rule from the edge taxonomy).&quot;
+    },
+    {
+      &quot;id&quot;: &quot;AUD-CERT-2026&quot;,
+      &quot;node_type&quot;: &quot;Audit&quot;,
+      &quot;layer&quot;: &quot;tenant&quot;,
+      &quot;title&quot;: &quot;Certification audit 2026 (illustrative)&quot;,
+      &quot;audit_kind&quot;: &quot;certification&quot;,
+      &quot;auditor&quot;: &quot;an approved quality auditor (AQA) - name held in CRM&quot;,
+      &quot;status&quot;: &quot;approved&quot;,
+      &quot;effective_from&quot;: &quot;2026-10-01&quot;,
+      &quot;effective_to&quot;: &quot;2026-10-03&quot;,
+      &quot;recorded_at&quot;: &quot;2026-10-03T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;
+    },
+    {
+      &quot;id&quot;: &quot;FND-2026-03&quot;,
+      &quot;node_type&quot;: &quot;Finding&quot;,
+      &quot;layer&quot;: &quot;tenant&quot;,
+      &quot;title&quot;: &quot;Minor non-conformity: SIL house training evidence incomplete&quot;,
+      &quot;severity&quot;: &quot;minor_nonconformity&quot;,
+      &quot;raised_in&quot;: &quot;AUD-CERT-2026&quot;,
+      &quot;status&quot;: &quot;approved&quot;,
+      &quot;effective_from&quot;: &quot;2026-10-03&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-10-03T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;
+    },
+    {
+      &quot;id&quot;: &quot;IMP-2026-03A&quot;,
+      &quot;node_type&quot;: &quot;ImprovementAction&quot;,
+      &quot;layer&quot;: &quot;tenant&quot;,
+      &quot;title&quot;: &quot;Complete and evidence SIL worker training records&quot;,
+      &quot;due_date&quot;: &quot;2026-11-14&quot;,
+      &quot;closed_at&quot;: null,
+      &quot;status&quot;: &quot;in_review&quot;,
+      &quot;effective_from&quot;: &quot;2026-10-04&quot;,
+      &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-10-04T00:00:00+10:00&quot;,
+      &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;
+    }
+  ],
+  &quot;edge_examples&quot;: [
+    {
+      &quot;source&quot;: &quot;POL-INC-01&quot;, &quot;type&quot;: &quot;IMPLEMENTS&quot;, &quot;target&quot;: &quot;CORE-2.6&quot;,
+      &quot;effective_from&quot;: &quot;2026-08-01&quot;, &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;, &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;, &quot;verification_status&quot;: &quot;verified&quot;,
+      &quot;note&quot;: &quot;The auditable claim: this policy exists to meet that standard.&quot;
+    },
+    {
+      &quot;source&quot;: &quot;PRO-INC-01&quot;, &quot;type&quot;: &quot;OPERATIONALISES&quot;, &quot;target&quot;: &quot;POL-INC-01&quot;,
+      &quot;effective_from&quot;: &quot;2026-08-01&quot;, &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;, &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;, &quot;verification_status&quot;: &quot;verified&quot;
+    },
+    {
+      &quot;source&quot;: &quot;FRM-INC-01&quot;, &quot;type&quot;: &quot;RECORDS_TO&quot;, &quot;target&quot;: &quot;REG-INC-01&quot;,
+      &quot;effective_from&quot;: &quot;2026-08-01&quot;, &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;, &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;, &quot;verification_status&quot;: &quot;verified&quot;
+    },
+    {
+      &quot;source&quot;: &quot;EVD-FRM-INC-2026-014&quot;, &quot;type&quot;: &quot;GENERATED_BY&quot;, &quot;target&quot;: &quot;REG-INC-01&quot;,
+      &quot;effective_from&quot;: &quot;2026-09-12&quot;, &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-09-12T15:40:00+10:00&quot;, &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;rule&quot;, &quot;verification_status&quot;: &quot;verified&quot;,
+      &quot;note&quot;: &quot;assertion_source=rule: created automatically when the register row was frozen.&quot;
+    },
+    {
+      &quot;source&quot;: &quot;EVD-FRM-INC-2026-014&quot;, &quot;type&quot;: &quot;EVIDENCES&quot;, &quot;target&quot;: &quot;CORE-2.6&quot;,
+      &quot;effective_from&quot;: &quot;2026-09-12&quot;, &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-09-12T15:40:00+10:00&quot;, &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;rule&quot;, &quot;verification_status&quot;: &quot;verified&quot;
+    },
+    {
+      &quot;source&quot;: &quot;POL-INC-01&quot;, &quot;type&quot;: &quot;OWNED_BY&quot;, &quot;target&quot;: &quot;ROLE-QM&quot;,
+      &quot;effective_from&quot;: &quot;2026-08-01&quot;, &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;, &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;, &quot;verification_status&quot;: &quot;verified&quot;
+    },
+    {
+      &quot;source&quot;: &quot;POL-INC-01&quot;, &quot;type&quot;: &quot;RELATES_TO&quot;, &quot;target&quot;: &quot;IMRI&quot;,
+      &quot;effective_from&quot;: &quot;2026-08-01&quot;, &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;, &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;, &quot;verification_status&quot;: &quot;verified&quot;,
+      &quot;note&quot;: &quot;Statutory reference (proposed REFERENCES type - taxonomy v0.4 candidate). RELATES_TO always requires a note.&quot;
+    },
+    {
+      &quot;source&quot;: &quot;CORE-2.6&quot;, &quot;type&quot;: &quot;MAPS_TO&quot;, &quot;target&quot;: &quot;XFW-REQ-INCIDENTS&quot;,
+      &quot;effective_from&quot;: &quot;2026-07-05&quot;, &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;, &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;, &quot;verification_status&quot;: &quot;unverified&quot;,
+      &quot;strength&quot;: &quot;intersects&quot;, &quot;rationale&quot;: &quot;functional&quot;, &quot;strength_score&quot;: 6,
+      &quot;note&quot;: &quot;ILLUSTRATIVE ONLY - target is a placeholder for a requirement in another framework (e.g. Aged Care). Shows the three verified MAPS_TO dimensions: strength (five OLIR set-relations), rationale (syntactic/semantic/functional, pick strictest provable), strength_score 0-10 with equal=10 and not_related=0 auto-filled.&quot;
+    },
+    {
+      &quot;source&quot;: &quot;PRO-MED-01&quot;, &quot;type&quot;: &quot;RELATES_TO&quot;, &quot;target&quot;: &quot;PRO-INC-01&quot;,
+      &quot;effective_from&quot;: &quot;2026-07-05&quot;, &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2026-07-05T00:00:00+10:00&quot;, &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;ai_proposed&quot;, &quot;verification_status&quot;: &quot;unverified&quot;,
+      &quot;note&quot;: &quot;Medication errors are managed as incidents. assertion_source=ai_proposed + unverified: sits in the review queue until a human confirms, then verification_status flips without changing the edge identity.&quot;
+    },
+    {
+      &quot;source&quot;: &quot;POL-INC-01:v2.0&quot;, &quot;type&quot;: &quot;SUPERSEDES&quot;, &quot;target&quot;: &quot;POL-INC-01:v1.0&quot;,
+      &quot;effective_from&quot;: &quot;2027-08-01&quot;, &quot;effective_to&quot;: null,
+      &quot;recorded_at&quot;: &quot;2027-07-20T00:00:00+10:00&quot;, &quot;superseded_at&quot;: null,
+      &quot;assertion_source&quot;: &quot;human&quot;, &quot;verification_status&quot;: &quot;verified&quot;,
+      &quot;note&quot;: &quot;OPEN MODELLING DECISION for the developer: version instances shown here as logical-id:version. Decide whether versions are separate nodes sharing a logical_id, or one node with a version history table. See handoff open items.&quot;
+    }
+  ]
+}
+</code></pre>
+<div class="kbfoot">Read-only view. Original file: <a class="mono" href="rise-node-examples.json">rise-node-examples.json</a></div>
+</article></div>
+</body></html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rise NDIS Package — README · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/README.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: README.md</span><span>7,460 bytes</span></div>
+
+<h1>Rise NDIS Package — README</h1>
+<p><strong>Bundle compiled 6 July 2026.</strong> This is the complete Rise NDIS document-and-graph
+package: the seed dataset, the 123-document suite, the interactive dossier, the design
+and source documentation, and the generator scripts that rebuild everything.</p>
+<p>Read <code>rise-developer-handoff.md</code> first for the technical index. This README is only
+about <strong>how to use the files you now have</strong> — with an honest account of what works
+offline and what doesn't.</p>
+<hr />
+<h2>The one thing to understand first (please read)</h2>
+<p><strong>The dossier is a static website, not a running application.</strong></p>
+<p><code>rise-dossier.html</code> is a single self-contained HTML file. You can double-click it to
+open it in any browser, or put it on any web server, and it will work the same way in
+both cases: you can browse the legislation, standards and 123 documents, click any ID
+to travel the links, read every drafted document, and use the graph explorer.</p>
+<p>What it is <strong>not</strong>: it is not connected to a database, it has no login, it does not
+save changes, and it does not update itself when the law changes. It is a <em>snapshot</em> of
+the data as generated on the date above. If you edit a document, nothing is written
+anywhere — the file is read-only in effect.</p>
+<p>This matters because "load onto a server" can mean two very different things:</p>
+<ul>
+<li><strong>Serving the snapshot</strong> (what this bundle does): copy <code>rise-dossier.html</code> to a web
+  server and share the URL. Anyone can view it. This works today, offline or online.</li>
+<li><strong>Running the Rise platform</strong> (what this bundle is <em>for</em>, but is <em>not</em>): a live
+  application with a graph database, editing, versioning, and the legislative-change
+  fan-out actually firing. That is the thing your developer builds <em>from</em> this package.
+  This bundle is the specification and seed data for that build, not the build itself.</li>
+</ul>
+<p>I'm stating this plainly because under an accuracy-first standard it would be wrong to
+let "load onto a server" imply you're getting a working platform. You're getting a
+complete, browsable, self-contained reference and demo — which is genuinely useful, but
+it is a document, not software.</p>
+<hr />
+<h2>How to open it</h2>
+<h3>Simplest — on your own computer</h3>
+<ol>
+<li>Unzip this bundle anywhere.</li>
+<li>Double-click <code>rise-dossier.html</code>.</li>
+<li>It opens in your default browser. Everything works. No internet required.</li>
+</ol>
+<p>(Fonts are loaded from Google if you happen to be online, purely cosmetic. Offline, the
+browser substitutes system fonts and it still looks clean — I made that load
+non-blocking on purpose.)</p>
+<h3>On a server (to share a link internally)</h3>
+<p>Any static host works because there is no backend. Examples:</p>
+<ul>
+<li><strong>Any web server:</strong> copy <code>rise-dossier.html</code> (rename to <code>index.html</code> if you want it to
+  load at the folder root) into the served directory. Done.</li>
+<li><strong>Python, for a quick local test:</strong> in the unzipped folder run
+  <code>python3 -m http.server 8000</code> then open <code>http://localhost:8000/rise-dossier.html</code>.</li>
+<li><strong>Static hosts</strong> (Netlify, GitHub Pages, S3, an internal Nginx/Apache): upload the
+  single HTML file. No build step, no configuration.</li>
+</ul>
+<p>The other files (spreadsheet, JSON, markdown, scripts) are not needed to view the
+dossier — everything the dossier shows is embedded inside the one HTML file. They are
+included because your developer needs them and because you may want the source data
+directly.</p>
+<hr />
+<h2>What's in the bundle</h2>
+<p><strong>View / share</strong>
+- <code>rise-dossier.html</code> — the interactive dossier. Start here.
+- <code>rise-document-register.xlsx</code> — the master register as a spreadsheet (123 documents,
+  70 standards with QI references, 21 instruments, 528 links). Opens in Excel.</p>
+<p><strong>The documents themselves</strong>
+- <code>suite/</code> — all 123 documents as Markdown, organised into type folders in hierarchy
+  order: <code>01-policies</code> (33) · <code>02-procedures</code> (44) · <code>03-work-instructions</code> (3) ·
+  <code>04-forms-and-agreements</code> (21) · <code>05-registers</code> (19) · <code>06-plans-and-handbooks</code> (3).
+- <code>suite/00-INDEX.md</code> — <strong>the mapping.</strong> Every chain as a tree: policy → procedures →
+  work instructions and forms → the register each form records to, with clickable
+  relative links into the folders. Generated from the graph edges, so it cannot drift
+  from the data. The incident chain is fully drafted; policy statements are drafted for
+  every policy; other bodies are marked draft scaffolds (structure and links real,
+  wording to be tailored).</p>
+<p><strong>For the developer (build the real platform from these)</strong>
+- <code>rise-developer-handoff.md</code> — the technical index and import plan. <strong>Their start
+  point.</strong>
+- <code>rise-nodes-and-edges.json</code> — the seed graph (224 nodes, 528 edges) to import.
+- <code>rise-node-examples.json</code> — the exact data shapes to implement.
+- <code>rise-node-map.mermaid</code> — the node-type meta-model diagram.
+- <code>rise-node-taxonomy.md</code>, <code>rise-document-architecture.md</code> — the schema and the
+  document-generation rules.
+- <code>rise_build.py</code>, <code>rise_docs.py</code>, <code>rise_dossier.py</code> — the generators. Run
+  <code>python3 rise_build.py &amp;&amp; python3 rise_docs.py &amp;&amp; python3 rise_dossier.py</code> to rebuild
+  the spreadsheet, JSON, all 123 documents, and the dossier from one source. Requires
+  Python 3 with <code>openpyxl</code> installed.</p>
+<p><strong>Understanding and provenance</strong>
+- <code>rise-plain-english-guide.md</code> — the whole NDIS compliance system explained for anyone.
+- <code>rise-auditor-focus-map.md</code> — every area auditors examine, mapped to the documents
+  that answer it, with Quality Indicators section numbers.
+- <code>rise-methodology.md</code> — how the package was built and verified; how to challenge it.
+- <code>rise-sources.md</code> — every claim traced to a tiered, dated source, including what was
+  searched for and <em>not</em> found.
+- <code>TPL-*.md</code> — the five blank document templates.</p>
+<hr />
+<h2>Accuracy and status — what to trust</h2>
+<p>This carries over from the package's own documentation; repeated here so it travels with
+the files:</p>
+<ul>
+<li><strong>Verified (against the Federal Register or the NDIS Commission, dated in
+  <code>rise-sources.md</code>):</strong> the instrument list and IDs; the standards and their clause
+  citations; the Quality Indicators section for every standard (Guidelines compilation
+  C03, in force 1 July 2026, including the new SIL Module 5A).</li>
+<li><strong>Drafted by me, needs review:</strong> all document body content. The compliance <em>links</em> are
+  generated from the data and are structurally reliable; the <em>words</em> are a starting
+  point to be tailored to a specific provider and approved.</li>
+<li><strong>Explicitly unresolved (flagged in the files):</strong> two statutory timeframes
+  (reportable-incident and change-notification windows) are marked "confirm against the
+  instrument before approval" rather than stated with false precision; SIL clause
+  pinpoints in the PRPS Rules await the next compilation; some Easy Read companions are
+  flagged as required but not yet drafted.</li>
+<li><strong>Not legal advice.</strong> This is a compliance-engineering artefact. Where anything here
+  disagrees with the actual instrument on the Federal Register, the instrument governs.</li>
+</ul>
+<hr />
+<h2>If you want the <em>live</em> version next</h2>
+<p>The honest next step toward "running on a server" as an application is a build task for
+your developer, not another document from me: stand up a graph store, import
+<code>rise-nodes-and-edges.json</code>, and serve the documents and traversals through an
+application layer. <code>rise-developer-handoff.md</code> §4 lays out that import order and the
+validation gates. I can help scope or draft parts of that when you're ready — but I'd be
+misrepresenting it to hand you these files and call it a deployable platform.</p>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="README.md">README.md</a></div>
+</article></div>
+</body></html>

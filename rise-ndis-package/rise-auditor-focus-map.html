@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where Auditors Look — A Plain-English Map for the Developer · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-ndis-package/rise-auditor-focus-map.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: rise-auditor-focus-map.md</span><span>8,963 bytes</span></div>
+
+<h1>Where Auditors Look — A Plain-English Map for the Developer</h1>
+<p><strong>v0.1 — 6 July 2026.</strong> Every area an approved quality auditor examines, what they
+open, and which Rise documents answer — with the citation for each. Written for the
+developer: these are the retrieval patterns the platform must serve. Sources: the
+Quality Indicators Guidelines (compilation C03, in force 1 Jul 2026 — section numbers
+below are that instrument's, verified against its table of contents on 6 Jul 2026),
+the PRPS Rules 2018, the Commission's audit pages, and — where marked — practitioner
+consensus rather than an instrument.</p>
+<p><strong>One design implication before the list:</strong> every query below is "standard → documents
+→ records." That is the graph's <code>IMPLEMENTS</code> edge walked backwards plus <code>RECORDS_TO</code>
+walked forwards. If those two traversals are fast, the platform answers an audit.</p>
+<hr />
+<h2>1. How the audit runs (the frame)</h2>
+<p>Certification (higher-risk supports): a document review, then site visits with
+interviews of workers and participants — participant sampling is opt-out, so
+participants are included unless they decline (Commission auditor guidance). Reports
+go to the Commission within 28 days of completion; verification audits (lower-risk,
+desktop) within 14 days; a smaller mid-term audit sits inside the registration cycle
+with a governance focus (Commission, types-of-audits page). The auditor recommends;
+the Commission decides. Sampling methodology sits in the AQA Scheme Guidelines
+(F2018N00114), Annex B.</p>
+<p>The auditor's opening move in every area, per practitioner consensus: <strong>open the
+register first</strong>, then trace sampled rows back to completed forms and forward to
+actions. Prose is checked last.</p>
+<h2>2. The areas, one by one</h2>
+<p>Format: <strong>Area (QI section) — what they open → Rise documents.</strong></p>
+<h3>Rights of participants (QI ss 6–10)</h3>
+<p>Person-centred practice, values and beliefs, privacy and dignity, informed choice and
+supported decision-making, and freedom from violence, abuse, neglect, exploitation
+and discrimination. They open: participant files, consent records, the participant
+handbook, interview participants directly. → POL-RGT-01/02/03, POL-SGD-01,
+FRM-RGT-01, FRM-INF-01, STA-RGT-01, PRO-SGD-01.</p>
+<h3>Governance and operational management (QI ss 11, 11A)</h3>
+<p>Who is accountable, whether leadership actually oversees quality and safety. They
+open: delegations, board/management minutes showing compliance on the agenda,
+conflict-of-interest declarations and register, notification history to the
+Commission. → POL-GOV-01/02/03, PRO-GOV-01/02, REG-GOV-01/02, FRM-GOV-01, and this
+whole register (REG-GOV-03) as evidence of document control. Mid-term audits
+concentrate here.</p>
+<h3>Risk management (QI s 12; verification pathway s 77)</h3>
+<p>They open: the risk register — currency, ownership, participant-specific risks
+flowing into support plans, incidents feeding back in. → POL-RSK-01, PRO-RSK-01,
+FRM-RSK-01, REG-RSK-01.</p>
+<h3>Quality management (QI s 13)</h3>
+<p>They open: the improvement register, internal audit schedule and results, version
+control across sampled documents (they check footer dates). → POL-QMS-01,
+PRO-QMS-01/02/03, REG-QMS-01/02, FRM-QMS-01.</p>
+<h3>Information management (QI s 14)</h3>
+<p>They open: consent records, access controls, breach log, retention practice.
+→ POL-INF-01, PRO-INF-01/02, FRM-INF-01, REG-INF-01.</p>
+<h3>Feedback and complaints (QI s 15; verification s 76; Complaints Rules F2018L00634)</h3>
+<p>They open: the complaints register first — then trace individual complaints:
+acknowledged? procedurally fair? complainant told about the Commission? improvement
+logged? They ask participants whether they know how to complain. → POL-FBK-01,
+PRO-FBK-01, WIN-FBK-01, FRM-FBK-01, REG-FBK-01.</p>
+<h3>Incident management (QI s 16; verification s 75; Incident Rules F2018L00633)</h3>
+<p>The most-sampled register in the suite (practitioner consensus). They trace: incident
+→ form completeness → register entry timing → reportability assessment → Commission
+notification within the statutory window → corrective action → participant follow-up.
+→ POL-INC-01, PRO-INC-01/02, WIN-INC-01, FRM-INC-01, REG-INC-01. The whole chain is
+fully drafted in the suite as the worked example.</p>
+<h3>Human resource management (QI s 17; verification s 74; Worker Screening Rules F2018L00887)</h3>
+<p>They open: worker files — screening checks verified <em>before</em> start dates (they compare
+dates), Code of Conduct acknowledgements, qualifications, induction, supervision,
+training matrix currency. → POL-HRM-01, POL-COC-01, PRO-HRM-01/02/03, FRM-HRM-01/02,
+REG-HRM-01/02.</p>
+<h3>Continuity, emergency and disaster (QI ss 18, 18A)</h3>
+<p>They open: the business continuity plan, emergency plans per setting <em>and per
+participant need</em>, evidence of drills. A plan with no test record reads as a
+document, not a capability. → POL-COS-01, PLN-COS-01, PRO-COS-01, POL-EDM-01,
+PLN-EDM-01, PRO-EDM-01, REG-EDM-01.</p>
+<h3>Provision of supports (QI ss 19–23)</h3>
+<p>The participant-file walk: intake and access decision → support plan (current,
+participant-led) → service agreement (signed, plain language, copy provided) →
+responsiveness evidence → planned transitions. They sample whole files end to end.
+→ POL-SUP-01…04, PRO-SUP-01…04, FRM-SUP-01…04, AGR-SUP-01, REG-SUP-01.</p>
+<h3>Support provision environment (QI ss 24–27, incl. 26A mealtime)</h3>
+<p>They walk the site: safety checklists done and hazards closed out; participant money
+records reconciled to receipts; medication charts complete with competency evidence
+behind each administering worker; mealtime plans followed as written; waste and
+infection control. → POL-ENV-01, POL-MNY-01, POL-MED-01, POL-MTM-01, POL-WST-01 and
+their procedures, forms and registers; POL-WHS-01 alongside.</p>
+<h3>Module 1 — high intensity supports (QI ss 29–35, incl. 30A dysphagia)</h3>
+<p>The sharpest evidence test in the standards: for each HIDPA skill delivered, workers
+trained <strong>and assessed by an appropriately qualified health practitioner</strong>, with
+current competency records, plus a health support plan per participant. They match
+rosters to the competency register. → POL-HID-01, PRO-HID-01…08, FRM-HID-01,
+REG-HID-01, REG-HRM-02.</p>
+<h3>Modules 2 / 2A — behaviour support (QI ss 38–44 specialist; ss 47–54 implementing; RP Rules F2018L00632)</h3>
+<p>They open: behaviour support plans (current, authorised), the restrictive practices
+register, every-use records, and <strong>evidence of monthly online reporting to the
+Commission</strong> — an explicit indicator (QI s 51 area). Unauthorised use traced into the
+reportable-incident pathway. → POL-BSP-01, PRO-BSP-01/02/03, FRM-BSP-01, REG-BSP-01.</p>
+<h3>Module 3 — early childhood (QI ss 56–62)</h3>
+<p>Family-centred practice in the files: family goals, key worker records, natural
+settings, outcome measurement. → POL-ECS-01, PRO-ECS-01.</p>
+<h3>Module 4 — support coordination (QI ss 64–66)</h3>
+<p>Conflict of interest is the centre of gravity: they look for documented options given
+to participants and declared conflicts wherever the provider coordinates toward its
+own services. → POL-SCO-01, PRO-SCO-01, REG-GOV-02.</p>
+<h3>Module 5 — SDA (QI ss 68–72)</h3>
+<p>Dwelling enrolment records, tenancy management, SDA-specific agreements and conflict
+handling. → POL-SDA-01, PRO-SDA-01, REG-SDA-01.</p>
+<h3>Module 5A — SIL (QI ss 72B–72E; new, from 1 Jul 2026)</h3>
+<p>House-level evidence, not just organisation-level: decision-support records (72B),
+home safeguarding with dignity of risk (72C), practice governance per house —
+supervision, rosters, handovers, house-level incident visibility (72D), and
+agreements about tenancy, housing and support arrangements, with Easy Read (72E).
+→ POL-RGT-03 + PRO-SIL-01 + FRM-SIL-01; POL-SIL-02 + PRO-SIL-02; POL-SIL-03 +
+PRO-SIL-03 + REG-SIL-01; PRO-SIL-04 + AGR-SIL-01. Expect auditors to be calibrating
+here too — the module is weeks old.</p>
+<h3>Verification pathway (QI ss 74–77)</h3>
+<p>Lower-risk providers, desktop only, four areas: HR, incidents, complaints, risk. The
+register rows tagged "Verification" in Applies-to are exactly this pack.</p>
+<h2>3. Cross-cutting behaviours to design for</h2>
+<p>All practitioner-consensus unless cited: registers before prose; dates compared
+(screening vs start, incident vs entry, notification vs deadline); version footers
+checked against the master register; workers asked to <em>describe</em> a procedure and the
+answer compared to the document; participants interviewed with opt-out sampling
+(Commission, verified); the evidence trail walked in both directions. Each of these
+is a graph query the platform should make one click.</p>
+<h2>4. What this map is not</h2>
+<p>Not the indicators themselves — their text lives in the QI Guidelines (F2018N00041,
+C03) and is deliberately pointered, not copied, in Rise. Not legal advice. And not a
+guarantee of auditor behaviour: instruments set what must be assessed; the sequencing
+and emphasis above is how experienced practitioners report it plays out.</p>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="rise-auditor-focus-map.md">rise-auditor-focus-map.md</a></div>
+</article></div>
+</body></html>

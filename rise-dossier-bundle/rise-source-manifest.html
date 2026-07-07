@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rise source manifest — authoritative copies and how to take them · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">rise-dossier-bundle/rise-source-manifest.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: rise-source-manifest.md</span><span>4,369 bytes</span></div>
+
+<h1>Rise source manifest — authoritative copies and how to take them</h1>
+<p><strong>Purpose.</strong> "Copies of everything," done safely. Rise's stored copies must come from
+the Federal Register of Legislation via download, never from retyped text, chat
+transcripts, or screenshots. This manifest lists every instrument in scope, its
+register ID where sighted, and its verification status as at 7 July 2026.</p>
+<h2>Ingestion rules (hard requirements)</h2>
+<ol>
+<li>Download only from legislation.gov.au (or ndiscommission.gov.au for guidance
+   documents). Record for every file: register ID, compilation number, compilation
+   date, retrieval timestamp, source URL, and a content hash.</li>
+<li>On download, verify the compilation ID on the document's authorisation page
+   matches this manifest; if the register shows a newer compilation, take the newer
+   one and flag the manifest as superseded.</li>
+<li>Never fill gaps from memory or from AI output. If an ID below is marked
+   "not sighted," locate it on the register before ingesting — do not guess F-numbers.</li>
+<li>Re-check the register on a schedule. Rules s 24 applies the Quality Indicators
+   "as existing from time to time," so the <em>current</em> compilation is always the
+   operative one — stored copies are snapshots for audit trail, not substitutes.</li>
+</ol>
+<h2>Core instruments</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Register ID</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>National Disability Insurance Scheme Act 2013 (Cth)</td>
+<td>C2013A00020</td>
+<td>ID and URL sighted in Commission material; not fetched — verify on download</td>
+</tr>
+<tr>
+<td>NDIS (Provider Registration and Practice Standards) Rules 2018</td>
+<td>Series F2018L00631 · Compilation No. 4 = F2021C01137 (includes amendments up to F2021L01480)</td>
+<td><strong>Fetched and verified in session</strong> (authorised PDF, 15 Nov 2021). Note: 2026 amendments exist and are not consolidated in C04</td>
+</tr>
+<tr>
+<td>NDIS (Quality Indicators for NDIS Practice Standards) Guidelines 2018</td>
+<td>F2018N00041 · Compilation No. 1 (15 Nov 2021)</td>
+<td><strong>Fetched and verified in session</strong> (full text). A newer compilation reportedly exists (C03, 1 Jul 2026 per the Rise build) — locate and prefer it</td>
+</tr>
+</tbody>
+</table>
+<h2>2026 amending instruments (names verified, IDs not sighted — locate on register)</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Register ID</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NDIS (Provider Registration and Practice Standards) Amendment (Mandatory Registration and Other Matters) Rules 2026</td>
+<td>not sighted</td>
+<td>Name verified via Commission; commenced 1 Jul 2026</td>
+</tr>
+<tr>
+<td>NDIS (Quality Indicators for NDIS Practice Standards) Amendment (Supported Independent Living) Guidelines 2026</td>
+<td>not sighted</td>
+<td>Name verified via Commission</td>
+</tr>
+<tr>
+<td>NDIS Amendment (Integrity and Safeguarding) Act 2026</td>
+<td>not sighted</td>
+<td>Passage ~31 Mar–1 Apr 2026 per secondary sources (dates conflict by a day)</td>
+</tr>
+<tr>
+<td>Supported independent living Practice Standards (new module)</td>
+<td>not sighted</td>
+<td>Existence verified; schedule/section placement unknown — never infer</td>
+</tr>
+</tbody>
+</table>
+<h2>Companion rulebooks named by the standards or Commission (IDs sighted in sources; verify each on download)</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Register ID sighted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NDIS (Incident Management and Reportable Incidents) Rules 2018</td>
+<td>F2018L00633</td>
+</tr>
+<tr>
+<td>NDIS (Complaints Management and Resolution) Rules 2018</td>
+<td>F2018L00634</td>
+</tr>
+<tr>
+<td>NDIS (Restrictive Practices and Behaviour Support) Rules 2018</td>
+<td>series F2018L00632 · compilation F2020C01087</td>
+</tr>
+<tr>
+<td>NDIS (Specialist Disability Accommodation Conditions) Rule 2018</td>
+<td>F2020C00549</td>
+</tr>
+<tr>
+<td>NDIS (Practice Standards – Worker Screening) Rules 2018</td>
+<td>F2021C00788</td>
+</tr>
+<tr>
+<td>NDIS (Provider Definition) Rule 2018</td>
+<td>F2021C00694</td>
+</tr>
+<tr>
+<td>NDIS (Quality and Safeguards Commission and Other Measures) Transitional Rules 2018</td>
+<td>F2020C01102</td>
+</tr>
+<tr>
+<td>NDIS (Protection and Disclosure of Information – Commissioner) Rules 2018</td>
+<td>F2021C00306</td>
+</tr>
+<tr>
+<td>NDIS (Approved Quality Auditors Scheme) Guidelines 2018</td>
+<td>F2018N00114</td>
+</tr>
+<tr>
+<td>NDIS (Approved Quality Auditors) Rules 2025</td>
+<td>F2025L01383</td>
+</tr>
+</tbody>
+</table>
+<h2>Status legend</h2>
+<ul>
+<li><strong>Fetched and verified in session</strong> — the full text passed through Claude's context
+  on 6–7 July 2026 and structural claims in the Rise documents were checked against it.</li>
+<li><strong>ID sighted</strong> — the register ID appeared in Commission or reputable secondary
+  sources this session; the document itself was not opened. Verify title and
+  currency on download.</li>
+<li><strong>Not sighted</strong> — the instrument's existence is verified but no register ID was
+  observed. Locate it on legislation.gov.au; inventing an F-number is prohibited.</li>
+</ul>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="rise-source-manifest.md">rise-source-manifest.md</a></div>
+</article></div>
+</body></html>
