@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-
 <style>
 :root{
   --ground:#F6F7F9;--surface:#FFFFFF;--ink:#141A20;--ink-2:#3D4852;--muted:#6B7783;
@@ -34,6 +33,13 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);
   font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.kbbar{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);padding:.85rem 1.5rem;border-bottom:1px solid var(--rule);
+  background:var(--surface);display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}
+.kbbar a{color:var(--muted);text-decoration:none}
+.kbbar a:hover,.kbbar a:focus-visible{color:var(--accent);text-decoration:underline}
+.kbbar .sep{opacity:.5}
+.kbbar .mono{color:var(--ink-2)}
 .page{max-width:74rem;margin:0 auto;padding:0 1.5rem 6rem}
 .masthead{border-bottom:2px solid var(--ink);padding:3.5rem 0 1.1rem;display:flex;
   flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem}
@@ -98,6 +104,21 @@ td:first-child{color:var(--ink);font-weight:500}
   padding-top:.6rem;margin-top:.2rem}
 .done b{font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.09em;
   color:var(--muted);font-weight:500;display:block;margin-bottom:.2rem}
+.cycle{border:1px solid var(--rule);background:var(--surface);padding:1rem 1.2rem;margin-bottom:.8rem}
+.cycle.mine{border-left:3px solid var(--accent)}
+.cycle-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.7rem;margin-bottom:.5rem}
+.cycle-n{font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--accent);border:1px solid var(--accent);padding:.1rem .42rem;border-radius:2px}
+.cycle-t{font-family:var(--f-display);font-weight:600;font-size:1rem;letter-spacing:-.01em}
+.cycle ul{margin:0;padding-left:1.1rem;font-size:.95rem}
+.cycle li{margin-bottom:.3rem}
+.who{display:inline-block;font-family:var(--f-mono);font-size:.63rem;text-transform:uppercase;
+  letter-spacing:.07em;padding:.15rem .45rem;border-radius:2px;background:var(--rule-soft);color:var(--ink-2)}
+.who.you{background:var(--partial-bg);color:var(--partial)}
+.reglist{columns:2;column-gap:2rem;font-family:var(--f-mono);font-size:.79rem;line-height:1.75;
+  max-width:var(--measure);margin:0 0 1rem;padding-left:1.1rem}
+.reglist li{break-inside:avoid;margin-bottom:.1rem;color:var(--ink-2)}
+@media (max-width:640px){.reglist{columns:1}}
 footer{margin-top:3.5rem;padding-top:1.2rem;border-top:2px solid var(--ink);font-family:var(--f-mono);
   font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
 @media (max-width:760px){
@@ -109,13 +130,6 @@ footer{margin-top:3.5rem;padding-top:1.2rem;border-top:2px solid var(--ink);font
   .stamp{text-align:left}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-.kbbar{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--muted);padding:.85rem 1.5rem;border-bottom:1px solid var(--rule);
-  background:var(--surface);display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}
-.kbbar a{color:var(--muted);text-decoration:none}
-.kbbar a:hover,.kbbar a:focus-visible{color:var(--accent);text-decoration:underline}
-.kbbar .sep{opacity:.5}
-.kbbar .mono{color:var(--ink-2)}
 </style>
 </head>
 <body>
@@ -126,16 +140,82 @@ footer{margin-top:3.5rem;padding-top:1.2rem;border-top:2px solid var(--ink);font
 
 <header class="masthead">
   <h1>The Compliance<br>Engine Brief</h1>
-  <div class="stamp">Zain Al-Saffi<br>22 August 2026<br>Brief <b>№ 1</b></div>
+  <div class="stamp">Zain Al-Saffi<br>22 August 2026<br>Brief <b>&#8470; 1</b></div>
 </header>
 
-<p class="standfirst">You own the compliance engine. This is the hardest modelling problem in the product
-and the part a competitor cannot copy by looking at our screens. Everything below is measured from the
-repository at <code>dev</code> or taken from the Rise dossier, with the source named so you can check any
-number yourself.</p>
+<p class="standfirst">You own the compliance engine. This brief is self-contained: where the product is, the
+plan it sits inside, what already exists, what the dossier specifies, and exactly what to build. Every number
+is measured from the repositories at <code>dev</code> or counted in the document suite on this site.</p>
 
 <section>
-  <div class="rail"><span class="num">01</span>Assignment</div>
+  <div class="rail"><span class="num">01</span>Context</div>
+  <div class="body">
+    <h2>Where the product actually is</h2>
+    <p>Shared context, so this brief stands on its own.</p>
+    <p><strong>Rise OS is real and running on staging</strong>, not a prototype. Sixteen route groups, ten
+    front end feature modules, thirteen back end modules, 62 migrations. Authentication with mandatory 2FA and
+    passkeys, organisations and tenancy, the legislation model with the NDIS Practice Standards seeded, the
+    obligations engine, the expected documents catalogue, a Tiptap document editor with version history and
+    real time collaboration, comments anchored into document content, and a full auditor workspace with
+    cross-tenant grants, submission packs and findings. All of that is built.</p>
+    <p><strong>The database enforces tenant isolation at row level</strong> through a three-role model
+    (<code>rise_app</code>, <code>rise_admin</code>, <code>rise_auth</code>). Staging runs on Cloud Run behind a
+    Google IAP gate with Cloud SQL over private IP.</p>
+    <p><strong>Production does not exist yet.</strong> The infrastructure is written and turnkey but blocked on
+    three GCP account actions only Jesse can perform. That is his item, not anyone else's.</p>
+    <p>One open question sits above this brief: whether Rise serves providers, auditors, or both. It is
+    genuinely unresolved. <strong>Nothing in this brief depends on how it resolves</strong>, because every item
+    here makes the compliance chain more complete and more provable, which is required either way. Do not wait
+    on it and do not try to settle it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">02</span>The plan</div>
+  <div class="body">
+    <h2>The four cycles, and where you sit in them</h2>
+    <p>Two weeks each, sequenced by dependency rather than calendar. Your items are marked and the cycles
+    carrying them are ruled in gold.</p>
+
+    <div class="cycle">
+      <div class="cycle-head"><span class="cycle-n">Cycle 0</span><span class="cycle-t">Unblock</span></div>
+      <ul>
+        <li>Create the prod GCP project, link billing, grant owner access. <span class="who">Jesse</span></li>
+        <li>Land the open dependency PRs and your HEIC upload fix so we start clean. <span class="who you">You</span> <span class="who">April</span></li>
+      </ul>
+    </div>
+
+    <div class="cycle mine">
+      <div class="cycle-head"><span class="cycle-n">Cycle 1</span><span class="cycle-t">Production exists, and something real is in it</span></div>
+      <ul>
+        <li>Apply prod, rehearse the promotion path. <span class="who">April</span></li>
+        <li>Harmony Care loaded as the first real tenant, 163 documents. <span class="who">April</span></li>
+        <li><strong>Write ADR 0017</strong>: map our chain against the dossier's and take a position. <span class="who you">You</span></li>
+      </ul>
+    </div>
+
+    <div class="cycle mine">
+      <div class="cycle-head"><span class="cycle-n">Cycle 2</span><span class="cycle-t">Depth</span></div>
+      <ul>
+        <li><strong>Registers.</strong> <span class="who you">You</span></li>
+        <li><strong>Improvement actions off the back of findings.</strong> <span class="who you">You</span></li>
+        <li><strong>Typed relationships, replacing inference.</strong> <span class="who you">You</span></li>
+        <li>Test depth wherever an auditor's conclusion depends on our logic. <span class="who">April</span></li>
+      </ul>
+    </div>
+
+    <div class="cycle mine">
+      <div class="cycle-head"><span class="cycle-n">Cycle 3</span><span class="cycle-t">A real audit, end to end</span></div>
+      <ul>
+        <li>Run a full audit against Harmony Care in production with a real auditor. <span class="who you">You</span> <span class="who">April</span></li>
+        <li>Fix what that run exposes. It will expose things, and that is the point of running it.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">03</span>Yours</div>
   <div class="body">
     <h2>What you own, and why it is you</h2>
     <div class="verdict">
@@ -143,18 +223,14 @@ number yourself.</p>
       documents into defensible proof against those obligations. Modelling and AI systems are your strength and
       prompt work is not where that belongs.</p>
       <p><strong>You are not starting from scratch.</strong> A working engine exists and it is good. Your job is
-      depth: closing the distance between what the platform models today and what the Rise dossier already
+      depth: closing the distance between what the platform models today and what the dossier already
       specifies.</p>
     </div>
-    <p>One thing to be explicit about, because it will save you time. There is an open strategic question about
-    whether Rise serves providers, auditors, or both, and it is unresolved above this brief. <strong>Nothing in
-    this brief depends on how it resolves.</strong> Every item here makes the compliance chain more complete and
-    more provable, which is required either way. Do not wait on it and do not try to settle it.</p>
   </div>
 </section>
 
 <section>
-  <div class="rail"><span class="num">02</span>What exists</div>
+  <div class="rail"><span class="num">04</span>The code</div>
   <div class="body">
     <h2>Read these four things first</h2>
     <p>In this order, before writing anything. All paths are in <code>riseOS-BE</code>.</p>
@@ -164,9 +240,9 @@ number yourself.</p>
         <thead><tr><th>File</th><th>What it is</th><th class="num-col">Lines</th></tr></thead>
         <tbody>
           <tr><td><code>src/modules/compliance/obligations.service.ts</code></td><td>The engine. Derives obligations from entity type and selected classes</td><td class="num-col">494</td></tr>
-          <tr><td><code>src/modules/compliance/obligations.service.spec.ts</code></td><td>Its test suite. This is the coverage standard for the whole product</td><td class="num-col">758</td></tr>
+          <tr><td><code>src/modules/compliance/obligations.service.spec.ts</code></td><td>Its tests. This is the coverage standard for the whole product</td><td class="num-col">758</td></tr>
           <tr><td><code>src/modules/compliance/expected-documents.service.ts</code></td><td>What each obligation demands in evidence</td><td class="num-col">268</td></tr>
-          <tr><td><code>docs/decisions/</code> 0010, 0011, 0012, 0013</td><td>Why the engine is shaped the way it is</td><td class="num-col">4 ADRs</td></tr>
+          <tr><td><code>docs/decisions/</code> 0010 to 0013</td><td>Why the engine is shaped the way it is</td><td class="num-col">4 ADRs</td></tr>
         </tbody>
       </table>
     </div>
@@ -174,20 +250,21 @@ number yourself.</p>
     <h3>The four decisions already made</h3>
     <ul>
       <li><strong>ADR 0010</strong>, provider entity type drives obligations, expressed as data.</li>
-      <li><strong>ADR 0011</strong>, flat node linking, with document relationships <em>inferred</em> rather than
-      declared. <em>This is the one you will most likely challenge. See section 04.</em></li>
-      <li><strong>ADR 0012</strong>, supersedes parts of 0010. The <code>s 20(4) to (5)</code> and <code>s 22</code>
-      entity rules live in <strong>engine code, not seed data</strong>. Built the data-driven way first, then
-      deliberately reversed, because the complexity leaked out of the engine into the catalogue endpoint, the
-      selections validator and their tests, and the query became a six-CTE program. Read this one twice. It is
-      the best piece of engineering writing in the repository and it tells you how decisions get made here.</li>
+      <li><strong>ADR 0011</strong>, flat node linking with document relationships <em>inferred</em> rather than
+      declared. <em>This is the one you will most likely challenge. See section 06.</em></li>
+      <li><strong>ADR 0012</strong>, supersedes parts of 0010. The <code>s 20(4) to (5)</code> and
+      <code>s 22</code> entity rules live in <strong>engine code, not seed data</strong>. Built the data-driven
+      way first, then deliberately reversed, because the complexity leaked out of the engine into the catalogue
+      endpoint, the selections validator and their tests, and the query became a six-CTE program. Read this one
+      twice. It is the best piece of engineering writing in the repository and it shows how decisions get made
+      here.</li>
       <li><strong>ADR 0013</strong>, the expected documents catalogue.</li>
     </ul>
 
     <h3>The statute already encoded</h3>
     <p>Against instrument <code>NDIS_PRPS_RULES_2018</code>, addressed by ordinal <code>NodeRef</code>
-    (<code>instrumentCode</code>, <code>moduleOrd</code>, <code>partOrd</code>, <code>clauseOrd</code>; containers
-    carry trailing zero ordinals):</p>
+    (<code>instrumentCode</code>, <code>moduleOrd</code>, <code>partOrd</code>, <code>clauseOrd</code>;
+    containers carry trailing zero ordinals):</p>
     <ul>
       <li><strong>s 20(4) to (5)</strong>, a sole trader or partnership delivering early-childhood early
       intervention is assessed against Core Module clause 7 plus Module 3 only. Roughly <strong>one Core clause
@@ -200,124 +277,136 @@ number yourself.</p>
 </section>
 
 <section>
-  <div class="rail"><span class="num">03</span>The target</div>
+  <div class="rail"><span class="num">05</span>The dossier</div>
   <div class="body">
     <h2>The model you are building toward</h2>
-    <p>The Rise dossier is the specification. It is already assembled and does not need rebuilding.</p>
-    <ul>
-      <li><a href="https://inspiring-mermaid-fa9765.netlify.app/">The collection, everything in one document</a>
-    , the 123-document suite, the node map, the training ladder, the auditor's view.</li>
-      <li><strong>The knowledge base repo</strong>, <code>jessdisplay/rise-knowledge-base</code>. This is the
-      canonical source, and it is <strong>private</strong>: ask Jesse for collaborator access, then
-      <code>git clone</code> it. 335 files including the audit pack, the standards navigator, the document
-      register and the official Practice Standards PDF under <code>rise-audit-pack/00-source/</code>. Clone it
-      rather than browsing it: when you are modelling registers you want to grep all nineteen at once.</li>
+    <p>All of it is hosted on this same site, one level up from this page. Nothing below needs rebuilding and
+    nothing sends you somewhere else.</p>
+
+    <h3>The nine-step chain</h3>
+    <p>The spine of the whole model:</p>
+    <p><code>standard &rarr; policy &rarr; procedure &rarr; form &rarr; register &rarr; evidence &rarr; audit
+    &rarr; finding &rarr; improvement action</code></p>
+
+    <h3>The nine typed relationships</h3>
+    <p>EXISTS TO MEET &#183; REFERENCES &#183; IMPLEMENTS &#183; OPERATIONALISES &#183; USES &#183; RECORDS TO
+    &#183; GENERATED BY &#183; EVIDENCES &#183; ASSESSES. Every claim is graded <strong>Verified, Confirmed,
+    Tested or Draft</strong>.</p>
+
+    <h3>The document suite, all 123, hosted here</h3>
+    <p>IDs follow <code>[TYPE]-[DOMAIN]-[NUMBER]</code>, for example <code>POL-RGT-01</code>. Counts verified by
+    listing the folders on this site:</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Cluster</th><th class="num-col">Docs</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td>Policies</td><td class="num-col">33</td><td><a href="../rise-ndis-package/suite/01-policies/">suite/01-policies/</a></td></tr>
+          <tr><td>Procedures</td><td class="num-col">44</td><td><a href="../rise-ndis-package/suite/02-procedures/">suite/02-procedures/</a></td></tr>
+          <tr><td>Work instructions</td><td class="num-col">3</td><td><a href="../rise-ndis-package/suite/03-work-instructions/">suite/03-work-instructions/</a></td></tr>
+          <tr><td>Forms and agreements</td><td class="num-col">21</td><td><a href="../rise-ndis-package/suite/04-forms-and-agreements/">suite/04-forms-and-agreements/</a></td></tr>
+          <tr><td><strong>Registers</strong></td><td class="num-col">19</td><td><a href="../rise-ndis-package/suite/05-registers/">suite/05-registers/</a></td></tr>
+          <tr><td>Plans and handbooks</td><td class="num-col">3</td><td><a href="../rise-ndis-package/suite/06-plans-and-handbooks/">suite/06-plans-and-handbooks/</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Index for the whole suite: <a href="../rise-ndis-package/suite/00-INDEX.html">suite/00-INDEX.html</a>.</p>
+
+    <h3>The nineteen registers, by name</h3>
+    <p>These are the specification for your second piece of work. Read them before designing the table.</p>
+    <ul class="reglist">
+      <li>REG-BSP-01 Restrictive Practices</li>
+      <li>REG-EDM-01 Emergency Preparedness and Drills</li>
+      <li>REG-ENV-01 Hazard and Maintenance</li>
+      <li>REG-FBK-01 Complaints</li>
+      <li>REG-GOV-01 Delegations</li>
+      <li>REG-GOV-02 Conflict of Interest</li>
+      <li>REG-GOV-03 Master Document Register</li>
+      <li>REG-HID-01 High Intensity Training and Competency</li>
+      <li>REG-HRM-01 Worker Screening</li>
+      <li>REG-HRM-02 Training and Competency</li>
+      <li>REG-INC-01 Incident</li>
+      <li>REG-INF-01 Data Breach</li>
+      <li>REG-MNY-01 Participant Money and Property</li>
+      <li>REG-QMS-01 Continuous Improvement</li>
+      <li>REG-QMS-02 Internal Audit Schedule</li>
+      <li>REG-RSK-01 Risk</li>
+      <li>REG-SDA-01 SDA Dwelling</li>
+      <li>REG-SIL-01 SIL Homes</li>
+      <li>REG-SUP-01 Participant and Service Agreement</li>
     </ul>
+    <p>Note <strong>REG-QMS-01 Continuous Improvement</strong>. The dossier has already specified the shape of
+    the improvement-action loop you are being asked to build in your third piece of work, so read that one
+    alongside the findings model rather than designing from nothing.</p>
 
-    <h3>What the dossier specifies</h3>
+    <h3>The rest of it, all on this site</h3>
     <div class="scroll">
       <table>
-        <thead><tr><th>Dimension</th><th>Content</th></tr></thead>
+        <thead><tr><th>Resource</th><th>What it gives you</th></tr></thead>
         <tbody>
-          <tr><td>The chain</td><td>standard → policy → procedure → form → register → evidence → audit → finding → improvement action</td></tr>
-          <tr><td>Typed relationships</td><td>EXISTS TO MEET · REFERENCES · IMPLEMENTS · OPERATIONALISES · USES · RECORDS TO · GENERATED BY · EVIDENCES · ASSESSES</td></tr>
-          <tr><td>Claim grades</td><td>Verified · Confirmed · Tested · Draft</td></tr>
-          <tr><td>Document IDs</td><td><code>[TYPE]-[DOMAIN]-[NUMBER]</code>, e.g. <code>POL-RGT-01</code>. Types POL PRO FRM REG AGR WIN PLN STA</td></tr>
-          <tr><td>Suite composition</td><td>33 policies · 44 procedures · 3 work instructions · 21 forms and agreements · <strong>19 registers</strong> · 3 plans and handbooks</td></tr>
-          <tr><td>Standard codes</td><td><code>CORE-#.#</code> (45 core) · <code>M1</code> to <code>M5</code> · <code>VER-1..4</code> · <code>SIL-1..4</code> (2026 SIL amendment). 70 verified standards across 21 instruments</td></tr>
-          <tr><td>Graph</td><td>224 nodes, 528 edges, built from DOM at runtime rather than stored as JSON</td></tr>
+          <tr><td><a href="../rise-ndis-package/rise-nodes-and-edges.json">rise-nodes-and-edges.json</a></td><td>The seed graph itself, 126KB. The 224 nodes and 528 edges as data</td></tr>
+          <tr><td><a href="../rise-ndis-package/rise-node-taxonomy.html">rise-node-taxonomy</a></td><td>The node and edge taxonomy, the thing your typed relationships have to agree with</td></tr>
+          <tr><td><a href="../rise-ndis-package/rise-document-architecture.html">rise-document-architecture</a></td><td>How the document layer is meant to hang together</td></tr>
+          <tr><td><a href="../rise-ndis-package/rise-developer-handoff.html">rise-developer-handoff</a></td><td>The package's own import plan. Read before writing seed data</td></tr>
+          <tr><td><a href="../rise-ndis-package/TPL-REG-register-template.html">TPL-REG register template</a></td><td>The canonical register shape. Start your schema here, not from scratch</td></tr>
+          <tr><td><a href="../rise-ndis-package/rise-document-register.xlsx">rise-document-register.xlsx</a></td><td>The register workbook. Its READ ME sheet is authoritative for counts when records disagree</td></tr>
+          <tr><td><a href="../standards.html">standards.html</a></td><td>All 70 standards with their implementing documents inline, plus text search</td></tr>
+          <tr><td><a href="../rise-audit-pack/README.html">The audit pack</a></td><td>The auditor guide at escalating depth, landing on "say it, do it, prove it". <code>00-source/</code> holds the official Practice Standards PDF</td></tr>
+          <tr><td><a href="../rise-dossier-bundle/rise-dossier-index.html">The dossier bundle</a></td><td>The July design sessions: relationship taxonomy, gap engine brief, compliance pyramid, visual atlas</td></tr>
         </tbody>
       </table>
     </div>
 
-    <h3>Datasets already extracted</h3>
-    <p>Verified on disk at <code>~/Downloads/harmony-care-docs/context/data/</code>:
-    <code>D.json</code> = <strong>66 standards</strong>, <code>MODS.json</code> = <strong>8 modules</strong>,
-    <code>S.json</code> = <strong>9 sections</strong>. Note that <code>nodes.json</code> and
-    <code>edges.json</code> are empty: the 224/528 graph is generated from page markup at runtime, so if the
-    engine needs it you will have to parse <code>inspiring-mermaid-fa9765/rise-node-map/index.html</code> rather
-    than load it.</p>
-  </div>
-</section>
-
-<section>
-  <div class="rail"><span class="num">04</span>Reading it</div>
-  <div class="body">
-    <h2>How to read the dossier without drowning in it</h2>
-    <p>It is a large document and most of it is not aimed at you. It carries a seven-level training curriculum
-    for support workers, an auditor's course, a document library and a developer track all in one page. Read the
-    developer track, skim two others, and skip the rest until you need it.</p>
-
-    <h3>The order</h3>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>Read</th><th>Why</th><th>Priority</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Through the auditor's eyes → A6, "The developer's translation"</strong></td><td>Written for exactly your job: what Rise must be able to <em>show</em>. If you read one thing, this is it</td><td><span class="pill built">First</span></td></tr>
-          <tr><td>Through the auditor's eyes, A0 to A5</td><td>The ladder up to A6. A1 is "say it, do it, prove it", which is the whole model in three words. A2 is when each test happens, A3 how an auditor reads the rulebook</td><td><span class="pill built">First</span></td></tr>
-          <tr><td><strong>The bounce prototype</strong> (under The tools)</td><td>Walks one golden thread page by page, standard → policy → procedure → form → register → proof. Fastest way to feel the nine-step chain rather than read about it</td><td><span class="pill built">First</span></td></tr>
-          <tr><td>The meta-model, v0.2</td><td>One box per kind of thing, in five named bands: legislation · standards · provider · proof · auditor's view. This is close to the target architecture</td><td><span class="pill partial">Second</span></td></tr>
-          <tr><td>The full register</td><td>21 instruments, 70 standards with their implementing documents, all 123 documents grouped by cluster, plus a per-document reader</td><td><span class="pill partial">Second</span></td></tr>
-          <tr><td>The whole-system node map</td><td>224 nodes, 528 edges. Generated by <code>rise_map_build.py</code> from seed JSON, so the generator is worth reading as much as the map</td><td><span class="pill partial">Second</span></td></tr>
-          <tr><td>Coverage map, standards navigator, graph explorer, visual atlas</td><td>Reference. Go when you need a specific standard, citation or diagram</td><td><span class="pill later">As needed</span></td></tr>
-          <tr><td>The training ladder, levels 0 to 3</td><td>End-user curriculum. Not your problem unless you want the context</td><td><span class="pill later">Skip</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p>The dossier also contains its own <strong>"Developer / Claude Code" reading path</strong>, which is the
-    authoritative one: KB repo <code>CLAUDE.md</code> first, apply the 8 July delta, dossier index §5, the
-    Milestone 1 brief, the source manifest, then Milestone 2. Follow that over anything I have written here if the
-    two disagree.</p>
+    <h3>Standard codes and datasets</h3>
+    <p><code>CORE-#.#</code> (45 core) &#183; <code>M1</code> to <code>M5</code> &#183; <code>VER-1..4</code>
+    &#183; <code>SIL-1..4</code> (the 2026 SIL amendment). <strong>70 standards across 21 instruments, 66 of them
+    verified.</strong> The extracted datasets are <code>D.json</code> (66 standards), <code>MODS.json</code>
+    (8 modules) and <code>S.json</code> (9 sections). Ask Jesse for those three; they currently live only on his
+    machine, and part of your ADR should say where they ought to live instead.</p>
 
     <div class="note">
       <span class="lbl">Read the watch list before you model anything</span>
-      <p>The dossier keeps an explicit list of its own moving parts. These are unresolved problems, not
-      background reading, and several of them are exactly the kind of thing that silently corrupts a data model
-      if you assume them away:</p>
+      <p>The dossier keeps an explicit register of its own unresolved problems. Several are exactly the kind of
+      thing that silently corrupts a data model if you assume them away:</p>
       <ul>
-        <li><strong>Four standards have no implementing document</strong>, M2-2, M2-4, M2-6, M2A-3. Visible on
-        the map as teal boxes with no coral line. Your schema has to tolerate a standard with nothing under it,
-        because four of them are real.</li>
+        <li><strong>Four standards have no implementing document</strong>, M2-2, M2-4, M2-6 and M2A-3. Your
+        schema has to tolerate a standard with nothing under it, because four of them are real. This is also
+        listed as an open item in the knowledge base's own <code>CLAUDE.md</code>.</li>
         <li><strong>Six policies have no downstream chain</strong>, POL-COC-01, POL-GOV-02, POL-GOV-03,
-        POL-RGT-01, POL-RGT-02, POL-WHS-01. The register owner has to confirm intent or the edges get wired. Do
-        not invent the edges.</li>
-        <li><strong>The 2026 amendment layer is only partly sighted</strong>, IS26, PRPS26, QI26, AQAR25. Only
-        AQAR25's register ID is confirmed (<code>F2025L01383</code>). Fetch the others before relying on them.</li>
-        <li><strong>SIL standards</strong>, titles are register-verified, but the Rules clauses are TBC and need
-        re-verifying against <code>F2026C00528</code>.</li>
-        <li><strong>70 versus 66.</strong> The register carries 70 standards; 66 are verified, which is what
-        <code>D.json</code> holds and what the navigator searches. Know which number you are using and why.</li>
+        POL-RGT-01, POL-RGT-02 and POL-WHS-01. The register owner confirms intent. Do not invent the edges.</li>
+        <li><strong>The 2026 amendment layer is only partly sighted</strong>, IS26, PRPS26, QI26 and AQAR25.
+        Only AQAR25's register ID is confirmed, <code>F2025L01383</code>.</li>
+        <li><strong>SIL clauses are TBC</strong> and need re-verifying against <code>F2026C00528</code>.</li>
+        <li><strong>70 versus 66.</strong> Know which number you are using and why.</li>
       </ul>
     </div>
 
     <div class="note">
-      <span class="lbl">The standing rule, in the dossier's own words</span>
-      <p>It is not legal advice, and where anything in it disagrees with the instrument on the Federal Register,
-      <strong>the instrument governs</strong>. Same posture the engine already takes. And from its developer
-      section: if anything in the dossier fails you, that is a finding, report it and it gets fixed like any
-      other.</p>
+      <span class="lbl">The standing rule, in the collection's own words</span>
+      <p>Never reconstruct clause numbers, section numbers, register IDs, F-numbers, counts or quotes from
+      memory. Retrieve from a file in the repo or a fetched primary source, or leave an explicit
+      <code>[GAP]</code>. Label claims verified, corroborated or design opinion. It is not legal advice, and
+      where anything disagrees with the instrument on the Federal Register, <strong>the instrument
+      governs</strong>.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="rail"><span class="num">05</span>The gap</div>
+  <div class="rail"><span class="num">06</span>The gap</div>
   <div class="body">
     <h2>Seven of nine links exist. Two do not.</h2>
-    <p>Measured against the table list in <code>src/database/db-types.ts</code> and the 62 migrations in
-    <code>migrations/</code>.</p>
+    <p>Measured against the table list in <code>src/database/db-types.ts</code> and the 62 migrations.</p>
 
     <div class="scroll">
       <table>
         <thead><tr><th>Chain step</th><th>In the platform</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>Standard</td><td><code>instruments</code>, <code>legislation_nodes</code>, <code>legislation_classes</code>, <code>class_node_map</code>, Practice Standards seeded</td><td><span class="pill built">Built</span></td></tr>
-          <tr><td>Policy · Procedure · Form</td><td><code>documents</code>, <code>document_templates</code>, <code>document_versions</code>, placeholders</td><td><span class="pill built">Built</span></td></tr>
-          <tr><td><strong>Register</strong></td><td><strong>No table.</strong> <code>register_id</code> exists but belongs to auditor bodies, not compliance registers</td><td><span class="pill blocked">Missing</span></td></tr>
+          <tr><td>Standard</td><td><code>instruments</code>, <code>legislation_nodes</code>, <code>legislation_classes</code>, <code>class_node_map</code></td><td><span class="pill built">Built</span></td></tr>
+          <tr><td>Policy, procedure, form</td><td><code>documents</code>, <code>document_templates</code>, <code>document_versions</code>, placeholders</td><td><span class="pill built">Built</span></td></tr>
+          <tr><td><strong>Register</strong></td><td><strong>No table.</strong> <code>register_id</code> exists but belongs to auditor bodies</td><td><span class="pill blocked">Missing</span></td></tr>
           <tr><td>Evidence</td><td><code>expected_documents</code>, business evidence catalogue, <code>document_files</code></td><td><span class="pill built">Built</span></td></tr>
-          <tr><td>Audit</td><td><code>audit_grants</code>, <code>audit_assignments</code>, <code>audit_grant_invites</code>, submission pack</td><td><span class="pill built">Built</span></td></tr>
-          <tr><td>Finding</td><td>severity, <code>severity_due_date</code>, verdict rationale, <code>conformed_at/by/rationale</code></td><td><span class="pill built">Built</span></td></tr>
+          <tr><td>Audit</td><td><code>audit_grants</code>, <code>audit_assignments</code>, submission pack</td><td><span class="pill built">Built</span></td></tr>
+          <tr><td>Finding</td><td>severity, <code>severity_due_date</code>, verdict rationale, conformance</td><td><span class="pill built">Built</span></td></tr>
           <tr><td><strong>Improvement action</strong></td><td><strong>Nothing.</strong> A finding cannot be carried forward into a corrective action tracked to closure</td><td><span class="pill blocked">Missing</span></td></tr>
         </tbody>
       </table>
@@ -325,110 +414,106 @@ number yourself.</p>
 
     <div class="note">
       <span class="lbl">The number that makes the register gap concrete</span>
-      <p>The dossier suite contains <strong>19 registers</strong>. The platform schema can hold
+      <p>The suite on this site contains <strong>19 registers</strong>. The platform schema can hold
       <strong>zero</strong> of them. A register is how a provider proves a control actually operates rather than
-      merely existing, and it is the first thing an auditor asks for by name. Right now that entire class of
-      evidence has nowhere to live.</p>
+      merely existing, and it is the first thing an auditor asks for by name.</p>
     </div>
 
     <div class="note">
       <span class="lbl">The most interesting problem in the product</span>
       <p>ADR 0011 chose flat node linking with <em>inferred</em> document relationships. The dossier declares
-      <strong>nine typed relationships</strong> and grades every claim Verified, Confirmed, Tested or Draft.</p>
+      nine typed relationships and grades every claim.</p>
       <p>Inference produces a link. It does not produce a defensible <em>reason</em> for the link, and the
-      defensible reason is the product. An auditor does not want to know that a policy is associated with a
-      clause; they want to know it <em>exists to meet</em> it, and they want the citation.</p>
-      <p>Whether 0011 should now be superseded is your call to make and to write up. <strong>If it should
-      stand, say why and we keep it.</strong> A well-argued "no" is a good outcome here.</p>
+      defensible reason is the product. An auditor does not want to know a policy is associated with a clause;
+      they want to know it <em>exists to meet</em> it, and they want the citation.</p>
+      <p>Whether 0011 should be superseded is your call to make and to write up. <strong>If it should stand, say
+      why and we keep it.</strong> A well-argued no is a good outcome.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="rail"><span class="num">06</span>The work</div>
+  <div class="rail"><span class="num">07</span>The work</div>
   <div class="body">
     <h2>Three pieces, in this order</h2>
 
     <div class="task">
       <div class="task-head"><span class="task-n">First</span><span class="task-t">ADR 0017, before any code</span></div>
-      <p>Map the platform's chain against the dossier's, take a position on each of the three problems below, and
-      say which one we build first and why. Written before building so we argue with the reasoning rather than
-      with a migration.</p>
+      <p>Map the platform's chain against the dossier's, take a position on each problem below, and say which we
+      build first and why. Written before building so we argue with the reasoning rather than with a migration.</p>
       <ul>
         <li>Where the two models agree, disagree, and where the dossier is ahead of us.</li>
         <li>Registers: schema shape, and how they relate to expected documents.</li>
         <li>Improvement actions: what closes one, and who can close it.</li>
         <li>Typed relationships versus ADR 0011's inference. Supersede or uphold, with reasons.</li>
+        <li>Where the seed datasets should live, given they are currently on one laptop.</li>
       </ul>
       <div class="done"><b>Done when</b> the ADR is merged and someone who was not in the room can follow the argument.</div>
     </div>
 
     <div class="task">
       <div class="task-head"><span class="task-n">Second</span><span class="task-t">Registers</span></div>
-      <p>The 19 register types the dossier specifies, modelled so an auditor can be shown that a control operated
-      on a date, by a person, against a clause. Expect expiry and cadence to matter: the schema already carries
-      <code>expiry_cadence</code> and <code>expiry_on</code>, so look at how those are used before inventing new ones.</p>
+      <p>The 19 register types listed in section 05, modelled so an auditor can be shown that a control operated
+      on a date, by a person, against a clause. Start from the TPL-REG template rather than a blank schema.
+      Expect expiry and cadence to matter: the schema already carries <code>expiry_cadence</code> and
+      <code>expiry_on</code>, so look at how those are used first.</p>
       <div class="done"><b>Done when</b> a Harmony Care register can be filled in, linked to the clause it serves, and appear in a submission pack.</div>
     </div>
 
     <div class="task">
       <div class="task-head"><span class="task-n">Third</span><span class="task-t">Improvement actions</span></div>
-      <p>A finding carries forward into a corrective action with an owner, a due date and a closure state, and the
-      loop is traceable in both directions.</p>
+      <p>A finding carries forward into a corrective action with an owner, a due date and a closure state, and
+      the loop is traceable in both directions. REG-QMS-01 Continuous Improvement is the specification.</p>
       <div class="done"><b>Done when</b> a finding can be traced forward to a closed improvement action and backward to the clause that caused it.</div>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="rail"><span class="num">07</span>House rules</div>
+  <div class="rail"><span class="num">08</span>House rules</div>
   <div class="body">
     <h2>Constraints you have to work inside</h2>
-    <p>These are already the team's standards, written down in the repo. They are not negotiable and they are not
-    mine, they are April and Ben's, and they are good.</p>
+    <p>These are already the team's standards, written down in the repo. They are not mine and they are good.</p>
     <ul>
       <li><strong>No ORM.</strong> Kysely over <code>pg</code>, <strong>builder API first</strong>. A
-      <code>sql`…`</code> fragment is a last resort, must be parameterised, as small as possible, and must carry a
-      one-line comment saying why the builder cannot express it. An unjustified escaped-SQL fragment is a blocking
-      review finding. This applies to any agent you spawn as well.</li>
-      <li><strong>Self-contained migrations</strong> (ADR 0008). Each writes its own PK, RLS, policies, grants and
-      tenant contract inline. No shared helpers, no <code>require()</code>. A later edit must never change what an
-      applied migration produced.</li>
-      <li><strong>Row-level security, three roles</strong>, <code>rise_app</code>, <code>rise_admin</code>,
-      <code>rise_auth</code>. Anything you add is tenant-scoped by default. Auditor cross-tenant access has its own
-      ADR (0014); read it before touching anything an auditor can see.</li>
+      <code>sql</code> fragment is a last resort, must be parameterised, as small as possible, and must carry a
+      one-line comment saying why the builder cannot express it. An unjustified escaped-SQL fragment is a
+      blocking review finding. This applies to any agent you spawn as well.</li>
+      <li><strong>Self-contained migrations</strong> (ADR 0008). Each writes its own PK, RLS, policies, grants
+      and tenant contract inline. No shared helpers. A later edit must never change what an applied migration
+      produced.</li>
+      <li><strong>Row-level security, three roles.</strong> Anything you add is tenant-scoped by default.
+      Auditor cross-tenant access has its own ADR, 0014. Read it before touching anything an auditor can see.</li>
       <li><strong>Tests seed and assert through Kysely</strong> over the role pools, not raw
       <code>pool.query()</code>. <code>test/document-version-state-schema.e2e-spec.ts</code> shows the patterns.</li>
       <li>Branch <code>&lt;type&gt;/&lt;kebab-desc&gt;</code> off <code>dev</code>, PR into <code>dev</code>,
       Conventional Commits.</li>
-      <li>The BE owns the API contract. After any DTO change the FE resyncs with <code>pnpm gen:api</code>; never
-      hand-edit <code>app/lib/api/gen/</code>.</li>
+      <li>The BE owns the API contract. After any DTO change the FE resyncs with <code>pnpm gen:api</code>;
+      never hand-edit <code>app/lib/api/gen/</code>.</li>
     </ul>
   </div>
 </section>
 
 <section>
-  <div class="rail"><span class="num">08</span>Judgement</div>
+  <div class="rail"><span class="num">09</span>Judgement</div>
   <div class="body">
     <h2>How this gets judged</h2>
     <ul>
       <li><strong>The ADR lands first.</strong> Code before the argument is the failure mode here.</li>
       <li><strong>Coverage matches the engine's own standard.</strong> 758 lines of spec against 494 lines of
-      service is the bar you are working next to. Nobody expects that ratio everywhere, but obligations logic an
-      auditor relies on gets covered.</li>
-      <li><strong>Provenance survives.</strong> Whatever you build, a claim must be able to say where it came
-      from, the way the entity rules still report class 118 even after rewriting the targets.</li>
-      <li><strong>A good "no" counts.</strong> If ADR 0011 should stand, the deliverable is the argument, not the
-      migration.</li>
+      service is the bar you are working next to.</li>
+      <li><strong>Provenance survives.</strong> A claim must be able to say where it came from, the way the
+      entity rules still report class 118 after rewriting the targets.</li>
+      <li><strong>A good no counts.</strong> If ADR 0011 should stand, the deliverable is the argument.</li>
     </ul>
     <h3>Ask, do not guess</h3>
     <p>If the dossier and the codebase disagree, that is a real finding and it goes to Jesse rather than getting
-    resolved silently in a migration. The dossier is a specification written by people, not a spec sheet, and
-    parts of it are ahead of what has been agreed commercially.</p>
+    resolved silently in a migration. The dossier is a specification written by people, and parts of it are
+    ahead of what has been agreed commercially.</p>
   </div>
 </section>
 
-<footer>Rise OS · Compliance engine brief № 1 · Zain Al-Saffi · 22 Aug 2026 · Measured at dev, 18 Aug</footer>
+<footer>Rise OS &#183; Compliance engine brief &#8470; 1 &#183; Zain Al-Saffi &#183; 22 Aug 2026 &#183; Measured at dev, 18 Aug</footer>
 
 </div>
 </body>

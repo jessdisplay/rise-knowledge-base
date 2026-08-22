@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-
 <style>
 :root{
   --ground:#F6F7F9;--surface:#FFFFFF;--ink:#141A20;--ink-2:#3D4852;--muted:#6B7783;
@@ -34,6 +33,13 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);
   font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.kbbar{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);padding:.85rem 1.5rem;border-bottom:1px solid var(--rule);
+  background:var(--surface);display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}
+.kbbar a{color:var(--muted);text-decoration:none}
+.kbbar a:hover,.kbbar a:focus-visible{color:var(--accent);text-decoration:underline}
+.kbbar .sep{opacity:.5}
+.kbbar .mono{color:var(--ink-2)}
 .page{max-width:74rem;margin:0 auto;padding:0 1.5rem 6rem}
 .masthead{border-bottom:2px solid var(--ink);padding:3.5rem 0 1.1rem;display:flex;
   flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem}
@@ -97,6 +103,17 @@ td:first-child{color:var(--ink);font-weight:500}
   padding-top:.6rem;margin-top:.2rem}
 .done b{font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.09em;
   color:var(--muted);font-weight:500;display:block;margin-bottom:.2rem}
+.cycle{border:1px solid var(--rule);background:var(--surface);padding:1rem 1.2rem;margin-bottom:.8rem}
+.cycle.mine{border-left:3px solid var(--accent)}
+.cycle-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.7rem;margin-bottom:.5rem}
+.cycle-n{font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--accent);border:1px solid var(--accent);padding:.1rem .42rem;border-radius:2px}
+.cycle-t{font-family:var(--f-display);font-weight:600;font-size:1rem;letter-spacing:-.01em}
+.cycle ul{margin:0;padding-left:1.1rem;font-size:.95rem}
+.cycle li{margin-bottom:.3rem}
+.who{display:inline-block;font-family:var(--f-mono);font-size:.63rem;text-transform:uppercase;
+  letter-spacing:.07em;padding:.15rem .45rem;border-radius:2px;background:var(--rule-soft);color:var(--ink-2)}
+.who.you{background:var(--built-bg);color:var(--built)}
 ol.decisions{list-style:none;padding:0;margin:0 0 1rem;max-width:var(--measure);counter-reset:d}
 ol.decisions li{counter-increment:d;padding:.9rem 0 .9rem 2.6rem;border-bottom:1px solid var(--rule-soft);
   position:relative;margin:0}
@@ -115,13 +132,6 @@ footer{margin-top:3.5rem;padding-top:1.2rem;border-top:2px solid var(--ink);font
   .stamp{text-align:left}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-.kbbar{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--muted);padding:.85rem 1.5rem;border-bottom:1px solid var(--rule);
-  background:var(--surface);display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}
-.kbbar a{color:var(--muted);text-decoration:none}
-.kbbar a:hover,.kbbar a:focus-visible{color:var(--accent);text-decoration:underline}
-.kbbar .sep{opacity:.5}
-.kbbar .mono{color:var(--ink-2)}
 </style>
 </head>
 <body>
@@ -132,15 +142,77 @@ footer{margin-top:3.5rem;padding-top:1.2rem;border-top:2px solid var(--ink);font
 
 <header class="masthead">
   <h1>The Production<br>Readiness Brief</h1>
-  <div class="stamp">April Kidd<br>22 August 2026<br>Brief <b>№ 1</b></div>
+  <div class="stamp">April Kidd<br>22 August 2026<br>Brief <b>&#8470; 1</b></div>
 </header>
 
-<p class="standfirst">You own getting Rise OS into production with a real provider's real data in it.
-Everything below is measured from the repositories at <code>dev</code> or counted on disk, with the source
-named so you can check any number yourself.</p>
+<p class="standfirst">You own getting Rise OS into production with a real provider's real data in it. This
+brief is self-contained: where the product is, the plan it sits inside, and exactly what to build. Every number
+is measured from the repositories at <code>dev</code> or counted on disk.</p>
 
 <section>
-  <div class="rail"><span class="num">01</span>Assignment</div>
+  <div class="rail"><span class="num">01</span>Context</div>
+  <div class="body">
+    <h2>Where the product actually is</h2>
+    <p>Shared context, so this brief stands on its own.</p>
+    <p><strong>Rise OS is real and running on staging</strong>, not a prototype. Sixteen route groups, ten front
+    end feature modules, thirteen back end modules, 62 migrations. Auth with mandatory 2FA and passkeys,
+    organisations and tenancy, the legislation model with the NDIS Practice Standards seeded, the obligations
+    engine, expected documents, a Tiptap editor with version history and real time collaboration, anchored
+    comments, and the auditor workspace with cross-tenant grants, submission packs and findings.</p>
+    <p><strong>Production does not exist yet</strong>, and the blocker is three GCP account actions only Jesse
+    can perform. That is his item and it is first in the plan.</p>
+    <p><strong>Zain is on the compliance engine</strong> for the same period: registers, improvement actions,
+    and whether document relationships should be typed rather than inferred. His work lands in the schema, so
+    expect migrations from him during Cycle 2.</p>
+    <p>One open question sits above this brief: whether Rise serves providers, auditors, or both. It is
+    genuinely unresolved. <strong>Nothing in this brief depends on how it resolves.</strong> Do not wait on it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">02</span>The plan</div>
+  <div class="body">
+    <h2>The four cycles, and where you sit in them</h2>
+    <p>Two weeks each, sequenced by dependency rather than calendar. Your items are marked and the cycles
+    carrying them are ruled in gold.</p>
+
+    <div class="cycle mine">
+      <div class="cycle-head"><span class="cycle-n">Cycle 0</span><span class="cycle-t">Unblock</span></div>
+      <ul>
+        <li>Create the prod GCP project, link billing, grant owner access. <span class="who">Jesse</span></li>
+        <li>Land the open dependency PRs and Zain's HEIC fix so we start clean. <span class="who you">You</span> <span class="who">Zain</span></li>
+      </ul>
+    </div>
+
+    <div class="cycle mine">
+      <div class="cycle-head"><span class="cycle-n">Cycle 1</span><span class="cycle-t">Production exists, and something real is in it</span></div>
+      <ul>
+        <li><strong>Apply prod, then rehearse the promotion path.</strong> <span class="who you">You</span></li>
+        <li><strong>Harmony Care in as the first real tenant, 163 documents.</strong> <span class="who you">You</span></li>
+        <li>Write ADR 0017 mapping our chain against the dossier's. <span class="who">Zain</span></li>
+      </ul>
+    </div>
+
+    <div class="cycle mine">
+      <div class="cycle-head"><span class="cycle-n">Cycle 2</span><span class="cycle-t">Depth</span></div>
+      <ul>
+        <li>Registers, improvement actions, typed relationships. <span class="who">Zain</span></li>
+        <li><strong>Test depth wherever an auditor's conclusion depends on our logic.</strong> <span class="who you">You</span></li>
+      </ul>
+    </div>
+
+    <div class="cycle mine">
+      <div class="cycle-head"><span class="cycle-n">Cycle 3</span><span class="cycle-t">A real audit, end to end</span></div>
+      <ul>
+        <li>Run a full audit against Harmony Care in production with a real auditor. <span class="who you">You</span> <span class="who">Zain</span></li>
+        <li>Fix what that run exposes. It will expose things, and that is the point of running it.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">03</span>Yours</div>
   <div class="body">
     <h2>What you own, and why it is you</h2>
     <div class="verdict">
@@ -154,13 +226,11 @@ named so you can check any number yourself.</p>
     also running the heaviest feature load on the team, 28 front end and 32 back end commits in the last thirty
     days, more than anyone. That is a single point of failure with your name on it, and it is a risk I created
     by never assigning it to anyone. Part of this brief is you telling me what comes off your plate.</p>
-    <p>One thing to be explicit about: there is an open strategic question above this brief about which market
-    Rise serves. <strong>Nothing here depends on how it resolves.</strong> Do not wait on it.</p>
   </div>
 </section>
 
 <section>
-  <div class="rail"><span class="num">02</span>Where infra is</div>
+  <div class="rail"><span class="num">04</span>Infra</div>
   <div class="body">
     <h2>Eight of nine, and the ninth is mine</h2>
     <p>From <code>riseOS-infra/README.md</code> and <code>modules/env/</code>.</p>
@@ -170,40 +240,40 @@ named so you can check any number yourself.</p>
         <thead><tr><th>Milestone</th><th>State</th></tr></thead>
         <tbody>
           <tr><td>State bucket and base APIs</td><td><span class="pill built">Done</span></td></tr>
-          <tr><td>VPC with Direct VPC egress (no Serverless Connector, saves ~$8, 10/mo idle)</td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>VPC with Direct VPC egress, no Serverless Connector, saves roughly $8 to $10 a month idle</td><td><span class="pill built">Done</span></td></tr>
           <tr><td>Artifact Registry</td><td><span class="pill built">Done</span></td></tr>
-          <tr><td>Workload Identity Federation + deploy service account</td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>Workload Identity Federation and deploy service account</td><td><span class="pill built">Done</span></td></tr>
           <tr><td>Cloud Run BE and FE, <code>min-instances = 0</code> on staging</td><td><span class="pill built">Done</span></td></tr>
-          <tr><td>Cloud SQL + Secret Manager wiring, 3-role RLS over private IP via the migrate Job</td><td><span class="pill built">Done</span></td></tr>
-          <tr><td>External HTTPS LB + IAP gate + assets CDN, DNS on <code>*.staging.riseos.care</code></td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>Cloud SQL and Secret Manager wiring, 3-role RLS over private IP via the migrate Job</td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>External HTTPS LB, IAP gate, assets CDN, DNS on <code>*.staging.riseos.care</code></td><td><span class="pill built">Done</span></td></tr>
           <tr><td>Retire the legacy VM staging</td><td><span class="pill partial">Open</span></td></tr>
-          <tr><td>Prod create-infra built (<code>foundation.tf</code>, gated by <code>manage_foundation</code>)</td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>Prod create-infra built, <code>foundation.tf</code> gated by <code>manage_foundation</code></td><td><span class="pill built">Done</span></td></tr>
         </tbody>
       </table>
     </div>
 
     <p>CI is in place across all three repos: <code>ci.yml</code>, <code>deploy-cloud-run.yml</code>,
     <code>deploy-cloud-run-prod.yml</code>, <code>pr-conventions.yml</code>, <code>security.yml</code>. The prod
-    deploy workflow is already written and waiting for a project to point at.</p>
+    deploy workflow is written and waiting for a project to point at.</p>
 
     <div class="note">
       <span class="lbl">The blocker, and it is mine not yours</span>
-      <p><code>apply prod</code> is turnkey once an org owner does three things: create the
-      <code>riseos-prod</code> project, link billing, and grant <code>dev@</code> Owner. Only I can do those. It
-      is the first item in Cycle 0 and it is on my name.</p>
-      <p>Two things I want your read on when it comes: the IAP service agent bootstrap
-      (<code>gcloud beta services identity create --service=iap.googleapis.com</code>) is <strong>not tofu-managed
-      </strong>, and Cloud SQL for prod stays on the shared <code>rise-ops-db</code> wired out of band. Both are
-      manual steps in an otherwise codified path and I would rather know now if that bothers you.</p>
+      <p><code>apply prod</code> is turnkey once an org owner creates the <code>riseos-prod</code> project,
+      links billing, and grants <code>dev@</code> Owner. Only I can do those. It is the first item in Cycle 0
+      and it is on my name.</p>
+      <p>Two things I want your read on when it comes. The IAP service agent bootstrap
+      (<code>gcloud beta services identity create --service=iap.googleapis.com</code>) is <strong>not
+      tofu-managed</strong>, and prod Cloud SQL stays on the shared <code>rise-ops-db</code> wired out of band.
+      Both are manual steps in an otherwise codified path, and I would rather know now if that bothers you.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="rail"><span class="num">03</span>The payload</div>
+  <div class="rail"><span class="num">05</span>The payload</div>
   <div class="body">
     <h2>Harmony Care, counted</h2>
-    <p>This is not a pilot with invented data. The documents exist and are built. Counted on disk at
+    <p>Not a pilot with invented data. The documents exist and are built. Counted on disk at
     <code>~/Downloads/harmony-care-docs/</code>:</p>
 
     <div class="scroll">
@@ -213,20 +283,25 @@ named so you can check any number yourself.</p>
           <tr><td>Built documents in <code>out/</code></td><td class="num-col">163</td><td>.docx, on the <code>HCS-…</code> ID scheme</td></tr>
           <tr><td>PDFs across the tree</td><td class="num-col">172</td><td>Rendered from the same sources</td></tr>
           <tr><td>Markdown sources</td><td class="num-col">163</td><td>The authoring layer</td></tr>
-          <tr><td>Drive-ready folder <code>_Rise_/</code></td><td class="num-col">9</td><td>Master Document Register plus four NDIS grouping folders and <code>INDEX.json</code></td></tr>
+          <tr><td>Drive-ready folder <code>_Rise_/</code></td><td class="num-col">9</td><td>Master Document Register, four NDIS grouping folders, <code>INDEX.json</code></td></tr>
         </tbody>
       </table>
     </div>
 
     <p>The <code>_Rise_/</code> folder already carries <code>HCS-REG-DOC-001_Master-Document-Register</code> and
     splits the suite into Main Policies and Procedures plus Forms, NDIS Module 1 High Intensity Daily Personal
-    Activities, NDIS Module 2A Implementing Behaviour Support, Organisational Governance and Business Management,
-    and Support Coordinator. That grouping is a useful shape to import against.</p>
+    Activities, NDIS Module 2A Implementing Behaviour Support, Organisational Governance and Business
+    Management, and Support Coordinator. That grouping is a useful shape to import against.</p>
+
+    <p>For the target model these have to resolve into, the reference suite is on this same site:
+    <a href="../rise-ndis-package/suite/00-INDEX.html">the 123-document suite index</a>, and
+    <a href="../standards.html">all 70 standards with their implementing documents</a>. You do not need to
+    understand the whole model, that is Zain's job, but the import has to land against it.</p>
 
     <div class="note">
       <span class="lbl">Two constraints on this data</span>
-      <p><strong>Organisational data only.</strong> Policies, procedures, forms, registers and audit evidence. No
-      participant records are involved, so nothing here waits on privacy work and there is no personal or health
+      <p><strong>Organisational data only.</strong> Policies, procedures, forms, registers and audit evidence.
+      No participant records, so nothing here waits on privacy work and there is no personal or health
       information in scope.</p>
       <p><strong>In Drive, <code>**Rise**</code> is the only writable folder.</strong> The other folders in that
       audit share are the provider's own source files. Read them, never write to them.</p>
@@ -235,7 +310,7 @@ named so you can check any number yourself.</p>
 </section>
 
 <section>
-  <div class="rail"><span class="num">04</span>Tests</div>
+  <div class="rail"><span class="num">06</span>Tests</div>
   <div class="body">
     <h2>Where the test position actually is</h2>
     <div class="scroll">
@@ -245,36 +320,36 @@ named so you can check any number yourself.</p>
           <tr><td>Back end specs</td><td class="num-col">24</td><td>Thin for software an auditor relies on</td></tr>
           <tr><td>Front end tests</td><td class="num-col">34</td><td>Component and route level</td></tr>
           <tr><td>Playwright end-to-end</td><td class="num-col">1</td><td>The number that worries me most</td></tr>
-          <tr><td><code>obligations.service.spec.ts</code></td><td class="num-col">758</td><td>Against a 494-line service. This is the standard, and it already exists in-house</td></tr>
+          <tr><td><code>obligations.service.spec.ts</code></td><td class="num-col">758</td><td>Against a 494-line service. The standard, and it already exists in-house</td></tr>
         </tbody>
       </table>
     </div>
-    <p><strong>I am not asking for a coverage percentage.</strong> I am asking a narrower question: anywhere an
-    auditor's conclusion depends on our logic, is that logic covered. The obligations engine is already the
-    answer to that question done properly. Use it as the reference rather than a target number.</p>
-    <p>One end-to-end spec means we have almost no automated proof that a whole journey works. Before we put a
-    real provider in front of a real auditor, at least the submission-pack journey should be covered end to end.</p>
+    <p><strong>I am not asking for a coverage percentage.</strong> The narrower question: anywhere an auditor's
+    conclusion depends on our logic, is that logic covered. The obligations engine is already that question
+    answered properly. Use it as the reference rather than a target number.</p>
+    <p>One end-to-end spec means almost no automated proof that a whole journey works. Before we put a real
+    provider in front of a real auditor, the submission-pack journey should be covered end to end.</p>
   </div>
 </section>
 
 <section>
-  <div class="rail"><span class="num">05</span>The work</div>
+  <div class="rail"><span class="num">07</span>The work</div>
   <div class="body">
     <h2>Four pieces, in this order</h2>
 
     <div class="task">
       <div class="task-head"><span class="task-n">First</span><span class="task-t">Apply prod, then rehearse the path</span></div>
-      <p>The moment I clear the account blocker. Then promote <code>dev → staging → main</code> as an exercise
-      rather than on the day it matters. Note that infra <code>apply</code> is deliberately manual
-      (<code>just apply staging</code>); a push to <code>staging</code> does not auto-apply tofu, so promotion
-      aligns the branch and nothing more.</p>
+      <p>The moment I clear the account blocker. Then promote <code>dev</code> to <code>staging</code> to
+      <code>main</code> as an exercise rather than on the day it matters. Note infra <code>apply</code> is
+      deliberately manual (<code>just apply staging</code>); a push to <code>staging</code> does not auto-apply
+      tofu, so promotion aligns the branch and nothing more.</p>
       <div class="done"><b>Done when</b> prod is up and the promotion has been run once with nobody watching the clock.</div>
     </div>
 
     <div class="task">
       <div class="task-head"><span class="task-n">Second</span><span class="task-t">Harmony Care in as tenant one</span></div>
       <p>The 163 documents loaded, on their real IDs, resolving against their real obligations. If the import
-      needs a tool rather than hands, build the tool, we will do this again for tenant two.</p>
+      needs a tool rather than hands, build the tool. We will do this again for tenant two.</p>
       <div class="done"><b>Done when</b> Harmony Care's suite is in production and their obligations resolve correctly against it.</div>
     </div>
 
@@ -291,14 +366,14 @@ named so you can check any number yourself.</p>
       <div class="done"><b>Done when</b> you could be away a fortnight and someone else could deploy.</div>
     </div>
 
-    <p><strong>Not on this list:</strong> Participants. We are not working with participant data yet, so it stays
-    scaffolded and nobody spends a cycle on it. If that changes it becomes its own project rather than a line
-    item here.</p>
+    <p><strong>Not on this list:</strong> Participants. We are not working with participant data yet, so it
+    stays scaffolded and nobody spends a cycle on it. If that changes it becomes its own project rather than a
+    line item here.</p>
   </div>
 </section>
 
 <section>
-  <div class="rail"><span class="num">06</span>Back to me</div>
+  <div class="rail"><span class="num">08</span>Back to me</div>
   <div class="body">
     <h2>Three things I need from you</h2>
     <ol class="decisions">
@@ -318,7 +393,7 @@ named so you can check any number yourself.</p>
   </div>
 </section>
 
-<footer>Rise OS · Production readiness brief № 1 · April Kidd · 22 Aug 2026 · Measured at dev, 18 Aug</footer>
+<footer>Rise OS &#183; Production readiness brief &#8470; 1 &#183; April Kidd &#183; 22 Aug 2026 &#183; Measured at dev, 18 Aug</footer>
 
 </div>
 </body>
