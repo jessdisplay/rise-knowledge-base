@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rise — Start here: the nine steps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6F5F1;--card:#fff;--ink:#22303F;--ink-soft:#5A6B82;--line:#DDD9CF;
+--teal:#0E5B52;--teal-bg:#E2F0ED;--coral:#9A3F23;--coral-bg:#FBE7E0;--pink:#8F2E63;--pink-bg:#F7E4EE;
+--flag:#9A6B15;--flag-bg:#F7EEDC;--ok:#1D6E4B;--ok-bg:#E3F0E8;--focus:#4A3E8E;--rules:#4A3E8E}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Public Sans",Arial,system-ui,sans-serif;font-size:17px;line-height:1.65}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px 80px}
+header{padding:26px 0 14px}
+.eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase}
+h1{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:clamp(26px,6vw,36px);margin:6px 0 8px}
+.lede{font-size:18px;max-width:36ch}
+.honest{margin:14px 0 0;background:var(--flag-bg);border:1px solid #E3D3AC;border-radius:10px;padding:11px 13px;font-size:14px;color:#6B4E13;line-height:1.55}
+.youare{position:sticky;top:0;z-index:6;background:var(--paper);padding:12px 0 10px;border-bottom:1px solid var(--line)}
+.youare .lbl{font-size:12.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.dots{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.dot{flex:none;border:none;background:none;padding:2px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;font-family:inherit}
+.dot .num{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink-soft);background:#fff;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:var(--ink-soft)}
+.dot .lb{font-size:10.5px;font-weight:600;color:var(--ink-soft)}
+.dot.done .num{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.dot.done .lb{color:var(--ok)}
+.dot.here .num{border-color:var(--rules);color:var(--rules);box-shadow:0 0 0 3px #EDEBF7}
+.dot.here .lb{color:var(--rules)}
+.dot:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:8px}
+.band{margin-top:30px;border-radius:12px;padding:13px 15px}
+.band h2{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:21px}
+.band p{font-size:14.5px;margin-top:2px}
+.b-teal{background:var(--teal-bg);color:var(--teal)}
+.b-coral{background:var(--coral-bg);color:var(--coral)}
+.b-pink{background:var(--pink-bg);color:var(--pink)}
+details.step{margin:10px 0;background:var(--card);border:1px solid var(--line);border-radius:12px}
+details.step>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:14px}
+details.step>summary::-webkit-details-marker{display:none}
+details.step>summary:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:12px}
+.pic{flex:none;width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.pic svg{width:34px;height:34px;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.p-teal{background:var(--teal-bg);color:var(--teal)}
+.p-coral{background:var(--coral-bg);color:var(--coral)}
+.p-pink{background:var(--pink-bg);color:var(--pink)}
+.stitle{font-weight:600;font-size:18px}
+.ssent{font-size:16.5px;color:var(--ink-soft);margin-top:2px;max-width:32ch}
+.panel{border-top:1px dashed var(--line);padding:14px 16px 16px;background:#FBFAF7;border-radius:0 0 12px 12px}
+.panel p{margin:8px 0;max-width:42ch;font-size:16.5px}
+.panel .word{background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:15px;margin:10px 0}
+.panel .word b{font-size:16px}
+.panel .ex{font-size:15px;color:var(--ink-soft)}
+.panel .ex b{color:var(--flag)}
+.deeper{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.deeper a{display:inline-block;background:#fff;border:1.5px solid var(--rules);color:var(--rules);border-radius:999px;padding:8px 14px;font-size:14.5px;font-weight:600;text-decoration:none}
+.deeper a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.got{margin-top:12px;border:1.5px solid var(--ok);background:#fff;color:var(--ok);border-radius:999px;padding:8px 14px;font-size:14.5px;font-weight:600;cursor:pointer;font-family:inherit}
+.got[aria-pressed="true"]{background:var(--ok-bg)}
+.loop{margin:26px 0 0;text-align:center;font-size:16px;color:var(--ink-soft)}
+.lvls{display:flex;gap:6px;overflow-x:auto;padding:12px 0 4px;-webkit-overflow-scrolling:touch}
+.lvls a{flex:none;border:1.5px solid var(--ink-soft);color:var(--ink);background:#fff;border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;text-decoration:none}
+.lvls a.now{background:var(--ink);border-color:var(--ink);color:#fff}
+.lvls a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+footer{margin-top:40px;border-top:3px double var(--ink);padding-top:14px;font-size:14px;color:var(--ink-soft)}
+a{color:var(--rules)}
+@media (prefers-reduced-motion:no-preference){.dot{transition:all .15s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Rise · start here · level 0 → level 1</div>
+  <h1>The nine steps</h1>
+  <p class="lede">This is all of compliance, in one place. Tap any step to learn more. Nothing is locked.</p>
+  <div class="honest"><b>Honest label:</b> these words are drafts and these pictures are placeholders. Real wording and real pictures get chosen with Easy Read experts and tested with the people who will use them. That is a build rule, not a hope. Your "I understand this" marks are just for this visit — they are not saved.</div>
+  <div class="honest" id="folderTip" hidden><b>Tip: keep the files together.</b> This page is part of a set. All the Rise files need to live in one folder. If a button says the file cannot be found, unzip <b>rise-project-site.zip</b> into this folder first. Then every button will work.</div>
+</header>
+
+<nav class="lvls" aria-label="Levels"><a class="now" href="#" aria-current="page">0–1 · Nine steps</a><a href='/rise-your-world'>2 · Your world</a><a href='/rise-level-3-standards'>3 · Plain words</a><a href='/rise-level-4-threads'>4 · The thread</a><a href='/rise-level-5-letter'>5 · The letter</a><a href='/rise-level-6-graph'>6 · The machine</a></nav>
+
+<div class="youare" aria-label="Your progress through the nine steps">
+  <div class="lbl">You are here</div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<section class="band b-teal"><h2>First: the rule</h2><p>Someone wrote down what good work looks like.</p></section>
+
+<details class="step" data-n="1"><summary><span class="pic p-teal"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M4 5h7v14H6a2 2 0 0 1-2-2z"/><path d="M20 5h-7v14h5a2 2 0 0 0 2-2z"/><path d="M11 5c-1-1-4-1-4-1M13 5c1-1 4-1 4-1"/></svg></span><span><span class="stitle">1 · The standard</span><p class="ssent">A standard is a rule about doing good work.</p></span></summary>
+<div class="panel">
+<p>The government writes the standards.</p>
+<p>Each standard says what good looks like for one part of your work.</p>
+<div class="word"><b>Hard word: standard.</b> A standard is a written rule. It says what good work looks like.</div>
+<p class="ex"><b>Example:</b> one standard says people's money must be kept safe.</p>
+<div class="deeper"><a href='/rise-your-world'>Level 2: which rules are yours?</a><a href='/rise-level-3-standards'>See every standard in plain words</a></div>
+<button class="got" aria-pressed="false">✓ I understand this</button>
+</div></details>
+
+<section class="band b-coral"><h2>Then: you do the work</h2><p>Your organisation turns the rule into everyday actions.</p></section>
+
+<details class="step" data-n="2"><summary><span class="pic p-coral"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6"/><path d="M12 15.5l-1.2 1.2c-.6.6-.6 1.6 0 2.2.6.6 1.6.6 2.2 0l.2-.2c.6-.6.6-1.6 0-2.2z" fill="currentColor" stroke="none"/></svg></span><span><span class="stitle">2 · The policy</span><p class="ssent">A policy says what we promise to do.</p></span></summary>
+<div class="panel">
+<p>Your organisation writes a policy for each rule.</p>
+<p>The policy is your promise about how you will follow that rule.</p>
+<div class="word"><b>Hard word: policy.</b> A policy is a short document. It says what your organisation promises to do.</div>
+<p class="ex"><b>Example:</b> "We keep people's money safe. We only spend it the way they ask."</p>
+<div class="deeper"><a href='/rise-bounce-prototype'>See a real-shaped policy</a></div>
+<button class="got" aria-pressed="false">✓ I understand this</button>
+</div></details>
+
+<details class="step" data-n="3"><summary><span class="pic p-coral"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M4 19h5v-4h5v-4h5V6"/><path d="M4 19v2h16"/></svg></span><span><span class="stitle">3 · The procedure</span><p class="ssent">A procedure shows how we do it, step by step.</p></span></summary>
+<div class="panel">
+<p>A promise is not enough.</p>
+<p>The procedure tells workers exactly what to do, in order.</p>
+<div class="word"><b>Hard word: procedure.</b> A procedure is a list of steps. It shows how to do the work the right way.</div>
+<p class="ex"><b>Example:</b> "Step 1: count the money together. Step 2: write it down. Step 3: both sign."</p>
+<div class="deeper"><a href='/rise-bounce-prototype'>See how a procedure connects</a></div>
+<button class="got" aria-pressed="false">✓ I understand this</button>
+</div></details>
+
+<details class="step" data-n="4"><summary><span class="pic p-coral"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="7" width="3" height="3"/><path d="M13 8.5h4"/><rect x="8" y="13" width="3" height="3"/><path d="M13 14.5h4"/></svg></span><span><span class="stitle">4 · The form</span><p class="ssent">A form is what we fill in when we do the work.</p></span></summary>
+<div class="panel">
+<p>Forms catch the facts while the work happens.</p>
+<p>Who, what, when — written down straight away.</p>
+<div class="word"><b>Hard word: form.</b> A form is a page with spaces to fill in. It records what you did.</div>
+<p class="ex"><b>Example:</b> writing down that Sam got his medicine at 8 o'clock.</p>
+<div class="deeper"><a href='/rise-bounce-prototype'>See a form in the chain</a></div>
+<button class="got" aria-pressed="false">✓ I understand this</button>
+</div></details>
+
+<section class="band b-coral"><h2>Then: you keep proof</h2><p>The records show the work really happened.</p></section>
+
+<details class="step" data-n="5"><summary><span class="pic p-coral"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="5" y="4" width="14" height="16" rx="2"/><circle cx="8" cy="8" r="0.9" fill="currentColor" stroke="none"/><circle cx="8" cy="12" r="0.9" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="0.9" fill="currentColor" stroke="none"/><path d="M11 8h5M11 12h5M11 16h5"/></svg></span><span><span class="stitle">5 · The register</span><p class="ssent">A register is the list that keeps every record together.</p></span></summary>
+<div class="panel">
+<p>One form is one moment.</p>
+<p>The register collects them all, so nothing gets lost.</p>
+<div class="word"><b>Hard word: register.</b> A register is like a logbook. Every finished form goes into it.</div>
+<p class="ex"><b>Example:</b> the medicine register shows every dose, every day, for everyone.</p>
+<div class="deeper"><a href='/rise-bounce-prototype'>See a register with rows</a></div>
+<button class="got" aria-pressed="false">✓ I understand this</button>
+</div></details>
+
+<details class="step" data-n="6"><summary><span class="pic p-coral"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="6" width="16" height="13" rx="2"/><path d="M4 15l4-4 4 4 3-3 5 5"/><circle cx="9" cy="10" r="1.4"/></svg></span><span><span class="stitle">6 · The evidence</span><p class="ssent">Evidence is proof that the work really happened.</p></span></summary>
+<div class="panel">
+<p>Evidence is anything that proves it: signed forms, register rows, training records.</p>
+<p>No proof means no one can tell good work from good intentions.</p>
+<div class="word"><b>Hard word: evidence.</b> Evidence means proof. It shows the promise was kept.</div>
+<p class="ex"><b>Example:</b> the signed form is proof Sam got his medicine.</p>
+<div class="deeper"><a href='/rise-bounce-prototype'>Follow proof through the chain</a></div>
+<button class="got" aria-pressed="false">✓ I understand this</button>
+</div></details>
+
+<section class="band b-pink"><h2>Then: someone checks</h2><p>A person from outside looks at the proof.</p></section>
+
+<details class="step" data-n="7"><summary><span class="pic p-pink"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="10.5" cy="10.5" r="5.5"/><path d="M15 15l5 5"/></svg></span><span><span class="stitle">7 · The audit</span><p class="ssent">An audit is when someone outside checks our proof.</p></span></summary>
+<div class="panel">
+<p>The auditor does not work for you.</p>
+<p>They read your documents, talk to your people, and look at real records.</p>
+<div class="word"><b>Hard word: audit.</b> An audit is a careful check by an outside person. They test if the promise is real.</div>
+<p class="ex"><b>Example:</b> the auditor opens the medicine register and picks three days to check.</p>
+<div class="deeper"><a href='/rise-visual-atlas'>See the whole audit journey</a></div>
+<button class="got" aria-pressed="false">✓ I understand this</button>
+</div></details>
+
+<details class="step" data-n="8"><summary><span class="pic p-pink"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M6 21V4"/><path d="M6 4h11l-2.5 3.5L17 11H6"/></svg></span><span><span class="stitle">8 · The finding</span><p class="ssent">A finding is what the checker tells us to fix.</p></span></summary>
+<div class="panel">
+<p>A finding is not a punishment.</p>
+<p>It points at a gap between the promise and the proof.</p>
+<div class="word"><b>Hard word: finding.</b> A finding is the auditor's note about something that needs fixing.</div>
+<p class="ex"><b>Example:</b> "Two days in the register have no signature."</p>
+<div class="deeper"><a href='/rise-visual-atlas'>See how findings work</a></div>
+<button class="got" aria-pressed="false">✓ I understand this</button>
+</div></details>
+
+<details class="step" data-n="9"><summary><span class="pic p-pink" style="background:var(--coral-bg);color:var(--coral)"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 3v4h-4"/></svg></span><span><span class="stitle">9 · The improvement</span><p class="ssent">An improvement is how we fix it and get better.</p></span></summary>
+<div class="panel">
+<p>You fix the gap and change the documents so it cannot happen again.</p>
+<p>Then the circle starts again at step 2 — better than before.</p>
+<div class="word"><b>Hard word: improvement.</b> An improvement is the fix. It closes the gap the finding pointed at.</div>
+<p class="ex"><b>Example:</b> a new rule — no register page is closed without two signatures.</p>
+<div class="deeper"><a href='/rise-your-world'>Level 2: which rules are yours?</a><a href='/rise-visual-atlas'>See the loop close</a></div>
+<button class="got" aria-pressed="false">✓ I understand this</button>
+</div></details>
+
+<p class="loop">↻ Step 9 leads back to step 2. That circle is the whole job.</p>
+
+<footer>
+<p>This page is <b>Level 0 → Level 1</b> of the Rise Zero-Knowledge Training Model. Deeper levels are open to everyone, always — depth is never locked. Wording and pictures here are drafts pending co-design with Easy Read expertise and testing with the people who will use them; the framework itself requires communicating in the terms each person is most likely to understand, and this tool holds itself to the same rule.</p>
+</footer>
+</div>
+
+<script>
+const dots=document.getElementById("dots");
+const LB=["Standard","Policy","Procedure","Form","Register","Evidence","Audit","Finding","Improvement"];
+for(let i=1;i<=9;i++){const d=document.createElement("button");d.className="dot";d.id="dot"+i;d.type="button";d.setAttribute("aria-label","Step "+i+": "+LB[i-1]);d.innerHTML='<span class="num">'+i+'</span><span class="lb">'+LB[i-1]+'</span>';d.addEventListener("click",()=>{const st=document.querySelector('details.step[data-n="'+i+'"]');if(st){st.open=true;st.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"});}});dots.appendChild(d);}
+document.querySelectorAll("details.step").forEach(st=>{
+  st.addEventListener("toggle",()=>{
+    document.querySelectorAll(".dot").forEach(x=>x.classList.remove("here"));
+    if(st.open)document.getElementById("dot"+st.dataset.n).classList.add("here");
+  });
+});
+document.querySelectorAll(".got").forEach(b=>{
+  b.addEventListener("click",()=>{
+    const on=b.getAttribute("aria-pressed")==="true";
+    b.setAttribute("aria-pressed",String(!on));
+    const n=b.closest("details").dataset.n;
+    document.getElementById("dot"+n).classList.toggle("done",!on);
+  });
+});
+if(location.protocol==="file:")document.getElementById("folderTip").hidden=false;
+document.querySelectorAll(".deeper a").forEach(a=>{a.target="_blank";a.rel="noopener"});
+</script>
+</body>
+</html>

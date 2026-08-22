@@ -1,0 +1,102 @@
+%% Rise node map v0.2 (2026-07-08) — ANNOTATED BANDS edition
+%% Supersedes v0.1 (2026-07-05) for reading purposes; v0.1 preserved untouched in
+%% rise-ndis-package/ (read-only collection). Same nodes, same edges — regrouped so
+%% each section names what it is: legislation, practice standards, the provider,
+%% the proof, the auditor's view.
+%% Meta-model: node TYPES and core typed edges. One box per KIND of thing —
+%% instance data (every actual document and standard) lives in
+%% rise-nodes-and-edges.json: 224 nodes / 528 edges, read from the file 8 Jul
+%% (the v0.1 header's 218/515 was the stale pre-final count).
+%% Authoritative edge list: rise-relationship-taxonomy.md v0.3.
+%% Terminology: "Standard" here = "Requirement" in the edge taxonomy.
+%% Dashed edges = proposed v0.4 types or informal links (see legend node).
+flowchart TD
+  subgraph L1["1 · THE LEGISLATION — where the power comes from (shared layer)"]
+    AMD["Instrument: amending Act or Rules<br/>(e.g. 2026 Amendment Rules)"]
+    ACT["Instrument: NDIS Act 2013"]
+    RUL["Instrument: Rules and Guidelines<br/>(PRPS, Incident, Complaints, RP, AQA...)"]
+    PRV["Provision<br/>(Part / Schedule / clause - native numbering)"]
+  end
+
+  subgraph L2["2 · THE PRACTICE STANDARDS — what good looks like (shared layer)"]
+    FW["Framework: NDIS Practice Standards<br/>(parallel roots later: Aged Care, ISO)"]
+    MOD["Module<br/>Core, Verification, M1, M2, M2A, M3, M4, M5, SIL"]
+    STD["Standard<br/>(= 'Requirement' in edge taxonomy; IMPLEMENTS target)"]
+    QIN["Quality Indicator<br/>(QI Guidelines 2018 as amended)"]
+    XRQ["Requirement in another framework<br/>(future crosswalks)"]
+  end
+
+  subgraph L3["3 · THE PROVIDER — organisation, people and documents · say it, do it (tenant layer)"]
+    ORG["Organisation"]
+    SCP["Registration Scope<br/>(drives gap detection: which Modules apply)"]
+    SIT["Site / Home"]
+    subgraph DOCS["Document (doc_type)"]
+      POL["Policy"]
+      PRO["Procedure"]
+      WIN["Work Instruction"]
+      FRM["Form / Agreement"]
+      REGD["Register"]
+      PLN["Plan / Handbook"]
+    end
+    ROL["Role"]
+    PPL["Person (PII-minimised)"]
+    TRN["Training / Qualification"]
+    RSK["Risk"]
+    CTL["Control"]
+  end
+
+  subgraph L4["4 · THE PROOF — evidence, frozen at audit time (tenant layer)"]
+    EVD["Evidence (immutable once frozen)"]
+  end
+
+  subgraph L5["5 · THE AUDITOR'S VIEW — the check that closes the loop (tenant layer)"]
+    AUD["Audit (certification / verification / mid-term / internal)"]
+    FND["Finding"]
+    IMP["Improvement Action"]
+  end
+
+  RUL -->|MADE_UNDER| ACT
+  AMD -.->|"AMENDS - v0.4 candidate<br/>(today: RELATES_TO + note)"| RUL
+  PRV -->|PART_OF| RUL
+  FW -->|PUBLISHED_IN| RUL
+  MOD -->|PART_OF| FW
+  STD -->|PART_OF| MOD
+  QIN -->|PART_OF| STD
+  STD -.->|"MAPS_TO (symmetric):<br/>strength, rationale, score 0-10"| XRQ
+
+  POL -->|IMPLEMENTS| STD
+  POL -.->|"REFERENCES - v0.4 candidate<br/>(today: RELATES_TO + note)"| RUL
+  PRO -->|OPERATIONALISES| POL
+  WIN -->|OPERATIONALISES| PRO
+  PRO -->|USES| FRM
+  FRM -->|RECORDS_TO| REGD
+
+  EVD -->|GENERATED_BY| REGD
+  EVD -->|EVIDENCES| STD
+  AUD -->|ASSESSES| STD
+  FND -->|RAISED_IN| AUD
+  FND -->|CITES| EVD
+  FND -->|CONCERNS| DOCS
+  IMP -->|ADDRESSES| FND
+
+  CTL -->|MITIGATES| RSK
+  DOCS -->|OWNED_BY| ROL
+  PRO -->|PERFORMED_BY| ROL
+  ROL -->|REQUIRES| TRN
+  PPL -.->|"assigned to (assignment record)"| ROL
+  ORG --- SCP
+  ORG --- SIT
+  SCP -.->|"scopes gap detection to"| MOD
+
+  LGD["Not drawn, also in taxonomy v0.3:<br/>SUPERSEDES (new version to prior version, any versioned node)<br/>INTERPRETS (external frameworks e.g. ISO to Provision)<br/>CONFLICTS_WITH, DUPLICATES (symmetric review queues)<br/>RELATES_TO (escape hatch - note mandatory)"]
+
+  style L1 fill:#EDEBF7,stroke:#8F86C9,color:#4A3E8E
+  style L2 fill:#E2F0ED,stroke:#9CC7BD,color:#0E5B52
+  style L3 fill:#FBE7E0,stroke:#E0A896,color:#9A3F23
+  style DOCS fill:#FFFFFF,stroke:#E0A896,color:#9A3F23
+  style L4 fill:#FDF1E6,stroke:#DFC08A,color:#8A5C10
+  style L5 fill:#F7E4EE,stroke:#DCA8C6,color:#8F2E63
+  classDef box fill:#ffffff,stroke:#5A6B82,color:#1B2A41
+  classDef legend fill:#f2f2f2,stroke:#888,color:#333,font-size:11px
+  class AMD,ACT,RUL,PRV,FW,MOD,STD,QIN,XRQ,ORG,SCP,SIT,ROL,PPL,TRN,RSK,CTL,EVD,AUD,FND,IMP,POL,PRO,WIN,FRM,REGD,PLN box
+  class LGD legend

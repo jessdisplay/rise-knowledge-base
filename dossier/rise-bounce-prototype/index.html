@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rise — Bounce prototype: 1.1 Person-Centred Supports</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#F7F4EE; --cream:#FAF0D7; --card:#FFFFFF; --ink:#2A2418; --ink-soft:#6B6353;
+  --bronze:#8A5A0E; --bronze-deep:#6E4708;
+  --rules:#4A3E8E; --rules-bg:#EDEBF7; --qi:#0E6E63; --qi-bg:#E2F0ED;
+  --thread:#B07A1B; --thread-bg:#F6E7C8; --flash:#FFF0A8;
+  --line:#E2DCCC; --ok:#1D6E4B; --focus:#4A3E8E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--page);color:var(--ink);font-family:"Public Sans",system-ui,sans-serif;font-size:16px;line-height:1.55}
+.wrap{max-width:920px;margin:0 auto;padding:0 14px 70px}
+.masthead{background:var(--cream);margin:0 -14px;padding:18px 14px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft)}
+h1{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:clamp(22px,4.5vw,30px);margin:4px 0 6px}
+.addr{display:inline-flex;font-family:ui-monospace,Menlo,monospace;font-size:12px;border-radius:6px;overflow:hidden;vertical-align:2px}
+.addr span{padding:3px 8px}
+.addr .r{background:var(--rules-bg);color:var(--rules)}
+.addr .q{background:var(--qi-bg);color:var(--qi)}
+.proto{margin-top:10px;background:#FFF;border:1px dashed var(--bronze);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--bronze-deep)}
+.pills{position:sticky;top:0;z-index:9;background:var(--page);display:flex;gap:6px;overflow-x:auto;padding:12px 0;border-bottom:1px solid var(--line);-webkit-overflow-scrolling:touch}
+.pill{flex:none;border:1.5px solid var(--bronze);background:#fff;color:var(--bronze-deep);border-radius:999px;padding:6px 13px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none}
+.pill:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+section.pane{margin-top:22px;scroll-margin-top:72px}
+.bar{background:var(--bronze);color:#fff;border-radius:10px 10px 0 0;padding:10px 14px;display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.bar h2{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:18px}
+.bar .meta{font-size:12px;opacity:.9}
+.body{background:var(--card);border:1px solid var(--line);border-top:none;border-radius:0 0 10px 10px;padding:16px}
+.sub{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin:14px 0 6px}
+.sub:first-child{margin-top:0}
+.slot{border:1.5px dashed #C9BFA6;background:#FBF9F3;border-radius:8px;padding:10px 12px;font-size:13.5px;color:var(--ink-soft);font-style:italic}
+.para{font-size:15px;margin:8px 0;max-width:70ch}
+.tagged{border-left:4px solid var(--thread);background:#FFFDF4;padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0}
+.chip{display:inline-block;background:var(--thread-bg);color:var(--bronze-deep);border:1px solid #E0C88F;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;margin:4px 6px 0 0}
+.chip:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+.merge{background:#F3E3F5;border-radius:4px;padding:0 4px}
+.field{margin:12px 0}
+.field label{display:block;font-size:13px;color:var(--ink-soft);margin-bottom:4px}
+.field .box{border:1.5px solid var(--line);background:#FDFCF9;border-radius:8px;padding:9px 12px;font-size:15px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin-top:8px}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left}
+th{background:#F4F0E5;font-weight:600}
+.flash{animation:none;background:var(--flash)!important;transition:background 1.6s ease}
+@media (prefers-reduced-motion:no-preference){.flash{transition:background 1.6s ease}}
+.note{font-size:12.5px;color:var(--ink-soft);margin-top:6px}
+footer{margin-top:36px;border-top:3px double var(--ink);padding-top:14px;font-size:13.5px;color:var(--ink-soft)}
+footer b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow">Rise · bounce prototype · NDIS Certification Pack</div>
+  <h1>1.1 Person-Centred Supports&nbsp; <span class="addr"><span class="r">Sch 1 · cl 3</span><span class="q">s 6</span></span></h1>
+  <div class="proto"><b>Prototype honesty:</b> legislative wording appears as <i>labelled paraphrase</i> with dashed slots showing where the ingested authorised text renders in production (per the source manifest). Policy, procedure, form and register content is invented example material. The <b>gold chips</b> are the real subject: tap any chip to bounce to the linked piece — it will scroll there and light up.</div>
+</header>
+
+<nav class="pills" aria-label="Sections">
+  <a class="pill" href="#p1">1 · Legislation</a>
+  <a class="pill" href="#p2">2 · Policy</a>
+  <a class="pill" href="#p3">3 · Procedure</a>
+  <a class="pill" href="#p4">4 · Form</a>
+  <a class="pill" href="#p5">5 · Register</a>
+</nav>
+
+<section class="pane" id="p1">
+  <div class="bar"><h2>1 · Legislation</h2><span class="meta">Rules 2018 (F2018L00631) + Guidelines 2018 (F2018N00041)</span></div>
+  <div class="body">
+    <p class="sub">The standard — Rules 2018, Schedule 1, clause 3</p>
+    <div class="slot">⟨ authorised text of Schedule 1, clause 3 renders here once ingested ⟩</div>
+    <p class="para note">Plain-English paraphrase: each participant accesses supports that respect and uphold their legal and human rights, with dignity and independence, through informed choice and control.</p>
+
+    <p class="sub">The indicators — Guidelines 2018, section 6</p>
+    <div class="slot">⟨ authorised text of section 6 renders here once ingested ⟩</div>
+    <div class="tagged" id="L-s6-2">
+      <div class="mono" style="color:var(--qi)">s 6 · indicator (paraphrase)</div>
+      <p class="para">Communication with each participant about their supports is responsive to their needs, and happens in the language, mode of communication and terms the participant is most likely to understand.</p>
+      <button class="chip" data-jump="P-32">→ implemented by Policy §3.2</button>
+      <button class="chip" data-jump="PR-2">→ done via Procedure step 2</button>
+      <button class="chip" data-jump="F-comm">→ captured on the intake form</button>
+      <button class="chip" data-jump="R-colD">→ evidenced in the register</button>
+    </div>
+    <p class="note">Every indicator in production carries chips like these — generated from the graph's typed links, not hand-placed.</p>
+  </div>
+</section>
+
+<section class="pane" id="p2">
+  <div class="bar"><h2>2 · Policy — Person Centred Supports</h2><span class="meta">POL-SEC-001 v2.0 · example document</span></div>
+  <div class="body">
+    <p class="sub">Scope (merge fields render from one source)</p>
+    <p class="para">This policy applies to the board, management, staff and volunteers of <span class="merge" data-merge="org"></span>. Next review <span class="merge" data-merge="review"></span>, conducted by <span class="merge" data-merge="contact"></span>.</p>
+    <p class="note">The name and date above are rendered twice on this page from a single record — scroll to the form and they match by construction. A "Freazer/Fraeser" mismatch cannot occur.</p>
+
+    <p class="sub">Policy commitments</p>
+    <p class="para">§3.1 — We uphold each participant's legal and human rights in everyday practice.</p>
+    <div class="tagged" id="P-32">
+      <div class="mono" style="color:var(--bronze-deep)">§3.2</div>
+      <p class="para">We communicate with every participant about their supports in the language, mode and terms they are most likely to understand, and we record each person's communication preferences at intake and whenever they change.</p>
+      <button class="chip" data-jump="L-s6-2">← why this exists: s 6 indicator</button>
+      <button class="chip" data-jump="PR-2">→ how we do it: Procedure step 2</button>
+    </div>
+    <p class="para">§3.3 — We support each participant to engage the family, friends and community connections they choose.</p>
+  </div>
+</section>
+
+<section class="pane" id="p3">
+  <div class="bar"><h2>3 · Procedure — Intake &amp; communication profile</h2><span class="meta">PRO-SEC-001 · example document</span></div>
+  <div class="body">
+    <p class="para">Step 1 — Welcome the participant; confirm consent to collect their information.</p>
+    <div class="tagged" id="PR-2">
+      <div class="mono" style="color:var(--bronze-deep)">Step 2</div>
+      <p class="para">Ask the participant (and, where they wish, their supporters) how they prefer to communicate — language, mode, format and terms. Record the answers in the communication profile section of the intake form.</p>
+      <button class="chip" data-jump="P-32">← gives effect to Policy §3.2</button>
+      <button class="chip" data-jump="F-comm">→ fills the form field below</button>
+    </div>
+    <p class="para">Step 3 — File the completed form; the register updates from it.</p>
+  </div>
+</section>
+
+<section class="pane" id="p4">
+  <div class="bar"><h2>4 · Form — Participant intake</h2><span class="meta">FRM-SEC-001 · example document</span></div>
+  <div class="body">
+    <div class="field"><label>Organisation name (merge field)</label><div class="box"><span class="merge" data-merge="org"></span></div></div>
+    <div class="field"><label>Review conducted by (merge field)</label><div class="box"><span class="merge" data-merge="contact"></span></div></div>
+    <div class="tagged" id="F-comm">
+      <div class="mono" style="color:var(--bronze-deep)">Field — Preferred communication</div>
+      <div class="field"><label>Language, mode and terms the participant prefers</label><div class="box">e.g. Auslan · plain English · large print · via sister (example entry)</div></div>
+      <button class="chip" data-jump="PR-2">← filled during Procedure step 2</button>
+      <button class="chip" data-jump="R-colD">→ recorded to the register</button>
+    </div>
+  </div>
+</section>
+
+<section class="pane" id="p5">
+  <div class="bar"><h2>5 · Register — Communication profiles</h2><span class="meta">REG-SEC-001 · example data</span></div>
+  <div class="body">
+    <table>
+      <thead><tr><th>Participant</th><th>Date recorded</th><th>Recorded by</th><th id="R-colD" class="tagged" style="border-left:4px solid var(--thread)">Preferred communication</th></tr></thead>
+      <tbody>
+        <tr><td>Participant A (example)</td><td>03/07/26</td><td>Example worker</td><td>Auslan · plain English</td></tr>
+        <tr><td>Participant B (example)</td><td>05/07/26</td><td>Example worker</td><td>Large print · via sister</td></tr>
+      </tbody>
+    </table>
+    <button class="chip" data-jump="L-s6-2" style="margin-top:12px">← this column is the evidence for the s 6 indicator</button>
+    <p class="note">In production, each register row is an evidence record with a date — this is what the auditor samples at Stage 2, and what the gap engine checks for recency.</p>
+  </div>
+</section>
+
+<footer>
+  <p><b>What is real here:</b> the standard's addresses (Schedule 1, clause 3 ↔ section 6) and the communication indicator's substance, verified against the instruments. <b>What is example:</b> every policy, procedure, form and register word — invented to demonstrate the linking, and labelled so. <b>What production adds:</b> the dashed slots fill with ingested authorised text (source manifest), and the gold chips are generated from the graph's typed links instead of being hand-written into the page.</p>
+</footer>
+</div>
+
+<script>
+const MERGE={org:"HenderCare (example)",contact:"Joe Fraeser (example)",review:"12 January 2026"};
+document.querySelectorAll("[data-merge]").forEach(el=>{el.textContent=MERGE[el.dataset.merge]||""});
+document.addEventListener("click",e=>{
+  const c=e.target.closest("[data-jump]");if(!c)return;
+  const t=document.getElementById(c.dataset.jump);if(!t)return;
+  t.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"});
+  t.classList.remove("flash");void t.offsetWidth;t.classList.add("flash");
+  setTimeout(()=>t.classList.remove("flash"),1700);
+});
+</script>
+</body>
+</html>

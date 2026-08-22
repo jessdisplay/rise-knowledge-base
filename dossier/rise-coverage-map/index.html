@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rise — Coverage map with descriptors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6ECCB;--ink:#22303F;--ink-soft:#6B6350;--line:#E0D5AE;
+--cell:#CFE8E2;--cellline:#9CC7BD;--cellink:#0E5B52;--flag:#9A6B15;--flag-bg:#FBF3DC;--focus:#4A3E8E}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Public Sans",Arial,system-ui,sans-serif;font-size:16px;line-height:1.6}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px 80px}
+header{padding:26px 0 8px}
+h1{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:clamp(24px,4.6vw,32px)}
+.sub{font-size:14.5px;color:var(--ink-soft);max-width:86ch;margin-top:6px}
+.honest{margin:12px 0 0;background:var(--flag-bg);border:1px solid #E3D3AC;border-radius:10px;padding:10px 13px;font-size:13.5px;color:#6B4E13}
+h2{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:20px;margin:26px 0 4px}
+h3{font-size:14px;font-weight:500;color:var(--ink-soft);margin:14px 0 8px}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.cell{position:relative;border:1.5px solid var(--cellline);background:var(--cell);color:var(--cellink);border-radius:10px;padding:9px 13px;font-family:ui-monospace,Menlo,monospace;cursor:default;text-align:left;font-size:14px}
+.cell b{font-weight:700;letter-spacing:.02em}
+.cell .s{display:block;font-size:12.5px;margin-top:2px;opacity:.85}
+.cell .st{margin-left:6px;font-weight:700}
+.cell.sil{background:#F5E4C0;border-color:#DFC08A;color:#8A5C10}
+.cell::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%);width:min(300px,84vw);background:var(--ink);color:#fff;font-family:"Public Sans",Arial,sans-serif;font-size:13px;line-height:1.5;padding:9px 11px;border-radius:9px;opacity:0;pointer-events:none;transition:opacity .12s;z-index:30;text-align:left}
+.cell:hover::after,.cell:focus-visible::after,.cell:focus::after{opacity:1}
+.cell:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.cell::after{transition:none}}
+footer{margin-top:36px;border-top:3px double var(--ink);padding-top:14px;font-size:13.5px;color:var(--ink-soft)}
+a{color:var(--focus)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>The map — hover or tap any cell for its descriptor</h1>
+  <p class="sub">Every cell now explains itself: standard name, its Rules address, and the plain one-line description — the same words used at Level 3, so the language stays one language. Hover with a mouse, or tap on touch; keyboard focus shows it too.</p>
+  <div class="honest"><b>Status honesty:</b> ✓ means verified in this session against the fetched instruments (Compilations of 15 Nov 2021, read 6–7 Jul 2026). The four SIL cells (–) are placeholders: a sister session recorded them at ss 72B–72E of Compilation C03; their names and Rules clauses are <i>not</i> verified here. This rebuild does not carry the sister map's "R register-confirmed 7 Jul" layer — that status lives in its own file. Verification pairs in the last module run in reverse (clause 3 ↔ s 77); each tooltip carries its own pairing. VER ordinals follow the register’s section-order convention (VER-1 = s 74) — confirmed from the register’s own records, 8 Jul 2026.</div>
+</header>
+
+<div id="map"></div>
+
+<footer>
+<p>Reference implementation for the descriptor pattern. The descriptor strings live in one data array in this file's source — lift them straight into the production map. Note for the real build: where tap already opens a cell's documents, keep hover + keyboard tooltips and repeat the descriptor as the heading of the opened panel, so touch users are never denied what mouse users get.</p>
+</footer>
+</div>
+
+<script>
+const S=[
+{h:"Core module",subs:[
+ {h:"Sch 1 Pt 2 — Rights and responsibilities",c:[
+  ["CORE-1.1","s 6","Person-centred supports — Sch 1 cl 3. People's rights are everyday practice, communication happens in ways each person understands, and chosen relationships are supported."],
+  ["CORE-1.2","s 7","Individual values and beliefs — Sch 1 cl 4. Each person's culture, values and beliefs are identified, respected and responded to."],
+  ["CORE-1.3","s 8","Privacy and dignity — Sch 1 cl 5. Privacy protected, confidentiality explained plainly, consent before personal information is collected."],
+  ["CORE-1.4","s 9","Independence and informed choice — Sch 1 cl 6. Informed choices, the right to take reasonable risks, time to decide, and an advocate if wanted."],
+  ["CORE-1.5","s 10","Freedom from violence, abuse, neglect, exploitation or discrimination — Sch 1 cl 7. Abuse actively prevented; every allegation acted on, recorded and learned from."]]},
+ {h:"Sch 1 Pt 3 — Provider governance and operational management",c:[
+  ["CORE-2.1","s 11","Governance and operational management — Sch 1 cl 9. A capable governing body, clear structure, written delegations, conflicts handled — with input from people with disability."],
+  ["CORE-2.2","s 12","Risk management — Sch 1 cl 10. A written risk system across the whole business, plus proper insurance."],
+  ["CORE-2.3","s 13","Quality management — Sch 1 cl 11. A quality system with internal audits and improvement driven by data and feedback."],
+  ["CORE-2.4","s 14","Information management — Sch 1 cl 12. Consent before collecting or sharing, accurate secure records, people can see and correct their own file."],
+  ["CORE-2.5","s 15","Complaints management and resolution — Sch 1 cl 13. A fair complaints system everyone knows how to use, including outside avenues."],
+  ["CORE-2.6","s 16","Incident management — Sch 1 cl 14. An incident system meeting the incident rules; people informed, workers trained, improvements made."],
+  ["CORE-2.7","s 17","Human resource management — Sch 1 cl 15. Workers checked, inducted, trained, supervised and managed — with records proving it."],
+  ["CORE-2.8","s 18","Continuity of supports — Sch 1 cl 16. Supports keep running; qualified cover for absences; changes agreed with the person."],
+  ["CORE-2.9","s 18A","Emergency and disaster management — Sch 1 cl 16A. Written, tested, reviewed emergency plans keep critical supports going."]]},
+ {h:"Sch 1 Pt 4 — Provision of supports",c:[
+  ["CORE-3.1","s 19","Access to supports — Sch 1 cl 18. Clear what exists, what it costs, when it could stop; no one loses support for a reasonable risk choice."],
+  ["CORE-3.2","s 20","Support planning — Sch 1 cl 19. Plans built with the person, risks written down, reviewed at least yearly, known by workers."],
+  ["CORE-3.3","s 21","Service agreements — Sch 1 cl 20. A clear written agreement each person understands and signs."],
+  ["CORE-3.4","s 22","Responsive support provision — Sch 1 cl 21. Least-intrusive supports that work, by trained workers, with the person choosing who supports them."],
+  ["CORE-3.5","s 23","Transitions to and from a provider — Sch 1 cl 22. Every entry and exit planned, documented, risk-assessed and managed."]]},
+ {h:"Sch 1 Pt 5 — Support provision environment",c:[
+  ["CORE-4.1","s 24","Safe environment — Sch 1 cl 24. Safe settings everywhere: identifiable workers, emergency protocols, infection control."],
+  ["CORE-4.2","s 25","Participant money and property — Sch 1 cl 25. Money and property protected and used only as the person intends."],
+  ["CORE-4.3","s 26","Medication management — Sch 1 cl 26. Accurate medicine records, safe storage, workers who know side-effects and what to do."],
+  ["CORE-4.4","s 26A","Mealtime management — Sch 1 cl 26A. Professional swallowing checks, individual mealtime plans, trained workers, safe correct-texture meals."],
+  ["CORE-4.5","s 27","Waste management — Sch 1 cl 27. Safe handling and disposal of waste and dangerous substances, trained workers, an emergency plan."]]}]},
+{h:"Module 1 — high intensity daily personal activities",c:[
+ ["M1-1","s 29","Complex bowel care — Sch 2 cl 3. Practitioner-reviewed plan, written procedures, workers trained to the official skills level."],
+ ["M1-2","s 30","Enteral feeding and management — Sch 2 cl 4. Plan, procedures and training specific to each person's feeding method."],
+ ["M1-3","s 30A","Severe dysphagia management — Sch 2 cl 4A. People identified and professionally assessed; workers trained for their plan."],
+ ["M1-4","s 31","Tracheostomy management — Sch 2 cl 5. Plan, procedures and trained workers for tracheostomy care and suctioning."],
+ ["M1-5","s 32","Urinary catheter management — Sch 2 cl 6. Plan, procedures and trained workers for each catheter type."],
+ ["M1-6","s 33","Ventilator management — Sch 2 cl 7. Plan, procedures and trained workers specific to the ventilator used."],
+ ["M1-7","s 34","Subcutaneous injections — Sch 2 cl 8. All of the above plus written or phone orders from the prescriber."],
+ ["M1-8","s 35","Complex wound management — Sch 2 cl 9. Plan, procedures, trained workers; how wound care affects daily supports."]]},
+{h:"Module 2 — specialist behaviour support",c:[
+ ["M2-1","s 38","Behaviour support in the NDIS — Sch 3 cl 3. Suitable practitioners, ongoing learning, supervision, a real push to reduce restrictive practices."],
+ ["M2-2","s 39","Regulated restrictive practices — Sch 3 cl 4. Only lawful, permitted use after honest discussion, with a plan to reduce and end them."],
+ ["M2-3","s 40","Behaviour support plans — Sch 3 cl 5. Proper assessments feeding evidence-based plans, lodged with the Commission when needed."],
+ ["M2-4","s 41","Supporting implementation — Sch 3 cl 6. Frontline providers trained, coached and supported so the plan works in real life."],
+ ["M2-5","s 42","Plan monitoring and review — Sch 3 cl 7. Progress watched, plans reviewed at least yearly, the Commission told of changes."],
+ ["M2-6","s 43","Reportable incidents (restrictive practices) — Sch 3 cl 8. Help respond to emergency or unpermitted use; include the person in review."],
+ ["M2-7","s 44","Interim behaviour support plans — Sch 3 cl 9. A fast temporary plan when support is needed urgently."]]},
+{h:"Module 2A — implementing behaviour support plans",c:[
+ ["M2A-1","s 47","Behaviour support in the NDIS — Sch 4 cl 3. Know the laws, understand the evidence, commit to reducing restrictive practices."],
+ ["M2A-2","s 48","Regulated restrictive practices — Sch 4 cl 4. Used only with permission, exactly as plan and rules allow, recorded and reported."],
+ ["M2A-3","s 49","Supporting assessment and development — Sch 4 cl 5. Help the specialist gather information and build each plan."],
+ ["M2A-4","s 50","Supporting implementation — Sch 4 cl 6. Written procedures plus trained, supervised workers delivering consistently."],
+ ["M2A-5","s 51","Monitoring and reporting use — Sch 4 cl 7. Every use reported monthly to the Commission; the data used to improve."],
+ ["M2A-6","s 52","Plan monitoring and review — Sch 4 cl 8. Track how the plan goes; feed reviews aimed at reducing restrictions."],
+ ["M2A-7","s 53","Reportable incidents (restrictive practices) — Sch 4 cl 9. Medical check, Commission told, written debrief, supports fixed, person included."],
+ ["M2A-8","s 54","Interim behaviour support plans — Sch 4 cl 10. Cooperate quickly on temporary plans, with trained workers."]]},
+{h:"Module 3 — early childhood supports",c:[
+ ["M3-1","s 56","The child — Sch 5 cl 3. Children's rights and safety first, including the legal duty to report harm."],
+ ["M3-2","s 57","The family — Sch 5 cl 4. Real partnership: the family's knowledge, culture and routines shape the plan."],
+ ["M3-3","s 58","Inclusion — Sch 5 cl 5. Skills built through everyday routines and real community settings."],
+ ["M3-4","s 59","Collaboration — Sch 5 cl 6. One coordinated team around each child, sharing with consent."],
+ ["M3-5","s 60","Capacity building — Sch 5 cl 7. Families and supporters coached so gains continue between sessions."],
+ ["M3-6","s 61","Evidence-informed supports — Sch 5 cl 8. Proven, research-based methods from practitioners who stay current."],
+ ["M3-7","s 62","Outcome based approach — Sch 5 cl 9. Useful goals set with the family, measured, reported plainly."]]},
+{h:"Module 4 — specialised support coordination",c:[
+ ["M4-1","s 64","Specialised support coordination — Sch 6 cl 3. Risks understood, crises planned for, good providers chosen, reporting on track."],
+ ["M4-2","s 65","Management of supports — Sch 6 cl 4. Plan money spent only as directed; options explained; self-management built up."],
+ ["M4-3","s 66","Conflict of interest — Sch 6 cl 5. Policies explained plainly, interests declared, every referral written down."]]},
+{h:"Module 5 — specialist disability accommodation",c:[
+ ["M5-1","s 68","Rights and responsibilities — Sch 7 cl 3. Housing access consistent with rights; understandable agreements; privacy at home."],
+ ["M5-2","s 69","Conflict of interest — Sch 7 cl 4. An understandable policy, conflicts recorded and managed, separate agreements when the landlord also supports."],
+ ["M5-3","s 70","Service agreements with participants — Sch 7 cl 5. A written tenancy-style agreement, understood and signed."],
+ ["M5-4","s 71","Enrolment of SDA dwellings — Sch 7 cl 6. The home matches its approved design, stays legal, kept in good repair. (Guidelines title: SDA Properties.)"],
+ ["M5-5","s 72","Tenancy management — Sch 7 cl 7. Fair vacancies, written arrangements with support providers, action on abuse, lawful notices."]]},
+{h:"Verification module — pairs run in reverse",c:[
+ ["VER-1","s 74","Human resource management — Sch 8 cl 6 ↔ s 74. Proof of who workers are: checks, qualifications, orientation, ongoing learning."],
+ ["VER-2","s 75","Incident management — Sch 8 cl 5 ↔ s 75. An incident management system that meets the incident rules."],
+ ["VER-3","s 76","Complaints management and resolution — Sch 8 cl 4 ↔ s 76. A fair complaints system that meets the complaints rules."],
+ ["VER-4","s 77","Risk management — Sch 8 cl 3 ↔ s 77 (reverse clause pairing). A written risk system covering safety, emergencies, infection control, plus insurance."]]},
+{h:"Supported independent living — placeholders",c:[
+ ["SIL-1","s 72B","Supported independent living standard — recorded at s 72B of Compilation C03 in a sister session. Name and Rules clause NOT verified here.","sil"],
+ ["SIL-2","s 72C","Supported independent living standard — recorded at s 72C (sister session). NOT verified here.","sil"],
+ ["SIL-3","s 72D","Supported independent living standard — recorded at s 72D (sister session). NOT verified here.","sil"],
+ ["SIL-4","s 72E","Supported independent living standard — recorded at s 72E (sister session). NOT verified here.","sil"]]}
+];
+const map=document.getElementById("map");
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
+function cells(list){
+  return '<div class="row">'+list.map(c=>{
+    const sil=c[3]==="sil";
+    return '<button type="button" class="cell'+(sil?' sil':'')+'" data-tip="'+esc(c[2])+'" aria-label="'+esc(c[0]+", "+c[1]+". "+c[2])+'"><b>'+c[0]+'</b><span class="st">'+(sil?'–':'✓')+'</span><span class="s">'+c[1]+'</span></button>';
+  }).join('')+'</div>';
+}
+S.forEach(sec=>{
+  let html='<h2>'+esc(sec.h)+'</h2>';
+  if(sec.subs)sec.subs.forEach(sub=>{html+='<h3>'+esc(sub.h)+'</h3>'+cells(sub.c);});
+  else html+=cells(sec.c);
+  map.insertAdjacentHTML("beforeend",html);
+});
+if(location.protocol==="file:"){const d=document.createElement("div");d.className="honest";d.innerHTML="<b>Tip: keep the files together.</b> This page is part of a set — keep all Rise files in one folder.";document.querySelector("header").appendChild(d);}
+</script>
+</body>
+</html>

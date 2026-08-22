@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rise — Level 3: The standards in plain words</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6F5F1;--card:#fff;--ink:#22303F;--ink-soft:#5A6B82;--line:#DDD9CF;
+--teal:#0E5B52;--teal-bg:#E2F0ED;--rules:#4A3E8E;--rules-bg:#EDEBF7;--flag:#9A6B15;--flag-bg:#F7EEDC;--focus:#4A3E8E}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Public Sans",Arial,system-ui,sans-serif;font-size:17px;line-height:1.6}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px 80px}
+header{padding:24px 0 8px}
+.eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase}
+h1{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:clamp(25px,5.6vw,34px);margin:6px 0 8px}
+.lede{font-size:18px;max-width:40ch}
+.honest{margin:12px 0 0;background:var(--flag-bg);border:1px solid #E3D3AC;border-radius:10px;padding:11px 13px;font-size:14px;color:#6B4E13;line-height:1.55}
+.lvls{display:flex;gap:6px;overflow-x:auto;padding:12px 0;position:sticky;top:0;background:var(--paper);z-index:6;border-bottom:1px solid var(--line);-webkit-overflow-scrolling:touch}
+.lvls a{flex:none;border:1.5px solid var(--ink-soft);color:var(--ink);background:#fff;border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;text-decoration:none}
+.lvls a.now{background:var(--ink);border-color:var(--ink);color:#fff}
+.lvls a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 4px}
+.chip{border:1.5px solid var(--teal);background:#fff;color:var(--teal);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit}
+.chip[aria-pressed="true"]{background:var(--teal);color:#fff}
+.chip:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.grp{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:19px;margin:22px 0 4px}
+.div{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin:12px 0 2px}
+details.std{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:8px 0}
+details.std>summary{list-style:none;cursor:pointer;padding:13px 14px}
+details.std>summary::-webkit-details-marker{display:none}
+details.std>summary:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:12px}
+.sname{font-weight:600;font-size:17px}
+.sline{font-size:15.5px;color:var(--ink-soft);margin-top:3px;max-width:52ch}
+.panel{border-top:1px dashed var(--line);padding:12px 14px;background:#FBFAF7;border-radius:0 0 12px 12px;font-size:15px}
+.addr{display:inline-flex;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;border-radius:6px;overflow:hidden;margin:4px 0}
+.addr span{padding:3px 9px}
+.addr .r{background:var(--rules-bg);color:var(--rules)}
+.addr .q{background:var(--teal-bg);color:var(--teal)}
+.panel p{margin:6px 0;color:var(--ink-soft);max-width:52ch}
+.deeper{margin-top:8px;display:flex;gap:10px;flex-wrap:wrap}
+.deeper a{display:inline-block;background:#fff;border:1.5px solid var(--rules);color:var(--rules);border-radius:999px;padding:7px 13px;font-size:14px;font-weight:600;text-decoration:none}
+footer{margin-top:36px;border-top:3px double var(--ink);padding-top:14px;font-size:14px;color:var(--ink-soft)}
+a{color:var(--rules)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Rise · level 3</div>
+  <h1>The standards, in plain words</h1>
+  <p class="lede">Here is every rule, one plain sentence each. Tap a rule to see where it lives in the law.</p>
+  <div class="honest"><b>Honest label:</b> the plain sentences are faithful summaries — they are never the legal text. The addresses under each rule are verified from the law itself. The four SIL standards from 2026 are not here yet; that gap is real and stated. Wording is draft pending Easy Read co-design.</div>
+  <div class="honest" id="folderTip" hidden><b>Tip: keep the files together.</b> This page is part of a set. All the Rise files need to live in one folder. If a button says the file cannot be found, unzip <b>rise-project-site.zip</b> into this folder first.</div>
+</header>
+
+<nav class="lvls" aria-label="Levels"><a href='/rise-front-door'>0–1 · Nine steps</a><a href='/rise-your-world'>2 · Your world</a><a class="now" href="#" aria-current="page">3 · Plain words</a><a href='/rise-level-4-threads'>4 · The thread</a><a href='/rise-level-5-letter'>5 · The letter</a><a href='/rise-level-6-graph'>6 · The machine</a></nav>
+
+<div class="chips" id="chips" role="group" aria-label="Show one module"></div>
+<main id="list"></main>
+
+<footer>
+<p>New at this level: the rules themselves. One level up trims the rulebook to you; one level down — <a href='/rise-level-4-threads'>Level 4</a> — connects each rule to your own documents. Prototype note: this page embeds its own copy of the verified data — production renders every level from the one graph (design law 1). Dual official titles and search live in the <a href='/rise-standards-navigator'>navigator</a>.</p>
+</footer>
+
+<script>
+const MODS=[
+ {k:"CORE",label:"Core module"},{k:"M1",label:"Module 1 — complex care"},{k:"M2",label:"Module 2 — writing behaviour plans"},{k:"M2A",label:"Module 2A — using behaviour plans"},{k:"M3",label:"Module 3 — early childhood"},{k:"M4",label:"Module 4 — coordination"},{k:"M5",label:"Module 5 — housing"},{k:"M6",label:"Verification — lower risk"}];
+const D=[
+ {m:"CORE",div:"Rights and responsibilities",rt:"Person-centred supports",ra:"Sch 1 · cl 3",qa:"s 6",p:"People's rights are everyday practice, communication happens in ways each person understands, and their chosen relationships are supported."},
+ {m:"CORE",div:"Rights and responsibilities",rt:"Individual values and beliefs",ra:"Sch 1 · cl 4",qa:"s 7",p:"Each person's culture, values and beliefs are identified, respected and responded to."},
+ {m:"CORE",div:"Rights and responsibilities",rt:"Privacy and dignity",ra:"Sch 1 · cl 5",qa:"s 8",p:"Privacy and dignity are protected, confidentiality is explained plainly, and consent comes before personal information is collected."},
+ {m:"CORE",div:"Rights and responsibilities",rt:"Independence and informed choice",ra:"Sch 1 · cl 6",qa:"s 9",p:"People make informed choices, keep the right to take reasonable risks, get time to decide, and can bring an advocate."},
+ {m:"CORE",div:"Rights and responsibilities",rt:"Freedom from violence, abuse, neglect, exploitation or discrimination",ra:"Sch 1 · cl 7",qa:"s 10",p:"Policies actively prevent abuse; any allegation is acted on, recorded, reviewed, and used to stop it happening again."},
+ {m:"CORE",div:"Governance and operational management",rt:"Governance and operational management",ra:"Sch 1 · cl 9",qa:"s 11",p:"A capable governing body with clear structure, the right skills, written delegations and conflict-of-interest handling — with input from people with disability."},
+ {m:"CORE",div:"Governance and operational management",rt:"Risk management",ra:"Sch 1 · cl 10",qa:"s 12",p:"A written risk system that finds, weighs and treats risks across the whole business, plus proper insurance."},
+ {m:"CORE",div:"Governance and operational management",rt:"Quality management",ra:"Sch 1 · cl 11",qa:"s 13",p:"A quality system with internal audits and improvement driven by data and feedback."},
+ {m:"CORE",div:"Governance and operational management",rt:"Information management",ra:"Sch 1 · cl 12",qa:"s 14",p:"Consent before collecting or sharing personal information, accurate and secure records, and people able to see and correct their own file."},
+ {m:"CORE",div:"Governance and operational management",rt:"Complaints management and resolution",ra:"Sch 1 · cl 13",qa:"s 15",p:"A fair complaints system everyone is told how to use — including outside avenues — with trained staff and lessons applied."},
+ {m:"CORE",div:"Governance and operational management",rt:"Incident management",ra:"Sch 1 · cl 14",qa:"s 16",p:"An incident system that meets the incident rules, with people kept informed, workers trained, and improvements made."},
+ {m:"CORE",div:"Governance and operational management",rt:"Human resource management",ra:"Sch 1 · cl 15",qa:"s 17",p:"Workers are properly checked, inducted, trained, supervised and managed — with records proving all of it."},
+ {m:"CORE",div:"Governance and operational management",rt:"Continuity of supports",ra:"Sch 1 · cl 16",qa:"s 18",p:"Supports keep running without interruption, qualified people cover absences, and any unavoidable change is agreed with the person."},
+ {m:"CORE",div:"Governance and operational management",rt:"Emergency and disaster management",ra:"Sch 1 · cl 16A",qa:"s 18A",p:"Written, tested, regularly reviewed emergency plans keep critical supports going — made with participants and trained into workers."},
+ {m:"CORE",div:"Provision of supports",rt:"Access to supports",ra:"Sch 1 · cl 18",qa:"s 19",p:"It is clear what supports exist, what they cost, and when they could stop — and nobody loses support for making a reasonable risk choice."},
+ {m:"CORE",div:"Provision of supports",rt:"Support planning",ra:"Sch 1 · cl 19",qa:"s 20",p:"Each plan is built with the person, risks are assessed and written down, the plan is reviewed at least yearly, and workers know it."},
+ {m:"CORE",div:"Provision of supports",rt:"Service agreements",ra:"Sch 1 · cl 20",qa:"s 21",p:"A clear written agreement each person understands and signs — including who does what when housing and daily supports come from different providers."},
+ {m:"CORE",div:"Provision of supports",rt:"Responsive support provision",ra:"Sch 1 · cl 21",qa:"s 22",p:"The least-intrusive supports that work, delivered by trained workers, with the person helping choose who supports them."},
+ {m:"CORE",div:"Provision of supports",rt:"Transitions to and from a provider",ra:"Sch 1 · cl 22",qa:"s 23",p:"Every entry and exit is planned, written down, risk-assessed and managed."},
+ {m:"CORE",div:"Support provision environment",rt:"Safe environment",ra:"Sch 1 · cl 24",qa:"s 24",p:"Safe settings everywhere: identifiable workers, medical-emergency plans, infection control, cleaning and protective equipment."},
+ {m:"CORE",div:"Support provision environment",rt:"Participant money and property",ra:"Sch 1 · cl 25",qa:"s 25",p:"People's money and property are protected, used only as they intend, and nobody gives financial advice beyond the plan."},
+ {m:"CORE",div:"Support provision environment",rt:"Medication management",ra:"Sch 1 · cl 26",qa:"s 26",p:"Accurate medicine records, safe storage, and workers who know the side-effects and what to do if something goes wrong."},
+ {m:"CORE",div:"Support provision environment",rt:"Mealtime management",ra:"Sch 1 · cl 26A",qa:"s 26A",p:"Professional swallowing and nutrition checks, individual mealtime plans, trained workers, and safely prepared correct-texture meals."},
+ {m:"CORE",div:"Support provision environment",rt:"Waste management",ra:"Sch 1 · cl 27",qa:"s 27",p:"Safe handling and disposal of waste and dangerous substances, trained workers, and an emergency plan."},
+ {m:"M1",rt:"Complex bowel care",ra:"Sch 2 · cl 3",qa:"s 29",p:"A practitioner-reviewed personal plan, written procedures, and workers trained to the official skills level for this care."},
+ {m:"M1",rt:"Enteral (tube) feeding and management",ra:"Sch 2 · cl 4",qa:"s 30",p:"The same plan, procedures and training — specific to each person's feeding method."},
+ {m:"M1",rt:"Severe dysphagia management",ra:"Sch 2 · cl 4A",qa:"s 30A",p:"People who need it are identified, professionally assessed, and supported by workers trained for their plan and preferences."},
+ {m:"M1",rt:"Tracheostomy management",ra:"Sch 2 · cl 5",qa:"s 31",p:"Plan, procedures and trained workers for tracheostomy care and suctioning."},
+ {m:"M1",rt:"Urinary catheter management",ra:"Sch 2 · cl 6",qa:"s 32",p:"Plan, procedures and trained workers for each catheter type."},
+ {m:"M1",rt:"Ventilator management",ra:"Sch 2 · cl 7",qa:"s 33",p:"Plan, procedures and trained workers specific to the ventilator used."},
+ {m:"M1",rt:"Subcutaneous injections",ra:"Sch 2 · cl 8",qa:"s 34",p:"All of the above plus written or phone orders from the prescribing health practitioner."},
+ {m:"M1",rt:"Complex wound management",ra:"Sch 2 · cl 9",qa:"s 35",p:"Plan, procedures and trained workers, covering how the wound care affects daily supports."},
+ {m:"M2",rt:"Behaviour support in the NDIS",ra:"Sch 3 · cl 3",qa:"s 38",p:"Suitable practitioners, ongoing learning, clinical supervision, and a real push to reduce restrictive practices."},
+ {m:"M2",rt:"Regulated restrictive practices",ra:"Sch 3 · cl 4",qa:"s 39",p:"Restrictive practices only ever used lawfully, with permission, after honest discussion — with a plan to reduce and end them."},
+ {m:"M2",rt:"Behaviour support plans",ra:"Sch 3 · cl 5",qa:"s 40",p:"Proper assessments feeding evidence-based plans, made with the people who will use them, and lodged with the Commission when needed."},
+ {m:"M2",rt:"Supporting the implementation of a behaviour support plan",ra:"Sch 3 · cl 6",qa:"s 41",p:"The frontline providers are trained, coached and supported so the plan works in real life."},
+ {m:"M2",rt:"Behaviour support plan monitoring and review",ra:"Sch 3 · cl 7",qa:"s 42",p:"Progress watched through data and check-ins, plans reviewed at least yearly, the Commission told of changes or problems."},
+ {m:"M2",rt:"Reportable incidents involving a regulated restrictive practice",ra:"Sch 3 · cl 8",qa:"s 43",p:"Help respond when a practice is used in an emergency or without permission, and include the person in the review."},
+ {m:"M2",rt:"Interim behaviour support plans",ra:"Sch 3 · cl 9",qa:"s 44",p:"When support is needed urgently, a fast temporary plan that manages the risk."},
+ {m:"M2A",rt:"Behaviour support in the NDIS",ra:"Sch 4 · cl 3",qa:"s 47",p:"Know the behaviour-support laws, understand the evidence, and commit to reducing restrictive practices."},
+ {m:"M2A",rt:"Regulated restrictive practices",ra:"Sch 4 · cl 4",qa:"s 48",p:"Regulated practices used only with permission, exactly as the plan and rules allow, written down and reported."},
+ {m:"M2A",rt:"Supporting the assessment and development of behaviour support plans",ra:"Sch 4 · cl 5",qa:"s 49",p:"Help the specialist gather information and build each plan, with workers skilled enough to contribute."},
+ {m:"M2A",rt:"Supporting the implementation of a behaviour support plan",ra:"Sch 4 · cl 6",qa:"s 50",p:"Written procedures plus trained, supervised workers who deliver the plan the same way every time."},
+ {m:"M2A",rt:"Monitoring and reporting the use of regulated restrictive practices",ra:"Sch 4 · cl 7",qa:"s 51",p:"Every use reported to the Commission monthly, with the data used to improve."},
+ {m:"M2A",rt:"Behaviour support plan monitoring and review",ra:"Sch 4 · cl 8",qa:"s 52",p:"Track how the plan is going, keep the records, and feed reviews aimed at reducing restrictions."},
+ {m:"M2A",rt:"Reportable incidents involving a regulated restrictive practice",ra:"Sch 4 · cl 9",qa:"s 53",p:"After any emergency or unpermitted use: medical check, tell the Commission, written debrief, fix the supports, include the person."},
+ {m:"M2A",rt:"Interim behaviour support plans",ra:"Sch 4 · cl 10",qa:"s 54",p:"Cooperate quickly on temporary plans, with workers trained to deliver them."},
+ {m:"M3",rt:"The child",ra:"Sch 5 · cl 3",qa:"s 56",p:"Children's rights and safety come first, including the legal duty to report harm, and continuity of support."},
+ {m:"M3",rt:"The family",ra:"Sch 5 · cl 4",qa:"s 57",p:"Real partnership with the family — their knowledge, culture, strengths and routines shape the plan."},
+ {m:"M3",rt:"Inclusion",ra:"Sch 5 · cl 5",qa:"s 58",p:"Skills built through everyday routines and real community settings, not clinics alone."},
+ {m:"M3",rt:"Collaboration",ra:"Sch 5 · cl 6",qa:"s 59",p:"One coordinated team around each child, sharing information with the family's consent."},
+ {m:"M3",rt:"Capacity building",ra:"Sch 5 · cl 7",qa:"s 60",p:"The family and other supporters are coached so gains continue between sessions."},
+ {m:"M3",rt:"Evidence-informed supports",ra:"Sch 5 · cl 8",qa:"s 61",p:"Proven, research-based methods delivered by practitioners who keep their skills current."},
+ {m:"M3",rt:"Outcome based approach",ra:"Sch 5 · cl 9",qa:"s 62",p:"Useful goals set with the family, written down, measured, and reported in words the family understands."},
+ {m:"M4",rt:"Specialised support coordination",ra:"Sch 6 · cl 3",qa:"s 64",p:"Each person's risks are understood, crises are planned for with them, good providers are chosen, and reporting duties stay on track."},
+ {m:"M4",rt:"Management of supports",ra:"Sch 6 · cl 4",qa:"s 65",p:"Plan money spent only as the person directs, options explained plainly, and their ability to self-manage built up."},
+ {m:"M4",rt:"Conflict of interest",ra:"Sch 6 · cl 5",qa:"s 66",p:"Conflict-of-interest policies explained plainly, any interest declared, and every referral written down."},
+ {m:"M5",rt:"Rights and responsibilities",ra:"Sch 7 · cl 3",qa:"s 68",p:"Housing access consistent with the person's rights, understandable agreements, and respect for privacy and independence at home."},
+ {m:"M5",rt:"Conflict of interest",ra:"Sch 7 · cl 4",qa:"s 69",p:"A conflict-of-interest policy people can understand, conflicts written down and managed, and separate agreements when the landlord also gives supports."},
+ {m:"M5",rt:"Service agreements with participants",ra:"Sch 7 · cl 5",qa:"s 70",p:"A written tenancy-style agreement covering rent, bond, notice, repairs and safety — understood and signed."},
+ {m:"M5",rt:"Enrolment of specialist disability accommodation dwellings",ra:"Sch 7 · cl 6",qa:"s 71",p:"The home matches its approved design type, stays legal, and is kept in good repair."},
+ {m:"M5",rt:"Tenancy management",ra:"Sch 7 · cl 7",qa:"s 72",p:"Fair vacancy processes, written arrangements with the daily-support providers, action on any abuse, lawful notices, everything explained plainly."},
+ {m:"M6",rt:"Risk management",ra:"Sch 8 · cl 3",qa:"s 77",p:"A written risk system covering safety, emergencies and infection control, plus proper insurance."},
+ {m:"M6",rt:"Complaints management and resolution",ra:"Sch 8 · cl 4",qa:"s 76",p:"A fair complaints system that meets the complaints rules."},
+ {m:"M6",rt:"Incident management",ra:"Sch 8 · cl 5",qa:"s 75",p:"An incident management system that meets the incident rules."},
+ {m:"M6",rt:"Human resource management",ra:"Sch 8 · cl 6",qa:"s 74",p:"Proof of who your workers are: checks, qualifications, orientation, ongoing learning and infection-control training."}
+];
+let mod="CORE";
+const chips=document.getElementById("chips"),list=document.getElementById("list");
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function render(){
+  list.innerHTML="";
+  const M=MODS.find(x=>x.k===mod);
+  const items=D.filter(d=>d.m===mod);
+  const sec=document.createElement("section");
+  sec.innerHTML='<div class="grp">'+esc(M.label)+' · '+items.length+' rules</div>';
+  let lastDiv="";
+  items.forEach(d=>{
+    if(d.div&&d.div!==lastDiv){lastDiv=d.div;const h=document.createElement("div");h.className="div";h.textContent=d.div;sec.appendChild(h);}
+    const el=document.createElement("details");el.className="std";
+    el.innerHTML='<summary><div class="sname">'+esc(d.rt)+'</div><p class="sline">'+esc(d.p)+'</p></summary>'+
+    '<div class="panel"><p><b>Where it lives in the law:</b></p><span class="addr"><span class="r">'+d.ra+'</span><span class="q">'+d.qa+'</span></span>'+
+    '<p>The purple half is the rule in the Rules 2018. The teal half is its checklist in the Quality Indicators Guidelines. Level 5 explains how to read these.</p>'+
+    '<div class="deeper"><a href="rise-level-4-threads.html">Level 4: connect it to your documents</a><a href="rise-graph-explorer.html" target="_blank" rel="noopener">See it in the full tree</a></div></div>';
+    sec.appendChild(el);
+  });
+  list.appendChild(sec);
+}
+MODS.forEach(M=>{
+  const b=document.createElement("button");b.className="chip";b.textContent=M.label.split(" — ")[0];b.setAttribute("aria-pressed",M.k===mod);
+  b.onclick=()=>{mod=M.k;document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");render();};
+  chips.appendChild(b);
+});
+render();
+if(location.protocol==="file:")document.getElementById("folderTip").hidden=false;
+</script>
+</body>
+</html>

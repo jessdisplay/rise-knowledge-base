@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rise — Level 5: The letter of the law</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6F5F1;--card:#fff;--ink:#22303F;--ink-soft:#5A6B82;--line:#DDD9CF;
+--teal:#0E5B52;--teal-bg:#E2F0ED;--rules:#4A3E8E;--rules-bg:#EDEBF7;--flag:#9A6B15;--flag-bg:#F7EEDC;--focus:#4A3E8E}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Public Sans",Arial,system-ui,sans-serif;font-size:17px;line-height:1.65}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px 80px}
+header{padding:24px 0 8px}
+.eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase}
+h1{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:clamp(25px,5.6vw,34px);margin:6px 0 8px}
+.lede{font-size:18px;max-width:40ch}
+.honest{margin:12px 0 0;background:var(--flag-bg);border:1px solid #E3D3AC;border-radius:10px;padding:11px 13px;font-size:14px;color:#6B4E13;line-height:1.55}
+.lvls{display:flex;gap:6px;overflow-x:auto;padding:12px 0;position:sticky;top:0;background:var(--paper);z-index:6;border-bottom:1px solid var(--line)}
+.lvls a{flex:none;border:1.5px solid var(--ink-soft);color:var(--ink);background:#fff;border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;text-decoration:none}
+.lvls a.now{background:var(--ink);border-color:var(--ink);color:#fff}
+h2{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:21px;margin:26px 0 8px}
+p{max-width:46ch;margin:8px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin:10px 0}
+.addr{display:inline-flex;font-family:ui-monospace,Menlo,monospace;font-size:15px;border-radius:8px;overflow:hidden;margin:6px 0}
+.addr span{padding:7px 13px}
+.addr .r{background:var(--rules-bg);color:var(--rules)}
+.addr .q{background:var(--teal-bg);color:var(--teal)}
+.ann{font-size:14.5px;color:var(--ink-soft);max-width:46ch}
+.ann b.pr{color:var(--rules)} .ann b.pq{color:var(--teal)}
+.deeper{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.deeper a{display:inline-block;background:#fff;border:1.5px solid var(--rules);color:var(--rules);border-radius:999px;padding:8px 14px;font-size:14.5px;font-weight:600;text-decoration:none}
+footer{margin-top:36px;border-top:3px double var(--ink);padding-top:14px;font-size:14px;color:var(--ink-soft)}
+a{color:var(--rules)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Rise · level 5</div>
+  <h1>The letter of the law</h1>
+  <p class="lede">Now the exact words. This level teaches you to read a legal address like a street address.</p>
+  <div class="honest"><b>Honest label:</b> Rise never retypes the law. The exact wording lives at the Federal Register of Legislation, and the tools below link to it. Everything on this page about how addresses work was verified from the instruments themselves.</div>
+  <div class="honest" id="folderTip" hidden><b>Tip: keep the files together.</b> This page is part of a set. All the Rise files need to live in one folder. If a button says the file cannot be found, unzip <b>rise-project-site.zip</b> into this folder first.</div>
+</header>
+
+<nav class="lvls" aria-label="Levels"><a href='/rise-front-door'>0–1 · Nine steps</a><a href='/rise-your-world'>2 · Your world</a><a href='/rise-level-3-standards'>3 · Plain words</a><a href='/rise-level-4-threads'>4 · The thread</a><a class="now" href="#" aria-current="page">5 · The letter</a><a href='/rise-level-6-graph'>6 · The machine</a></nav>
+
+<h2>Every rule has an address</h2>
+<div class="card">
+<span class="addr"><span class="r">Sch 7 · cl 4</span><span class="q">s 69</span></span>
+<p class="ann"><b class="pr">The purple half</b> says where the rule lives: Schedule 7 (attachment number 7 at the back of the Rules 2018), clause 4 (numbered paragraph 4). <b class="pq">The teal half</b> says where its checklist lives: section 69 of the Quality Indicators Guidelines — the things an auditor looks for. The pairing isn't a guess: the law itself contains a table matching every clause to its section.</p>
+</div>
+
+<h2>Why some rules have two names</h2>
+<p>The two documents were written by different hands. Eight rules carry a slightly different title in each — one says "dwellings" where the other says "Properties". Both are official. Rise keeps both and tells you which document each name comes from.</p>
+
+<h2>Why the version date matters</h2>
+<p>Laws get amended. A "compilation" is the stitched-together current version. The Rules themselves say the checklist "as existing from time to time" applies — which means <b>the current version always wins</b>. Anything you read carries the date it was checked, and this framework changed twice in 2026 alone.</p>
+
+<h2>How an auditor reads it</h2>
+<p>They read the clause, open the matching section, and turn each checklist line into a question: show me the document, let me talk to your people, let me sample your records. Five steps, drawn in the atlas.</p>
+
+<div class="deeper"><a href='/rise-standards-navigator' rel='noopener' target='_blank'>Search every address (navigator)</a><a href='/rise-graph-explorer' rel='noopener' target='_blank'>The full tree with the law linked</a><a href='/rise-visual-atlas' rel='noopener' target='_blank'>The auditor's five steps, drawn</a><a href='/references' rel='noopener' target='_blank'>Where every fact came from</a><a href='/rise-level-6-graph'>Level 6: the machine →</a></div>
+
+<footer>
+<p>New at this level: precision — exact addresses, exact names, exact dates. One level down (Level 6) shows the machine that keeps all of it connected and honest. Known gap, stated as always: the four SIL rules from 2026 are not in the verified set behind these tools.</p>
+</footer>
+</div>
+<script>if(location.protocol==="file:")document.getElementById("folderTip").hidden=false;</script>
+</body>
+</html>

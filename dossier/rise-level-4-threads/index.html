@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rise — Level 4: The golden thread</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6F5F1;--card:#fff;--ink:#22303F;--ink-soft:#5A6B82;--line:#DDD9CF;
+--teal:#0E5B52;--teal-bg:#E2F0ED;--coral:#9A3F23;--coral-bg:#FBE7E0;--flag:#9A6B15;--flag-bg:#F7EEDC;
+--ok:#1D6E4B;--ok-bg:#E3F0E8;--red:#9A2B23;--red-bg:#F9E3E1;--amber:#8A5C10;--amber-bg:#F9EED8;--rules:#4A3E8E;--focus:#4A3E8E}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Public Sans",Arial,system-ui,sans-serif;font-size:17px;line-height:1.65}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px 80px}
+header{padding:24px 0 8px}
+.eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase}
+h1{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:clamp(25px,5.6vw,34px);margin:6px 0 8px}
+.lede{font-size:18px;max-width:40ch}
+.honest{margin:12px 0 0;background:var(--flag-bg);border:1px solid #E3D3AC;border-radius:10px;padding:11px 13px;font-size:14px;color:#6B4E13;line-height:1.55}
+.lvls{display:flex;gap:6px;overflow-x:auto;padding:12px 0;position:sticky;top:0;background:var(--paper);z-index:6;border-bottom:1px solid var(--line)}
+.lvls a{flex:none;border:1.5px solid var(--ink-soft);color:var(--ink);background:#fff;border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;text-decoration:none}
+.lvls a.now{background:var(--ink);border-color:var(--ink);color:#fff}
+h2{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:21px;margin:24px 0 8px}
+p{max-width:44ch}
+.rule{background:var(--teal-bg);border:1px solid #B7D9D3;border-radius:12px;padding:13px 15px;margin:12px 0}
+.rule b{color:var(--teal)}
+.tog{display:flex;align-items:flex-start;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin:8px 0;cursor:pointer}
+.tog input{width:24px;height:24px;margin-top:3px;accent-color:var(--rules);flex:none}
+.tog .tt{font-size:17px;font-weight:600}
+.tog .ts{font-size:15px;color:var(--ink-soft);margin-top:2px;max-width:44ch}
+#status{border-radius:12px;padding:14px 15px;margin:14px 0;font-size:17px;font-weight:600}
+#status p{font-weight:400;font-size:15px;margin-top:4px;max-width:46ch}
+.s-red{background:var(--red-bg);color:var(--red);border:1px solid #DFA09A}
+.s-amber{background:var(--amber-bg);color:var(--amber);border:1px solid #DFC08A}
+.s-ok{background:var(--ok-bg);color:var(--ok);border:1px solid #9CC79A}
+.deeper{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.deeper a{display:inline-block;background:#fff;border:1.5px solid var(--rules);color:var(--rules);border-radius:999px;padding:8px 14px;font-size:14.5px;font-weight:600;text-decoration:none}
+footer{margin-top:36px;border-top:3px double var(--ink);padding-top:14px;font-size:14px;color:var(--ink-soft)}
+a{color:var(--rules)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Rise · level 4</div>
+  <h1>The golden thread</h1>
+  <p class="lede">One rule. Three questions. Do we say it? Do we do it? Can we prove it?</p>
+  <div class="honest"><b>Honest label:</b> the example organisation below is invented. The rule and its checklist are real (verified from the law). The say-it / do-it / prove-it test reflects how real audits work — but a green result here means "nothing is missing", never "the work is good". Quality is judged by humans.</div>
+  <div class="honest" id="folderTip" hidden><b>Tip: keep the files together.</b> This page is part of a set. All the Rise files need to live in one folder. If a button says the file cannot be found, unzip <b>rise-project-site.zip</b> into this folder first.</div>
+</header>
+
+<nav class="lvls" aria-label="Levels"><a href='/rise-front-door'>0–1 · Nine steps</a><a href='/rise-your-world'>2 · Your world</a><a href='/rise-level-3-standards'>3 · Plain words</a><a class="now" href="#" aria-current="page">4 · The thread</a><a href='/rise-level-5-letter'>5 · The letter</a><a href='/rise-level-6-graph'>6 · The machine</a></nav>
+
+<h2>Try it on one real rule</h2>
+<div class="rule"><b>The rule (housing, conflict of interest):</b> the organisation must have a conflict-of-interest policy people can understand, must write conflicts down and manage them, and must use separate agreements when the landlord also gives supports.</div>
+
+<p>Tick what your (imaginary) organisation has:</p>
+
+<label class="tog"><input type="checkbox" id="say"><span><span class="tt">We say it</span><p class="ts">A conflict-of-interest policy exists, and a person has checked it really covers this rule.</p></span></label>
+<label class="tog"><input type="checkbox" id="doo"><span><span class="tt">We do it</span><p class="ts">Staff actually declare conflicts. They could explain it if asked.</p></span></label>
+<label class="tog"><input type="checkbox" id="prove"><span><span class="tt">We can prove it</span><p class="ts">The conflict register has real, recent entries. Signed declarations exist.</p></span></label>
+
+<div id="status" class="s-red" role="status">Nothing says it yet.<p>No document claims to meet this rule. An auditor calls this a documentation gap. It fails at Stage 1 — the paper check.</p></div>
+
+<h2>Why this level matters</h2>
+<p>Levels 1 to 3 were about the rules. This level adds one new thing: <b>the connection between a rule and your own documents.</b> Every rule should have a thread running to a policy, a way of working, and proof. A missing thread is a gap. Rise finds the gaps.</p>
+
+<div class="deeper"><a href='/rise-bounce-prototype' rel='noopener' target='_blank'>Walk a full thread, page by page</a><a href='/rise-visual-atlas' rel='noopener' target='_blank'>See the gap engine drawn</a><a href='/#auditor'>The whole audit, through the auditor’s eyes</a><a href='/rise-level-5-letter'>Level 5: read the letter of the law</a></div>
+
+<footer>
+<p>New at this level: your documents joining the picture. The two gap names an auditor uses: a <b>documentation gap</b> means nothing says it; a <b>proof gap</b> means paper only. There is a third honest state in the real engine — <b>unknown</b>, when Rise doesn't know enough about you to judge — and it is always reported, never hidden.</p>
+</footer>
+
+<script>
+const say=document.getElementById("say"),doo=document.getElementById("doo"),prove=document.getElementById("prove"),st=document.getElementById("status");
+function upd(){
+  if(!say.checked){st.className="s-red";st.innerHTML='Nothing says it yet.<p>No document claims to meet this rule. An auditor calls this a documentation gap. It fails at Stage 1 — the paper check.</p>';}
+  else if(!prove.checked){st.className="s-amber";st.innerHTML='Paper only — no proof.<p>The policy exists, but there is no recent evidence. An auditor calls this a proof gap. It fails at Stage 2 — the site visit.</p>';}
+  else{st.className="s-ok";st.innerHTML='Covered — for now.<p>Said and proven. Recheck as things change.'+(doo.checked?'':' One warning: you have paper and proof but nobody actually doing it — auditors interview people, and that gets caught at the site visit.')+'</p>';}
+}
+[say,doo,prove].forEach(x=>x.addEventListener("change",upd));
+if(location.protocol==="file:")document.getElementById("folderTip").hidden=false;
+</script>
+</body>
+</html>

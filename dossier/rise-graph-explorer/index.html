@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rise — Graph Explorer: drill down from the Act to the evidence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6F5F1;--card:#fff;--ink:#1B2A41;--ink-soft:#5A6B82;--line:#DDD9CF;
+--rules:#4A3E8E;--rules-bg:#EDEBF7;--qi:#0E6E63;--qi-bg:#E2F0ED;--prov:#9A3F23;--prov-bg:#FBE7E0;
+--gray-bg:#EFEEE9;--flag:#9A6B15;--flag-bg:#F7EEDC;--focus:#4A3E8E}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Public Sans",system-ui,sans-serif;font-size:15.5px;line-height:1.55}
+.wrap{max-width:880px;margin:0 auto;padding:0 14px 70px}
+header{padding:26px 0 14px;border-bottom:3px double var(--ink)}
+.eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase}
+h1{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:clamp(23px,4.8vw,32px);margin:5px 0 6px}
+.grades{margin:12px 0 0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13.5px;color:var(--ink-soft)}
+.grades b{color:var(--ink)}
+.chip{display:inline-block;border-radius:5px;font-size:11px;font-weight:600;padding:2px 7px;vertical-align:1px;margin-left:6px}
+.chip.v{background:#E3F0E8;color:#1D6E4B}
+.chip.slot{background:var(--gray-bg);color:#5A5A50}
+.chip.ex{background:var(--flag-bg);color:var(--flag)}
+.chip.sight{background:#EDEBF7;color:#4A3E8E}
+.controls{position:sticky;top:0;z-index:5;background:var(--paper);padding:12px 0 10px;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1.5px solid var(--ink-soft);background:#fff;color:var(--ink);border-radius:999px;padding:6px 13px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+main{margin-top:18px}
+details{margin:6px 0}
+summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:9px 12px}
+summary::-webkit-details-marker{display:none}
+summary:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+summary .caret{flex:none;font-size:11px;color:var(--ink-soft);transition:transform .12s}
+details[open]>summary .caret{transform:rotate(90deg)}
+summary .t{font-weight:600;font-size:15px}
+summary .s{font-size:12.5px;color:var(--ink-soft)}
+.kids{margin:4px 0 4px 13px;padding:2px 0 2px 15px;border-left:2px solid var(--line)}
+.n-act>summary{background:var(--gray-bg)}
+.n-rules>summary{background:var(--rules-bg);border-color:#C9C2E8}.n-rules>summary .t{color:#3A3172}
+.n-qi>summary{background:var(--qi-bg);border-color:#B7D9D3}.n-qi>summary .t{color:#0E5B52}
+.n-mod>summary{background:var(--qi-bg);border-color:#B7D9D3}.n-mod>summary .t{color:#0E5B52}
+.n-std>summary{background:#fff}
+.n-prov>summary{background:var(--prov-bg);border-color:#E0A896}.n-prov>summary .t{color:var(--prov)}
+.addr{display:inline-flex;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;border-radius:5px;overflow:hidden;flex:none}
+.addr span{padding:2px 7px}
+.addr .r{background:var(--rules-bg);color:var(--rules)}
+.addr .q{background:var(--qi-bg);color:var(--qi)}
+.body{background:#FBFAF7;border:1px dashed var(--line);border-radius:8px;padding:11px 13px;margin:6px 0;font-size:14px}
+.body p{margin:5px 0;max-width:74ch}
+.body .lbl{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
+.slotbox{border:1.5px dashed #C9BFA6;background:#FBF9F3;border-radius:7px;padding:8px 11px;font-size:13px;color:var(--ink-soft);font-style:italic;margin:6px 0}
+.links{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;margin-top:6px}
+a{color:var(--rules)}
+.kin a{display:inline-block;margin:2px 8px 2px 0;font-size:13px}
+.mini{display:flex;align-items:baseline;gap:8px;background:#fff;border:1px solid #E8D9CF;border-radius:7px;padding:7px 10px;margin:5px 0;font-size:13.5px}
+.mini b{color:var(--prov)}
+.flash{background:#FFF0A8!important;transition:background 1.6s ease}
+footer{margin-top:40px;border-top:3px double var(--ink);padding-top:14px;font-size:13.5px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Rise · dossier companion · drill-down view of the graph</div>
+  <h1>Graph Explorer — from the Act down to the evidence</h1>
+  <div class="grades"><b>Three grades of content, labelled on every node:</b>
+  <span class="chip v">verified</span> structure, addresses and paraphrases checked against the instruments (6–7 July 2026) ·
+  <span class="chip slot">slot</span> authorised legislative text renders here after ingestion (see source manifest) — linked, never retyped ·
+  <span class="chip ex">example</span> invented provider content demonstrating where real documents attach. The 2026 supported independent living standards are absent throughout — they post-date the verified compilations.</div>
+</header>
+
+<div class="controls">
+  <button class="btn" id="openAll">Expand everything</button>
+  <button class="btn" id="closeAll">Collapse everything</button>
+</div>
+
+<main>
+<details class="n-act" open id="act">
+<summary><span class="caret">▶</span><span class="t">NDIS Act 2013 (Cth)</span><span class="s">the foundation law</span><span class="chip sight">ID sighted</span></summary>
+<div class="kids">
+
+<details class="n-rules" id="rules">
+<summary><span class="caret">▶</span><span class="t">Provider Registration and Practice Standards Rules 2018</span><span class="s">F2018L00631 · Compilation No. 4</span><span class="chip v">verified — fetched in full</span></summary>
+<div class="kids">
+  <div class="body">
+    <p class="lbl">Verified provisions worth knowing (paraphrased)</p>
+    <p><b>Section 20(3)</b> — the registration table: 36 classes of supports, each mapped to its applicable schedules and audit type. This is the legislated "does it apply to me?" gate.</p>
+    <p><b>Section 24</b> — the quality indicators "as existing from time to time" must be taken into account in assessments: the current Guidelines always apply.</p>
+    <p><b>Section 13B</b> — the mid-term audit within 18 months, always covering governance plus anything previously subject to corrective action.</p>
+    <div class="slotbox">⟨ authorised text of any provision renders here after ingestion ⟩ <span class="chip slot">slot</span></div>
+    <div class="links"><a href="https://www.legislation.gov.au/F2018L00631/latest/text">current text ↗</a><a href="https://www.legislation.gov.au/F2018L00631/2021-11-15/2021-11-15/text/original/pdf">authorised PDF, Compilation No. 4 ↗</a></div>
+    <p class="lbl" style="margin-top:10px">Schedules 1–8 hold the Practice Standards — expand them under "The Practice Standards" below. Note: the 2026 amendments exist and are not consolidated in this compilation.</p>
+  </div>
+</div>
+</details>
+
+<details class="n-qi" id="qi">
+<summary><span class="caret">▶</span><span class="t">Quality Indicators Guidelines 2018</span><span class="s">F2018N00041 · Compilation No. 1 · notifiable instrument</span><span class="chip v">verified — fetched in full</span></summary>
+<div class="kids">
+  <div class="body">
+    <p>Made under <b>subsection 181D(2)</b> of the Act. Each module opens with a legislated table pairing every indicator section with its Rules clause — all eleven tables were read directly; every address in this explorer comes from them.</p>
+    <p>Individual indicators are <b>numbered items</b> within each section, so each is addressable (e.g. "s 69, item 1"). The per-item breakdown is not in this explorer — that is the Milestone 2 parser's job, and the total count is deliberately unstated until it runs.</p>
+    <div class="slotbox">⟨ authorised indicator text renders here after ingestion, item by item ⟩ <span class="chip slot">slot</span></div>
+    <div class="links"><a href="https://www.legislation.gov.au/F2018N00041/latest/text">current text ↗</a><a href="https://www.legislation.gov.au/F2018N00041/2021-11-15/2021-11-15/text/original/epub/OEBPS/document_1/document_1.html">Compilation No. 1 full text ↗</a></div>
+  </div>
+</div>
+</details>
+
+<details class="n-rules">
+<summary><span class="caret">▶</span><span class="t">Companion rulebooks the indicators name</span><span class="s">from the source manifest</span><span class="chip sight">IDs sighted — verify on download</span></summary>
+<div class="kids"><div class="body">
+  <p>Incident Management and Reportable Incidents Rules 2018 [F2018L00633] · Complaints Management and Resolution Rules 2018 [F2018L00634] · Restrictive Practices and Behaviour Support Rules 2018 [F2018L00632 / F2020C01087] · SDA Conditions Rule 2018 [F2020C00549] · Worker Screening Rules [F2021C00788] · Provider Definition Rule [F2021C00694] · Transitional Rules [F2020C01102] · Protection and Disclosure of Information Rules [F2021C00306] · Approved Quality Auditors Scheme Guidelines [F2018N00114] · Approved Quality Auditors Rules 2025 [F2025L01383].</p>
+  <p class="lbl">These IDs were sighted in Commission and sector sources but the documents were not opened — the manifest's download rules apply.</p>
+  <div class="links"><a href="https://www.ndiscommission.gov.au/about-us/legislation-rules-and-policies">Commission — all rules and policies ↗</a></div>
+</div></div>
+</details>
+
+<details class="n-mod" open>
+<summary><span class="caret">▶</span><span class="t">The Practice Standards</span><span class="s">housed across both instruments — a tree forces single parents; the real graph links each standard to both. 66 standards below.</span><span class="chip v">verified</span></summary>
+<div class="kids" id="mount"></div>
+</details>
+
+</div>
+</details>
+</main>
+
+<footer>
+<p>Companion to <b>rise-dossier-index.md</b>. Structure, addresses, dual titles and plain-English lines match the verified documents in the dossier; the plain-English column is faithful paraphrase, never the legal text. The worked provider chain under Person-centred supports is invented example material; the other 65 standards show where a real provider's documents attach once the document register is supplied. Everything ages from its verification dates.</p>
+</footer>
+</div>
+
+<script>
+const MODS=[
+ {k:"CORE",label:"Core module — Schedule 1",applies:"Sits alongside every certification-pathway registration (Rules, s 20(3))."},
+ {k:"M1",label:"Module 1: High intensity daily personal activities — Schedule 2",applies:"For providers registered for high intensity daily personal activities; each support must also appear on the certificate of registration (Rules, s 13C)."},
+ {k:"M2",label:"Module 2: Specialist behaviour support — Schedule 3",applies:"For specialist positive behaviour support providers — the clinicians who write behaviour support plans."},
+ {k:"M2A",label:"Module 2A: Implementing behaviour support plans — Schedule 4",applies:"For any provider whose supports involve, or are likely to involve, a regulated restrictive practice (Rules, ss 7(2), 20(1))."},
+ {k:"M3",label:"Module 3: Early childhood supports — Schedule 5",applies:"For early intervention supports for early childhood; sole traders and partnerships meet clause 7 of Schedule 1 plus this module (Rules, s 20(4))."},
+ {k:"M4",label:"Module 4: Specialised support coordination — Schedule 6",applies:"For specialised support coordination registrations."},
+ {k:"M5",label:"Module 5: Specialist disability accommodation — Schedule 7",applies:"For specialist disability accommodation — alone, or with other supports (Schedules 1 and 7)."},
+ {k:"M6",label:"Module 6: Verification — Schedule 8",applies:"For lower-risk support classes assessed by desk audit. This module's indicator mapping runs in reverse order."}
+];
+const D=[
+ {m:"CORE",div:"Rights and responsibilities",rt:"Person-centred supports",ra:"Sch 1 · cl 3",qa:"s 6",p:"People's legal and human rights are everyday practice, communication happens in ways each person understands, and their chosen relationships are supported.",ex:true},
+ {m:"CORE",div:"Rights and responsibilities",rt:"Individual values and beliefs",ra:"Sch 1 · cl 4",qa:"s 7",p:"Each person's culture, values and beliefs are identified, respected and responded to."},
+ {m:"CORE",div:"Rights and responsibilities",rt:"Privacy and dignity",ra:"Sch 1 · cl 5",qa:"s 8",p:"Privacy and dignity are protected, confidentiality is explained plainly, and consent is obtained before personal information or recordings are collected."},
+ {m:"CORE",div:"Rights and responsibilities",rt:"Independence and informed choice",ra:"Sch 1 · cl 6",qa:"s 9",p:"People make informed choices, keep the right to take reasonable risks, have time to decide, and can bring an advocate."},
+ {m:"CORE",div:"Rights and responsibilities",rt:"Freedom from violence, abuse, neglect, exploitation or discrimination",qt:"Violence, abuse, neglect, exploitation and discrimination",ra:"Sch 1 · cl 7",qa:"s 10",p:"Policies actively prevent abuse; any allegation is acted on, recorded, reviewed, and used to stop it happening again."},
+ {m:"CORE",div:"Governance and operational management",rt:"Governance and operational management",ra:"Sch 1 · cl 9",qa:"s 11",p:"A capable governing body with a clear structure, the right skills, documented delegations and conflict-of-interest handling — including input from people with disability."},
+ {m:"CORE",div:"Governance and operational management",rt:"Risk management",ra:"Sch 1 · cl 10",qa:"s 12",p:"A written risk system that identifies, analyses and treats risks across the whole business, plus proper insurance.",fam:"risk"},
+ {m:"CORE",div:"Governance and operational management",rt:"Quality management",ra:"Sch 1 · cl 11",qa:"s 13",p:"A quality system with a program of internal audits and continuous improvement driven by data and feedback."},
+ {m:"CORE",div:"Governance and operational management",rt:"Information management",ra:"Sch 1 · cl 12",qa:"s 14",p:"Consent before collecting or sharing personal information, accurate and secure records, and people able to see and correct their own file."},
+ {m:"CORE",div:"Governance and operational management",rt:"Complaints management and resolution",qt:"Feedback and complaints management",ra:"Sch 1 · cl 13",qa:"s 15",p:"A fair complaints system everyone is told how to use — including outside avenues — with trained staff and lessons applied.",fam:"complaints"},
+ {m:"CORE",div:"Governance and operational management",rt:"Incident management",ra:"Sch 1 · cl 14",qa:"s 16",p:"An incident system meeting the incident rules, with people kept informed, workers trained, and improvements made.",fam:"incident"},
+ {m:"CORE",div:"Governance and operational management",rt:"Human resource management",ra:"Sch 1 · cl 15",qa:"s 17",p:"Workers are properly checked, inducted, trained, supervised and performance-managed — with records proving all of it.",fam:"hr"},
+ {m:"CORE",div:"Governance and operational management",rt:"Continuity of supports",ra:"Sch 1 · cl 16",qa:"s 18",p:"Supports keep running without interruption, qualified people cover absences, and any unavoidable change is agreed with the person."},
+ {m:"CORE",div:"Governance and operational management",rt:"Emergency and disaster management",ra:"Sch 1 · cl 16A",qa:"s 18A",p:"Written, tested, regularly reviewed emergency plans keep critical supports going — developed with participants and trained into every worker."},
+ {m:"CORE",div:"Provision of supports",rt:"Access to supports",ra:"Sch 1 · cl 18",qa:"s 19",p:"It's clear what supports exist, what they cost, and when they could stop — and nobody loses support just for making a reasonable risk choice."},
+ {m:"CORE",div:"Provision of supports",rt:"Support planning",ra:"Sch 1 · cl 19",qa:"s 20",p:"Each plan is built with the person, risks are assessed and documented, the plan is reviewed at least yearly, and workers actually know it."},
+ {m:"CORE",div:"Provision of supports",rt:"Service agreements",qt:"Service agreements with participants",ra:"Sch 1 · cl 20",qa:"s 21",p:"A clear written agreement each person understands and signs — including documented arrangements when housing and daily supports come from different providers."},
+ {m:"CORE",div:"Provision of supports",rt:"Responsive support provision",ra:"Sch 1 · cl 21",qa:"s 22",p:"The least-intrusive effective supports, delivered by trained workers, with the person involved in choosing who supports them."},
+ {m:"CORE",div:"Provision of supports",rt:"Transitions to and from a provider",qt:"Transitions to or from a provider",ra:"Sch 1 · cl 22",qa:"s 23",p:"Every entry and exit is planned, documented, risk-assessed and managed."},
+ {m:"CORE",div:"Support provision environment",rt:"Safe environment",ra:"Sch 1 · cl 24",qa:"s 24",p:"Safe settings everywhere: identifiable workers, medical-emergency protocols, escalation paths, infection control, cleaning and protective equipment."},
+ {m:"CORE",div:"Support provision environment",rt:"Participant money and property",ra:"Sch 1 · cl 25",qa:"s 25",p:"People's money and property are protected, used only as they intend, and nobody gives financial advice beyond the plan."},
+ {m:"CORE",div:"Support provision environment",rt:"Medication management",qt:"Management of medication",ra:"Sch 1 · cl 26",qa:"s 26",p:"Accurate medication records, safe storage, and workers who know the side-effects and what to do if something goes wrong."},
+ {m:"CORE",div:"Support provision environment",rt:"Mealtime management",ra:"Sch 1 · cl 26A",qa:"s 26A",p:"Professional swallowing and nutrition assessments, individual mealtime plans, trained workers, and safely prepared correct-texture meals."},
+ {m:"CORE",div:"Support provision environment",rt:"Waste management",qt:"Management of waste",ra:"Sch 1 · cl 27",qa:"s 27",p:"Safe handling and disposal of waste and hazardous substances, trained workers, incidents investigated, and an emergency plan."},
+ {m:"M1",rt:"Complex bowel care",ra:"Sch 2 · cl 3",qa:"s 29",p:"A practitioner-reviewed personal plan, written procedures, and workers trained to the official skills descriptor for this care."},
+ {m:"M1",rt:"Enteral (naso-gastric tube-jejunum or duodenum) feeding and management",ra:"Sch 2 · cl 4",qa:"s 30",p:"The same plan-policies-training trio, specific to each person's feeding method and regime."},
+ {m:"M1",rt:"Severe dysphagia management",ra:"Sch 2 · cl 4A",qa:"s 30A",p:"People needing it are identified, professionally assessed, and supported by workers trained for their specific plan and preferences."},
+ {m:"M1",rt:"Tracheostomy management",ra:"Sch 2 · cl 5",qa:"s 31",p:"Plan, policies and descriptor-level training for tracheostomy care and suctioning."},
+ {m:"M1",rt:"Urinary catheter management",ra:"Sch 2 · cl 6",qa:"s 32",p:"Plan, policies and descriptor-level training for each catheter type — in-dwelling, in-out and suprapubic."},
+ {m:"M1",rt:"Ventilator management",ra:"Sch 2 · cl 7",qa:"s 33",p:"Plan, policies and descriptor-level training specific to the ventilator used."},
+ {m:"M1",rt:"Subcutaneous injections",ra:"Sch 2 · cl 8",qa:"s 34",p:"All of the above plus documented written or phone orders from the prescribing health practitioner."},
+ {m:"M1",rt:"Complex wound management",ra:"Sch 2 · cl 9",qa:"s 35",p:"Plan, policies and descriptor-level training covering how the wound regime affects daily supports."},
+ {m:"M2",rt:"Behaviour support in the NDIS",ra:"Sch 3 · cl 3",qa:"s 38",p:"Practitioners assessed as suitable, ongoing professional development, clinical supervision, and a demonstrated push to reduce restrictive practices.",fam:"bsndis"},
+ {m:"M2",rt:"Regulated restrictive practices",qt:"Restrictive practices",ra:"Sch 3 · cl 4",qa:"s 39",p:"Restrictive practices only ever used lawfully and with authorisation, after informed discussion, with a strategy to reduce and eliminate them.",fam:"rrp"},
+ {m:"M2",rt:"Behaviour support plans",qt:"Functional behaviour assessments and behaviour support plans",ra:"Sch 3 · cl 5",qa:"s 40",p:"Proper functional assessments feeding evidence-based plans, developed with the implementers, and lodged with the Commission when they contain restrictive practices."},
+ {m:"M2",rt:"Supporting the implementation of a behaviour support plan",ra:"Sch 3 · cl 6",qa:"s 41",p:"The frontline providers are trained, coached and supported so the plan works in real life.",fam:"impl"},
+ {m:"M2",rt:"Behaviour support plan monitoring and review",ra:"Sch 3 · cl 7",qa:"s 42",p:"Progress tracked through data and engagement, plans reviewed at least every twelve months, and the Commission notified of changes or problems.",fam:"rev"},
+ {m:"M2",rt:"Reportable incidents involving the use of a regulated restrictive practice",ra:"Sch 3 · cl 8",qa:"s 43",p:"Help respond when a practice is used in an emergency or without authority, and include the person in the review.",fam:"repinc"},
+ {m:"M2",rt:"Interim behaviour support plans",ra:"Sch 3 · cl 9",qa:"s 44",p:"When support is needed urgently, a fast interim plan that manages the risk, with guidance on using it.",fam:"interim"},
+ {m:"M2A",rt:"Behaviour support in the NDIS",ra:"Sch 4 · cl 3",qa:"s 47",p:"Knowledge of the behaviour-support laws, understanding of the evidence, and a commitment to reducing restrictive practices.",fam:"bsndis"},
+ {m:"M2A",rt:"Regulated restrictive practices",ra:"Sch 4 · cl 4",qa:"s 48",p:"Regulated practices used only with authorisation, exactly as the plan and rules allow, documented and reported.",fam:"rrp"},
+ {m:"M2A",rt:"Supporting the assessment and development of behaviour support plans",ra:"Sch 4 · cl 5",qa:"s 49",p:"Help the specialist gather information and co-develop each plan, with workers skilled enough to contribute."},
+ {m:"M2A",rt:"Supporting the implementation of a behaviour support plan",ra:"Sch 4 · cl 6",qa:"s 50",p:"Written procedures plus trained, supervised, performance-managed workers who deliver the plan consistently.",fam:"impl"},
+ {m:"M2A",rt:"Monitoring and reporting the use of regulated restrictive practices",ra:"Sch 4 · cl 7",qa:"s 51",p:"Every use reported to the Commission through the monthly online reporting, with the data used to improve."},
+ {m:"M2A",rt:"Behaviour support plan monitoring and review",ra:"Sch 4 · cl 8",qa:"s 52",p:"Implementation tracked through feedback, meetings and records, feeding reviews aimed at reducing restrictions.",fam:"rev"},
+ {m:"M2A",rt:"Reportable incidents involving the use of a regulated restrictive practice",ra:"Sch 4 · cl 9",qa:"s 53",p:"After any emergency or unauthorised use: medical check, Commission notified, documented debrief, supports adjusted, person included in the review.",fam:"repinc"},
+ {m:"M2A",rt:"Interim behaviour support plans",ra:"Sch 4 · cl 10",qa:"s 54",p:"Rapid cooperation on interim plans, with workers trained to deliver them.",fam:"interim"},
+ {m:"M3",rt:"The child",ra:"Sch 5 · cl 3",qa:"s 56",p:"Children's rights and safety come first, including compliance with child-protection reporting laws and continuity of support."},
+ {m:"M3",rt:"The family",ra:"Sch 5 · cl 4",qa:"s 57",p:"Genuine partnership with the family — their knowledge, culture, strengths and routines shape the plan."},
+ {m:"M3",rt:"Inclusion",ra:"Sch 5 · cl 5",qa:"s 58",p:"Skills built through everyday routines and real community settings, not clinics alone."},
+ {m:"M3",rt:"Collaboration",ra:"Sch 5 · cl 6",qa:"s 59",p:"One coordinated team around each child, sharing information with the family's consent."},
+ {m:"M3",rt:"Capacity building",ra:"Sch 5 · cl 7",qa:"s 60",p:"The family and other supporters are coached and strengthened so gains continue between sessions."},
+ {m:"M3",rt:"Evidence-informed supports",qt:"Evidence-informed practice",ra:"Sch 5 · cl 8",qa:"s 61",p:"Validated, research-based methods delivered by practitioners who keep their skills current."},
+ {m:"M3",rt:"Outcome based approach",ra:"Sch 5 · cl 9",qa:"s 62",p:"Functional goals set with the family, written down, measured, and reported in words the family understands."},
+ {m:"M4",rt:"Specialised support coordination",ra:"Sch 6 · cl 3",qa:"s 64",p:"Each person's risks are understood, crises are planned for with them, capable providers are chosen, and reporting duties are kept on track."},
+ {m:"M4",rt:"Management of supports",qt:"Management of a participant's NDIS supports",ra:"Sch 6 · cl 4",qa:"s 65",p:"Plan funds spent only as the person directs, options explained plainly, and their capacity to self-manage built up."},
+ {m:"M4",rt:"Conflict of interest",ra:"Sch 6 · cl 5",qa:"s 66",p:"Conflict-of-interest policies explained plainly, any interest in an option declared, and every referral documented.",fam:"coi"},
+ {m:"M5",rt:"Rights and responsibilities",ra:"Sch 7 · cl 3",qa:"s 68",p:"Housing access consistent with the person's rights, understandable agreements, and respect for privacy, intimacy and autonomy at home."},
+ {m:"M5",rt:"Conflict of interest",ra:"Sch 7 · cl 4",qa:"s 69",p:"A conflict-of-interest policy people can understand, conflicts documented and managed, and separate agreements when the landlord also delivers supports.",fam:"coi"},
+ {m:"M5",rt:"Service agreements with participants",ra:"Sch 7 · cl 5",qa:"s 70",p:"A written tenancy-style agreement covering rent, bond, notice periods, repairs and safety features — understood and signed."},
+ {m:"M5",rt:"Enrolment of specialist disability accommodation dwellings",qt:"Enrolment of SDA Properties",ra:"Sch 7 · cl 6",qa:"s 71",p:"The dwelling matches its enrolled design type and category, stays compliant with building and tenancy law, and is kept in good repair."},
+ {m:"M5",rt:"Tenancy management",ra:"Sch 7 · cl 7",qa:"s 72",p:"Fair vacancy processes, written arrangements with the daily-support providers in the home, action on any abuse, lawful notices, and everything explained plainly."},
+ {m:"M6",rt:"Risk management",ra:"Sch 8 · cl 3",qa:"s 77",p:"A written risk system covering safety, emergencies and infection control, plus proper insurance.",fam:"risk"},
+ {m:"M6",rt:"Complaints management and resolution",ra:"Sch 8 · cl 4",qa:"s 76",p:"A fair complaints system that meets the complaints rules.",fam:"complaints"},
+ {m:"M6",rt:"Incident management",ra:"Sch 8 · cl 5",qa:"s 75",p:"An incident management system that meets the incident rules.",fam:"incident"},
+ {m:"M6",rt:"Human resource management",ra:"Sch 8 · cl 6",qa:"s 74",p:"Proof of worker identity, right to work, checks and qualifications, orientation, ongoing development and infection-control training.",fam:"hr"}
+];
+D.forEach((d,i)=>d.id="g"+i);
+const RULES_URL="https://www.legislation.gov.au/F2018L00631/latest/text";
+const QI_URL="https://www.legislation.gov.au/F2018N00041/latest/text";
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function modShort(k){return k==="CORE"?"Core":k==="M6"?"Verification":"Module "+k.slice(1)}
+function kinHtml(d){
+  if(!d.fam)return "";
+  const kin=D.filter(x=>x.fam===d.fam&&x.id!==d.id);
+  if(!kin.length)return "";
+  return '<p class="lbl">Same standard elsewhere</p><p class="kin">'+kin.map(k=>'<a href="#'+k.id+'" data-jump="'+k.id+'">'+modShort(k.m)+' · '+esc(k.rt)+'</a>').join('')+'</p>';
+}
+function provHtml(d){
+  if(d.ex){
+    return '<details class="n-prov"><summary><span class="caret">▶</span><span class="t">Provider layer — worked example</span><span class="chip ex">example</span></summary><div class="kids">'+
+    '<div class="body"><p class="lbl">The golden thread for one verified indicator <span class="chip v">verified paraphrase</span></p>'+
+    '<p>Communication with each participant is responsive to their needs and happens in the language, mode and terms they best understand (s 6).</p>'+
+    '<div class="mini"><b>Policy</b> §3.2 — we communicate in each person\u2019s preferred language, mode and terms, recorded at intake. <span class="chip ex">example</span></div>'+
+    '<div class="mini"><b>Procedure</b> Intake step 2 — ask and record communication preferences. <span class="chip ex">example</span></div>'+
+    '<div class="mini"><b>Form</b> Intake form · field: preferred communication. <span class="chip ex">example</span></div>'+
+    '<div class="mini"><b>Register</b> Communication profiles register · one row per participant. <span class="chip ex">example</span></div>'+
+    '<div class="mini"><b>Evidence</b> Register rows and signed forms — what a Stage 2 auditor samples. <span class="chip ex">example</span></div>'+
+    '<p class="lbl">In production these five nodes are the real 123-document suite, attached by implements/evidences links.</p></div></div></details>';
+  }
+  return '<div class="slotbox">Provider documents attach here via implements/evidences links — worked example under Person-centred supports; real documents await the provider register. <span class="chip slot">slot</span></div>';
+}
+function stdHtml(d){
+  return '<details class="n-std" id="'+d.id+'"><summary><span class="caret">▶</span><span class="t">'+esc(d.rt)+'</span>'+(d.qt?'<span class="chip ex" style="background:#F7EEDC;color:#9A6B15">two names</span>':'')+'<span class="addr"><span class="r">'+d.ra+'</span><span class="q">'+d.qa+'</span></span><span class="chip v">verified</span></summary>'+
+  '<div class="kids"><div class="body">'+
+  (d.qt?'<p class="lbl">Titles differ between the instruments</p><p>Rules: '+esc(d.rt)+' · Guidelines: '+esc(d.qt)+' — both official; cite the one matching the document quoted.</p>':'')+
+  '<p class="lbl">What auditors look for (paraphrase — not the legal text)</p><p>'+esc(d.p)+'</p>'+
+  '<div class="slotbox">⟨ authorised outcome text ('+d.ra+') and indicator items ('+d.qa+') render here after ingestion ⟩ <span class="chip slot">slot</span></div>'+
+  '<div class="links"><a href="'+RULES_URL+'">open the Rules ↗</a><a href="'+QI_URL+'">open the Guidelines ↗</a></div>'+
+  kinHtml(d)+'</div>'+provHtml(d)+'</div></details>';
+}
+const mount=document.getElementById("mount");
+MODS.forEach(M=>{
+  const items=D.filter(d=>d.m===M.k);
+  let inner="";
+  if(M.k==="CORE"){
+    const divs=[...new Set(items.map(d=>d.div))];
+    inner=divs.map(dv=>'<details class="n-mod"><summary><span class="caret">▶</span><span class="t">'+esc(dv)+'</span><span class="s">'+items.filter(x=>x.div===dv).length+' standards</span></summary><div class="kids">'+items.filter(x=>x.div===dv).map(stdHtml).join('')+'</div></details>').join('');
+  }else{
+    inner=items.map(stdHtml).join('');
+  }
+  mount.insertAdjacentHTML("beforeend",'<details class="n-mod"><summary><span class="caret">▶</span><span class="t">'+esc(M.label)+'</span><span class="s">'+items.length+' standards</span><span class="chip v">verified</span></summary><div class="kids"><div class="body"><p>'+esc(M.applies)+'</p></div>'+inner+'</div></details>');
+});
+document.getElementById("openAll").onclick=()=>document.querySelectorAll("details").forEach(d=>d.open=true);
+document.getElementById("closeAll").onclick=()=>document.querySelectorAll("details").forEach(d=>{if(d.id!=="act")d.open=false});
+document.addEventListener("click",e=>{
+  const j=e.target.closest("[data-jump]");if(!j)return;e.preventDefault();
+  const t=document.getElementById(j.dataset.jump);if(!t)return;
+  let p=t;while(p){if(p.tagName==="DETAILS")p.open=true;p=p.parentElement;}
+  t.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"});
+  const s=t.querySelector("summary");s.classList.remove("flash");void s.offsetWidth;s.classList.add("flash");setTimeout(()=>s.classList.remove("flash"),1700);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rise — Level 6: The machine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6F5F1;--card:#fff;--ink:#22303F;--ink-soft:#5A6B82;--line:#DDD9CF;
+--teal:#0E5B52;--teal-bg:#E2F0ED;--rules:#4A3E8E;--rules-bg:#EDEBF7;--flag:#9A6B15;--flag-bg:#F7EEDC;--ok:#1D6E4B;--ok-bg:#E3F0E8;--focus:#4A3E8E}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Public Sans",Arial,system-ui,sans-serif;font-size:17px;line-height:1.65}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px 80px}
+header{padding:24px 0 8px}
+.eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase}
+h1{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:clamp(25px,5.6vw,34px);margin:6px 0 8px}
+.lede{font-size:18px;max-width:40ch}
+.honest{margin:12px 0 0;background:var(--flag-bg);border:1px solid #E3D3AC;border-radius:10px;padding:11px 13px;font-size:14px;color:#6B4E13;line-height:1.55}
+.lvls{display:flex;gap:6px;overflow-x:auto;padding:12px 0;position:sticky;top:0;background:var(--paper);z-index:6;border-bottom:1px solid var(--line)}
+.lvls a{flex:none;border:1.5px solid var(--ink-soft);color:var(--ink);background:#fff;border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;text-decoration:none}
+.lvls a.now{background:var(--ink);border-color:var(--ink);color:#fff}
+h2{font-family:"Zilla Slab",Georgia,serif;font-weight:600;font-size:21px;margin:26px 0 8px}
+p{max-width:46ch;margin:8px 0}
+.edge{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap}
+.node{background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;font-weight:600;font-size:15px}
+.node.t{background:var(--teal-bg);border-color:#B7D9D3;color:var(--teal)}
+.arrow{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--rules);background:var(--rules-bg);border-radius:999px;padding:4px 11px;font-weight:600}
+.deeper{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.deeper a{display:inline-block;background:#fff;border:1.5px solid var(--rules);color:var(--rules);border-radius:999px;padding:8px 14px;font-size:14.5px;font-weight:600;text-decoration:none}
+footer{margin-top:36px;border-top:3px double var(--ink);padding-top:14px;font-size:14px;color:var(--ink-soft)}
+a{color:var(--rules)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Rise · level 6 · the deepest level</div>
+  <h1>The machine</h1>
+  <p class="lede">Under everything you've climbed through is one simple idea: dots, and labelled arrows between them.</p>
+  <div class="honest"><b>Honest label:</b> this level describes the designed machine. The design is finished and verified against standards for this kind of work; the running software is being built from the briefs linked below. A design is a promise, not yet proof.</div>
+  <div class="honest" id="folderTip" hidden><b>Tip: keep the files together.</b> This page is part of a set. All the Rise files need to live in one folder. If a button says the file cannot be found, unzip <b>rise-project-site.zip</b> into this folder first.</div>
+</header>
+
+<nav class="lvls" aria-label="Levels"><a href='/rise-front-door'>0–1 · Nine steps</a><a href='/rise-your-world'>2 · Your world</a><a href='/rise-level-3-standards'>3 · Plain words</a><a href='/rise-level-4-threads'>4 · The thread</a><a href='/rise-level-5-letter'>5 · The letter</a><a class="now" href="#" aria-current="page">6 · The machine</a></nav>
+
+<h2>Everything is a dot. Every connection is a labelled arrow.</h2>
+<p>A rule is a dot. Your policy is a dot. A register row is a dot. The arrow between two dots always says <b>why</b> they connect:</p>
+<div class="edge"><span class="node">Your policy</span><span class="arrow">implements →</span><span class="node t">the rule</span></div>
+<div class="edge"><span class="node">Your register row</span><span class="arrow">evidences →</span><span class="node t">the checklist</span></div>
+<p>There are 25 kinds of arrow. Because the arrows are labelled, the machine can answer both directions of the only two questions that matter: <i>why does this exist?</i> and <i>what depends on this?</i></p>
+
+<h2>The machine never forgets</h2>
+<p>Nothing is ever deleted. When something changes, the old arrow is kept and marked "replaced". That is how Rise can answer an auditor's favourite question: <b>"show me how things stood on this date last year."</b></p>
+
+<h2>The machine remembers who said so</h2>
+<p>Every arrow records its source: a human made it, it was read straight out of the law, or a computer suggested it. Computer suggestions are always marked "needs review" until a person confirms them. Trust is recorded, never assumed.</p>
+
+<h2>Why the gaps you saw at Level 4 are possible</h2>
+<p>A gap is simply a dot that should have an arrow and doesn't. Because the arrows are labelled and dated, the machine can find every missing one — for your organisation, against your rules, today.</p>
+
+<div class="deeper"><a href='/rise-node-map'>See the whole map of dots and arrows</a><a href="rise-relationship-taxonomy.md" target="_blank" rel="noopener">The 25 arrow types (the taxonomy)</a><a href="rise-compliance-pyramid-model.md" target="_blank" rel="noopener">The pyramid and every address</a><a href="rise-claude-code-brief.md" target="_blank" rel="noopener">Build brief — Milestone 1</a><a href="rise-milestone-2-gap-engine.md" target="_blank" rel="noopener">Build brief — Milestone 2</a></div>
+
+<footer>
+<p>New at this level: the machinery itself — dots, labelled arrows, memory, and who-said-so. There is nothing below this level; from here, the only way to go deeper is to help build it. You started at four boxes. This is still those four boxes — just with every connection made honest, checkable, and remembered.</p>
+</footer>
+</div>
+<script>if(location.protocol==="file:")document.getElementById("folderTip").hidden=false;</script>
+</body>
+</html>
