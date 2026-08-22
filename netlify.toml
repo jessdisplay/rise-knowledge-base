@@ -1,0 +1,27 @@
+# Netlify build + gate configuration for the Rise knowledge base.
+#
+# The repo is already a built static site, so there is no build step: Netlify
+# publishes the repo root as-is, exactly as GitHub Pages does today.
+#
+# Access control is the edge function in netlify/edge-functions/gate.js. It runs
+# before the static file is served, so nothing reaches an unauthenticated
+# client. Set DOSSIER_PASSWORD in the Netlify UI under
+# Site configuration > Environment variables. The gate FAILS CLOSED: if the
+# variable is missing every request gets a 503, never an open site.
+
+[build]
+  publish = "."
+  command = ""
+
+[[edge_functions]]
+  function = "gate"
+  path = "/*"
+
+# Belt and braces: the gate already sets these per response, but a gated
+# document should never be indexed even if the gate is ever removed.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
