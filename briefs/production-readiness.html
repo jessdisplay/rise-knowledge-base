@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Production Readiness Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#F6F7F9;--surface:#FFFFFF;--ink:#141A20;--ink-2:#3D4852;--muted:#6B7783;
+  --rule:#DDE2E8;--rule-soft:#E9EDF1;--accent:#9A6408;
+  --built:#15654A;--built-bg:#E2EFE9;--partial:#8A5A08;--partial-bg:#F6EAD3;
+  --blocked:#9C2B2B;--blocked-bg:#F5E1E1;
+  --measure:68ch;--rail:7.5rem;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0D1116;--surface:#141A21;--ink:#E7ECF1;--ink-2:#B4BFCA;--muted:#8794A1;
+  --rule:#28313A;--rule-soft:#1E262E;--accent:#E3AC46;
+  --built:#5FCB9F;--built-bg:#14291F;--partial:#E3AC46;--partial-bg:#2A2216;
+  --blocked:#EF8A8A;--blocked-bg:#2C1A1A;}}
+:root[data-theme="dark"]{
+  --ground:#0D1116;--surface:#141A21;--ink:#E7ECF1;--ink-2:#B4BFCA;--muted:#8794A1;
+  --rule:#28313A;--rule-soft:#1E262E;--accent:#E3AC46;
+  --built:#5FCB9F;--built-bg:#14291F;--partial:#E3AC46;--partial-bg:#2A2216;
+  --blocked:#EF8A8A;--blocked-bg:#2C1A1A;}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.page{max-width:74rem;margin:0 auto;padding:0 1.5rem 6rem}
+.masthead{border-bottom:2px solid var(--ink);padding:3.5rem 0 1.1rem;display:flex;
+  flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem}
+.masthead h1{font-family:var(--f-display);font-weight:700;font-size:clamp(2rem,4.4vw,2.9rem);
+  letter-spacing:-.025em;line-height:1.03;margin:0;text-wrap:balance}
+.stamp{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--muted);text-align:right;line-height:1.9}
+.stamp b{color:var(--ink-2);font-weight:500}
+.standfirst{font-size:1.16rem;line-height:1.55;color:var(--ink-2);max-width:58ch;margin:1.6rem 0 0;text-wrap:pretty}
+section{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);gap:0 2.5rem;
+  padding:2.8rem 0 0;border-top:1px solid var(--rule);margin-top:2.8rem}
+.rail{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--muted);line-height:1.7;padding-top:.45rem}
+.rail .num{display:block;font-size:1.5rem;font-family:var(--f-display);font-weight:600;
+  letter-spacing:-.02em;color:var(--accent);line-height:1;margin-bottom:.5rem}
+.body{min-width:0}
+h2{font-family:var(--f-display);font-weight:600;font-size:1.6rem;letter-spacing:-.02em;
+  line-height:1.2;margin:0 0 1rem;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:600;font-size:.82rem;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--muted);margin:2rem 0 .7rem}
+p{margin:0 0 1rem;max-width:var(--measure);text-wrap:pretty}
+.body>ul,.body>ol{max-width:var(--measure);margin:0 0 1rem;padding-left:1.15rem}
+li{margin-bottom:.5rem}
+strong{font-weight:600}
+em{font-style:italic;color:var(--ink-2)}
+code{font-family:var(--f-mono);font-size:.86em;background:var(--rule-soft);padding:.1em .38em;
+  border-radius:3px;color:var(--ink-2)}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.verdict{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--accent);
+  padding:1.15rem 1.4rem;margin:0 0 1.4rem;max-width:var(--measure)}
+.verdict p{margin:0;font-size:1.05rem}
+.verdict p+p{margin-top:.7rem}
+.note{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.1rem 0;
+  margin:1.5rem 0;max-width:var(--measure)}
+.note .lbl{display:block;font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--accent);margin-bottom:.5rem}
+.note p:last-child{margin-bottom:0}
+.scroll{overflow-x:auto;margin:0 0 1.2rem;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-family:var(--f-display);font-size:.87rem;min-width:34rem}
+th{text-align:left;font-weight:600;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--muted);padding:.7rem .9rem;border-bottom:1px solid var(--rule);white-space:nowrap}
+td{padding:.6rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top;color:var(--ink-2);line-height:1.45}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:500}
+.num-col{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:.82rem;white-space:nowrap}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;
+  letter-spacing:.07em;padding:.2rem .5rem;border-radius:2px;white-space:nowrap;font-weight:500}
+.pill.built{background:var(--built-bg);color:var(--built)}
+.pill.partial{background:var(--partial-bg);color:var(--partial)}
+.pill.blocked{background:var(--blocked-bg);color:var(--blocked)}
+.task{border:1px solid var(--rule);background:var(--surface);padding:1.1rem 1.3rem;margin-bottom:1rem}
+.task-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.7rem;margin-bottom:.6rem}
+.task-n{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--accent);border:1px solid var(--accent);padding:.12rem .45rem;border-radius:2px}
+.task-t{font-family:var(--f-display);font-weight:600;font-size:1.05rem;letter-spacing:-.01em}
+.task p{margin:0 0 .6rem;font-size:.97rem;max-width:none}
+.task ul{margin:0 0 .7rem;padding-left:1.1rem;font-size:.97rem}
+.task li{margin-bottom:.35rem}
+.done{font-family:var(--f-display);font-size:.85rem;color:var(--ink-2);border-top:1px solid var(--rule-soft);
+  padding-top:.6rem;margin-top:.2rem}
+.done b{font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--muted);font-weight:500;display:block;margin-bottom:.2rem}
+ol.decisions{list-style:none;padding:0;margin:0 0 1rem;max-width:var(--measure);counter-reset:d}
+ol.decisions li{counter-increment:d;padding:.9rem 0 .9rem 2.6rem;border-bottom:1px solid var(--rule-soft);
+  position:relative;margin:0}
+ol.decisions li:last-child{border-bottom:none}
+ol.decisions li::before{content:counter(d);position:absolute;left:0;top:.95rem;font-family:var(--f-mono);
+  font-size:.78rem;color:var(--accent);border:1px solid var(--accent);width:1.6rem;height:1.6rem;
+  display:grid;place-items:center;border-radius:50%}
+footer{margin-top:3.5rem;padding-top:1.2rem;border-top:2px solid var(--ink);font-family:var(--f-mono);
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+@media (max-width:760px){
+  body{font-size:16px}
+  section{grid-template-columns:1fr;gap:0}
+  .rail{padding:0 0 1rem;display:flex;align-items:baseline;gap:.7rem}
+  .rail .num{margin:0;font-size:1.1rem}
+  .masthead{padding-top:2.5rem}
+  .stamp{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.kbbar{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);padding:.85rem 1.5rem;border-bottom:1px solid var(--rule);
+  background:var(--surface);display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}
+.kbbar a{color:var(--muted);text-decoration:none}
+.kbbar a:hover,.kbbar a:focus-visible{color:var(--accent);text-decoration:underline}
+.kbbar .sep{opacity:.5}
+.kbbar .mono{color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><a href="./index.html">Briefs</a><span class="sep">/</span><span class="mono">April Kidd</span></div>
+
+<div class="page">
+
+<header class="masthead">
+  <h1>The Production<br>Readiness Brief</h1>
+  <div class="stamp">April Kidd<br>22 August 2026<br>Brief <b>№ 1</b></div>
+</header>
+
+<p class="standfirst">You own getting Rise OS into production with a real provider's real data in it.
+Everything below is measured from the repositories at <code>dev</code> or counted on disk, with the source
+named so you can check any number yourself.</p>
+
+<section>
+  <div class="rail"><span class="num">01</span>Assignment</div>
+  <div class="body">
+    <h2>What you own, and why it is you</h2>
+    <div class="verdict">
+      <p>You own production readiness end to end: standing prod up, getting Harmony Care's real document suite
+      into it, and making the release path something we have rehearsed rather than something we hope works.</p>
+      <p>It is you because you built the infrastructure. All 37 commits in <code>riseOS-infra</code> are yours,
+      you wrote <code>docs/prod-bringup.md</code>, and nobody else has been near it. That should have carried
+      your name formally long before now.</p>
+    </div>
+    <p><strong>The part I have to say out loud.</strong> You are carrying the entire infrastructure alone while
+    also running the heaviest feature load on the team, 28 front end and 32 back end commits in the last thirty
+    days, more than anyone. That is a single point of failure with your name on it, and it is a risk I created
+    by never assigning it to anyone. Part of this brief is you telling me what comes off your plate.</p>
+    <p>One thing to be explicit about: there is an open strategic question above this brief about which market
+    Rise serves. <strong>Nothing here depends on how it resolves.</strong> Do not wait on it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">02</span>Where infra is</div>
+  <div class="body">
+    <h2>Eight of nine, and the ninth is mine</h2>
+    <p>From <code>riseOS-infra/README.md</code> and <code>modules/env/</code>.</p>
+
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Milestone</th><th>State</th></tr></thead>
+        <tbody>
+          <tr><td>State bucket and base APIs</td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>VPC with Direct VPC egress (no Serverless Connector, saves ~$8, 10/mo idle)</td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>Artifact Registry</td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>Workload Identity Federation + deploy service account</td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>Cloud Run BE and FE, <code>min-instances = 0</code> on staging</td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>Cloud SQL + Secret Manager wiring, 3-role RLS over private IP via the migrate Job</td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>External HTTPS LB + IAP gate + assets CDN, DNS on <code>*.staging.riseos.care</code></td><td><span class="pill built">Done</span></td></tr>
+          <tr><td>Retire the legacy VM staging</td><td><span class="pill partial">Open</span></td></tr>
+          <tr><td>Prod create-infra built (<code>foundation.tf</code>, gated by <code>manage_foundation</code>)</td><td><span class="pill built">Done</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>CI is in place across all three repos: <code>ci.yml</code>, <code>deploy-cloud-run.yml</code>,
+    <code>deploy-cloud-run-prod.yml</code>, <code>pr-conventions.yml</code>, <code>security.yml</code>. The prod
+    deploy workflow is already written and waiting for a project to point at.</p>
+
+    <div class="note">
+      <span class="lbl">The blocker, and it is mine not yours</span>
+      <p><code>apply prod</code> is turnkey once an org owner does three things: create the
+      <code>riseos-prod</code> project, link billing, and grant <code>dev@</code> Owner. Only I can do those. It
+      is the first item in Cycle 0 and it is on my name.</p>
+      <p>Two things I want your read on when it comes: the IAP service agent bootstrap
+      (<code>gcloud beta services identity create --service=iap.googleapis.com</code>) is <strong>not tofu-managed
+      </strong>, and Cloud SQL for prod stays on the shared <code>rise-ops-db</code> wired out of band. Both are
+      manual steps in an otherwise codified path and I would rather know now if that bothers you.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">03</span>The payload</div>
+  <div class="body">
+    <h2>Harmony Care, counted</h2>
+    <p>This is not a pilot with invented data. The documents exist and are built. Counted on disk at
+    <code>~/Downloads/harmony-care-docs/</code>:</p>
+
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Artefact</th><th class="num-col">Count</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>Built documents in <code>out/</code></td><td class="num-col">163</td><td>.docx, on the <code>HCS-…</code> ID scheme</td></tr>
+          <tr><td>PDFs across the tree</td><td class="num-col">172</td><td>Rendered from the same sources</td></tr>
+          <tr><td>Markdown sources</td><td class="num-col">163</td><td>The authoring layer</td></tr>
+          <tr><td>Drive-ready folder <code>_Rise_/</code></td><td class="num-col">9</td><td>Master Document Register plus four NDIS grouping folders and <code>INDEX.json</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The <code>_Rise_/</code> folder already carries <code>HCS-REG-DOC-001_Master-Document-Register</code> and
+    splits the suite into Main Policies and Procedures plus Forms, NDIS Module 1 High Intensity Daily Personal
+    Activities, NDIS Module 2A Implementing Behaviour Support, Organisational Governance and Business Management,
+    and Support Coordinator. That grouping is a useful shape to import against.</p>
+
+    <div class="note">
+      <span class="lbl">Two constraints on this data</span>
+      <p><strong>Organisational data only.</strong> Policies, procedures, forms, registers and audit evidence. No
+      participant records are involved, so nothing here waits on privacy work and there is no personal or health
+      information in scope.</p>
+      <p><strong>In Drive, <code>**Rise**</code> is the only writable folder.</strong> The other folders in that
+      audit share are the provider's own source files. Read them, never write to them.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">04</span>Tests</div>
+  <div class="body">
+    <h2>Where the test position actually is</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Suite</th><th class="num-col">Count</th><th>Read</th></tr></thead>
+        <tbody>
+          <tr><td>Back end specs</td><td class="num-col">24</td><td>Thin for software an auditor relies on</td></tr>
+          <tr><td>Front end tests</td><td class="num-col">34</td><td>Component and route level</td></tr>
+          <tr><td>Playwright end-to-end</td><td class="num-col">1</td><td>The number that worries me most</td></tr>
+          <tr><td><code>obligations.service.spec.ts</code></td><td class="num-col">758</td><td>Against a 494-line service. This is the standard, and it already exists in-house</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>I am not asking for a coverage percentage.</strong> I am asking a narrower question: anywhere an
+    auditor's conclusion depends on our logic, is that logic covered. The obligations engine is already the
+    answer to that question done properly. Use it as the reference rather than a target number.</p>
+    <p>One end-to-end spec means we have almost no automated proof that a whole journey works. Before we put a
+    real provider in front of a real auditor, at least the submission-pack journey should be covered end to end.</p>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">05</span>The work</div>
+  <div class="body">
+    <h2>Four pieces, in this order</h2>
+
+    <div class="task">
+      <div class="task-head"><span class="task-n">First</span><span class="task-t">Apply prod, then rehearse the path</span></div>
+      <p>The moment I clear the account blocker. Then promote <code>dev → staging → main</code> as an exercise
+      rather than on the day it matters. Note that infra <code>apply</code> is deliberately manual
+      (<code>just apply staging</code>); a push to <code>staging</code> does not auto-apply tofu, so promotion
+      aligns the branch and nothing more.</p>
+      <div class="done"><b>Done when</b> prod is up and the promotion has been run once with nobody watching the clock.</div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><span class="task-n">Second</span><span class="task-t">Harmony Care in as tenant one</span></div>
+      <p>The 163 documents loaded, on their real IDs, resolving against their real obligations. If the import
+      needs a tool rather than hands, build the tool, we will do this again for tenant two.</p>
+      <div class="done"><b>Done when</b> Harmony Care's suite is in production and their obligations resolve correctly against it.</div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><span class="task-n">Third</span><span class="task-t">End-to-end cover on the journeys that matter</span></div>
+      <p>Submission pack first. Then wherever an auditor's conclusion depends on our logic.</p>
+      <div class="done"><b>Done when</b> the pack journey is covered end to end and runs in CI.</div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><span class="task-n">Fourth</span><span class="task-t">Get infra off your name alone</span></div>
+      <p>Whatever that takes: pairing Zain through a deploy, writing the runbook down, or handing a slice over.
+      You decide the mechanism, I will back it.</p>
+      <div class="done"><b>Done when</b> you could be away a fortnight and someone else could deploy.</div>
+    </div>
+
+    <p><strong>Not on this list:</strong> Participants. We are not working with participant data yet, so it stays
+    scaffolded and nobody spends a cycle on it. If that changes it becomes its own project rather than a line
+    item here.</p>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">06</span>Back to me</div>
+  <div class="body">
+    <h2>Three things I need from you</h2>
+    <ol class="decisions">
+      <li><strong>What changed in August.</strong> Back end commits went 48 in June, 116 in July, 40 in August,
+      and nothing on any repo since the 18th. I do not know why, and I would rather hear it straight than guess.
+      If it is something I did or failed to do, say that.</li>
+      <li><strong>What comes off your plate.</strong> Name it. I will move it.</li>
+      <li><strong>Is the first piece real in two weeks?</strong> If it is not, say so now and we change the plan
+      rather than the deadline. Saying no to a date in advance is not a failure here, it is the job.</li>
+    </ol>
+
+    <div class="note">
+      <span class="lbl">Definition of done for this brief</span>
+      <p>A real provider can be audited in production, and if you were away for a fortnight someone else could
+      deploy without you.</p>
+    </div>
+  </div>
+</section>
+
+<footer>Rise OS · Production readiness brief № 1 · April Kidd · 22 Aug 2026 · Measured at dev, 18 Aug</footer>
+
+</div>
+</body>
+</html>

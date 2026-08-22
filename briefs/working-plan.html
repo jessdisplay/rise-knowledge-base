@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Rise OS Working Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#F6F7F9;
+  --surface:#FFFFFF;
+  --ink:#141A20;
+  --ink-2:#3D4852;
+  --muted:#6B7783;
+  --rule:#DDE2E8;
+  --rule-soft:#E9EDF1;
+  --accent:#9A6408;
+  --built:#15654A;
+  --built-bg:#E2EFE9;
+  --partial:#8A5A08;
+  --partial-bg:#F6EAD3;
+  --blocked:#9C2B2B;
+  --blocked-bg:#F5E1E1;
+
+  --measure:68ch;
+  --rail:7.5rem;
+
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1116; --surface:#141A21; --ink:#E7ECF1; --ink-2:#B4BFCA;
+    --muted:#8794A1; --rule:#28313A; --rule-soft:#1E262E; --accent:#E3AC46;
+    --built:#5FCB9F; --built-bg:#14291F; --partial:#E3AC46; --partial-bg:#2A2216;
+    --blocked:#EF8A8A; --blocked-bg:#2C1A1A;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1116; --surface:#141A21; --ink:#E7ECF1; --ink-2:#B4BFCA;
+  --muted:#8794A1; --rule:#28313A; --rule-soft:#1E262E; --accent:#E3AC46;
+  --built:#5FCB9F; --built-bg:#14291F; --partial:#E3AC46; --partial-bg:#2A2216;
+  --blocked:#EF8A8A; --blocked-bg:#2C1A1A;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.page{max-width:74rem;margin:0 auto;padding:0 1.5rem 6rem}
+
+.masthead{border-bottom:2px solid var(--ink);padding:3.5rem 0 1.1rem;display:flex;
+  flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem}
+.masthead h1{font-family:var(--f-display);font-weight:700;
+  font-size:clamp(2rem,4.6vw,3.1rem);letter-spacing:-.025em;line-height:1.02;margin:0;text-wrap:balance}
+.stamp{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--muted);text-align:right;line-height:1.9}
+.stamp b{color:var(--ink-2);font-weight:500}
+.standfirst{font-size:1.16rem;line-height:1.55;color:var(--ink-2);max-width:58ch;
+  margin:1.6rem 0 0;text-wrap:pretty}
+
+section{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);gap:0 2.5rem;
+  padding:2.8rem 0 0;border-top:1px solid var(--rule);margin-top:2.8rem}
+.rail{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;
+  letter-spacing:.09em;color:var(--muted);line-height:1.7;padding-top:.45rem}
+.rail .num{display:block;font-size:1.5rem;font-family:var(--f-display);font-weight:600;
+  letter-spacing:-.02em;color:var(--accent);line-height:1;margin-bottom:.5rem}
+.body{min-width:0}
+h2{font-family:var(--f-display);font-weight:600;font-size:1.6rem;letter-spacing:-.02em;
+  line-height:1.2;margin:0 0 1rem;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:600;font-size:.82rem;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--muted);margin:2rem 0 .7rem}
+p{margin:0 0 1rem;max-width:var(--measure);text-wrap:pretty}
+.body>ul,.body>ol{max-width:var(--measure);margin:0 0 1rem;padding-left:1.15rem}
+li{margin-bottom:.5rem}
+strong{font-weight:600}
+em{font-style:italic;color:var(--ink-2)}
+code{font-family:var(--f-mono);font-size:.86em;background:var(--rule-soft);
+  padding:.1em .38em;border-radius:3px;color:var(--ink-2)}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+.verdict{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--accent);
+  padding:1.15rem 1.4rem;margin:0 0 1.4rem;max-width:var(--measure)}
+.verdict p{margin:0;font-size:1.05rem}
+.verdict p+p{margin-top:.7rem}
+
+.note{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  padding:1.1rem 0;margin:1.5rem 0;max-width:var(--measure)}
+.note .lbl{display:block;font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--accent);margin-bottom:.5rem}
+.note p:last-child{margin-bottom:0}
+
+/* cycles */
+.cycle{border:1px solid var(--rule);background:var(--surface);padding:1.1rem 1.3rem;margin-bottom:1rem}
+.cycle-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.7rem;margin-bottom:.6rem}
+.cycle-n{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--accent);border:1px solid var(--accent);padding:.12rem .45rem;border-radius:2px}
+.cycle-t{font-family:var(--f-display);font-weight:600;font-size:1.05rem;letter-spacing:-.01em}
+.cycle p{margin:0 0 .6rem;font-size:.97rem;max-width:none}
+.cycle ul{margin:0 0 .7rem;padding-left:1.1rem;font-size:.97rem}
+.cycle li{margin-bottom:.35rem}
+.done{font-family:var(--f-display);font-size:.85rem;color:var(--ink-2);border-top:1px solid var(--rule-soft);
+  padding-top:.6rem;margin-top:.2rem}
+.done b{font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--muted);font-weight:500;display:block;margin-bottom:.2rem}
+
+.who{display:inline-block;font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;
+  letter-spacing:.07em;padding:.18rem .5rem;border-radius:2px;background:var(--rule-soft);color:var(--ink-2)}
+.who.j{background:var(--blocked-bg);color:var(--blocked)}
+.who.a{background:var(--built-bg);color:var(--built)}
+.who.z{background:var(--partial-bg);color:var(--partial)}
+
+/* brief header */
+.briefhead{border-bottom:1px solid var(--rule);padding-bottom:.8rem;margin-bottom:1.3rem;
+  display:flex;flex-wrap:wrap;gap:.8rem;align-items:baseline;justify-content:space-between}
+.briefhead h2{margin:0}
+.owns{font-family:var(--f-display);font-size:.95rem;color:var(--ink-2)}
+
+footer{margin-top:3.5rem;padding-top:1.2rem;border-top:2px solid var(--ink);
+  font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+
+@media (max-width:760px){
+  body{font-size:16px}
+  section{grid-template-columns:1fr;gap:0}
+  .rail{padding:0 0 1rem;display:flex;align-items:baseline;gap:.7rem}
+  .rail .num{margin:0;font-size:1.1rem}
+  .masthead{padding-top:2.5rem}
+  .stamp{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.kbbar{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);padding:.85rem 1.5rem;border-bottom:1px solid var(--rule);
+  background:var(--surface);display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}
+.kbbar a{color:var(--muted);text-decoration:none}
+.kbbar a:hover,.kbbar a:focus-visible{color:var(--accent);text-decoration:underline}
+.kbbar .sep{opacity:.5}
+.kbbar .mono{color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><a href="./index.html">Briefs</a><span class="sep">/</span><span class="mono">Working plan</span></div>
+
+<div class="page">
+
+<header class="masthead">
+  <h1>Rise OS<br>Working Plan</h1>
+  <div class="stamp">22 August 2026<br>Plan <b>№ 1</b><br>Jesse Costelloe</div>
+</header>
+
+<p class="standfirst">Where the product is going, the order we build it in, and what each of us owns.
+One plan for the whole product. It gets rewritten when reality changes, not quietly ignored.</p>
+
+<section>
+  <div class="rail"><span class="num">01</span>Direction</div>
+  <div class="body">
+    <h2>What we are building</h2>
+    <div class="verdict">
+      <p>Rise OS is the audit platform for <strong>both sides of the table</strong>. Providers keep their
+      compliance in it. Auditors work in the same system, against the same evidence, with their own access.
+      Everything in it is anchored to the actual legislation rather than to a checklist someone typed up.</p>
+    </div>
+    <p>That last part is the moat. The obligations engine already derives a provider's real duties from their
+    entity type and registration classes, including the <code>s 20(4) to (5)</code> early-childhood carve-down and
+    the <code>s 22</code> government Core Module floor. Nobody else in this market does that from the instrument.
+    Everything we build should make that chain more complete and more provable, not add surface beside it.</p>
+    <p><strong>The next milestone is singular: a real provider, audited end to end, in production.</strong>
+    Harmony Care is that provider. Every cycle below is ordered by what it takes to get there.</p>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">02</span>Working</div>
+  <div class="body">
+    <h2>Four things I am changing about how we work</h2>
+    <p>These are on me. I have not given this team enough direction, and the four below are the fix.</p>
+
+    <h3>One name against every piece of work</h3>
+    <p>Not a team, not a pair. One person owns the outcome and makes the call. Ownership has been implicit
+    until now, which is how April ended up carrying the entire infrastructure alone and how the production
+    blocker sat for weeks with nobody's name against it, including mine.</p>
+
+    <h3>Decisions get written down before they get made</h3>
+    <p>Short and in prose: what we are doing, what could go wrong, what we are assuming, how we will know it
+    worked. You already do this properly in the ADRs, and <code>0012</code> is the best example in the
+    repository, a decision built, tested against reality, reversed, with the reasoning left intact for whoever
+    comes next. I want that habit to reach past the database layer.</p>
+
+    <h3>One roadmap, scoped so it can finish</h3>
+    <p>One ordered list for the product, not one per person. Work gets cut down until it can actually land, and
+    blockers beat new surface. There has not been such a list, and that is my fault rather than yours: the
+    backlog lives in Linear and I have not been in it, which is how a blocker that only I could clear sat for
+    weeks without anyone being able to point at it.</p>
+
+    <h3>Ship continuously, in small pieces</h3>
+    <p>To staging always, to production in increments once it exists. Back end commits went from 116 in July to
+    40 in August and nothing since the 18th. That is what work accumulating without a release to aim at looks
+    like, and it is a planning failure, not an effort one.</p>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">03</span>Roadmap</div>
+  <div class="body">
+    <h2>The order we build in</h2>
+    <p>Four cycles of two weeks. Sequenced by dependency rather than by calendar, because each one genuinely
+    cannot start until the one before it lands. <em>Calendar dates get pinned to these once I confirm the
+    external date we are working to.</em></p>
+
+    <div class="cycle">
+      <div class="cycle-head"><span class="cycle-n">Cycle 0</span><span class="cycle-t">Unblock</span></div>
+      <p>Nothing new starts. This cycle exists because I am the blocker and I need to clear myself out of the way.</p>
+      <ul>
+        <li>Create the <code>riseos-prod</code> project, link billing, grant <code>dev@</code> Owner, following
+        <code>riseOS-infra/docs/prod-bringup.md</code>. <span class="who j">Jesse</span></li>
+        <li>Land the two open dependency PRs and Zain's HEIC upload fix so we start from a clean tree.
+        <span class="who a">April</span> <span class="who z">Zain</span></li>
+        <li>Every item below gets a Linear issue with one owner before the cycle ends.
+        <span class="who j">Jesse</span></li>
+      </ul>
+      <div class="done"><b>Done when</b> <code>just apply prod</code> can run without an account error.</div>
+    </div>
+
+    <div class="cycle">
+      <div class="cycle-head"><span class="cycle-n">Cycle 1</span><span class="cycle-t">Production exists, and something real is in it</span></div>
+      <ul>
+        <li>Apply prod. Rehearse the <code>dev → staging → main</code> promotion rather than trusting it.
+        <span class="who a">April</span></li>
+        <li>Harmony Care in as the first real tenant: their policies, procedures, forms, registers and audit
+        evidence. Organisational data only, no participant records, so nothing here waits on privacy work.
+        <span class="who a">April</span></li>
+        <li>Map the compliance chain we have against the chain the dossier defines, and write the gap up as an
+        ADR before building. <span class="who z">Zain</span></li>
+      </ul>
+      <div class="done"><b>Done when</b> Harmony Care's real suite is loaded in production and their obligations
+      resolve correctly against it.</div>
+    </div>
+
+    <div class="cycle">
+      <div class="cycle-head"><span class="cycle-n">Cycle 2</span><span class="cycle-t">Depth</span></div>
+      <ul>
+        <li>The two missing links in the chain: registers, and improvement actions off the back of findings.
+        <span class="who z">Zain</span></li>
+        <li>Typed relationships between documents and obligations, replacing inference.
+        <span class="who z">Zain</span></li>
+        <li>Test depth everywhere an auditor's conclusion depends on our logic.
+        <span class="who a">April</span></li>
+      </ul>
+      <div class="done"><b>Done when</b> a finding can be traced forward to a closed improvement action and
+      backward to the clause that caused it.</div>
+    </div>
+
+    <div class="cycle">
+      <div class="cycle-head"><span class="cycle-n">Cycle 3</span><span class="cycle-t">A real audit, end to end</span></div>
+      <ul>
+        <li>Run a full audit against Harmony Care in production with a real auditor in the auditor workspace.
+        <span class="who a">April</span> <span class="who z">Zain</span></li>
+        <li>Fix what that run exposes. It will expose things, and that is the entire point of running it.</li>
+      </ul>
+      <div class="done"><b>Done when</b> an auditor has completed a pack in Rise OS and would use it again.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">04</span>Zain</div>
+  <div class="body">
+    <div class="briefhead">
+      <h2>The compliance engine</h2>
+      <span class="owns">Owner: Zain Al-Saffi</span>
+    </div>
+
+    <p><strong>Why you.</strong> This is the hardest modelling problem in the product and the part competitors
+    cannot copy, and modelling is your strength. Prompt work is not where you should be.</p>
+
+    <p><strong>What you are not doing.</strong> You are not building a compliance engine from scratch. One
+    exists and it is good: <code>obligations.service.ts</code>, with entity rules that encode real statute, and
+    ADRs 0010, 0012 and 0013 recording why they live in engine code after the data-driven version was built and
+    deliberately reversed. Read those three first. Your job is depth, not replacement.</p>
+
+    <h3>The gap, precisely</h3>
+    <p>The Rise dossier defines a nine-step chain: <em>standard → policy → procedure → form → register →
+    evidence → audit → finding → improvement action</em>. Against the schema as it stands today, seven of those
+    nine links exist. Two do not:</p>
+    <ul>
+      <li><strong>Register.</strong> There is no registers table. Registers are how a provider proves a control
+      actually operates rather than merely existing, and an auditor asks for them by name.</li>
+      <li><strong>Improvement action.</strong> Findings carry severity, due date, rationale and conformance, but
+      nothing carries a finding forward into a corrective action that can be tracked to closure. Right now the
+      chain stops at the diagnosis.</li>
+    </ul>
+
+    <div class="note">
+      <span class="lbl">The most interesting problem in the product</span>
+      <p>ADR 0011 chose <em>flat node linking with inferred document relationships</em>. The dossier defines
+      <strong>nine typed relationships</strong>, EXISTS TO MEET, IMPLEMENTS, OPERATIONALISES, REFERENCES, USES,
+      RECORDS TO, GENERATED BY, EVIDENCES, ASSESSES, and it distinguishes claims that are Verified, Confirmed,
+      Tested or Draft.</p>
+      <p>Inference gets you a link. It does not get you a defensible <em>reason</em> for the link, and a
+      defensible reason is the entire product. Whether ADR 0011 should now be superseded is your call to make
+      and to write up. If it should stand, say why and we keep it.</p>
+    </div>
+
+    <h3>Your substrate</h3>
+    <p>Everything you need is already assembled and does not need rebuilding:</p>
+    <ul>
+      <li>The all-in-one dossier: <a href="https://inspiring-mermaid-fa9765.netlify.app/">the collection, everything in one document</a>
+    , the 123-document suite, the graph, the training ladder, the auditor's view.</li>
+      <li>The knowledge base: <a href="https://jessdisplay.github.io/rise-knowledge-base/">rise-knowledge-base</a>
+    , the audit pack, the standards navigator, the document register.</li>
+    </ul>
+
+    <h3>First deliverable</h3>
+    <p>Not code. An ADR that maps our current chain against the dossier's, states which of the two missing links
+    we build first and why, and takes a position on typed relationships versus inference. Written before anything
+    is built, so we can argue with the reasoning rather than with the migration.</p>
+  </div>
+</section>
+
+<section>
+  <div class="rail"><span class="num">05</span>April</div>
+  <div class="body">
+    <div class="briefhead">
+      <h2>Production readiness</h2>
+      <span class="owns">Owner: April Kidd</span>
+    </div>
+
+    <p><strong>Why you.</strong> You built the infrastructure, you are the only person who has been near it, and
+    you wrote the prod bringup procedure. Nobody else can own this and it should have had your name on it
+    formally long before now.</p>
+
+    <p><strong>The honest part.</strong> You have been carrying infra on your own alongside the heaviest feature
+    load on the team. That is not sustainable and it is not a compliment, it is a risk. Part of this brief is
+    telling me what to take off you.</p>
+
+    <h3>What you own</h3>
+    <ul>
+      <li><strong>Production.</strong> Apply prod the moment I clear the account blocker, then rehearse the
+      promotion path rather than trusting it on the day.</li>
+      <li><strong>Harmony Care as the first real tenant.</strong> Their organisational compliance suite loaded
+      and resolving correctly against their obligations. Organisational data only.</li>
+      <li><strong>Test depth where it counts.</strong> 24 back end specs, 34 front end tests and one end-to-end
+      spec is thin for software an auditor relies on. I am not asking for a coverage number. I am asking that
+      anywhere an auditor's conclusion depends on our logic, that logic is covered. The obligations engine is
+      the standard to match.</li>
+    </ul>
+    <p><strong>Not on this list:</strong> Participants. We are not working with participant data yet, so it stays
+    scaffolded and nobody should spend a cycle on it. If that changes it becomes its own project, not a
+    line item here.</p>
+
+    <h3>What I need back from you</h3>
+    <ol>
+      <li>What actually changed in August. Velocity halved and I do not know why. If it is something I did, or
+      did not do, I would rather hear it straight.</li>
+      <li>What comes off your plate so infra is not a single point of failure.</li>
+      <li>Your read on whether Cycle 1 is real in two weeks. If it is not, say so now and we change the plan
+      rather than the deadline.</li>
+    </ol>
+
+    <div class="note">
+      <span class="lbl">Definition of done for this brief</span>
+      <p>A real provider can be audited in production, and if you were away for a fortnight someone else could
+      deploy without you.</p>
+    </div>
+  </div>
+</section>
+
+<footer>Rise OS · Working plan № 1 · 22 Aug 2026 · Supersedes nothing · Rewritten when reality changes</footer>
+
+</div>
+</body>
+</html>

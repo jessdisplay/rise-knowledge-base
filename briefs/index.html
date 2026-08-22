@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Briefs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F6F7F9;--surface:#FFFFFF;--ink:#141A20;--ink-2:#3D4852;--muted:#6B7783;
+  --rule:#DDE2E8;--rule-soft:#E9EDF1;--accent:#9A6408;
+  --built:#15654A;--built-bg:#E2EFE9;--blocked:#9C2B2B;--blocked-bg:#F5E1E1;
+  --measure:68ch;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0D1116;--surface:#141A21;--ink:#E7ECF1;--ink-2:#B4BFCA;--muted:#8794A1;
+  --rule:#28313A;--rule-soft:#1E262E;--accent:#E3AC46;
+  --built:#5FCB9F;--built-bg:#14291F;--blocked:#EF8A8A;--blocked-bg:#2C1A1A;}}
+:root[data-theme="dark"]{
+  --ground:#0D1116;--surface:#141A21;--ink:#E7ECF1;--ink-2:#B4BFCA;--muted:#8794A1;
+  --rule:#28313A;--rule-soft:#1E262E;--accent:#E3AC46;
+  --built:#5FCB9F;--built-bg:#14291F;--blocked:#EF8A8A;--blocked-bg:#2C1A1A;}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+
+.kbbar{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);padding:.85rem 1.5rem;border-bottom:1px solid var(--rule);
+  background:var(--surface);display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}
+.kbbar a{color:var(--muted);text-decoration:none}
+.kbbar a:hover,.kbbar a:focus-visible{color:var(--accent);text-decoration:underline}
+.kbbar .sep{opacity:.5}
+.kbbar .mono{color:var(--ink-2)}
+
+.page{max-width:62rem;margin:0 auto;padding:0 1.5rem 6rem}
+.masthead{border-bottom:2px solid var(--ink);padding:3.5rem 0 1.1rem;display:flex;
+  flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem}
+.masthead h1{font-family:var(--f-display);font-weight:700;font-size:clamp(2rem,4.6vw,3rem);
+  letter-spacing:-.025em;line-height:1.03;margin:0}
+.stamp{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--muted);text-align:right;line-height:1.9}
+.standfirst{font-size:1.16rem;line-height:1.55;color:var(--ink-2);max-width:58ch;
+  margin:1.6rem 0 2.6rem;text-wrap:pretty}
+
+h2{font-family:var(--f-display);font-weight:600;font-size:.82rem;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--muted);margin:2.6rem 0 1rem}
+p{margin:0 0 1rem;max-width:var(--measure);text-wrap:pretty}
+a{color:var(--accent)}
+
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr))}
+.card{border:1px solid var(--rule);background:var(--surface);padding:1.3rem 1.4rem;
+  display:flex;flex-direction:column;gap:.55rem;text-decoration:none;color:inherit;
+  transition:border-color .15s ease}
+.card:hover,.card:focus-visible{border-color:var(--accent);outline:none}
+.card:focus-visible{box-shadow:0 0 0 2px var(--accent)}
+.card .who{font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;
+  letter-spacing:.09em;color:var(--accent)}
+.card .t{font-family:var(--f-display);font-weight:600;font-size:1.22rem;letter-spacing:-.015em;
+  line-height:1.2;color:var(--ink)}
+.card .d{font-size:.95rem;color:var(--ink-2);line-height:1.5}
+.tag{display:inline-block;align-self:flex-start;font-family:var(--f-mono);font-size:.63rem;
+  text-transform:uppercase;letter-spacing:.08em;padding:.2rem .5rem;border-radius:2px;
+  background:var(--built-bg);color:var(--built);margin-top:.2rem}
+.tag.private{background:var(--blocked-bg);color:var(--blocked)}
+
+.warn{border:1px solid var(--blocked);background:var(--blocked-bg);padding:1.1rem 1.3rem;
+  margin:2.4rem 0 0;max-width:var(--measure)}
+.warn b{display:block;font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--blocked);margin-bottom:.45rem}
+.warn p{margin:0;font-size:.97rem;color:var(--ink-2)}
+
+footer{margin-top:3.5rem;padding-top:1.2rem;border-top:2px solid var(--ink);
+  font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">Briefs</span></div>
+
+<div class="page">
+
+<header class="masthead">
+  <h1>Briefs</h1>
+  <div class="stamp">22 August 2026<br>Set <b>&#8470; 1</b></div>
+</header>
+
+<p class="standfirst">Where the product is, where it is going, and what each of us owns. Written from the
+repositories at <code>dev</code> and from the Rise dossier, with every number traceable to a commit, a
+migration, an ADR or a file on disk.</p>
+
+<h2>For the team</h2>
+<div class="grid">
+
+  <a class="card" href="./compliance-engine.html">
+    <span class="who">Zain Al-Saffi</span>
+    <span class="t">The Compliance Engine Brief</span>
+    <span class="d">The engine that already exists, the dossier model it has to reach, the two missing links
+    in the nine-step chain, how to read the dossier without drowning in it, and the ADR that comes before any
+    code.</span>
+    <span class="tag">Ready to send</span>
+  </a>
+
+  <a class="card" href="./production-readiness.html">
+    <span class="who">April Kidd</span>
+    <span class="t">The Production Readiness Brief</span>
+    <span class="d">The infrastructure position milestone by milestone, the account blocker that is mine not
+    hers, Harmony Care's 163 documents counted, the test gap, and the three questions I need answered.</span>
+    <span class="tag">Ready to send</span>
+  </a>
+
+  <a class="card" href="./working-plan.html">
+    <span class="who">Everyone</span>
+    <span class="t">Rise OS Working Plan</span>
+    <span class="d">Direction, the four things changing about how we work, and a four-cycle roadmap ending at
+    a real provider audited in production.</span>
+    <span class="tag private">Hold, see below</span>
+  </a>
+
+</div>
+
+<h2>Not for circulation</h2>
+<div class="grid">
+
+  <a class="card" href="./state-of-play.html">
+    <span class="who">Jesse only</span>
+    <span class="t">Rise OS State of Play</span>
+    <span class="d">The engineering baseline everything else is built from. Contains a candid working note on
+    team velocity and output that is not written for the people it describes.</span>
+    <span class="tag private">Private</span>
+  </a>
+
+</div>
+
+<div class="warn">
+  <b>Two things before sending anything</b>
+  <p>The State of Play is a private working document and this is a public URL. Anyone given this link can read
+  it, including the people discussed in it. The Working Plan opens by calling Rise "the audit platform for both
+  sides of the table", which is the exact question the strategic roadmap records as unresolved, so it should not
+  go out until that is either decided or softened. The two individual briefs are clean on both counts and can be
+  sent as they are.</p>
+</div>
+
+<footer>Rise OS &#183; Briefs &#8470; 1 &#183; 22 Aug 2026 &#183; Measured at dev, 18 Aug</footer>
+
+</div>
+</body>
+</html>
