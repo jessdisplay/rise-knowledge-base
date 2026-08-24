@@ -91,6 +91,14 @@ footer a{color:#f3d78f}
 .ajump a{margin-right:12px}
 tr:target td{background:#f6e0a4}
 .hide{display:none!important}
+
+.card .shot{width:100%;height:auto;aspect-ratio:720/450;object-fit:cover;object-position:top;border:1px solid var(--rule);border-radius:7px;margin-bottom:10px;display:block;background:var(--bg)}
+a.card-link{display:block;color:inherit;text-decoration:none;transition:transform .12s ease,box-shadow .12s ease}
+a.card-link h4{color:var(--ink)}
+a.card-link:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(24,20,8,.14)}
+a.card-link:hover h4{text-decoration:underline}
+a.card-link:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){a.card-link{transition:none}a.card-link:hover{transform:none}}
 </style>
 </head>
 <body>
@@ -130,16 +138,16 @@ tr:target td{background:#f6e0a4}
 <section id="tools" aria-labelledby="h-tools">
 <h2 id="h-tools">The tools — open directly in a browser</h2>
 <div class="grid" data-search>
-<div class="card c-fw"><h4><a href='/rise-node-map'>The whole-system node map</a></h4><p>224 register nodes / 528 edges, generated from the seed JSON by <code>rise_map_build.py</code>. Zoom, drag, tap; edge words light up on focus. The four no-implementing-document standards are visible as an open item.</p><span class="tag ok">generated from the graph</span></div>
-<div class="card c-fw"><h4><a href='/rise-node-map-annotated.mermaid'>The meta-model, bands named (v0.2)</a></h4><p>One box per kind of thing, regrouped into five named bands — legislation · standards · provider · proof · auditor's view. Source travels alongside.</p><span class="tag ok">v0.1 preserved untouched</span></div>
-<div class="card c-fw"><h4><a href='/rise-coverage-map'>Coverage map with descriptors</a></h4><p>All 70 cells with hover, tap and keyboard descriptors — name, address, plain line. VER ordinals per the register.</p><span class="tag ok">verified + register-confirmed</span></div>
-<div class="card c-fw"><h4><a href='/rise-standards-navigator'>Standards navigator</a></h4><p>Search all 66 verified standards, dual official titles flagged, copy-citation built in.</p><span class="tag ok">verified this project</span></div>
-<div class="card c-fw"><h4>Standards linked map + search</h4><p>The knowledge base’s generated page — all 70 standards with their implementing documents inline, and text search across both. Lives in the repo, not this bundle: <code>rise-knowledge-base/standards.html</code> — open it from the KB’s own index. In this bundle, the navigator (search) and the whole-system map (documents per standard, on tap) cover the same ground.</p><span class="tag">in the knowledge base</span></div>
-<div class="card c-fw"><h4><a href='/rise-graph-explorer'>Graph explorer (drill-down tree)</a></h4><p>Act → instruments → modules → standards with verified content, ingestion slots, one worked chain.</p><span class="tag">slots await ingestion</span></div>
-<div class="card c-prov"><h4><a href='/rise-bounce-prototype'>The bounce prototype</a></h4><p>Walk one golden thread page by page — standard to policy to procedure to form to register to proof.</p><span class="tag">example organisation</span></div>
-<div class="card c-law"><h4><a href='/rise-visual-atlas'>Visual atlas — thirteen diagrams</a></h4><p>Every project diagram on one page, each captioned with its evidence status, ending with the provider learning ladder.</p><span class="tag ok">status per figure</span></div>
-<div class="card c-law"><h4><a href='/rise-documentation'>System &amp; NDIA API documentation</a></h4><p>How the mapping works with plain-language linkages, plus the verified Digital Partnership landscape — every claim tiered V/C/T/D.</p><span class="tag ok">NDIA process verified 8 Jul</span></div>
-<div class="card c-chk"><h4><a href="#auditor">Through the auditor’s eyes</a></h4><p>Baked into this document: the roadmap as an auditor experiences it, A0–A6 — the one question, three tests, two visits, per-standard asks for all 70, and the developer’s translation.</p><span class="tag ok">in this document</span></div>
+<a class="card c-fw card-link" href="./rise-node-map/"><img class="shot" src="./thumbs/rise-node-map.webp" alt="" loading="lazy" width="720" height="450"><h4>The whole-system node map</h4><p>224 register nodes / 528 edges, generated from the seed JSON by <code>rise_map_build.py</code>. Zoom, drag, tap; edge words light up on focus. The four no-implementing-document standards are visible as an open item.</p><span class="tag ok">generated from the graph</span></a>
+<a class="card c-fw card-link" href="./rise-node-map-annotated.mermaid"><img class="shot" src="./thumbs/meta-model.webp" alt="" loading="lazy" width="720" height="450"><h4>The meta-model, bands named (v0.2)</h4><p>One box per kind of thing, regrouped into five named bands — legislation · standards · provider · proof · auditor's view. Source travels alongside.</p><span class="tag ok">v0.1 preserved untouched</span></a>
+<a class="card c-fw card-link" href="./rise-coverage-map/"><img class="shot" src="./thumbs/rise-coverage-map.webp" alt="" loading="lazy" width="720" height="450"><h4>Coverage map with descriptors</h4><p>All 70 cells with hover, tap and keyboard descriptors — name, address, plain line. VER ordinals per the register.</p><span class="tag ok">verified + register-confirmed</span></a>
+<a class="card c-fw card-link" href="./rise-standards-navigator/"><img class="shot" src="./thumbs/rise-standards-navigator.webp" alt="" loading="lazy" width="720" height="450"><h4>Standards navigator</h4><p>Search all 66 verified standards, dual official titles flagged, copy-citation built in.</p><span class="tag ok">verified this project</span></a>
+<a class="card c-fw card-link" href="../standards.html"><img class="shot" src="./thumbs/standards.webp" alt="" loading="lazy" width="720" height="450"><h4>Standards linked map + search</h4><p>The knowledge base’s generated page — all 70 standards with their implementing documents inline, and text search across both. Lives in the repo, not this bundle: <code>rise-knowledge-base/standards.html</code> — open it from the KB’s own index. In this bundle, the navigator (search) and the whole-system map (documents per standard, on tap) cover the same ground.</p><span class="tag">in the knowledge base</span></a>
+<a class="card c-fw card-link" href="./rise-graph-explorer/"><img class="shot" src="./thumbs/rise-graph-explorer.webp" alt="" loading="lazy" width="720" height="450"><h4>Graph explorer (drill-down tree)</h4><p>Act → instruments → modules → standards with verified content, ingestion slots, one worked chain.</p><span class="tag">slots await ingestion</span></a>
+<a class="card c-prov card-link" href="./rise-bounce-prototype/"><img class="shot" src="./thumbs/rise-bounce-prototype.webp" alt="" loading="lazy" width="720" height="450"><h4>The bounce prototype</h4><p>Walk one golden thread page by page — standard to policy to procedure to form to register to proof.</p><span class="tag">example organisation</span></a>
+<a class="card c-law card-link" href="./rise-visual-atlas/"><img class="shot" src="./thumbs/rise-visual-atlas.webp" alt="" loading="lazy" width="720" height="450"><h4>Visual atlas — thirteen diagrams</h4><p>Every project diagram on one page, each captioned with its evidence status, ending with the provider learning ladder.</p><span class="tag ok">status per figure</span></a>
+<a class="card c-law card-link" href="./rise-documentation/"><img class="shot" src="./thumbs/rise-documentation.webp" alt="" loading="lazy" width="720" height="450"><h4>System &amp; NDIA API documentation</h4><p>How the mapping works with plain-language linkages, plus the verified Digital Partnership landscape — every claim tiered V/C/T/D.</p><span class="tag ok">NDIA process verified 8 Jul</span></a>
+<a class="card c-chk card-link" href="#auditor"><img class="shot" src="./thumbs/auditor.webp" alt="" loading="lazy" width="720" height="450"><h4>Through the auditor’s eyes</h4><p>Baked into this document: the roadmap as an auditor experiences it, A0–A6 — the one question, three tests, two visits, per-standard asks for all 70, and the developer’s translation.</p><span class="tag ok">in this document</span></a>
 </div>
 </section>
 
