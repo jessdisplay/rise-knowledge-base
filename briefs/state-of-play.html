@@ -7,68 +7,32 @@
 <title>Rise OS State of Play</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@1&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 
 <style>
 :root{
-  --ground:#F6F7F9;
+  --ground:#FDEEC7;
   --surface:#FFFFFF;
-  --ink:#141A20;
-  --ink-2:#3D4852;
-  --muted:#6B7783;
-  --rule:#DDE2E8;
-  --rule-soft:#E9EDF1;
-  --accent:#9A6408;
-  --accent-soft:#F3E7D0;
-  --built:#15654A;
+  --ink:#1E1F21;
+  --ink-2:#4A4436;
+  --muted:#6E6656;
+  --rule:#EADDB6;
+  --rule-soft:#F4ECD4;
+  --accent:#9A6A10;
+  --accent-soft:#FBDC8C;
+  --built:#14705A;
   --partial:#8A5A08;
   --blocked:#9C2B2B;
-  --built-bg:#E2EFE9;
-  --partial-bg:#F6EAD3;
-  --blocked-bg:#F5E1E1;
+  --built-bg:#C7EEE4;
+  --partial-bg:#FBDC8C;
+  --blocked-bg:#F6E1DC;
 
   --measure:68ch;
   --rail:7.5rem;
 
   --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
-  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-body:"Space Grotesk",system-ui,sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --ground:#0D1116;
-    --surface:#141A21;
-    --ink:#E7ECF1;
-    --ink-2:#B4BFCA;
-    --muted:#8794A1;
-    --rule:#28313A;
-    --rule-soft:#1E262E;
-    --accent:#E3AC46;
-    --accent-soft:#2A2216;
-    --built:#5FCB9F;
-    --partial:#E3AC46;
-    --blocked:#EF8A8A;
-    --built-bg:#14291F;
-    --partial-bg:#2A2216;
-    --blocked-bg:#2C1A1A;
-  }
-}
-:root[data-theme="dark"]{
-  --ground:#0D1116;
-  --surface:#141A21;
-  --ink:#E7ECF1;
-  --ink-2:#B4BFCA;
-  --muted:#8794A1;
-  --rule:#28313A;
-  --rule-soft:#1E262E;
-  --accent:#E3AC46;
-  --accent-soft:#2A2216;
-  --built:#5FCB9F;
-  --partial:#E3AC46;
-  --blocked:#EF8A8A;
-  --built-bg:#14291F;
-  --partial-bg:#2A2216;
-  --blocked-bg:#2C1A1A;
 }
 
 *{box-sizing:border-box}
@@ -320,11 +284,32 @@ footer{
 .kbbar a:hover,.kbbar a:focus-visible{color:var(--accent);text-decoration:underline}
 .kbbar .sep{opacity:.5}
 .kbbar .mono{color:var(--blocked);font-weight:600}
+/* ---- Rise register (matches the all-in-one dossier) ---- */
+body{background:var(--ground)}
+.kbbar{position:sticky;top:0;z-index:20;background:#17160F;border:0;box-shadow:0 2px 8px rgba(24,20,8,.28);padding:0}
+.kbbar .kwrap{max-width:72rem;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:.55rem 1.25rem}
+.kbbar .brand{display:flex;align-items:center;padding:.2rem 0}
+.kbbar .brand img{height:20px;width:auto;display:block}
+.kbbar .setnav{display:flex;flex-wrap:wrap;gap:.1rem;margin-left:auto}
+.kbbar a{color:#F3EAD3;text-decoration:none;font:600 12.5px/1 var(--f-display);letter-spacing:.04em;padding:.55rem .6rem;border-radius:4px}
+.kbbar a:hover{background:#2E2B20}
+.kbbar a[aria-current="page"]{color:#F7AC28}
+.kbbar a:focus-visible{outline:3px solid #F7AC28;outline-offset:-3px}
+.masthead h1{font-family:var(--f-display);font-weight:800;letter-spacing:-.01em}
+.masthead h1 em{font-family:"Instrument Serif",serif;font-style:italic;font-weight:400;color:var(--accent)}
+.stamp{border:2px solid #A07018;color:var(--ink-2);padding:.6rem .9rem;transform:rotate(-1.2deg);text-transform:uppercase;letter-spacing:.06em;font-family:var(--f-mono)}
+@media (prefers-reduced-motion:reduce){.stamp{transform:none}}
+h2{font-family:var(--f-display);border-bottom:3px solid #17160F;padding-bottom:.35rem}
+.toc{display:flex;flex-wrap:wrap;align-items:baseline;gap:.35rem .9rem;margin:1.6rem 0 .2rem;padding:.85rem 1rem;background:var(--rule-soft);border:1px solid var(--rule);border-radius:8px}
+.toc .toc-l{font:600 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:.3rem}
+.toc a{font:500 13.5px/1.5 var(--f-display);color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+.toc a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.toc a .n{font-family:var(--f-mono);font-size:11px;color:var(--accent);margin-right:.25rem}
 </style>
 </head>
 <body>
 
-<div class="kbbar"><a href="../index.html">Rise Knowledge Base</a><span class="sep">/</span><a href="./index.html">Briefs</a><span class="sep">/</span><span class="mono">Private, not for circulation</span></div>
+<header class="kbbar"><div class="kwrap"><a class="brand" href="../index.html"><img src="./rise-wordmark-white.svg" alt="Rise knowledge base"></a><nav class="setnav" aria-label="Brief set"><a href="./index.html">Briefs</a><a href="./working-plan.html">Working plan</a><a href="./compliance-engine.html">Compliance engine · Zain</a><a href="./production-readiness.html">Production readiness · April</a><a href="../dossier/index.html">The dossier</a><a href="../standards.html">Standards</a></nav></div></header>
 
 <div class="page">
 
@@ -348,7 +333,8 @@ commit, a migration, an ADR or a Terraform file in <code>riseOS-FE</code>, <code
   written from it. Section 04 in particular is a working note, not a message to anybody.</p>
 </div>
 
-<section>
+<nav class="toc" aria-label="On this page"><span class="toc-l">On this page</span><a href="#s01"><span class="n">01</span>Where we actually are</a><a href="#s02"><span class="n">02</span>What exists today</a><a href="#s03"><span class="n">03</span>Staging is live. Production is waiting on you.</a><a href="#s04"><span class="n">04</span>What the commit record shows</a><a href="#s05"><span class="n">05</span>What "production ready" still needs</a><a href="#s06"><span class="n">06</span>Four things to change about how we work</a><a href="#s07"><span class="n">07</span>Decisions only you can make</a><a href="#s08"><span class="n">08</span>What comes after this document</a></nav>
+<section id="s01">
   <div class="rail"><span class="num">01</span>The answer</div>
   <div class="body">
     <h2>Where we actually are</h2>
@@ -365,7 +351,7 @@ commit, a migration, an ADR or a Terraform file in <code>riseOS-FE</code>, <code
   </div>
 </section>
 
-<section>
+<section id="s02">
   <div class="rail"><span class="num">02</span>The product</div>
   <div class="body">
     <h2>What exists today</h2>
@@ -406,7 +392,7 @@ commit, a migration, an ADR or a Terraform file in <code>riseOS-FE</code>, <code
   </div>
 </section>
 
-<section>
+<section id="s03">
   <div class="rail"><span class="num">03</span>Deployment</div>
   <div class="body">
     <h2>Staging is live. Production is waiting on you.</h2>
@@ -426,7 +412,7 @@ commit, a migration, an ADR or a Terraform file in <code>riseOS-FE</code>, <code
   </div>
 </section>
 
-<section>
+<section id="s04">
   <div class="rail"><span class="num">04</span>The team</div>
   <div class="body">
     <h2>What the commit record shows</h2>
@@ -462,7 +448,7 @@ commit, a migration, an ADR or a Terraform file in <code>riseOS-FE</code>, <code
   </div>
 </section>
 
-<section>
+<section id="s05">
   <div class="rail"><span class="num">05</span>The gap</div>
   <div class="body">
     <h2>What "production ready" still needs</h2>
@@ -478,7 +464,7 @@ commit, a migration, an ADR or a Terraform file in <code>riseOS-FE</code>, <code
   </div>
 </section>
 
-<section>
+<section id="s06">
   <div class="rail"><span class="num">06</span>Working</div>
   <div class="body">
     <h2>Four things to change about how we work</h2>
@@ -509,7 +495,7 @@ commit, a migration, an ADR or a Terraform file in <code>riseOS-FE</code>, <code
   </div>
 </section>
 
-<section>
+<section id="s07">
   <div class="rail"><span class="num">07</span>Open</div>
   <div class="body">
     <h2>Decisions only you can make</h2>
@@ -529,7 +515,7 @@ commit, a migration, an ADR or a Terraform file in <code>riseOS-FE</code>, <code
   </div>
 </section>
 
-<section>
+<section id="s08">
   <div class="rail"><span class="num">08</span>Next</div>
   <div class="body">
     <h2>What comes after this document</h2>
