@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Whys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@1&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#FDEEC7;
+  --surface:#FFFFFF;
+  --ink:#1E1F21;
+  --ink-2:#4A4436;
+  --muted:#6E6656;
+  --rule:#EADDB6;
+  --rule-soft:#F4ECD4;
+  --accent:#9A6A10;
+  --accent-soft:#FBDC8C;
+  --built:#14705A;
+  --partial:#8A5A08;
+  --blocked:#9C2B2B;
+  --built-bg:#C7EEE4;
+  --partial-bg:#FBDC8C;
+  --blocked-bg:#F6E1DC;
+
+  --measure:68ch;
+  --rail:7.5rem;
+
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Space Grotesk",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.page{max-width:74rem;margin:0 auto;padding:0 1.5rem 6rem}
+
+/* ---- masthead ---- */
+.masthead{
+  border-bottom:2px solid var(--ink);
+  padding:3.5rem 0 1.1rem;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:1rem;
+}
+.masthead h1{
+  font-family:var(--f-display);
+  font-weight:700;
+  font-size:clamp(2rem,4.6vw,3.1rem);
+  letter-spacing:-.025em;
+  line-height:1.02;
+  margin:0;
+  text-wrap:balance;
+}
+.stamp{
+  font-family:var(--f-mono);
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--muted);
+  text-align:right;
+  line-height:1.9;
+}
+.stamp b{color:var(--ink-2);font-weight:500}
+
+.standfirst{
+  font-size:1.16rem;
+  line-height:1.55;
+  color:var(--ink-2);
+  max-width:56ch;
+  margin:1.6rem 0 0;
+  text-wrap:pretty;
+}
+
+/* ---- sections with a marginal rail ---- */
+section{
+  display:grid;
+  grid-template-columns:var(--rail) minmax(0,1fr);
+  gap:0 2.5rem;
+  padding:2.8rem 0 0;
+  border-top:1px solid var(--rule);
+  margin-top:2.8rem;
+}
+section:first-of-type{border-top:none}
+.rail{
+  font-family:var(--f-mono);
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  color:var(--muted);
+  line-height:1.7;
+  padding-top:.45rem;
+}
+.rail .num{
+  display:block;
+  font-size:1.5rem;
+  font-family:var(--f-display);
+  font-weight:600;
+  letter-spacing:-.02em;
+  color:var(--accent);
+  line-height:1;
+  margin-bottom:.5rem;
+}
+.body{min-width:0}
+h2{
+  font-family:var(--f-display);
+  font-weight:600;
+  font-size:1.6rem;
+  letter-spacing:-.02em;
+  line-height:1.2;
+  margin:0 0 1rem;
+  text-wrap:balance;
+}
+h3{
+  font-family:var(--f-display);
+  font-weight:600;
+  font-size:.82rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--muted);
+  margin:2rem 0 .7rem;
+}
+p{margin:0 0 1rem;max-width:var(--measure);text-wrap:pretty}
+.body>ul,.body>ol{max-width:var(--measure);margin:0 0 1rem;padding-left:1.15rem}
+li{margin-bottom:.5rem}
+strong{font-weight:600}
+em{font-style:italic;color:var(--ink-2)}
+code,.mono{font-family:var(--f-mono);font-size:.86em}
+code{
+  background:var(--rule-soft);
+  padding:.1em .38em;
+  border-radius:3px;
+  color:var(--ink-2);
+}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+/* ---- the verdict line ---- */
+.verdict{
+  background:var(--surface);
+  border:1px solid var(--rule);
+  border-left:3px solid var(--accent);
+  padding:1.15rem 1.4rem;
+  margin:0 0 1.4rem;
+  max-width:var(--measure);
+}
+.verdict p{margin:0;font-size:1.05rem}
+.verdict p+p{margin-top:.7rem}
+
+/* ---- data tables ---- */
+.scroll{overflow-x:auto;margin:0 0 1.2rem;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-family:var(--f-display);font-size:.88rem;min-width:34rem}
+th{
+  text-align:left;
+  font-weight:600;
+  font-size:.68rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--muted);
+  padding:.7rem .9rem;
+  border-bottom:1px solid var(--rule);
+  white-space:nowrap;
+}
+td{padding:.6rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top;color:var(--ink-2);line-height:1.45}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:500}
+.num-col{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:.82rem;white-space:nowrap}
+
+/* ---- status pills ---- */
+.pill{
+  display:inline-block;
+  font-family:var(--f-mono);
+  font-size:.66rem;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  padding:.2rem .5rem;
+  border-radius:2px;
+  white-space:nowrap;
+  font-weight:500;
+}
+.pill.built{background:var(--built-bg);color:var(--built)}
+.pill.partial{background:var(--partial-bg);color:var(--partial)}
+.pill.blocked{background:var(--blocked-bg);color:var(--blocked)}
+.pill.later{background:var(--rule-soft);color:var(--muted)}
+
+/* ---- callout ---- */
+.note{
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding:1.1rem 0;
+  margin:1.5rem 0;
+  max-width:var(--measure);
+}
+.note .lbl{
+  display:block;
+  font-family:var(--f-mono);
+  font-size:.66rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--accent);
+  margin-bottom:.5rem;
+}
+.note p:last-child{margin-bottom:0}
+
+/* ---- decision list ---- */
+ol.decisions{list-style:none;padding:0;margin:0;max-width:var(--measure);counter-reset:d}
+ol.decisions li{
+  counter-increment:d;
+  padding:.9rem 0 .9rem 2.6rem;
+  border-bottom:1px solid var(--rule-soft);
+  position:relative;
+  margin:0;
+}
+ol.decisions li:last-child{border-bottom:none}
+ol.decisions li::before{
+  content:counter(d);
+  position:absolute;
+  left:0;top:.95rem;
+  font-family:var(--f-mono);
+  font-size:.78rem;
+  color:var(--accent);
+  border:1px solid var(--accent);
+  width:1.6rem;height:1.6rem;
+  display:grid;place-items:center;
+  border-radius:50%;
+}
+ol.decisions .who{
+  display:block;
+  font-family:var(--f-mono);
+  font-size:.68rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--muted);
+  margin-top:.3rem;
+}
+
+/* ---- sources ---- */
+.sources{
+  font-family:var(--f-display);
+  font-size:.8rem;
+  color:var(--muted);
+  max-width:var(--measure);
+}
+.sources li{margin-bottom:.35rem}
+
+footer{
+  margin-top:3.5rem;
+  padding-top:1.2rem;
+  border-top:2px solid var(--ink);
+  font-family:var(--f-mono);
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  color:var(--muted);
+}
+
+@media (max-width:760px){
+  body{font-size:16px}
+  section{grid-template-columns:1fr;gap:0}
+  .rail{padding:0 0 1rem;display:flex;align-items:baseline;gap:.7rem}
+  .rail .num{margin:0;font-size:1.1rem}
+  .masthead{padding-top:2.5rem}
+  .stamp{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.kbbar{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);padding:.85rem 1.5rem;border-bottom:1px solid var(--rule);
+  background:var(--surface);display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}
+.kbbar a{color:var(--muted);text-decoration:none}
+.kbbar a:hover,.kbbar a:focus-visible{color:var(--accent);text-decoration:underline}
+.kbbar .sep{opacity:.5}
+.kbbar .mono{color:var(--blocked);font-weight:600}
+/* ---- Rise register (matches the all-in-one dossier) ---- */
+body{background:var(--ground)}
+.kbbar{position:sticky;top:0;z-index:20;background:#17160F;border:0;box-shadow:0 2px 8px rgba(24,20,8,.28);padding:0}
+.kbbar .kwrap{max-width:72rem;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:.55rem 1.25rem}
+.kbbar .brand{display:flex;align-items:center;padding:.2rem 0}
+.kbbar .brand img{height:20px;width:auto;display:block}
+.kbbar .setnav{display:flex;flex-wrap:wrap;gap:.1rem;margin-left:auto}
+.kbbar a{color:#F3EAD3;text-decoration:none;font:600 12.5px/1 var(--f-display);letter-spacing:.04em;padding:.55rem .6rem;border-radius:4px}
+.kbbar a:hover{background:#2E2B20}
+.kbbar a[aria-current="page"]{color:#F7AC28}
+.kbbar a:focus-visible{outline:3px solid #F7AC28;outline-offset:-3px}
+.masthead h1{font-family:var(--f-display);font-weight:800;letter-spacing:-.01em}
+.masthead h1 em{font-family:"Instrument Serif",serif;font-style:italic;font-weight:400;color:var(--accent)}
+.stamp{border:2px solid #A07018;color:var(--ink-2);padding:.6rem .9rem;transform:rotate(-1.2deg);text-transform:uppercase;letter-spacing:.06em;font-family:var(--f-mono)}
+@media (prefers-reduced-motion:reduce){.stamp{transform:none}}
+h2{font-family:var(--f-display);border-bottom:3px solid #17160F;padding-bottom:.35rem}
+.toc{display:flex;flex-wrap:wrap;align-items:baseline;gap:.35rem .9rem;margin:1.6rem 0 .2rem;padding:.85rem 1rem;background:var(--rule-soft);border:1px solid var(--rule);border-radius:8px}
+.toc .toc-l{font:600 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:.3rem}
+.toc a{font:500 13.5px/1.5 var(--f-display);color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+.toc a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.toc a .n{font-family:var(--f-mono);font-size:11px;color:var(--accent);margin-right:.25rem}
+</style>
+</head>
+<body>
+<header class="kbbar"><div class="kwrap"><a class="brand" href="../index.html"><img src="./rise-wordmark-white.svg" alt="Rise knowledge base"></a><nav class="setnav" aria-label="Brief set"><a href="./index.html">Briefs</a><a href="./the-whys.html" aria-current="page">The whys</a><a href="./working-plan.html">Working plan</a><a href="./compliance-engine.html">Compliance engine · Zain</a><a href="./production-readiness.html">Production readiness · April</a><a href="../dossier/index.html">The dossier</a><a href="../standards.html">Standards</a></nav></div></header>
+
+<div class="page">
+
+<header class="masthead">
+  <h1>The Whys</h1>
+  <div class="stamp">The starting point<br>24 August 2026<br>For the whole team</div>
+</header>
+
+<p class="standfirst">Before the code, the tickets and the documents: why the audit engine exists, why it has
+to be software, and what we are trying to achieve. Read this first. Everything else in the briefs and the
+dossier is a consequence of this page. Sources are at the end; nothing here is invented.</p>
+
+<nav class="toc" aria-label="On this page"><span class="toc-l">On this page</span><a href="#s01"><span class="n">01</span>What we are trying to achieve</a><a href="#s02"><span class="n">02</span>Why the audit engine</a><a href="#s03"><span class="n">03</span>Why it has to be software</a><a href="#s04"><span class="n">04</span>The bet, stated so it can fail</a><a href="#s05"><span class="n">05</span>Where everything else fits</a><a href="#s06"><span class="n">06</span>Sources</a></nav>
+
+<section id="s01">
+  <div class="rail"><span class="num">01</span>The goal</div>
+  <div class="body">
+    <h2>What we are trying to achieve</h2>
+    <p>An NDIS provider should be able to reach <strong>audit-ready in one place</strong>: see exactly what
+    their registration classes require, prepare and validate the evidence, and know nothing is missing
+    before they lodge. An auditor should be able to <strong>complete the audit on-platform</strong>:
+    structured access to the same source of truth, comments anchored to the material, conformance recorded
+    against every requirement. That is the whole product in two sentences, and it is why the positioning
+    line is <em>"the audit platform for both sides of the table"</em>.</p>
+    <p>Today neither side has this. Providers stitch the journey across email, spreadsheets, shared drives
+    and a consultant to interpret the requirements. Auditors have no structured workspace at all. The
+    end state we are building toward: the whole loop, discover, prepare, validate, submit, review, outcome,
+    running in one tenant-isolated system, with the compliance content kept current by Rise once, for every
+    tenant at the same time.</p>
+    <div class="verdict"><p><strong>The one-line mission:</strong> make "are we compliant, and can we prove
+    it?" a question the system answers continuously, instead of a crisis the provider assembles once a
+    registration cycle.</p></div>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="rail"><span class="num">02</span>The engine</div>
+  <div class="body">
+    <h2>Why the audit engine</h2>
+    <p>Everything an auditor does is a version of one question: <strong>"show me."</strong> Show me the rule
+    you claim to follow (say it), show me how it runs day to day (do it), show me the records proving it
+    really happens (prove it). That question has a shape, and the shape is not a folder tree. It is a
+    graph: a standard is met by a policy, the policy is operationalised by a procedure, the procedure uses
+    a form, the form records to a register, and the register yields the evidence an audit assesses.</p>
+    <p>Folders and spreadsheets cannot answer "what does my classification require, and am I complete?"
+    because completeness is a property of the graph, not of any document. The moment obligations, documents
+    and evidence are typed nodes and edges, the platform can <strong>validate before submission</strong>:
+    walk every requirement for the provider's classes and name exactly what is missing or non-conforming
+    before lodgement. That validation is the wedge; it is the thing the folder-and-consultant workflow
+    structurally cannot do.</p>
+    <p>The engine is not a greenfield idea. The seed graph exists (224 nodes, 528 typed edges, 70 verified
+    standards across 21 instruments, 123 documents), the obligations engine already encodes real statute in
+    code with tests, and the nine-step chain is the spine of both. Steps one to five, standard through
+    register, are populated today. Steps six to nine, evidence, audit, finding, improvement, are what the
+    product brings to life. That is the depth Zain's brief points at, and the reason his brief and this
+    page both start from the same dossier.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="rail"><span class="num">03</span>The software</div>
+  <div class="body">
+    <h2>Why it has to be software, and why ours</h2>
+    <p><strong>Because the alternative does not scale and cannot be trusted.</strong> Consultants interpret
+    requirements one provider at a time and their work decays the day a rule changes. Generic document tools
+    hold files but know nothing about obligations. A platform holds the rules once, keeps them current once,
+    and every provider inherits the change the moment it lands.</p>
+    <p><strong>Because the audit itself needs an audit trail.</strong> Conformance decisions, document
+    versions, who changed what and when: in a regulated sector these are the product, not features. That is
+    why the non-negotiables were set on day one: tenant isolation at the database row level, immutable
+    version history, Australian data residency, APP and NDB alignment, an ASD Essential 8 baseline, and
+    WCAG 2.2 AA. In a sector handling sensitive participant care data, compliance-grade by design is the
+    moat, hard to retrofit and hard for a generic tool to claim.</p>
+    <p><strong>Because the graph makes the AI layer honest.</strong> Retrieval pipelines and AI-assisted
+    compliance workflows are only safe when they stand on typed, verified structure rather than a pile of
+    PDFs. The knowledge base carries verification tags on every claim precisely so that anything the
+    software asserts can be traced to a source. The AI work in both of your engagements depends on this
+    substrate existing first.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="rail"><span class="num">04</span>The bet</div>
+  <div class="body">
+    <h2>The bet, stated so it can fail</h2>
+    <p>From the PRD, unchanged in substance: we believe that giving providers a guided, validated path to
+    audit-readiness, where the platform shows exactly what their classification requires and confirms
+    completeness before submission, will let providers reach audit-ready faster with fewer rejections, and
+    let auditors complete audits on-platform.</p>
+    <p>Two numbers decide it, measured on real pilot tenants: <strong>provider time-to-audit-ready</strong>
+    (class selection to submission, against the manual baseline) and <strong>first-pass auditor acceptance
+    rate</strong> (validated packs that pass review first time). If validated packs do not pass review
+    faster and more often than folder-prepared ones, the wedge is wrong and we rethink. Everything we ship
+    should either move one of those two numbers or protect the compliance-grade foundations that make the
+    product sellable.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="rail"><span class="num">05</span>The map</div>
+  <div class="body">
+    <h2>Where everything else fits</h2>
+    <p>We carry history: old PR documents, pitch decks, Figma files, spreadsheets, earlier PRDs. They are
+    inputs and provenance, not the spec. When something conflicts, this is the order of authority:</p>
+    <div class="scroll"><table>
+      <tr><th>Thing</th><th>What it is for</th></tr>
+      <tr><td><a href="../dossier/index.html">The dossier</a></td><td>The domain model and its proof: the chain, the graph, the standards, the register, the auditor's eyes. The spec for what the engine must express.</td></tr>
+      <tr><td>Rise Source of Truth (Drive)</td><td>The working master for platform content: the best-practice policy, procedure, form and register templates.</td></tr>
+      <tr><td>The PRD (v0.3, June 2026)</td><td>The founding requirements: problem, users, journey, milestones, security constraints. This page's sections 01 to 04 condense it.</td></tr>
+      <tr><td><a href="./working-plan.html">The working plan</a> and <a href="./index.html">the briefs</a></td><td>Who is doing what, in what order, right now.</td></tr>
+      <tr><td>The repositories</td><td>The only truth about what the software currently does. When code and documents disagree, the code is the fact and the document gets fixed.</td></tr>
+      <tr><td>Old decks, PR docs, Figma files, spreadsheets</td><td>History and raw material. Mine them for intent; never treat them as current.</td></tr>
+    </table></div>
+    <p class="muted">If you are new: read this page, then your brief, then the dossier's
+    <a href="../dossier/index.html#auditor">auditor's eyes</a> section. That order.</p>
+  </div>
+</section>
+
+<section id="s06">
+  <div class="rail"><span class="num">06</span>Sources</div>
+  <div class="body">
+    <h2>Sources</h2>
+    <ul>
+      <li>riseOS PRD v0.3 (June 2026): problem, value, hypothesis, North Star metrics, security and privacy constraints, milestones.</li>
+      <li>The Rise knowledge base and dossier: the nine-step chain, the seed graph counts, "say it, do it, prove it", verification tags.</li>
+      <li>The state-of-play and team briefs (22 August 2026): what exists in the repositories today.</li>
+    </ul>
+    <p class="muted">Anything here that contradicts those sources is an error in this page; tell Jesse and it
+    gets fixed.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Rise Health Pty Ltd · the whys, prepared 24 August 2026. If a decision is not explained by this page,
+  ask why until it is.</p>
+</footer>
+
+</div>
+
+</body>
+</html>
