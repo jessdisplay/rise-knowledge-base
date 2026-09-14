@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>layers.py · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../../../../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../../../../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">briefs/policy-templates/renderer/templates/layers.py.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>python source</span><span>9,269 bytes</span></div>
+
+<h1>layers.py</h1><pre><code>&quot;&quot;&quot;The two human-facing layers of a policy, built on the same furniture as the
+reference document (hcpdf.Doc) so all three share one letterhead and one page grid.
+
+  worker card        one line per procedure step: tick box, step, who, record.
+                     Read-Do checklist, set at 11 pt. The title words are the
+                     policy&#x27;s own; nothing is paraphrased.
+  participant page   a plain-language summary at 16 pt, one idea per sentence,
+                     hard words in bold and explained in a word list, a picture
+                     slot beside every sentence for the Easy Read illustrations.
+                     New words, marked as a summary: the policy stays the document
+                     that applies.
+&quot;&quot;&quot;
+import os, re, sys, copy
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from reportlab.lib.units import cm
+from reportlab.lib.colors import HexColor
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import Paragraph, Spacer, Table, TableStyle, KeepTogether
+import hcpdf
+from hcpdf import L, R, INK, BODY, MID, GREY, FOREST, SAGE, esc, clean
+from layout import tint, modal, HAIR, ROW
+
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def steps_from(src):
+    &quot;&quot;&quot;The &gt;&gt; step cards in a template source: (title, who, records, actions).&quot;&quot;&quot;
+    out, cur = [], None
+    for line in open(src).read().split(&quot;\n&quot;):
+        if line.startswith(&quot;&gt;&gt;&quot;):
+            head = [x.strip() for x in clean(line[2:]).split(&quot;|&quot;)]
+            title, who, rec = (head + [&quot;&quot;, &quot;&quot;])[:3]
+            cur = [title, who, rec, []]; out.append(cur)
+        elif cur and re.match(r&quot;^\s*[-*•]\s+&quot;, line):
+            cur[3].append(clean(re.sub(r&quot;^\s*[-*•]\s+&quot;, &quot;&quot;, line)))
+        elif line.startswith(&quot;# &quot;):
+            cur = None
+    return out
+
+
+SHORT = {   # the short names the policy itself uses for its records
+    &quot;Business Continuity, Emergency and Disaster Preparedness Management Plan&quot;: &quot;Business Continuity Plan&quot;,
+    &quot;Incident Management and Reporting Policy&quot;: &quot;Incident Management System&quot;,
+}
+
+
+def _finish(path, spec, story):
+    d1 = hcpdf.Doc(path, spec); d1.build(copy.deepcopy(story))
+    d2 = hcpdf.Doc(path, spec); d2.total = d1.page; d2.build(story)
+    return path
+
+
+# ----------------------------------------------------------------- worker card
+def build_worker_card(spec, src, outdir):
+    W = hcpdf.page_of(spec)[&quot;size&quot;][0]; avail = W - L - R
+    st = {
+        &quot;title&quot;: ParagraphStyle(&quot;t&quot;, fontName=&quot;Georgia-Bold&quot;, fontSize=22, leading=25, textColor=INK, spaceAfter=4),
+        &quot;lead&quot;:  ParagraphStyle(&quot;l&quot;, fontName=&quot;Helvetica&quot;, fontSize=11, leading=16.5, textColor=BODY, spaceAfter=14),
+        &quot;h&quot;:     ParagraphStyle(&quot;h&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=7.4, leading=10, textColor=FOREST, charSpace=0.9),
+        &quot;no&quot;:    ParagraphStyle(&quot;n&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=10.5, leading=15, textColor=SAGE),
+        &quot;step&quot;:  ParagraphStyle(&quot;s&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=10, leading=13.5, textColor=INK),
+        &quot;act&quot;:   ParagraphStyle(&quot;a&quot;, fontName=&quot;Helvetica&quot;, fontSize=9.6, leading=14, textColor=BODY, leftIndent=9, bulletIndent=0),
+        &quot;who&quot;:   ParagraphStyle(&quot;w&quot;, fontName=&quot;Helvetica&quot;, fontSize=9.4, leading=13, textColor=BODY),
+        &quot;box&quot;:   ParagraphStyle(&quot;b&quot;, fontName=&quot;Helvetica&quot;, fontSize=13, leading=15, textColor=GREY),
+        &quot;foot&quot;:  ParagraphStyle(&quot;f&quot;, fontName=&quot;Helvetica&quot;, fontSize=9.6, leading=14, textColor=MID, spaceBefore=10),
+    }
+    steps = steps_from(src)
+    story = [Paragraph(esc(spec[&quot;title&quot;]), st[&quot;title&quot;]),
+             Paragraph(esc(spec[&quot;subtitle&quot;]), st[&quot;lead&quot;])]
+    hdr = [Paragraph(&quot;&quot;, st[&quot;h&quot;]), Paragraph(&quot;&quot;, st[&quot;h&quot;]), Paragraph(&quot;STEP&quot;, st[&quot;h&quot;]),
+           Paragraph(&quot;WHO&quot;, st[&quot;h&quot;]), Paragraph(&quot;RECORD&quot;, st[&quot;h&quot;])]
+    rows = [hdr]
+    for k, (title, who, rec, acts) in enumerate(steps, 1):
+        cell = [Paragraph(esc(title), st[&quot;step&quot;])]
+        recs = &quot;&lt;br/&gt;&quot;.join(esc(SHORT.get(r.strip(), r.strip())) for r in rec.split(&quot;·&quot;) if r.strip()) if rec else &quot;&quot;
+        box = Table([[&quot;&quot;]], colWidths=[0.42 * cm], rowHeights=[0.42 * cm])
+        box.setStyle(TableStyle([(&quot;BOX&quot;, (0, 0), (-1, -1), 0.7, MID)]))
+        rows.append([box, Paragraph(f&quot;{k:02d}&quot;, st[&quot;no&quot;]), cell,
+                     Paragraph(esc(who or &quot;—&quot;), st[&quot;who&quot;]), Paragraph(recs, st[&quot;who&quot;])])
+    t = Table(rows, colWidths=[0.75 * cm, 0.95 * cm, avail - 0.75 * cm - 0.95 * cm - 4.0 * cm - 4.0 * cm,
+                               4.0 * cm, 4.0 * cm], repeatRows=1, hAlign=&quot;LEFT&quot;)
+    t.setStyle(TableStyle([
+        (&quot;VALIGN&quot;, (0, 0), (-1, -1), &quot;TOP&quot;),
+        (&quot;LINEBELOW&quot;, (0, 0), (-1, 0), 0.7, FOREST),
+        (&quot;LINEBELOW&quot;, (0, 1), (-1, -1), 0.35, ROW),
+        (&quot;LEFTPADDING&quot;, (0, 0), (-1, -1), 0), (&quot;RIGHTPADDING&quot;, (0, 0), (-1, -1), 8),
+        (&quot;TOPPADDING&quot;, (0, 0), (-1, -1), 4), (&quot;BOTTOMPADDING&quot;, (0, 0), (-1, -1), 5),
+    ]))
+    story.append(t)
+    story.append(Paragraph(&quot;The policy is the document that applies.&quot;, st[&quot;foot&quot;]))
+    os.makedirs(outdir, exist_ok=True)
+    return _finish(os.path.join(outdir, hcpdf.outname(spec, &quot;pdf&quot;)), spec, story)
+
+
+# ------------------------------------------------------------ participant page
+def build_participant_page(spec, items, words, outdir):
+    &quot;&quot;&quot;items: list of (sentence html, picture caption). 16 pt, 1.5 spacing, a picture slot per idea.&quot;&quot;&quot;
+    W = hcpdf.page_of(spec)[&quot;size&quot;][0]; avail = W - L - R
+    st = {
+        &quot;title&quot;: ParagraphStyle(&quot;t&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=26, leading=32, textColor=INK, spaceAfter=6),
+        &quot;lead&quot;:  ParagraphStyle(&quot;l&quot;, fontName=&quot;Helvetica&quot;, fontSize=16, leading=24, textColor=BODY, spaceAfter=18),
+        &quot;idea&quot;:  ParagraphStyle(&quot;i&quot;, fontName=&quot;Helvetica&quot;, fontSize=16, leading=24, textColor=INK),
+        &quot;pic&quot;:   ParagraphStyle(&quot;p&quot;, fontName=&quot;Helvetica&quot;, fontSize=8, leading=11, textColor=GREY, alignment=1),
+        &quot;h&quot;:     ParagraphStyle(&quot;h&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=18, leading=24, textColor=FOREST, spaceBefore=18, spaceAfter=8),
+        &quot;word&quot;:  ParagraphStyle(&quot;w&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=14, leading=21, textColor=INK),
+        &quot;mean&quot;:  ParagraphStyle(&quot;m&quot;, fontName=&quot;Helvetica&quot;, fontSize=14, leading=21, textColor=BODY),
+        &quot;foot&quot;:  ParagraphStyle(&quot;f&quot;, fontName=&quot;Helvetica&quot;, fontSize=12, leading=18, textColor=MID, spaceBefore=14),
+    }
+    story = [Paragraph(esc(spec[&quot;title&quot;]), st[&quot;title&quot;]),
+             Paragraph(esc(spec[&quot;subtitle&quot;]), st[&quot;lead&quot;])]
+    pic_w = 3.6 * cm
+    for sentence, cap in items:
+        slot = Table([[Paragraph(esc(cap), st[&quot;pic&quot;])]], colWidths=[pic_w], rowHeights=[2.7 * cm])
+        slot.setStyle(TableStyle([
+            (&quot;BOX&quot;, (0, 0), (-1, -1), 0.6, SAGE), (&quot;BACKGROUND&quot;, (0, 0), (-1, -1), tint(&quot;#9EAE8F&quot;, 0.93)),
+            (&quot;VALIGN&quot;, (0, 0), (-1, -1), &quot;MIDDLE&quot;),
+        ]))
+        row = Table([[slot, Paragraph(sentence, st[&quot;idea&quot;])]], colWidths=[pic_w + 0.7 * cm, avail - pic_w - 0.7 * cm])
+        row.setStyle(TableStyle([
+            (&quot;VALIGN&quot;, (0, 0), (-1, -1), &quot;MIDDLE&quot;),
+            (&quot;LEFTPADDING&quot;, (0, 0), (-1, -1), 0), (&quot;RIGHTPADDING&quot;, (0, 0), (-1, -1), 0),
+            (&quot;TOPPADDING&quot;, (0, 0), (-1, -1), 5), (&quot;BOTTOMPADDING&quot;, (0, 0), (-1, -1), 5),
+            (&quot;LINEBELOW&quot;, (0, 0), (-1, -1), 0.35, ROW),
+        ]))
+        story.append(KeepTogether(row))
+    story.append(Paragraph(&quot;Word list&quot;, st[&quot;h&quot;]))
+    wl = Table([[Paragraph(esc(w), st[&quot;word&quot;]), Paragraph(esc(m), st[&quot;mean&quot;])] for w, m in words],
+               colWidths=[4.6 * cm, avail - 4.6 * cm], hAlign=&quot;LEFT&quot;)
+    wl.setStyle(TableStyle([
+        (&quot;VALIGN&quot;, (0, 0), (-1, -1), &quot;TOP&quot;),
+        (&quot;LEFTPADDING&quot;, (0, 0), (-1, -1), 0), (&quot;RIGHTPADDING&quot;, (0, 0), (-1, -1), 8),
+        (&quot;TOPPADDING&quot;, (0, 0), (-1, -1), 6), (&quot;BOTTOMPADDING&quot;, (0, 0), (-1, -1), 7),
+        (&quot;LINEBELOW&quot;, (0, 0), (-1, -2), 0.35, ROW),
+    ]))
+    story.append(wl)
+    story.append(Paragraph(&quot;This page is a summary. The Risk Management Policy is the document that applies. &quot;
+                           &quot;The picture boxes are for the Easy Read illustrations.&quot;, st[&quot;foot&quot;]))
+    os.makedirs(outdir, exist_ok=True)
+    return _finish(os.path.join(outdir, hcpdf.outname(spec, &quot;pdf&quot;)), spec, story)
+
+
+def build_layers(cfg_path):
+    &quot;&quot;&quot;cfg: {&quot;source&quot;: md, &quot;outdir&quot;: dir, &quot;control&quot;: {...}, &quot;worker&quot;: {...}, &quot;participant&quot;: {...}}&quot;&quot;&quot;
+    import json
+    cfg = json.load(open(cfg_path))
+    here = os.path.dirname(os.path.abspath(cfg_path))
+    src = os.path.join(here, cfg[&quot;source&quot;]); out = os.path.join(here, cfg[&quot;outdir&quot;])
+    base = dict(type=&quot;POLICY&quot;, rail=&quot;#38553E&quot;, ref=&quot;&quot;, page=&quot;A4&quot;, **cfg.get(&quot;control&quot;, {}))
+    w, p = cfg[&quot;worker&quot;], cfg[&quot;participant&quot;]
+    print(&quot;-&gt;&quot;, build_worker_card({**base, &quot;page&quot;: &quot;A4C&quot;, &quot;label&quot;: w.get(&quot;label&quot;, &quot;Worker card&quot;),
+                                   &quot;title&quot;: w[&quot;title&quot;], &quot;subtitle&quot;: w[&quot;subtitle&quot;]}, src, out))
+    print(&quot;-&gt;&quot;, build_participant_page({**base, &quot;label&quot;: p.get(&quot;label&quot;, &quot;Plain language summary&quot;),
+                                        &quot;title&quot;: p[&quot;title&quot;], &quot;subtitle&quot;: p[&quot;subtitle&quot;]},
+                                       [tuple(x) for x in p[&quot;items&quot;]], [tuple(x) for x in p[&quot;words&quot;]], out))
+
+
+if __name__ == &quot;__main__&quot;:
+    for cfg in sys.argv[1:] or [os.path.join(HERE, &quot;templates&quot;, &quot;layers_risk.json&quot;)]:
+        build_layers(cfg)
+</code></pre>
+<div class="kbfoot">Read-only view. Original file: <a class="mono" href="layers.py">layers.py</a></div>
+</article></div>
+</body></html>

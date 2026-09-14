@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rise policy templates: one policy, three layers · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">briefs/policy-templates/README.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>rendered view</span><span>source: README.md</span><span>4,072 bytes</span></div>
+
+<h1>Rise policy templates: one policy, three layers</h1>
+<p><strong>Version 0.1, 14 September 2026.</strong> Built this session on Harmony Care Support Services' own Risk Management Policy, rendered on their locked letterhead. Complements the five <code>TPL-*</code> skeletons in <code>rise-ndis-package/</code> and the production standard in <code>rise-authoring-research/</code>; it does not replace either. It delivers the "Easy Read companion" that the collection flags as undrafted, as a plain-language summary with picture slots, awaiting illustrations.</p>
+<p>Labels: <strong>[V-now]</strong> verified this session against the cited source · <strong>[C]</strong> corroborated across secondary sources · <strong>[D]</strong> design decision.</p>
+<h2>What is here</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pdf/templates/</code></td>
+<td>The three blank templates. Every slot is in brackets and says what goes in it.</td>
+</tr>
+<tr>
+<td><code>pdf/worked-example/</code></td>
+<td>The same three layers filled with the Risk Management Policy: reference (14 pp), worker card (1 p), participant summary (3 pp).</td>
+</tr>
+<tr>
+<td><code>renderer/</code></td>
+<td><code>hcpdf.py</code> and <code>layout.py</code> (the letterhead renderer), the four band images, and <code>templates/</code> with the two source files, four JSON configs, <code>layers.py</code> (worker card and participant page) and <code>build_template.py</code> (turns a provider policy into the marked-up source).</td>
+</tr>
+</tbody>
+</table>
+<h2>The three layers <strong>[D]</strong>, after Waller, Passera and Haapio's layered-contract model <strong>[V-now]</strong></h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Reader</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reference</td>
+<td>Provider, auditor</td>
+<td>Every word as approved. 11 pt Helvetica, 62 characters a line (was 101 at full measure). Compliance links page first. Marginal column carries the standard, quality indicators, law, records and review date beside the clause. Section 4 as numbered steps, obligation words in bold.</td>
+</tr>
+<tr>
+<td>Worker card</td>
+<td>Support worker</td>
+<td>The procedure as a checklist: tick box, step in the policy's own words, who, record. One page on the compact letterhead.</td>
+</tr>
+<tr>
+<td>Participant summary</td>
+<td>Participant, family</td>
+<td>16 pt, 1.5 line spacing, one idea per sentence, hard words in bold, a picture slot per idea, a word list. Marked as a summary. New words: the policy stays the document that applies.</td>
+</tr>
+</tbody>
+</table>
+<h2>Sources <strong>[V-now]</strong>, all accessed 14 Sep 2026</h2>
+<p>Round Table Guidelines for Producing Clear Print 2022 (12 pt minimum, sans, left aligned, bold not italic, 1.2 spacing, 1.5 above 14 pt) · Australian Government Style Manual: Easy Read; sentence length (average 15 words, never over 25); headings (under 70 characters, sentence case) · Vision Australia typography guidance · NDIS Commission participant information pack (Easy Read) · Waller, Passera and Haapio, <em>Layered Contracts</em>, Springer 2022 · W3C, <em>Making Content Usable for People with Cognitive and Learning Disabilities</em> · ISO 24495-1:2023 · Federal Plain Language Guidelines and ACUS on must / must not / should / may · Gawande, <em>The Checklist Manifesto</em> (WHO checklist: 19 items, 36% fewer complications, eight hospitals) <strong>[C]</strong> · FDA Physician Labeling Rule 2006 (the half-page Highlights section).</p>
+<h2>To make a new policy</h2>
+<ol>
+<li>Copy <code>renderer/templates/src/TEMPLATE Policy and Procedure.md</code>, fill every <code>[slot]</code>. Markup: <code># 1. Section</code>, <code>## 1.1 Sub</code>, <code>%% (a) clause</code>, <code>@standard note</code> (marginal column), <code>!! sentence</code> (key commitment), <code>&gt;&gt; Step | Who | Record</code> then <code>- action</code> lines, <code>| table |</code>.</li>
+<li>Copy <code>spec_TEMPLATE.json</code> (title, control data, six <code>links</code> rows; <code>"base": 11</code> is the type size) and <code>layers_TEMPLATE.json</code> (participant items of fifteen words or fewer, and the word list).</li>
+<li>From <code>renderer/</code>: <code>python3 hcpdf.py templates/spec_&lt;name&gt;.json</code> and <code>python3 templates/layers.py templates/layers_&lt;name&gt;.json</code>. Needs <code>reportlab</code>.</li>
+</ol>
+<h2>Known limits</h2>
+<p>Word output does not carry the new markup; PDF is the artefact. <code>build_template.py</code> reads the provider's full document set, which is not in this repository; the generated source it produced is included. The two findings it surfaced in the provider's own paper (a review-date conflict between the policy's 5.3 and the Policy Register; a Related Documentation clause that names no document) belong to the provider and are recorded on the worked example's links page.</p>
+<div class="kbfoot">Rendered for browsing on 7 July 2026 — the original Markdown is preserved unmodified alongside: <a class="mono" href="README.md">README.md</a></div>
+</article></div>
+</body></html>

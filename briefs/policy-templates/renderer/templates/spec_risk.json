@@ -1,0 +1,51 @@
+[
+  {
+    "type": "POLICY",
+    "rail": "#38553E",
+    "label": "Policy and Procedure",
+    "ref": "",
+    "title": "Risk Management Policy and Procedure",
+    "subtitle": "Harmony Care Support Services",
+    "module": "Core Module",
+    "status": "Approved",
+    "page": "A4",
+    "base": 11,
+    "source": "templates/src/Risk Management Policy and Procedure.md",
+    "version": "1",
+    "effective": "October 2023",
+    "review": "October 2026",
+    "covers": "Risk to participants, workers and the provider: how it is identified, who acts on it, and where it is recorded.",
+    "links": [
+      [
+        "Standard",
+        "The NDIS standard this policy answers to",
+        "Risk Management, made under the NDIS (Provider Registration and Practice Standards) Rules 2018"
+      ],
+      [
+        "Indicators",
+        "What an auditor looks for, lettered (a) to (f) at 1.3",
+        "Quality Indicators, six of them"
+      ],
+      [
+        "Law",
+        "Work health and safety duties in Queensland",
+        "Work Health and Safety Act 2011 (QLD) and Work Health and Safety Regulation 2011 (QLD)"
+      ],
+      [
+        "Evidence",
+        "The records this policy produces",
+        "Risk Register  \u00b7  Business Continuity, Emergency and Disaster Preparedness Management Plan  \u00b7  Certificates of Insurance"
+      ],
+      [
+        "Monitored by",
+        "How Harmony Care checks it is working",
+        "WHS Risk Assessment  \u00b7  Internal audit  \u00b7  Incident reporting"
+      ],
+      [
+        "Review",
+        "When it falls due",
+        "Policy Register says October 2026. Section 5.3 of this document says October 2025."
+      ]
+    ]
+  }
+]

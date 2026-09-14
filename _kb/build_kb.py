@@ -36,6 +36,7 @@ if not IN_PLACE:
         ("rise-audit-pack", "rise-audit-pack"),
         ("new-uploads/rise-dossier-zip", "rise-dossier-bundle"),
         ("rise-authoring-research", "rise-authoring-research"),
+        ("briefs/policy-templates", "briefs/policy-templates"),
     ):
         shutil.copytree(SRC / src_rel, OUT / dst_name)
 (OUT / "_kb").mkdir(exist_ok=True)
@@ -696,6 +697,19 @@ sections.append('<section id="authoring"><h2>Authoring &amp; formatting best pra
     + '<p class="secnote">Web-verified this session (Style Manual, Easy Read guidance, ISO 9001 document-control consensus, NDIS Commission pages). Grounds the five TPL templates and the architecture spec in external standards; records one correction (participant-facing reading level: Year 7, not Year 8&ndash;9) and proposes six deltas. Not a replacement for the templates &mdash; a layer on them.</p>'
     + row("rise-authoring-research/rise-authoring-best-practice.md",
          " — plain language, document control, form design, and the Easy Read production standard, with tiered dated sources", "pro")
+    + "</section>")
+
+# --- policy templates (14 Sep 2026)
+sections.append('<section id="templates"><h2>Policy templates: one policy, three layers <span class="scount mono">built 14 Sep</span></h2>'
+    + '<p class="secnote">One policy issued as three documents on one letterhead: the full reference text for the provider and auditor, a one-page checklist for the support worker, a plain-language summary for the participant. Built and rendered on a real provider policy; delivers the Easy Read companion the collection flagged as undrafted (pictures still to come). Sources verified 14 Sep: Clear Print 2022, Style Manual, Waller/Passera/Haapio, W3C, ISO 24495-1.</p>'
+    + row("briefs/policy-templates/README.md", " — what is here, the three layers, the sources, how to make a new policy", "pro")
+    + row("briefs/policy-templates/pdf/templates/TEMPLATE Policy and Procedure (reference layer).pdf", " — blank reference layer, every slot marked", "pol")
+    + row("briefs/policy-templates/pdf/templates/TEMPLATE Worker card.pdf", " — blank one-page checklist", "pro")
+    + row("briefs/policy-templates/pdf/templates/TEMPLATE Participant summary.pdf", " — blank plain-language summary with picture slots and word list", "pro")
+    + row("briefs/policy-templates/pdf/worked-example/Risk Management Policy and Procedure.pdf", " — worked example, reference layer, 14 pp", "pol")
+    + row("briefs/policy-templates/pdf/worked-example/Risk Management: what you do.pdf", " — worked example, worker card, 1 p", "pro")
+    + row("briefs/policy-templates/pdf/worked-example/Keeping you safe from risks.pdf", " — worked example, participant summary, 3 pp", "pro")
+    + row("briefs/policy-templates/renderer/templates/src/TEMPLATE Policy and Procedure.md", " — the template source, with the markup", "win")
     + "</section>")
 
 # --- document suite

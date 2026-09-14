@@ -1,0 +1,59 @@
+{
+ "source": "src/TEMPLATE Policy and Procedure.md",
+ "outdir": "pdf-template",
+ "control": {
+  "module": "[Module]",
+  "status": "[Draft or Approved]",
+  "version": "[n]",
+  "effective": "[Month Year]",
+  "review": "[Month Year]"
+ },
+ "worker": {
+  "title": "[Policy name]: what you do",
+  "subtitle": "The procedure in the [Policy name], one line per step. Tick a step when it is done."
+ },
+ "participant": {
+  "title": "[What this policy does for you, in six words]",
+  "subtitle": "What the [Policy name] means for you.",
+  "items": [
+   [
+    "[One idea. Fifteen words or fewer. Say what Harmony Care does for the reader.]",
+    "picture: [what the picture shows]"
+   ],
+   [
+    "[Define the first hard word in bold, like this: A <b>risk</b> is something that could hurt you.]",
+    "picture: [what the picture shows]"
+   ],
+   [
+    "[What we do. One action per sentence.]",
+    "picture: [what the picture shows]"
+   ],
+   [
+    "[What happens if something goes wrong. Name the form in bold.]",
+    "picture: [what the picture shows]"
+   ],
+   [
+    "[What the reader can do. How to tell us, and that they can do it without giving their name.]",
+    "picture: [what the picture shows]"
+   ],
+   [
+    "[Who is in charge of this policy. Use their name.]",
+    "picture: [what the picture shows]"
+   ]
+  ],
+  "words": [
+   [
+    "[Hard word 1]",
+    "[Its meaning in one plain sentence.]"
+   ],
+   [
+    "[Hard word 2]",
+    "[Its meaning in one plain sentence.]"
+   ],
+   [
+    "[Hard word 3]",
+    "[Its meaning in one plain sentence.]"
+   ]
+  ]
+ }
+}

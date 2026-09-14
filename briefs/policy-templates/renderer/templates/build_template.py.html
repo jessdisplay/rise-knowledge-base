@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>build_template.py · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../../../../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../../../../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">briefs/policy-templates/renderer/templates/build_template.py.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>python source</span><span>4,289 bytes</span></div>
+
+<h1>build_template.py</h1><pre><code>&quot;&quot;&quot;Builds the worked Policy and Procedure template from Harmony Care&#x27;s own source.
+
+Nothing in the wording is rewritten. Three things are added, each taken from a
+document Harmony Care already holds:
+
+  @notes   the marginal column: standard, quality indicators, register entry
+  !!       the key commitment, lifted verbatim from the policy&#x27;s own 1.2
+  &gt;&gt;       section 4&#x27;s two-column table re-set as numbered procedure steps,
+           with the responsibility column kept and the records named in the
+           step&#x27;s own words linked to the real documents in the set
+&quot;&quot;&quot;
+import json, re, sys, os
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(HERE)
+SRC = os.path.join(ROOT, &quot;src-hc&quot;, &quot;Risk Management Policy.md&quot;)
+OUT = os.path.join(HERE, &quot;src&quot;, &quot;Risk Management Policy and Procedure.md&quot;)
+
+titles = [s[&quot;title&quot;] for s in json.load(open(os.path.join(ROOT, &quot;spec_hc.json&quot;)))]
+ALIAS = {
+    &quot;Risk Register&quot;: &quot;Risk Register&quot;,
+    &quot;Business Continuity Plan&quot;: &quot;Business Continuity, Emergency and Disaster Preparedness Management Plan&quot;,
+    &quot;Incident Management System&quot;: &quot;Incident Management and Reporting Policy&quot;,
+    &quot;Emergency Plan&quot;: &quot;Client Emergency Plan&quot;,
+    &quot;Continuous Improvement&quot;: &quot;Continuous Improvement Register&quot;,
+}
+LOOKUP = sorted({**{t: t for t in titles}, **ALIAS}.items(), key=lambda kv: -len(kv[0]))
+
+# marginal notes, keyed by section number. Every value is quoted from a
+# Harmony Care document: the policy&#x27;s own 1.1/1.3, the Policy Register, the
+# Legislation Register.
+MARGIN = {
+    1: [(&quot;standard&quot;, &quot;Risk Management, NDIS Practice Standards&quot;),
+        (&quot;indicators&quot;, &quot;Six, lettered (a) to (f) at 1.3&quot;),
+        (&quot;register&quot;, &quot;Policy Register: Version 1, approved October 2023&quot;)],
+    2: [(&quot;terms&quot;, &quot;Nine defined terms, used throughout&quot;)],
+    3: [(&quot;evidence&quot;, &quot;Risk Register  ·  Business Continuity Plan&quot;),
+        (&quot;law&quot;, &quot;WHS Act 2011 (QLD) and WHS Regulation 2011 (QLD)&quot;)],
+    4: [(&quot;who&quot;, &quot;Principal  ·  All Workers&quot;),
+        (&quot;records&quot;, &quot;Named on each step below&quot;)],
+    5: [(&quot;legislation&quot;, &quot;Listed in the Legislation Register&quot;),
+        (&quot;review&quot;, &quot;Register says October 2026. This document says October 2025.&quot;)],
+}
+
+def records_in(text):
+    &quot;&quot;&quot;The documents this step names, in the step&#x27;s own words.&quot;&quot;&quot;
+    found = []
+    for phrase, doc in LOOKUP:
+        if re.search(r&quot;\b&quot; + re.escape(phrase) + r&quot;\b&quot;, text, re.I) and doc not in found:
+            found.append(doc)
+    return found[:3]
+
+lines = open(SRC).read().split(&quot;\n&quot;)
+out, i, n = [], 0, len(lines)
+while i &lt; n:
+    line = lines[i]
+    m = re.match(r&quot;^# (\d+)\.&quot;, line)
+    if m:
+        out.append(line)
+        for lab, val in MARGIN.get(int(m.group(1)), []):
+            out.append(f&quot;@{lab.strip()} {val}&quot;)
+        i += 1
+        # section 4: the procedure table becomes numbered steps
+        if m.group(1) == &quot;4&quot;:
+            while i &lt; n and not lines[i].strip().startswith(&quot;|&quot;):
+                out.append(lines[i]); i += 1
+            rows = []
+            while i &lt; n and lines[i].strip().startswith(&quot;|&quot;):
+                cells = [c.strip() for c in lines[i].strip().strip(&quot;|&quot;).split(&quot;|&quot;)]
+                if cells and cells[0] and cells[0].lower() != &quot;procedure&quot;:
+                    rows.append(cells)
+                i += 1
+            for cells in rows:
+                parts = [p.strip() for p in cells[0].split(&quot;¶&quot;) if p.strip()]
+                who = cells[1].strip() if len(cells) &gt; 1 else &quot;&quot;
+                title, acts = parts[0], parts[1:]
+                recs = records_in(&quot; &quot;.join(parts))
+                out.append(f&quot;&gt;&gt; {title} | {who} | {&#x27;  ·  &#x27;.join(recs)}&quot;)
+                for a in acts:
+                    out.append(f&quot;- {a}&quot;)
+                out.append(&quot;&quot;)
+        continue
+    # the key commitment, lifted from 1.2 without a word changed
+    if line.startswith(&quot;## 1.2 Policy Aims&quot;):
+        out.append(line)
+        j = i + 1
+        while j &lt; n and not lines[j].strip():
+            j += 1
+        out.append(&quot;&quot;)
+        out.append(&quot;!! &quot; + lines[j].strip())
+        i = j + 1
+        continue
+    out.append(line); i += 1
+
+open(OUT, &quot;w&quot;).write(&quot;\n&quot;.join(out))
+steps = sum(1 for l in out if l.startswith(&quot;&gt;&gt;&quot;))
+print(f&quot;{OUT}\n  {len(out)} lines, {steps} procedure steps, &quot;
+      f&quot;{sum(1 for l in out if l.startswith(&#x27;@&#x27;))} marginal notes&quot;)
+</code></pre>
+<div class="kbfoot">Read-only view. Original file: <a class="mono" href="build_template.py">build_template.py</a></div>
+</article></div>
+</body></html>

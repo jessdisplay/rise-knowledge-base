@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>layout.py · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../../../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../../../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">briefs/policy-templates/renderer/layout.py.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>python source</span><span>21,616 bytes</span></div>
+
+<h1>layout.py</h1><pre><code>&quot;&quot;&quot;
+Harmony Care — structured policy layout.
+
+The previous build was a title followed by undifferentiated prose. This lays the
+document on a real editorial grid:
+
+  · a marginal column carrying the section number, the clause reference and the
+    evidence codes — so the wide right/left margin does work instead of sitting empty
+  · content typed into blocks: statements, steps, definitions, responsibilities,
+    each with its own visual treatment rather than all being paragraphs
+  · numbered policy statements with hanging decimals (3.1, 3.2 …)
+  · procedure steps with the step number set in the rail colour
+  · tables with a tinted header band and hairline rows
+  · a closing document-control block
+
+Source markup understood, per section:
+    # 1. Purpose                 -&gt; section
+    @clause  Schedule 1, Cl 3    -&gt; marginal note on the current section
+    @evidence HCS-F-PCS-001      -&gt; marginal evidence code
+    !! key commitment text       -&gt; pulled-out commitment panel
+    1. / - / |table|             -&gt; steps, bullets, tables
+&quot;&quot;&quot;
+import os, re
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm
+from reportlab.lib.colors import HexColor
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import Paragraph, Spacer, Table, TableStyle, KeepTogether
+
+GUTTER = 3.6 * cm
+GAP = 0.8 * cm
+
+INK, BODY, MID, GREY = (HexColor(&quot;#2F2F2F&quot;), HexColor(&quot;#3A3A3A&quot;),
+                        HexColor(&quot;#6A6A6A&quot;), HexColor(&quot;#8C8C8C&quot;))
+SAGE = HexColor(&quot;#9EAE8F&quot;)
+FOREST = HexColor(&quot;#38553E&quot;)
+HAIR = HexColor(&quot;#D8D4CB&quot;)
+ROW = HexColor(&quot;#E6E2D8&quot;)
+
+
+def tint(hexcolor, amount=0.92):
+    c = HexColor(hexcolor)
+    return HexColor(&quot;#%02x%02x%02x&quot; % (
+        int(255 - (255 - c.red * 255) * (1 - amount)),
+        int(255 - (255 - c.green * 255) * (1 - amount)),
+        int(255 - (255 - c.blue * 255) * (1 - amount))))
+
+
+def styles(rail, base_pt=9.4):
+    rail = &quot;#38553E&quot;   # the letterhead uses forest/sage, not a per-type colour
+    k = base_pt / 9.4     # every size and leading below scales with the base
+    base = ParagraphStyle(&quot;b&quot;, fontName=&quot;Helvetica&quot;, fontSize=9.4*k, leading=14.6*k,
+                          textColor=BODY, spaceAfter=7,
+                          allowWidows=0, allowOrphans=0)
+    return {
+        &quot;body&quot;: base,
+        &quot;lead&quot;: ParagraphStyle(&quot;lead&quot;, parent=base, fontSize=11*k, leading=16.5*k,
+                               textColor=MID, spaceAfter=10),
+        &quot;num&quot;: ParagraphStyle(&quot;num&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=17*k, leading=19*k,
+                              textColor=SAGE),
+        &quot;seclabel&quot;: ParagraphStyle(&quot;seclabel&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=8*k,
+                                   leading=11*k, textColor=HexColor(rail), charSpace=0.9),
+        &quot;margin&quot;: ParagraphStyle(&quot;margin&quot;, fontName=&quot;Helvetica&quot;, fontSize=6.6*k,
+                                 leading=9.4*k, textColor=GREY),
+        &quot;marginlab&quot;: ParagraphStyle(&quot;marginlab&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=6*k,
+                                    leading=9*k, textColor=HexColor(rail), charSpace=0.7),
+        &quot;stmt&quot;: ParagraphStyle(&quot;stmt&quot;, parent=base, fontSize=10*k, leading=15*k, spaceAfter=5),
+        &quot;stmtno&quot;: ParagraphStyle(&quot;stmtno&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=8.5*k,
+                                 leading=14*k, textColor=HexColor(rail)),
+        &quot;keyh&quot;: ParagraphStyle(&quot;keyh&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=6.5*k,
+                               leading=10*k, textColor=HexColor(rail), charSpace=1.2),
+        &quot;key&quot;: ParagraphStyle(&quot;key&quot;, fontName=&quot;Helvetica&quot;, fontSize=9.6*k, leading=14.6*k,
+                              textColor=INK),
+        &quot;cellh&quot;: ParagraphStyle(&quot;cellh&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=6.6*k,
+                                leading=9.5*k, textColor=HexColor(rail), charSpace=0.8),
+        &quot;cell&quot;: ParagraphStyle(&quot;cell&quot;, fontName=&quot;Helvetica&quot;, fontSize=8.4*k, leading=12.2*k,
+                               textColor=BODY),
+        &quot;cellb&quot;: ParagraphStyle(&quot;cellb&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=8.4*k, leading=12.2*k,
+                                textColor=INK),
+        &quot;steptitle&quot;: ParagraphStyle(&quot;steptitle&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=9.8*k,
+                                    leading=13.4*k, textColor=INK, spaceAfter=4),
+        &quot;stepact&quot;: ParagraphStyle(&quot;stepact&quot;, fontName=&quot;Helvetica&quot;, fontSize=9.2*k, leading=14*k,
+                                  textColor=BODY, leftIndent=11, bulletIndent=1,
+                                  spaceAfter=3, allowWidows=0, allowOrphans=0),
+        &quot;stepchip&quot;: ParagraphStyle(&quot;stepchip&quot;, fontName=&quot;Helvetica&quot;, fontSize=7.4*k,
+                                   leading=10.5*k, textColor=MID, charSpace=0.2),
+    }
+
+
+def esc(s):
+    return s.replace(&quot;&amp;&quot;, &quot;&amp;amp;&quot;).replace(&quot;&lt;&quot;, &quot;&amp;lt;&quot;).replace(&quot;&gt;&quot;, &quot;&amp;gt;&quot;)
+
+
+def clean(s):
+    s = (s.replace(&quot;\\*&quot;, &quot;*&quot;).replace(&quot;\\[&quot;, &quot;[&quot;).replace(&quot;\\]&quot;, &quot;]&quot;)
+          .replace(&quot;\\#&quot;, &quot;#&quot;).replace(&quot;\\_&quot;, &quot;_&quot;).replace(&quot;\\.&quot;, &quot;.&quot;).replace(&quot;\\|&quot;, &quot;|&quot;))
+    s = re.sub(r&quot;\*\*(.+?)\*\*&quot;, r&quot;\1&quot;, s)
+    s = re.sub(r&quot;(?&lt;!\w)\*(.+?)\*(?!\w)&quot;, r&quot;\1&quot;, s)
+    return s.strip()
+
+
+def _grid(gutter_flow, main_flow, width, gutter=GUTTER):
+    &quot;&quot;&quot;One row of the editorial grid: marginal column, then content.
+
+    A document with no marginal notes gets no marginal column: an empty
+    3.6 cm rail on every page is dead space, and it pushes the body out of
+    line with the title and the letterhead.&quot;&quot;&quot;
+    if not gutter:
+        t = Table([[main_flow]], colWidths=[width], hAlign=&quot;LEFT&quot;)
+        t.setStyle(TableStyle([
+            (&quot;VALIGN&quot;, (0, 0), (-1, -1), &quot;TOP&quot;),
+            (&quot;LEFTPADDING&quot;, (0, 0), (-1, -1), 0),
+            (&quot;RIGHTPADDING&quot;, (0, 0), (-1, -1), 0),
+            (&quot;TOPPADDING&quot;, (0, 0), (-1, -1), 0),
+            (&quot;BOTTOMPADDING&quot;, (0, 0), (-1, -1), 0),
+        ]))
+        return t
+    t = Table([[gutter_flow, main_flow]],
+              colWidths=[gutter + GAP, width - gutter - GAP], hAlign=&quot;LEFT&quot;)
+    t.setStyle(TableStyle([
+        (&quot;VALIGN&quot;, (0, 0), (-1, -1), &quot;TOP&quot;),
+        (&quot;LEFTPADDING&quot;, (0, 0), (-1, -1), 0),
+        (&quot;RIGHTPADDING&quot;, (0, 0), (0, 0), GAP),
+        (&quot;RIGHTPADDING&quot;, (1, 0), (1, 0), 0),
+        (&quot;TOPPADDING&quot;, (0, 0), (-1, -1), 0),
+        (&quot;BOTTOMPADDING&quot;, (0, 0), (-1, -1), 0),
+    ]))
+    return t
+
+
+MODAL = re.compile(r&quot;\b(must not|must|should not|should|may)\b&quot;, re.I)
+
+
+def modal(text):
+    &quot;&quot;&quot;Obligation words carry the weight of a procedure: set them bold.&quot;&quot;&quot;
+    return MODAL.sub(lambda m: f&quot;&lt;b&gt;{m.group(1)}&lt;/b&gt;&quot;, text)
+
+
+def build_story(src, st, rail, width, gutter=None):
+    &quot;&quot;&quot;Parse the source into a laid-out story.
+
+    gutter=None auto-detects: documents that carry @clause/@standard notes get
+    the marginal column, documents that do not get the full measure.&quot;&quot;&quot;
+    lines = open(src).read().split(&quot;\n&quot;)
+    if gutter is None:
+        gutter = GUTTER if any(re.match(r&quot;^@\w+\s&quot;, l.strip()) for l in lines) else 0
+    pull = gutter + GAP if gutter else 0
+    avail = width - pull
+    story, i, n = [], 0, len(lines)
+    sec = 0
+    step_no = 0
+    pending_margin = []          # @clause / @evidence waiting for their section
+    main = []                    # flowables for the current section
+
+    def flush(title=None, number=None):
+        nonlocal main, pending_margin
+        if title is None and not main:
+            return
+        gut = []
+        if number is not None and gutter:
+            gut.append(Paragraph(f&quot;{number:02d}&quot;, st[&quot;num&quot;]))
+            gut.append(Spacer(1, 3))
+        for lab, val in pending_margin:
+            gut.append(Paragraph(lab.upper(), st[&quot;marginlab&quot;]))
+            gut.append(Paragraph(esc(val), st[&quot;margin&quot;]))
+            gut.append(Spacer(1, 5))
+        # the section label sits on the first grid row with the marginal column;
+        # every following block gets its own row so content can break across pages
+        head = []
+        if title:
+            chip = &quot;  ·  &quot;.join(v for k, v in pending_margin
+                                if k in (&quot;clause&quot;, &quot;standard&quot;, &quot;rules&quot;))
+            lab = esc(title).upper()
+            if not gutter and number is not None:
+                lab = (f&#x27;&lt;font name=&quot;Helvetica-Bold&quot; size=&quot;10&quot; color=&quot;#9EAE8F&quot;&gt;&#x27;
+                       f&#x27;{number:02d}&lt;/font&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&#x27; + lab)
+            if chip:
+                lab += (f&#x27;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font name=&quot;Helvetica&quot; size=&quot;6&quot; &#x27;
+                        f&#x27;color=&quot;#8B9C7E&quot;&gt;{esc(chip.upper())}&lt;/font&gt;&#x27;)
+            head.append(Paragraph(lab, st[&quot;seclabel&quot;]))
+            head.append(Spacer(1, 5))
+        def is_raw(x):
+            return isinstance(x, tuple) and x and x[0] == &quot;RAW&quot;
+
+        def is_h2(x):
+            return isinstance(x, tuple) and x and x[0] == &quot;H2&quot;
+
+        lead = []
+        rest = list(main)
+        while rest and not is_raw(rest[0]) and not is_h2(rest[0]):
+            lead.append(rest.pop(0))
+            if len(lead) &gt;= 2:
+                break
+        # a sub-heading straight after the section label joins the lead block
+        if rest and is_h2(rest[0]) and len(lead) &lt; 2:
+            lead.append(rest.pop(0)[1])
+            if rest and not is_raw(rest[0]) and not is_h2(rest[0]):
+                lead.append(rest.pop(0))
+        story.append(KeepTogether(_grid(gut or Spacer(1, 1), head + lead, width, gutter)))
+        k = 0
+        while k &lt; len(rest):
+            item = rest[k]
+            if is_h2(item):
+                # pair the sub-heading with whatever follows it — unless the
+                # next item is itself a sub-heading, which stands alone
+                nxt = rest[k + 1] if k + 1 &lt; len(rest) else None
+                h2row = _grid(Spacer(1, 1), [item[1]], width, gutter)
+                if nxt is None or is_h2(nxt):
+                    story.append(h2row)
+                elif is_raw(nxt):
+                    # only bind a short block to its heading: a long table must
+                    # stay free to split, or it cannot be laid out at all
+                    short = len(getattr(nxt[1], &quot;_cellvalues&quot;, []) or []) &lt;= 4
+                    if short:
+                        story.append(KeepTogether([h2row, nxt[1]]))
+                    else:
+                        story.append(h2row)
+                        story.append(nxt[1])
+                    k += 1
+                else:
+                    story.append(KeepTogether([h2row,
+                                               _grid(Spacer(1, 1), [nxt], width, gutter)]))
+                    k += 1
+            elif is_raw(item):
+                story.append(item[1])
+            else:
+                story.append(_grid(Spacer(1, 1), [item], width, gutter))
+            k += 1
+        story.append(Spacer(1, 16))
+        main, pending_margin = [], []
+
+    title_pending, num_pending = None, None
+    while i &lt; n:
+        raw = lines[i].rstrip()
+        line = raw.strip()
+        if not line:
+            i += 1; continue
+
+        if line.startswith(&quot;@&quot;):
+            m = re.match(r&quot;@(\w+)\s+(.*)&quot;, line)
+            if m:
+                pending_margin.append((m.group(1), clean(m.group(2))))
+            i += 1; continue
+
+        m = re.match(r&quot;^(#{1,6})\s+(.*)$&quot;, line)
+        if m and len(m.group(1)) == 1:
+            flush(title_pending, num_pending)
+            sec += 1
+            step_no = 0
+            title_pending = re.sub(r&quot;^\d+[\.\)]\s*&quot;, &quot;&quot;, clean(m.group(2)))
+            num_pending = sec
+            i += 1; continue
+        if m:
+            main.append((&quot;H2&quot;, Paragraph(esc(clean(m.group(2))),
+                                  ParagraphStyle(&quot;h2&quot;, parent=st[&quot;body&quot;],
+                                                 fontName=&quot;Helvetica-Bold&quot;, fontSize=9.4,
+                                                 textColor=INK, spaceBefore=6,
+                                                 spaceAfter=4))))
+            i += 1; continue
+
+        if line.startswith(&quot;!!&quot;):
+            txt = clean(line[2:])
+            k = Table([[Paragraph(&quot;KEY COMMITMENT&quot;, st[&quot;keyh&quot;])],
+                       [Paragraph(esc(txt), st[&quot;key&quot;])]],
+                      colWidths=[avail], hAlign=&quot;LEFT&quot;)
+            k.setStyle(TableStyle([
+                (&quot;BACKGROUND&quot;, (0, 0), (-1, -1), tint(rail, 0.94)),
+                (&quot;LINEBEFORE&quot;, (0, 0), (0, -1), 2.0, HexColor(rail)),
+                (&quot;LEFTPADDING&quot;, (0, 0), (-1, -1), 10),
+                (&quot;RIGHTPADDING&quot;, (0, 0), (-1, -1), 10),
+                (&quot;TOPPADDING&quot;, (0, 0), (0, 0), 7),
+                (&quot;BOTTOMPADDING&quot;, (0, 0), (0, 0), 1),
+                (&quot;TOPPADDING&quot;, (0, 1), (0, 1), 0),
+                (&quot;BOTTOMPADDING&quot;, (0, 1), (0, 1), 8),
+            ]))
+            main.append(k); main.append(Spacer(1, 9))
+            i += 1; continue
+
+        if line.startswith(&quot;&gt;&gt;&quot;):
+            head = [x.strip() for x in clean(line[2:]).split(&quot;|&quot;)]
+            title, who, rec = (head + [&quot;&quot;, &quot;&quot;])[:3]
+            i += 1
+            acts = []
+            while i &lt; n and re.match(r&quot;^\s*[-*\u2022]\s+&quot;, lines[i]):
+                acts.append(clean(re.sub(r&quot;^\s*[-*\u2022]\s+&quot;, &quot;&quot;, lines[i]))); i += 1
+            step_no += 1
+            cell = [Paragraph(esc(title), st[&quot;steptitle&quot;])]
+            for a in acts:
+                cell.append(Paragraph(modal(esc(a)), st[&quot;stepact&quot;], bulletText=&quot;\u2013&quot;))
+            chips = []
+            for lab, val in ((&quot;WHO&quot;, who), (&quot;RECORDS&quot;, rec)):
+                if val:
+                    chips.append(f&#x27;&lt;font name=&quot;Helvetica-Bold&quot; size=&quot;6.4&quot; color=&quot;{rail}&quot;&gt;&#x27;
+                                 f&#x27;{lab}&lt;/font&gt;&amp;nbsp;&amp;nbsp;{esc(val)}&#x27;)
+            if chips:
+                cell.append(Spacer(1, 2))
+                cell.append(Paragraph(&quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&quot;.join(chips), st[&quot;stepchip&quot;]))
+            t = Table([[&quot;&quot;, Paragraph(f&quot;{step_no:02d}&quot;, st[&quot;stmtno&quot;]), cell]],
+                      colWidths=[pull, 1.05 * cm, avail - 1.05 * cm], hAlign=&quot;LEFT&quot;)
+            t.setStyle(TableStyle([
+                (&quot;VALIGN&quot;, (0, 0), (-1, -1), &quot;TOP&quot;),
+                (&quot;LEFTPADDING&quot;, (0, 0), (-1, -1), 0),
+                (&quot;RIGHTPADDING&quot;, (0, 0), (-1, -1), 0),
+                (&quot;TOPPADDING&quot;, (0, 0), (-1, -1), 8),
+                (&quot;BOTTOMPADDING&quot;, (0, 0), (-1, -1), 10),
+                (&quot;LINEABOVE&quot;, (1, 0), (-1, 0), 0.4, HAIR),
+            ]))
+            t.splitInRow = 1
+            main.append((&quot;RAW&quot;, t))
+            continue
+
+        if line.startswith(&quot;|&quot;):
+            blk = []
+            while i &lt; n and lines[i].strip().startswith(&quot;|&quot;):
+                blk.append(lines[i]); i += 1
+            rows = []
+            for l in blk:
+                if re.match(r&quot;^\|[\s:\-|]+\|$&quot;, l.strip()):
+                    continue
+                cells = [clean(x) for x in l.strip().strip(&quot;|&quot;).split(&quot;|&quot;)]
+                if any(cells):
+                    rows.append(cells)
+            if not rows:
+                continue
+            w = max(len(r) for r in rows)
+            rows = [r + [&quot;&quot;] * (w - len(r)) for r in rows]
+            if w == 2:
+                cw = [avail * .40, avail * .60]
+            elif w == 3:
+                cw = [avail * .26, avail * .30, avail * .44]
+            else:
+                # proportional to longest cell per column, so tick/rating
+                # columns stay narrow and text columns get the width
+                mx = [max(len(r[j]) for r in rows) for j in range(w)]
+                wt = [min(max(m, 6), 34) for m in mx]
+                cw = [avail * x / sum(wt) for x in wt]
+                floor = min(1.6 * cm, avail / w)
+                cw = [max(floor, c) for c in cw]
+                s = sum(cw)
+                cw = [c * avail / s for c in cw]
+            def cellpara(text, style):
+                # ¶ marks a paragraph break carried over from the source cell
+                return Paragraph(esc(text).replace(&quot;¶&quot;, &quot;&lt;br/&gt;&lt;br/&gt;&quot;), style)
+
+            # a first row of long prose is data, not a header: treating it as a
+            # header repeats it on every page, sets it in caps, and makes it
+            # unsplittable
+            # short cells = a real header row; a first row of long prose is
+            # data (a ¶ is fine, headers wrap too)
+            hdr_like = len(rows) &gt; 1 and all(len(c) &lt;= 160 for c in rows[0])
+            # wide registers need a smaller cell size, or words break mid-word
+            # in 1.9 cm columns
+            if w &gt;= 10:
+                st = dict(st)
+                st[&quot;cell&quot;] = ParagraphStyle(&quot;cellsm&quot;, parent=st[&quot;cell&quot;],
+                                            fontSize=7.2, leading=10)
+                st[&quot;cellb&quot;] = ParagraphStyle(&quot;cellbsm&quot;, parent=st[&quot;cellb&quot;],
+                                             fontSize=7.2, leading=10)
+                st[&quot;cellh&quot;] = ParagraphStyle(&quot;cellhsm&quot;, parent=st[&quot;cellh&quot;],
+                                             fontSize=6.0, leading=8.5)
+            data = ([[&quot;&quot;] + [cellpara(c.upper(), st[&quot;cellh&quot;]) for c in rows[0]]]
+                    if hdr_like else [])
+            data += [[&quot;&quot;] + [cellpara(c, st[&quot;cell&quot; if j else &quot;cellb&quot;])
+                             for j, c in enumerate(r)]
+                     for r in (rows[1:] if hdr_like else rows)]
+            # splitInRow lets a single very tall row break across pages instead
+            # of failing the whole document (some provider forms have one cell
+            # taller than the frame)
+            t = Table(data, colWidths=[max(pull - 7, 0)] + cw,
+                      repeatRows=1 if hdr_like else 0,
+                      hAlign=&quot;LEFT&quot;, splitByRow=1, splitInRow=1)
+            t.setStyle(TableStyle(([
+                (&quot;BACKGROUND&quot;, (1, 0), (-1, 0), tint(rail, 0.93)),
+                (&quot;LINEBELOW&quot;, (1, 0), (-1, 0), 0.7, HexColor(rail)),
+            ] if hdr_like else []) + [
+                (&quot;LINEBELOW&quot;, (1, 1 if hdr_like else 0), (-1, -2), 0.3, ROW),
+                (&quot;VALIGN&quot;, (0, 0), (-1, -1), &quot;TOP&quot;),
+                (&quot;LEFTPADDING&quot;, (0, 0), (0, -1), 0),
+                (&quot;RIGHTPADDING&quot;, (0, 0), (0, -1), 0),
+                (&quot;LEFTPADDING&quot;, (1, 0), (-1, -1), 7),
+                (&quot;RIGHTPADDING&quot;, (1, 0), (-1, -1), 7),
+                (&quot;TOPPADDING&quot;, (0, 0), (-1, -1), 5),
+                (&quot;BOTTOMPADDING&quot;, (0, 0), (-1, -1), 5),
+            ]))
+            main.append((&quot;RAW&quot;, t)); main.append(Spacer(1, 10))
+            continue
+
+        if line.startswith(&quot;%%&quot;):
+            # clause carrying its own number, e.g. &quot;%% 1.3.1 text&quot; — the
+            # provider&#x27;s numbering, preserved so cross-references still resolve
+            items = []
+            while i &lt; n and lines[i].strip().startswith(&quot;%%&quot;):
+                rawl = lines[i]
+                m2 = re.match(r&quot;^%%\s+(\S+)\s+(.*)$&quot;, rawl.strip())
+                if m2:
+                    depth = (len(rawl) - len(rawl.lstrip())) // 2
+                    items.append((m2.group(1), clean(m2.group(2)), depth))
+                i += 1
+            if not items:
+                continue
+            step = 0.75 * cm
+            numw = min(3.2 * cm,
+                       max(1.05 * cm,
+                           0.2 * cm * max(len(k) for k, _, _ in items)
+                           + step * max(d for _, _, d in items)))
+            data = []
+            for k, v, d in items:
+                ind = d * step
+                data.append([&quot;&quot;,
+                             Paragraph(esc(k), ParagraphStyle(
+                                 &quot;n%d&quot; % d, parent=st[&quot;stmtno&quot;], leftIndent=ind)),
+                             Paragraph(esc(v), ParagraphStyle(
+                                 &quot;s%d&quot; % d, parent=st[&quot;stmt&quot;], leftIndent=ind))])
+            t = Table(data, colWidths=[pull, numw, avail - numw], hAlign=&quot;LEFT&quot;)
+            t.setStyle(TableStyle([
+                (&quot;VALIGN&quot;, (0, 0), (-1, -1), &quot;TOP&quot;),
+                (&quot;LEFTPADDING&quot;, (0, 0), (-1, -1), 0),
+                (&quot;RIGHTPADDING&quot;, (0, 0), (-1, -1), 0),
+                (&quot;TOPPADDING&quot;, (0, 0), (-1, -1), 2),
+                (&quot;BOTTOMPADDING&quot;, (0, 0), (-1, -1), 4),
+                (&quot;LINEBELOW&quot;, (1, 0), (-1, -2), 0.3, ROW),
+            ]))
+            main.append((&quot;RAW&quot;, t)); main.append(Spacer(1, 9))
+            continue
+
+        if re.match(r&quot;^\s*\d+[\.\)]\s+&quot;, raw):
+            steps = []
+            while i &lt; n and re.match(r&quot;^\s*\d+[\.\)]\s+&quot;, lines[i]):
+                steps.append(clean(re.sub(r&quot;^\s*\d+[\.\)]\s+&quot;, &quot;&quot;, lines[i]))); i += 1
+            data = [[&quot;&quot;, Paragraph(f&quot;{k+1:02d}&quot;, st[&quot;stmtno&quot;]),
+                     Paragraph(esc(s2), st[&quot;stmt&quot;])] for k, s2 in enumerate(steps)]
+            t = Table(data, colWidths=[pull, 1.05 * cm, avail - 1.05 * cm],
+                      hAlign=&quot;LEFT&quot;)  # steps have no cell padding, so no pull-back
+            t.setStyle(TableStyle([
+                (&quot;VALIGN&quot;, (0, 0), (-1, -1), &quot;TOP&quot;),
+                (&quot;LEFTPADDING&quot;, (0, 0), (-1, -1), 0),
+                (&quot;RIGHTPADDING&quot;, (0, 0), (-1, -1), 0),
+                (&quot;TOPPADDING&quot;, (0, 0), (-1, -1), 2),
+                (&quot;BOTTOMPADDING&quot;, (0, 0), (-1, -1), 4),
+                (&quot;LINEBELOW&quot;, (1, 0), (-1, -2), 0.3, ROW),
+            ]))
+            main.append((&quot;RAW&quot;, t)); main.append(Spacer(1, 9))
+            continue
+
+        if re.match(r&quot;^\s*[-*\u2022]\s+&quot;, raw):
+            items = []
+            while i &lt; n and re.match(r&quot;^\s*[-*\u2022]\s+&quot;, lines[i]):
+                items.append(clean(re.sub(r&quot;^\s*[-*\u2022]\s+&quot;, &quot;&quot;, lines[i]))); i += 1
+            for it in items:
+                main.append(Paragraph(esc(it), ParagraphStyle(
+                    &quot;li&quot;, parent=st[&quot;body&quot;], leftIndent=12, bulletIndent=2,
+                    spaceAfter=4), bulletText=&quot;\u2013&quot;))
+            main.append(Spacer(1, 6))
+            continue
+
+        main.append(Paragraph(esc(clean(line)), st[&quot;body&quot;]))
+        i += 1
+
+    flush(title_pending, num_pending)
+    return story
+</code></pre>
+<div class="kbfoot">Read-only view. Original file: <a class="mono" href="layout.py">layout.py</a></div>
+</article></div>
+</body></html>

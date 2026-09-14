@@ -1,0 +1,51 @@
+[
+  {
+    "type": "POLICY",
+    "rail": "#38553E",
+    "label": "Policy and Procedure",
+    "ref": "",
+    "title": "[Policy name] Policy and Procedure",
+    "subtitle": "Harmony Care Support Services",
+    "module": "[Module]",
+    "status": "[Draft or Approved]",
+    "page": "A4",
+    "base": 11,
+    "source": "templates/src/TEMPLATE Policy and Procedure.md",
+    "version": "[n]",
+    "effective": "[Month Year]",
+    "review": "[Month Year]",
+    "covers": "[What this policy covers, in one line: the risk, who acts on it, where it is recorded.]",
+    "links": [
+      [
+        "Standard",
+        "The NDIS standard this policy answers to",
+        "[Standard name], made under the NDIS (Provider Registration and Practice Standards) Rules 2018"
+      ],
+      [
+        "Indicators",
+        "What an auditor looks for",
+        "Quality Indicators, [how many], listed at 1.3"
+      ],
+      [
+        "Law",
+        "[The duty in plain words]",
+        "[Act name and year (jurisdiction)]"
+      ],
+      [
+        "Evidence",
+        "The records this policy produces",
+        "[Register]  \u00b7  [Form]  \u00b7  [Plan]"
+      ],
+      [
+        "Monitored by",
+        "How Harmony Care checks it is working",
+        "[Audit, register review, report]"
+      ],
+      [
+        "Review",
+        "When it falls due",
+        "[Month Year], matching the Policy Register"
+      ]
+    ]
+  }
+]

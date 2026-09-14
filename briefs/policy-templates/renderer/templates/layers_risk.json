@@ -1,0 +1,87 @@
+{
+ "source": "src/Risk Management Policy and Procedure.md",
+ "outdir": "pdf",
+ "control": {
+  "module": "Core Module",
+  "status": "Approved",
+  "version": "1",
+  "effective": "October 2023",
+  "review": "October 2026"
+ },
+ "worker": {
+  "title": "Risk Management: what you do",
+  "subtitle": "The procedure in the Risk Management Policy, one line per step. Tick a step when it is done."
+ },
+ "participant": {
+  "title": "Keeping you safe from risks",
+  "subtitle": "What the Risk Management Policy means for you.",
+  "items": [
+   [
+    "Harmony Care wants to keep you safe.",
+    "picture: a worker and a participant together"
+   ],
+   [
+    "A <b>risk</b> is something that could hurt you, a worker, or the service.",
+    "picture: a warning sign"
+   ],
+   [
+    "We look for risks. We write them down in a list called the <b>Risk Register</b>.",
+    "picture: a list with ticks"
+   ],
+   [
+    "We decide how to stop each risk, or make it smaller.",
+    "picture: a shield"
+   ],
+   [
+    "If something goes wrong, the worker tells the <b>Principal</b> straight away. The worker writes an <b>Incident Report</b>.",
+    "picture: a form and a pen"
+   ],
+   [
+    "We have a plan for emergencies, like a fire or a flood. It is called the <b>Business Continuity Plan</b>.",
+    "picture: an exit sign"
+   ],
+   [
+    "We have <b>insurance</b>. Insurance pays if something bad happens.",
+    "picture: an umbrella"
+   ],
+   [
+    "You can tell us about a risk you see. You can also tell us if you are unhappy. This is called <b>feedback</b>.",
+    "picture: a speech bubble"
+   ],
+   [
+    "Every year we ask you what we could do better.",
+    "picture: a calendar"
+   ]
+  ],
+  "words": [
+   [
+    "Risk",
+    "Something that could hurt a person or the service."
+   ],
+   [
+    "Risk Register",
+    "The list where we write down every risk and what we do about it."
+   ],
+   [
+    "Principal",
+    "The person in charge of Harmony Care. Victoria is the Principal."
+   ],
+   [
+    "Incident Report",
+    "The form a worker fills in when something goes wrong."
+   ],
+   [
+    "Business Continuity Plan",
+    "Our plan for keeping the service going in an emergency."
+   ],
+   [
+    "Insurance",
+    "Money that pays for damage or injury if something bad happens."
+   ],
+   [
+    "Feedback",
+    "Telling us what you think, good or bad. You can do this without giving your name."
+   ]
+  ]
+ }
+}

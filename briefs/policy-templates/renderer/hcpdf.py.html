@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hcpdf.py · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../../../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../../../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">briefs/policy-templates/renderer/hcpdf.py.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>python source</span><span>14,472 bytes</span></div>
+
+<h1>hcpdf.py</h1><pre><code>&quot;&quot;&quot;
+Harmony Care — PDF renderer.
+
+Same design as hcdoc.py (LOCK-doc-page.png), output as a fixed-layout PDF so it
+looks identical wherever it is opened. Reads the same src/*.md + spec entries.
+&quot;&quot;&quot;
+import os, re, sys, json
+from layout import build_story, styles as gstyles, GUTTER, GAP
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm, mm
+from reportlab.lib.colors import HexColor, Color
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.enums import TA_LEFT, TA_RIGHT
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import (BaseDocTemplate, PageTemplate, Frame, Paragraph,
+                                Spacer, Table, TableStyle, Image, KeepTogether,
+                                PageBreak)
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+HEADER_ART = f&quot;{HERE}/art/band-header.jpg&quot;
+FOOTER_ART = f&quot;{HERE}/art/band-footer.jpg&quot;
+
+pdfmetrics.registerFont(TTFont(&quot;Georgia&quot;, &quot;/System/Library/Fonts/Supplemental/Georgia.ttf&quot;))
+pdfmetrics.registerFont(TTFont(&quot;Georgia-Bold&quot;, &quot;/System/Library/Fonts/Supplemental/Georgia Bold.ttf&quot;))
+pdfmetrics.registerFont(TTFont(&quot;Georgia-Italic&quot;, &quot;/System/Library/Fonts/Supplemental/Georgia Italic.ttf&quot;))
+pdfmetrics.registerFontFamily(&quot;Georgia&quot;, normal=&quot;Georgia&quot;, bold=&quot;Georgia-Bold&quot;,
+                              italic=&quot;Georgia-Italic&quot;, boldItalic=&quot;Georgia-Bold&quot;)
+
+TYPES = {
+    &quot;POLICY&quot;:    (&quot;Policy&quot;,    &quot;#5C3A52&quot;),
+    &quot;PROCEDURE&quot;: (&quot;Procedure&quot;, &quot;#6683A5&quot;),
+    &quot;FORM&quot;:      (&quot;Form&quot;,      &quot;#C1964F&quot;),
+    &quot;REGISTER&quot;:  (&quot;Register&quot;,  &quot;#8B9C7E&quot;),
+    &quot;AGREEMENT&quot;: (&quot;Agreement&quot;, &quot;#B79BBA&quot;),
+    &quot;PLAN&quot;:      (&quot;Plan&quot;,      &quot;#B79BBA&quot;),
+    &quot;REPORT&quot;:    (&quot;Report&quot;,    &quot;#C6746F&quot;),
+}
+
+INK, BODY, MID, GREY = (HexColor(&quot;#2F2F2F&quot;), HexColor(&quot;#3A3A3A&quot;),
+                        HexColor(&quot;#6A6A6A&quot;), HexColor(&quot;#8C8C8C&quot;))
+PAPER  = HexColor(&quot;#FDFBF6&quot;)   # the letterhead&#x27;s cream
+SAGE   = HexColor(&quot;#9EAE8F&quot;)   # the rule colour
+FOREST = HexColor(&quot;#38553E&quot;)
+HAIR = HexColor(&quot;#D8D4CB&quot;)
+ROW = HexColor(&quot;#E6E2D8&quot;)
+
+LAW_URLS = {
+    # verified in the Rise knowledge base (context/ mirror), not typed from memory
+    &quot;NDIS (Provider Registration and Practice Standards) Rules 2018&quot;:
+        &quot;https://www.legislation.gov.au/F2018L00631/latest/text&quot;,
+    &quot;PRPS&quot;: &quot;https://www.legislation.gov.au/F2018L00631/latest/text&quot;,
+    &quot;QI Guidelines&quot;: &quot;https://www.legislation.gov.au/F2018N00041/latest/text&quot;,
+    &quot;Quality Indicators&quot;: &quot;https://www.legislation.gov.au/F2018N00041/latest/text&quot;,
+}
+
+REGISTRY = {}   # HCS ref -&gt; output filename, filled by __main__
+
+
+def outname(spec, ext):
+    &quot;&quot;&quot;Coded documents keep the code-and-hyphens name; the provider&#x27;s own set
+    keeps its plain title, which is how their staff look for it.&quot;&quot;&quot;
+    title = spec[&quot;title&quot;].replace(&quot;/&quot;, &quot;-&quot;)
+    if spec.get(&quot;ref&quot;):
+        return f&quot;{spec[&#x27;ref&#x27;]}_{title.replace(&#x27; &#x27;, &#x27;-&#x27;)}.{ext}&quot;
+    return f&quot;{title}.{ext}&quot;
+
+
+def linkify(text):
+    &quot;&quot;&quot;Turn instrument names and HCS document codes into live links.
+    Only instruments with a verified URL are linked; everything else stays plain.&quot;&quot;&quot;
+    out = esc(text)
+    for name, url in sorted(LAW_URLS.items(), key=lambda kv: -len(kv[0])):
+        pat = re.escape(esc(name))
+        out = re.sub(rf&quot;(?&lt;!&gt;){pat}&quot;,
+                     f&#x27;&lt;a href=&quot;{url}&quot; color=&quot;#38553E&quot;&gt;&lt;u&gt;{esc(name)}&lt;/u&gt;&lt;/a&gt;&#x27;, out, count=1)
+    def _doc(m):
+        ref = m.group(0)
+        target = REGISTRY.get(ref)
+        if not target:
+            return ref
+        return f&#x27;&lt;a href=&quot;{target}&quot; color=&quot;#38553E&quot;&gt;&lt;u&gt;{ref}&lt;/u&gt;&lt;/a&gt;&#x27;
+    out = re.sub(r&quot;HCS-[A-Z0-9]+-[A-Z0-9]+-\d+|HCS-[A-Z]+-\d+&quot;, _doc, out)
+    return out
+
+
+ENTITY = &quot;Harmony Care Support Services Pty Ltd  ·  ABN 99 691 543 834  ·  ACN 691 543 834&quot;
+
+L = R = 2.45 * cm
+TOP = 5.45 * cm
+BOT = 6.65 * cm
+MEASURE = 0.0 * cm     # the editorial grid owns the internal gutter
+
+# Page geometry per size. Landscape pages use the locked COMPACT furniture:
+# the full 4.7 cm footer would take a quarter of a 21 cm-tall page.
+PAGES = {
+    &quot;A4&quot;:  dict(size=(21.0 * cm, 29.7 * cm), top=TOP, bot=BOT,
+                head=f&quot;{HERE}/art/band-header.jpg&quot;, head_h=3.81 * cm,
+                foot=f&quot;{HERE}/art/band-footer.jpg&quot;, foot_h=4.70 * cm,
+                head_inset=1.27 * cm, foot_inset=1.10 * cm, ctl=6.22 * cm),
+    &quot;A4C&quot;: dict(size=(21.0 * cm, 29.7 * cm), top=4.15 * cm, bot=4.35 * cm,
+                head=f&quot;{HERE}/art/band-header-compact-210mm.png&quot;, head_h=2.36 * cm,
+                foot=f&quot;{HERE}/art/band-footer-compact-210mm.png&quot;, foot_h=2.54 * cm,
+                head_inset=1.10 * cm, foot_inset=1.00 * cm, ctl=3.85 * cm),
+    &quot;A4L&quot;: dict(size=(29.7 * cm, 21.0 * cm), top=4.15 * cm, bot=4.35 * cm,
+                head=f&quot;{HERE}/art/band-header-compact-297mm.png&quot;, head_h=2.35 * cm,
+                foot=f&quot;{HERE}/art/band-footer-compact-297mm.png&quot;, foot_h=2.54 * cm,
+                head_inset=1.10 * cm, foot_inset=1.00 * cm, ctl=3.85 * cm),
+    &quot;A3L&quot;: dict(size=(42.0 * cm, 29.7 * cm), top=4.15 * cm, bot=4.35 * cm,
+                head=f&quot;{HERE}/art/band-header-compact-420mm.png&quot;, head_h=2.35 * cm,
+                foot=f&quot;{HERE}/art/band-footer-compact-420mm.png&quot;, foot_h=2.54 * cm,
+                head_inset=1.10 * cm, foot_inset=1.00 * cm, ctl=3.85 * cm),
+}
+
+
+def page_of(spec):
+    return PAGES.get(spec.get(&quot;page&quot;) or &quot;A4&quot;, PAGES[&quot;A4&quot;])
+
+
+def esc(s):
+    return (s.replace(&quot;&amp;&quot;, &quot;&amp;amp;&quot;).replace(&quot;&lt;&quot;, &quot;&amp;lt;&quot;).replace(&quot;&gt;&quot;, &quot;&amp;gt;&quot;))
+
+
+def clean(s):
+    s = s.replace(&quot;\\*&quot;, &quot;*&quot;).replace(&quot;\\[&quot;, &quot;[&quot;).replace(&quot;\\]&quot;, &quot;]&quot;)
+    s = s.replace(&quot;\\#&quot;, &quot;#&quot;).replace(&quot;\\_&quot;, &quot;_&quot;).replace(&quot;\\.&quot;, &quot;.&quot;).replace(&quot;\\|&quot;, &quot;|&quot;)
+    s = re.sub(r&quot;\*\*(.+?)\*\*&quot;, r&quot;\1&quot;, s)
+    s = re.sub(r&quot;(?&lt;!\w)\*(.+?)\*(?!\w)&quot;, r&quot;\1&quot;, s)
+    return s.strip()
+
+
+def styles(rail):
+    body = ParagraphStyle(&quot;body&quot;, fontName=&quot;Georgia&quot;, fontSize=10.5, leading=15.2,
+                          textColor=BODY, spaceAfter=8, alignment=TA_LEFT)
+    return {
+        &quot;title&quot;: ParagraphStyle(&quot;title&quot;, fontName=&quot;Georgia-Bold&quot;, fontSize=22, leading=25,
+                                textColor=INK, spaceAfter=6),
+        &quot;sub&quot;: ParagraphStyle(&quot;sub&quot;, fontName=&quot;Georgia&quot;, fontSize=11, leading=15,
+                              textColor=MID, spaceAfter=18),
+        &quot;covers&quot;: ParagraphStyle(&quot;covers&quot;, fontName=&quot;Georgia&quot;, fontSize=9, leading=13,
+                                 textColor=MID, spaceAfter=16),
+        &quot;coverslabel&quot;: ParagraphStyle(&quot;coverslabel&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=7,
+                                      textColor=GREY, charSpace=1.6),
+        &quot;h1&quot;: ParagraphStyle(&quot;h1&quot;, fontName=&quot;Helvetica-BoldOblique&quot;, fontSize=8.5,
+                             leading=12, textColor=HexColor(rail), spaceBefore=19,
+                             spaceAfter=6, charSpace=0.9),
+        &quot;h2&quot;: ParagraphStyle(&quot;h2&quot;, fontName=&quot;Georgia-Bold&quot;, fontSize=10.5, leading=14,
+                             textColor=INK, spaceBefore=12, spaceAfter=3),
+        &quot;body&quot;: body,
+        &quot;li&quot;: ParagraphStyle(&quot;li&quot;, parent=body, leftIndent=14, bulletIndent=3, spaceAfter=4),
+        &quot;cellh&quot;: ParagraphStyle(&quot;cellh&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=7,
+                                leading=9.5, textColor=HexColor(rail), charSpace=1.0),
+        &quot;cell&quot;: ParagraphStyle(&quot;cell&quot;, fontName=&quot;Georgia&quot;, fontSize=8.6, leading=12,
+                               textColor=BODY),
+        &quot;callh&quot;: ParagraphStyle(&quot;callh&quot;, fontName=&quot;Helvetica-Bold&quot;, fontSize=7,
+                                leading=10, textColor=HexColor(rail)),
+        &quot;callb&quot;: ParagraphStyle(&quot;callb&quot;, fontName=&quot;Georgia&quot;, fontSize=9.4, leading=13.4,
+                                textColor=MID),
+    }
+
+
+def track(text, pts=1.4):
+    &quot;&quot;&quot;Caps only — real letterspacing is applied via the style&#x27;s charSpace.&quot;&quot;&quot;
+    return text.upper()
+
+
+class Doc(BaseDocTemplate):
+    total = None
+
+    def __init__(self, path, spec, **kw):
+        self.spec = spec
+        self.label, self.rail = TYPES[spec[&quot;type&quot;]]
+        # colour and type label are separable: a policy can carry the Business
+        # Plan colourway and still be labelled &quot;Policy&quot;
+        self.rail = spec.get(&quot;rail&quot;, self.rail)
+        self.label = spec.get(&quot;label&quot;, self.label)
+        self.geo = page_of(spec)
+        W, H = self.geo[&quot;size&quot;]
+        top, bot = self.geo[&quot;top&quot;], self.geo[&quot;bot&quot;]
+        super().__init__(path, pagesize=(W, H), leftMargin=L, rightMargin=R + MEASURE,
+                         topMargin=top, bottomMargin=bot,
+                         title=&quot; &quot;.join(x for x in (spec.get(&quot;ref&quot;), spec[&quot;title&quot;]) if x),
+                         author=&quot;Harmony Care Support Services Pty Ltd&quot;, **kw)
+        frame = Frame(L, bot, W - L - R - MEASURE, H - top - bot, id=&quot;body&quot;,
+                      leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
+        self.addPageTemplates([PageTemplate(id=&quot;p&quot;, frames=[frame], onPage=self.furniture)])
+
+    def furniture(self, c, doc):
+        s = self.spec
+        g = self.geo
+        W, H = g[&quot;size&quot;]
+
+        # cream ground
+        c.setFillColor(PAPER)
+        c.rect(0, 0, W, H, stroke=0, fill=1)
+
+        # header band — inset 1.27 cm from the page top, matching the proof.
+        # The artwork has no internal padding, so drawing it flush clips the cast.
+        try:
+            c.drawImage(g[&quot;head&quot;], 0, H - g[&quot;head_inset&quot;] - g[&quot;head_h&quot;], width=W,
+                        height=g[&quot;head_h&quot;], mask=&quot;auto&quot;)
+        except Exception:
+            pass
+
+        # document identification, sitting under the band against the right margin
+        # A document code is printed only where the document actually has one.
+        # The provider&#x27;s own set has no code scheme, so the type label carries
+        # that slot rather than an identifier invented at render time.
+        c.setFont(&quot;Helvetica-Bold&quot;, 9)
+        c.setFillColor(FOREST)
+        c.drawRightString(W - R, H - g[&quot;head_inset&quot;] - 1.31 * cm,
+                          s.get(&quot;ref&quot;) or self.label.upper())
+        c.setFont(&quot;Helvetica&quot;, 7.2)
+        c.setFillColor(MID)
+        bits = [self.label] if s.get(&quot;ref&quot;) else []
+        if s.get(&quot;version&quot;):
+            bits.append(f&quot;v{s[&#x27;version&#x27;]}&quot;)
+        if s.get(&quot;status&quot;):
+            bits.append(s[&quot;status&quot;])
+        if s.get(&quot;module&quot;):
+            bits.append(s[&quot;module&quot;])
+        if bits:
+            c.drawRightString(W - R, H - g[&quot;head_inset&quot;] - 1.75 * cm,
+                              &quot;  ·  &quot;.join(bits))
+
+        # footer band, full bleed
+        try:
+            c.drawImage(g[&quot;foot&quot;], 0, g[&quot;foot_inset&quot;], width=W, height=g[&quot;foot_h&quot;],
+                        mask=&quot;auto&quot;)
+        except Exception:
+            pass
+
+        # page number and control line, above the footer artwork
+        c.setFont(&quot;Helvetica&quot;, 6.6)
+        c.setFillColor(GREY)
+        ctl = [x for x in (s.get(&quot;ref&quot;),
+                           f&quot;Version {s[&#x27;version&#x27;]}&quot; if s.get(&quot;version&quot;) else &quot;&quot;,
+                           f&quot;Approved {s[&#x27;effective&#x27;]}&quot; if s.get(&quot;effective&quot;) else &quot;&quot;,
+                           f&quot;Next review {s[&#x27;review&#x27;]}&quot; if s.get(&quot;review&quot;) else &quot;&quot;) if x]
+        if ctl:
+            c.drawString(L, g[&quot;ctl&quot;], &quot;  ·  &quot;.join(ctl) + &quot;  ·  Retain 7 years&quot;)
+        c.drawRightString(W - R, g[&quot;ctl&quot;],
+                          f&quot;Page {c.getPageNumber()} of {self.total or &#x27;?&#x27;}&quot;)
+
+
+def parse_table(block):
+    rows = []
+    for l in block:
+        if re.match(r&quot;^\|[\s:\-|]+\|$&quot;, l.strip()):
+            continue
+        cells = [clean(x) for x in l.strip().strip(&quot;|&quot;).split(&quot;|&quot;)]
+        if any(cells):
+            rows.append(cells)
+    if not rows:
+        return None, None
+    w = max(len(r) for r in rows)
+    rows = [r + [&quot;&quot;] * (w - len(r)) for r in rows]
+    return rows[0], rows[1:]
+
+
+def build(spec, outdir):
+    rail = spec.get(&quot;rail&quot;, TYPES[spec[&quot;type&quot;]][1])
+    st = styles(rail)
+    avail = page_of(spec)[&quot;size&quot;][0] - L - R - MEASURE
+    story = [Paragraph(esc(spec[&quot;title&quot;]), st[&quot;title&quot;])]
+    if spec.get(&quot;subtitle&quot;):
+        story.append(Paragraph(esc(spec[&quot;subtitle&quot;]), st[&quot;sub&quot;]))
+    if spec.get(&quot;covers&quot;):
+        story.append(Paragraph(
+            f&#x27;&lt;font name=&quot;Helvetica-Bold&quot; size=&quot;7&quot; color=&quot;#8A8286&quot;&gt;COVERS&lt;/font&gt;&#x27;
+            f&#x27;&amp;nbsp;&amp;nbsp;&amp;nbsp; {esc(spec[&quot;covers&quot;])}&#x27;, st[&quot;covers&quot;]))
+
+    # ---- compliance links: what this document answers to, at the top ----
+    if spec.get(&quot;links&quot;):
+        from layout import tint as _tint
+        lst = gstyles(rail)
+        hdr = [Paragraph(h, lst[&quot;cellh&quot;]) for h in (&quot;LINK TYPE&quot;, &quot;PLAIN ENGLISH&quot;, &quot;LINKED TO&quot;)]
+        rows = [hdr]
+        for kind, plain, target in spec[&quot;links&quot;]:
+            rows.append([Paragraph(kind.upper(), lst[&quot;cellh&quot;]),
+                         Paragraph(esc(plain), lst[&quot;cell&quot;]),
+                         Paragraph(linkify(target), lst[&quot;cellb&quot;])])
+        lt = Table(rows, colWidths=[avail * .19, avail * .28, avail * .53],
+                   repeatRows=1, hAlign=&quot;LEFT&quot;)
+        lt.setStyle(TableStyle([
+            (&quot;BACKGROUND&quot;, (0, 0), (-1, 0), _tint(&quot;#38553E&quot;, 0.93)),
+            (&quot;LINEBELOW&quot;, (0, 0), (-1, 0), 0.7, HexColor(&quot;#38553E&quot;)),
+            (&quot;LINEBELOW&quot;, (0, 1), (-1, -2), 0.3, HexColor(&quot;#E6E2D8&quot;)),
+            (&quot;VALIGN&quot;, (0, 0), (-1, -1), &quot;TOP&quot;),
+            (&quot;LEFTPADDING&quot;, (0, 0), (-1, -1), 7),
+            (&quot;RIGHTPADDING&quot;, (0, 0), (-1, -1), 7),
+            (&quot;TOPPADDING&quot;, (0, 0), (-1, -1), 5),
+            (&quot;BOTTOMPADDING&quot;, (0, 0), (-1, -1), 5),
+        ]))
+        story.append(lt)
+        story.append(PageBreak())
+
+    gst = gstyles(rail, spec.get(&quot;base&quot;, 9.4))
+    story += build_story(os.path.join(HERE, spec[&quot;source&quot;]), gst, rail, avail)
+
+
+
+    os.makedirs(outdir, exist_ok=True)
+    path = os.path.join(outdir, outname(spec, &quot;pdf&quot;))
+    import copy
+    d1 = Doc(path, spec); d1.build(copy.deepcopy(story))
+    total = d1.page
+    d2 = Doc(path, spec); d2.total = total; d2.build(story)
+    return path
+
+
+if __name__ == &quot;__main__&quot;:
+    specs = json.load(open(sys.argv[1]))
+    if isinstance(specs, dict):
+        specs = [specs]
+    outdir = os.path.join(HERE, &quot;pdf&quot;)
+    for sp in specs:
+        if sp.get(&quot;ref&quot;):
+            REGISTRY[sp[&quot;ref&quot;]] = outname(sp, &quot;pdf&quot;)
+    failed = []
+    for s in specs:
+        try:
+            print(&quot;  -&gt;&quot;, os.path.basename(build(s, outdir)))
+        except Exception as exc:                     # keep going, report at the end
+            failed.append((s[&quot;title&quot;], f&quot;{type(exc).__name__}: {exc}&quot;))
+            print(&quot;  !! FAILED&quot;, s[&quot;title&quot;])
+    if failed:
+        print(f&quot;\n{len(failed)} of {len(specs)} failed:&quot;)
+        for t, e in failed:
+            print(f&quot;   {t}: {e[:150]}&quot;)
+</code></pre>
+<div class="kbfoot">Read-only view. Original file: <a class="mono" href="hcpdf.py">hcpdf.py</a></div>
+</article></div>
+</body></html>
