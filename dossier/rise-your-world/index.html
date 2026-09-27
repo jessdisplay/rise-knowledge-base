@@ -49,18 +49,18 @@ a{color:var(--rules)}
 .lvls a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 </style>
 </head>
-<body>
+<body><!-- wayback:start --><link rel="stylesheet" href="../nav/wayback.css"><nav class="wayback" aria-label="Way back"><div class="wrap"><a href="../index.html#ladder" target="_top">&#8592; The dossier</a></div></nav><!-- wayback:end -->
 <div class="wrap">
 
 <header>
-  <div class="eyebrow">Rise · level 2 · <a class='back' href='/rise-front-door'>← back to the nine steps</a></div>
+  <div class="eyebrow">Rise · level 2 · <a class='back' href='../rise-front-door/'>← back to the nine steps</a></div>
   <h1>Your world</h1>
   <p class="lede">The rulebook has parts. Not every part is for you. Tick what your organisation does, and your parts appear.</p>
   <div class="honest"><b>Honest label:</b> this is a learning guide, not a legal decision. The real answer lives in your certificate of registration and in section 20(3) of the Rules 2018. If you are not sure, ask the NDIS Commission. Your ticks are not saved.</div>
   <div class="honest" id="folderTip" hidden><b>Tip: keep the files together.</b> This page is part of a set. All the Rise files need to live in one folder. If a button says the file cannot be found, unzip <b>rise-project-site.zip</b> into this folder first.</div>
 </header>
 
-<nav class="lvls" aria-label="Levels"><a href='/rise-front-door'>0–1 · Nine steps</a><a class="now" href="#" aria-current="page">2 · Your world</a><a href='/rise-level-3-standards'>3 · Plain words</a><a href='/rise-level-4-threads'>4 · The thread</a><a href='/rise-level-5-letter'>5 · The letter</a><a href='/rise-level-6-graph'>6 · The machine</a></nav>
+<nav class="lvls" aria-label="Levels"><a href='../rise-front-door/'>0–1 · Nine steps</a><a class="now" href="#" aria-current="page">2 · Your world</a><a href='../rise-level-3-standards/'>3 · Plain words</a><a href='../rise-level-4-threads/'>4 · The thread</a><a href='../rise-level-5-letter/'>5 · The letter</a><a href='../rise-level-6-graph/'>6 · The machine</a></nav>
 
 <h2>What do you do?</h2>
 
@@ -97,7 +97,7 @@ const MODS={
 };
 const q=id=>document.getElementById(id).checked;
 function card(m,extraNote){
-  const links=m.gap?'':'<div class="deeper"><a href="rise-level-3-standards.html">Level 3: its standards in plain words</a><a href="rise-graph-explorer.html" target="_blank" rel="noopener">See it in the full tree</a></div>';
+  const links=m.gap?'':'<div class="deeper"><a href="../rise-level-3-standards/">Level 3: its standards in plain words</a><a href="../rise-graph-explorer/" target="_blank" rel="noopener">See it in the full tree</a></div>';
   return '<div class="'+m.cls+'"><h3>'+m.h+(m.c?'<span class="count">'+m.c+' standards</span>':'')+'</h3><p>'+m.p+'</p>'+(extraNote?'<div class="note">'+extraNote+'</div>':'')+(m.note?'<div class="note">'+m.note+'</div>':'')+links+'</div>';
 }
 function render(){
@@ -105,7 +105,7 @@ function render(){
   const sdaOnly=q("q7")&&!certAny&&!q("q8");
   const anyTick=certAny||q("q7")||q("q8")||q("q9");
   const R=document.getElementById("result");
-  if(!anyTick){R.innerHTML='<div class="empty">Tick what you do above. Your parts of the rulebook will appear here. Ticking nothing is fine — this is just for learning. Or go straight on: <a href="rise-level-3-standards.html">Level 3 — every standard in plain words</a>.</div>';return;}
+  if(!anyTick){R.innerHTML='<div class="empty">Tick what you do above. Your parts of the rulebook will appear here. Ticking nothing is fine — this is just for learning. Or go straight on: <a href="../rise-level-3-standards/">Level 3 — every standard in plain words</a>.</div>';return;}
   let out="";
   if(certAny||(q("q7")&&!sdaOnly))out+=card(MODS.core);
   if(q("q2"))out+=card(MODS.m1);

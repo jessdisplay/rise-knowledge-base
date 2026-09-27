@@ -1,0 +1,31 @@
+/* The way back, stamped by wayback.py on every dossier page that opens away
+   from the front page. It wears the front page's own section nav (nav.top in
+   dossier/index.html) so it reads as the dossier's chrome, not the page's.
+   The inner .wrap is the host page's own column, so the link sits on the same
+   left edge as the content under it. */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&display=swap");
+
+.wayback{
+  --wb-ground:#23211b; /* front page --navy2 */
+  --wb-ink:#f3ead3;    /* front page nav.top link */
+  --wb-accent:#f7ac28; /* front page --amber */
+  flex:none;
+  background:var(--wb-ground);
+  box-shadow:0 2px 8px rgba(24,20,8,.28);
+}
+.wayback .wrap{
+  padding-top:0;
+  padding-bottom:0;
+  min-height:0;
+}
+.wayback-edge{padding:0 14px} /* the node map header's own inset */
+.wayback a{
+  display:inline-block;
+  padding:16px 0;
+  color:var(--wb-ink);
+  font:600 13px/1 "Space Grotesk",system-ui,sans-serif;
+  letter-spacing:.04em;
+  text-decoration:none;
+}
+.wayback a:hover{color:var(--wb-accent)}
+.wayback a:focus-visible{outline:3px solid var(--wb-accent);outline-offset:3px}

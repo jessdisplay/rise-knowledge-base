@@ -45,7 +45,7 @@ footer{margin-top:36px;border-top:3px double var(--ink);padding-top:14px;font-si
 a{color:var(--rules)}
 </style>
 </head>
-<body>
+<body><!-- wayback:start --><link rel="stylesheet" href="../nav/wayback.css"><nav class="wayback" aria-label="Way back"><div class="wrap"><a href="../index.html#ladder" target="_top">&#8592; The dossier</a></div></nav><!-- wayback:end -->
 <div class="wrap">
 <header>
   <div class="eyebrow">Rise · level 3</div>
@@ -55,13 +55,13 @@ a{color:var(--rules)}
   <div class="honest" id="folderTip" hidden><b>Tip: keep the files together.</b> This page is part of a set. All the Rise files need to live in one folder. If a button says the file cannot be found, unzip <b>rise-project-site.zip</b> into this folder first.</div>
 </header>
 
-<nav class="lvls" aria-label="Levels"><a href='/rise-front-door'>0–1 · Nine steps</a><a href='/rise-your-world'>2 · Your world</a><a class="now" href="#" aria-current="page">3 · Plain words</a><a href='/rise-level-4-threads'>4 · The thread</a><a href='/rise-level-5-letter'>5 · The letter</a><a href='/rise-level-6-graph'>6 · The machine</a></nav>
+<nav class="lvls" aria-label="Levels"><a href='../rise-front-door/'>0–1 · Nine steps</a><a href='../rise-your-world/'>2 · Your world</a><a class="now" href="#" aria-current="page">3 · Plain words</a><a href='../rise-level-4-threads/'>4 · The thread</a><a href='../rise-level-5-letter/'>5 · The letter</a><a href='../rise-level-6-graph/'>6 · The machine</a></nav>
 
 <div class="chips" id="chips" role="group" aria-label="Show one module"></div>
 <main id="list"></main>
 
 <footer>
-<p>New at this level: the rules themselves. One level up trims the rulebook to you; one level down — <a href='/rise-level-4-threads'>Level 4</a> — connects each rule to your own documents. Prototype note: this page embeds its own copy of the verified data — production renders every level from the one graph (design law 1). Dual official titles and search live in the <a href='/rise-standards-navigator'>navigator</a>.</p>
+<p>New at this level: the rules themselves. One level up trims the rulebook to you; one level down — <a href='../rise-level-4-threads/'>Level 4</a> — connects each rule to your own documents. Prototype note: this page embeds its own copy of the verified data — production renders every level from the one graph (design law 1). Dual official titles and search live in the <a href='../rise-standards-navigator/'>navigator</a>.</p>
 </footer>
 
 <script>
@@ -151,7 +151,7 @@ function render(){
     el.innerHTML='<summary><div class="sname">'+esc(d.rt)+'</div><p class="sline">'+esc(d.p)+'</p></summary>'+
     '<div class="panel"><p><b>Where it lives in the law:</b></p><span class="addr"><span class="r">'+d.ra+'</span><span class="q">'+d.qa+'</span></span>'+
     '<p>The purple half is the rule in the Rules 2018. The teal half is its checklist in the Quality Indicators Guidelines. Level 5 explains how to read these.</p>'+
-    '<div class="deeper"><a href="rise-level-4-threads.html">Level 4: connect it to your documents</a><a href="rise-graph-explorer.html" target="_blank" rel="noopener">See it in the full tree</a></div></div>';
+    '<div class="deeper"><a href="../rise-level-4-threads/">Level 4: connect it to your documents</a><a href="../rise-graph-explorer/" target="_blank" rel="noopener">See it in the full tree</a></div></div>';
     sec.appendChild(el);
   });
   list.appendChild(sec);
