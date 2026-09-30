@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Participant Documents Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@1&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#FDEEC7;--surface:#FFFFFF;--ink:#1E1F21;--ink-2:#4A4436;--muted:#6E6656;
+  --rule:#EADDB6;--rule-soft:#F4ECD4;--accent:#9A6A10;
+  --built:#14705A;--built-bg:#C7EEE4;--partial:#8A5A08;--partial-bg:#FBDC8C;
+  --blocked:#9C2B2B;--blocked-bg:#F6E1DC;
+  --measure:68ch;--rail:7.5rem;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Space Grotesk",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.kbbar{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);padding:.85rem 1.5rem;border-bottom:1px solid var(--rule);
+  background:var(--surface);display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}
+.kbbar a{color:var(--muted);text-decoration:none}
+.kbbar a:hover,.kbbar a:focus-visible{color:var(--accent);text-decoration:underline}
+.kbbar .sep{opacity:.5}
+.kbbar .mono{color:var(--ink-2)}
+.page{max-width:74rem;margin:0 auto;padding:0 1.5rem 6rem}
+.masthead{border-bottom:2px solid var(--ink);padding:3.5rem 0 1.1rem;display:flex;
+  flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem}
+.masthead h1{font-family:var(--f-display);font-weight:700;font-size:clamp(2rem,4.4vw,2.9rem);
+  letter-spacing:-.025em;line-height:1.03;margin:0;text-wrap:balance}
+.stamp{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--muted);text-align:right;line-height:1.9}
+.stamp b{color:var(--ink-2);font-weight:500}
+.standfirst{font-size:1.16rem;line-height:1.55;color:var(--ink-2);max-width:58ch;margin:1.6rem 0 0;text-wrap:pretty}
+section{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);gap:0 2.5rem;
+  padding:2.8rem 0 0;border-top:1px solid var(--rule);margin-top:2.8rem}
+.rail{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--muted);line-height:1.7;padding-top:.45rem}
+.rail .num{display:block;font-size:1.5rem;font-family:var(--f-display);font-weight:600;
+  letter-spacing:-.02em;color:var(--accent);line-height:1;margin-bottom:.5rem}
+.body{min-width:0}
+h2{font-family:var(--f-display);font-weight:600;font-size:1.6rem;letter-spacing:-.02em;
+  line-height:1.2;margin:0 0 1rem;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:600;font-size:.82rem;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--muted);margin:2rem 0 .7rem}
+p{margin:0 0 1rem;max-width:var(--measure);text-wrap:pretty}
+.body>ul,.body>ol{max-width:var(--measure);margin:0 0 1rem;padding-left:1.15rem}
+li{margin-bottom:.5rem}
+strong{font-weight:600}
+em{font-style:italic;color:var(--ink-2)}
+code{font-family:var(--f-mono);font-size:.86em;background:var(--rule-soft);padding:.1em .38em;
+  border-radius:3px;color:var(--ink-2)}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.verdict{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--accent);
+  padding:1.15rem 1.4rem;margin:0 0 1.4rem;max-width:var(--measure)}
+.verdict p{margin:0;font-size:1.05rem}
+.verdict p+p{margin-top:.7rem}
+.note{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.1rem 0;
+  margin:1.5rem 0;max-width:var(--measure)}
+.note .lbl{display:block;font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--accent);margin-bottom:.5rem}
+.note p:last-child{margin-bottom:0}
+.scroll{overflow-x:auto;margin:0 0 1.2rem;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-family:var(--f-display);font-size:.87rem;min-width:34rem}
+th{text-align:left;font-weight:600;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--muted);padding:.7rem .9rem;border-bottom:1px solid var(--rule);white-space:nowrap}
+td{padding:.6rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top;color:var(--ink-2);line-height:1.45}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:500}
+.num-col{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:.82rem;white-space:nowrap}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;
+  letter-spacing:.07em;padding:.2rem .5rem;border-radius:2px;white-space:nowrap;font-weight:500}
+.pill.built{background:var(--built-bg);color:var(--built)}
+.pill.partial{background:var(--partial-bg);color:var(--partial)}
+.pill.blocked{background:var(--blocked-bg);color:var(--blocked)}
+.pill.later{background:var(--rule-soft);color:var(--muted)}
+.task{border:1px solid var(--rule);background:var(--surface);padding:1.1rem 1.3rem;margin-bottom:1rem}
+.task-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.7rem;margin-bottom:.6rem}
+.task-n{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--accent);border:1px solid var(--accent);padding:.12rem .45rem;border-radius:2px}
+.task-t{font-family:var(--f-display);font-weight:600;font-size:1.05rem;letter-spacing:-.01em}
+.task p{margin:0 0 .6rem;font-size:.97rem;max-width:none}
+.task ul{margin:0 0 .7rem;padding-left:1.1rem;font-size:.97rem}
+.task li{margin-bottom:.35rem}
+.done{font-family:var(--f-display);font-size:.85rem;color:var(--ink-2);border-top:1px solid var(--rule-soft);
+  padding-top:.6rem;margin-top:.2rem}
+.done b{font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--muted);font-weight:500;display:block;margin-bottom:.2rem}
+.cycle{border:1px solid var(--rule);background:var(--surface);padding:1rem 1.2rem;margin-bottom:.8rem}
+.cycle.mine{border-left:3px solid var(--accent)}
+.cycle-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.7rem;margin-bottom:.5rem}
+.cycle-n{font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--accent);border:1px solid var(--accent);padding:.1rem .42rem;border-radius:2px}
+.cycle-t{font-family:var(--f-display);font-weight:600;font-size:1rem;letter-spacing:-.01em}
+.cycle ul{margin:0;padding-left:1.1rem;font-size:.95rem}
+.cycle li{margin-bottom:.3rem}
+.who{display:inline-block;font-family:var(--f-mono);font-size:.63rem;text-transform:uppercase;
+  letter-spacing:.07em;padding:.15rem .45rem;border-radius:2px;background:var(--rule-soft);color:var(--ink-2)}
+.who.you{background:var(--partial-bg);color:var(--partial)}
+.reglist{columns:2;column-gap:2rem;font-family:var(--f-mono);font-size:.79rem;line-height:1.75;
+  max-width:var(--measure);margin:0 0 1rem;padding-left:1.1rem}
+.reglist li{break-inside:avoid;margin-bottom:.1rem;color:var(--ink-2)}
+@media (max-width:640px){.reglist{columns:1}}
+footer{margin-top:3.5rem;padding-top:1.2rem;border-top:2px solid var(--ink);font-family:var(--f-mono);
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+@media (max-width:760px){
+  body{font-size:16px}
+  section{grid-template-columns:1fr;gap:0}
+  .rail{padding:0 0 1rem;display:flex;align-items:baseline;gap:.7rem}
+  .rail .num{margin:0;font-size:1.1rem}
+  .masthead{padding-top:2.5rem}
+  .stamp{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---- Rise register (matches the all-in-one dossier) ---- */
+body{background:var(--ground)}
+.kbbar{position:sticky;top:0;z-index:20;background:#17160F;border:0;box-shadow:0 2px 8px rgba(24,20,8,.28);padding:0}
+.kbbar .kwrap{max-width:72rem;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:.55rem 1.25rem}
+.kbbar .brand{display:flex;align-items:center;padding:.2rem 0}
+.kbbar .brand img{height:20px;width:auto;display:block}
+.kbbar .setnav{display:flex;flex-wrap:wrap;gap:.1rem;margin-left:auto}
+.kbbar a{color:#F3EAD3;text-decoration:none;font:600 12.5px/1 var(--f-display);letter-spacing:.04em;padding:.55rem .6rem;border-radius:4px}
+.kbbar a:hover{background:#2E2B20}
+.kbbar a[aria-current="page"]{color:#F7AC28}
+.kbbar a:focus-visible{outline:3px solid #F7AC28;outline-offset:-3px}
+.masthead h1{font-family:var(--f-display);font-weight:800;letter-spacing:-.01em}
+.masthead h1 em{font-family:"Instrument Serif",serif;font-style:italic;font-weight:400;color:var(--accent)}
+.stamp{border:2px solid #A07018;color:var(--ink-2);padding:.6rem .9rem;transform:rotate(-1.2deg);text-transform:uppercase;letter-spacing:.06em;font-family:var(--f-mono)}
+@media (prefers-reduced-motion:reduce){.stamp{transform:none}}
+h2{font-family:var(--f-display);border-bottom:3px solid #17160F;padding-bottom:.35rem}
+.toc{display:flex;flex-wrap:wrap;align-items:baseline;gap:.35rem .9rem;margin:1.6rem 0 .2rem;padding:.85rem 1rem;background:var(--rule-soft);border:1px solid var(--rule);border-radius:8px}
+.toc .toc-l{font:600 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:.3rem}
+.toc a{font:500 13.5px/1.5 var(--f-display);color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+.toc a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.toc a .n{font-family:var(--f-mono);font-size:11px;color:var(--accent);margin-right:.25rem}
+
+.pill.conv{background:#DDF1F6;color:#1F5F70}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:.9rem;margin:0 0 1.2rem}
+.cards article{border:1px solid var(--rule);background:var(--surface);padding:1rem 1.15rem;min-width:0}
+.cards h4{font-family:var(--f-display);font-weight:600;font-size:1rem;letter-spacing:-.01em;margin:0 0 .45rem}
+.cards p{font-size:.93rem;margin:0 0 .5rem;max-width:none}
+.cards p:last-child{margin:0;color:var(--muted)}
+.cards p:last-child b{color:var(--ink-2);font-weight:600}
+.codes{display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));gap:0 2rem;max-width:none}
+.codes ul{margin:0 0 1rem;padding-left:1.15rem}
+.codes li{font-size:.95rem}
+</style>
+</head>
+<body>
+
+<header class="kbbar"><div class="kwrap"><a class="brand" href="../index.html"><img src="./rise-wordmark-white.svg" alt="Rise knowledge base"></a><nav class="setnav" aria-label="Brief set"><a href="./index.html">Briefs</a><a href="./the-whys.html">The whys</a><a href="./working-plan.html">Working plan</a><a href="./compliance-engine.html">Compliance engine · Zain</a><a href="./production-readiness.html">Production readiness · April</a><a href="./participant-documents.html" aria-current="page">Participant documents · Vanna</a><a href="../dossier/index.html">The dossier</a><a href="../standards.html">Standards</a></nav></div></header>
+
+<div class="page">
+
+<header class="masthead">
+  <h1>The Participant<br>Documents Brief</h1>
+  <div class="stamp">Vanna, with April<br>30 September 2026<br>Brief <b>&#8470; 3</b></div>
+</header>
+
+<p class="standfirst">What a participant's document checklist should hold, where each item comes from, what stays off it
+and why, and how it mirrors the workforce page. Written from CPG's own Stage 2 file list, the Harmony Care audit plan
+and the 1 July 2026 Quality Indicators, cross-checked against real audit reports.</p>
+
+<section id="s01">
+  <div class="rail"><span class="num">01</span>Decision</div>
+  <div class="body">
+    <h2>Build it, on the workforce pattern</h2>
+    <div class="verdict">
+      <p><strong>Decision.</strong> The participants page gets a required-documents checklist, the same pattern as the workforce page. A certification audit has two stages, and Stage 2 is mostly the auditor reading a sample of participant files, at least five participants under opt-out sampling. So this checklist is audit evidence, the twin of the workforce checklist, not participant management.</p>
+      <p><strong>Scope line.</strong> Fifteen catalogue items, a required set per participant, filed documents matched against it. Nothing that drifts into a participant CRM: no shifts, progress notes, budgets or rosters. That is a different product and it is where the time would go.</p>
+    </div>
+    <p>The CPG guide to certification audits, the same auditor Harmony Care used, says it plainly: Stage 1 checks policies, procedures and templates, Stage 2 checks staff and participant files. The auditor selects the participant sample about a week before, then asks for the selected files in a shared folder or through the provider's client software.</p>
+    <p>The repo already holds participants and their documents, and the auditor view-as-provider surface reads them. What is missing is the required set and the match between filed and required, which is exactly what the workforce page has.</p>
+    <h3>Where the list comes from</h3>
+    <ul>
+      <li><strong>CPG</strong>, Guide for Your NDIS Certification Audit, Iss1 Rev3, Stage 2 “Participant Files”, eighteen numbered items.</li>
+      <li><strong>CPG</strong>, Harmony Care provisional audit plan, 18 and 19 August 2026, “Participant files” and “Risk assessment templates”.</li>
+      <li><strong>NDIS Commission</strong>, Quality Indicators Guidelines 2018, compilation 3, 1 July 2026, the clause behind each item.</li>
+    </ul>
+    <p>Real reports back it. Catalyst Training (SAI Global, 2022): every file held consents re-signed within twelve months. Afford (SAI Global, 2020): management plans sighted in every file for a participant with a medical condition.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="rail"><span class="num">02</span>The checklist</div>
+  <div class="body">
+    <h2>Nine core, six conditional</h2>
+    <p>Bucket: participant. Fields follow the expected_documents catalogue: title, provenance, expiry, clause. Core items apply to every participant and are ticked by default. Conditional items depend on the supports delivered, like the workforce page's per-role toggles.</p>
+    <p><span class="pill partial">Mandated</span> an instrument or verification list names it. <span class="pill built">Expected</span> a Core Module outcome or quality indicator calls for it. <span class="pill conv">Convention</span> audit practice, no instrument requires it.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Item</th><th>Provenance</th><th>Expiry</th><th>Clause (Quality Indicators)</th></tr></thead>
+        <tbody>
+          <tr><th colspan="4" style="padding-top:1.2rem;color:var(--accent)">Core · every participant · ticked by default</th></tr>
+          <tr><td>Intake or referral form</td><td><span class="pill built">Expected</span></td><td>none</td><td>19 Access to supports · 7 Individual values and beliefs</td></tr><tr><td>Privacy and information-sharing consent<br><em>including photo and video, and the notice that participants are included in audits unless they opt out</em></td><td><span class="pill built">Expected</span></td><td>annual, by convention</td><td>8 Privacy and dignity · 13 Information management</td></tr><tr><td>Service agreement, signed by both parties</td><td><span class="pill built">Expected</span> <em>mandated for SDA</em></td><td>NDIS plan end date</td><td>21 Service agreements · SDA Rules 2020 s 36</td></tr><tr><td>Schedule of supports<br><em>services, volume and cost for the period</em></td><td><span class="pill built">Expected</span></td><td>NDIS plan end date</td><td>21 Service agreements</td></tr><tr><td>Support plan</td><td><span class="pill built">Expected</span></td><td>annual review</td><td>20 Support planning</td></tr><tr><td>Participant risk assessment<br><em>health, home, community and venues</em></td><td><span class="pill built">Expected</span></td><td>annual or on change</td><td>12 Risk management · 24 Safe environment</td></tr><tr><td>Personal emergency and disaster plan</td><td><span class="pill built">Expected</span></td><td>annual review</td><td>18A Emergency and disaster management</td></tr><tr><td>Transition plan<br><em>entry, exit, and temporary transitions such as hospital</em></td><td><span class="pill built">Expected</span></td><td>none</td><td>23 Transitions to or from a provider</td></tr><tr><td>Current NDIS plan<br><em>or the goals and budget extract</em></td><td><span class="pill conv">Convention</span></td><td>NDIS plan end date</td><td>No clause. The agreement and schedule must trace to it.</td></tr>
+          <tr><th colspan="4" style="padding-top:1.4rem;color:var(--accent)">Conditional · by supports delivered · a human decides</th></tr>
+          <tr><td>Decision-maker authority<br><em>nominee, guardian or court order, where someone else signs</em></td><td><span class="pill conv">Convention</span></td><td>none</td><td>Evidences who signed the agreement and consents</td></tr><tr><td>Money and property consent and record</td><td><span class="pill built">Expected</span></td><td>annual</td><td>25 Participant money and property</td></tr><tr><td>Medication consent, medication plan and purpose form</td><td><span class="pill built">Expected</span></td><td>annual or on change</td><td>26 Management of medication</td></tr><tr><td>Mealtime management plan<br><em>with the swallowing and nutrition assessment</em></td><td><span class="pill built">Expected</span></td><td>annual</td><td>26A Mealtime management</td></tr><tr><td>High intensity health support plan</td><td><span class="pill built">Expected</span></td><td>annual</td><td>Module 1 High intensity daily personal activities</td></tr><tr><td>Behaviour support plan and restrictive practice protocols</td><td><span class="pill partial">Mandated</span></td><td>12 months<br><em>interim plan 1 month</em></td><td>Module 2 and 2A · Restrictive Practices and Behaviour Support Rules 2018 ss 21, 23, 24</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><em>Clause numbers are the Core Module numbering in the 1 July 2026 compilation. The behaviour support plan is the only item an instrument names for each participant; the rest are what the quality indicators expect a provider to be able to show.</em></p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="rail"><span class="num">03</span>Left off</div>
+  <div class="body">
+    <h2>What was left off, and why</h2>
+    <p>CPG's Stage 2 list has eighteen items. Fifteen made the checklist. The other three, plus incidents and complaints which the auditor also reads in a participant's file, were left off for one reason: they are streams of records, not filed documents. A filed document is present or missing, and valid or expired. A record stream has neither state. Progress notes are never “valid until”. You cannot tick progress notes once and be done, and a green VALID pill on them would be a lie. The checklist model that works for the workforce page does not fit them.</p>
+    <p>The counter-argument is real. An auditor who opens a sampled file and finds no notes for the last month will raise it, whatever the checklist says. So these are not unimportant, they are a different shape. Each one below says what it is, why it is off, and where it belongs.</p>
+    <div class="cards">
+      <article><h4>Case, progress, shift and therapy notes</h4><p>CPG item 7. Written per shift or session, they show supports were delivered as the plan says and that changes were noticed.</p><p><b>Why off:</b> a continuous stream with no expiry. <b>Belongs in:</b> a records surface with a recency signal, such as “last note 3 days ago”, or the provider's own client software, which the auditor is given access to.</p></article>
+      <article><h4>Records of collaboration with other providers and practitioners</h4><p>CPG item 8. GP letters, allied health correspondence, plan manager and support coordinator contact, referrals.</p><p><b>Why off:</b> correspondence accumulates, it is not one document. <b>Belongs in:</b> the same records surface, or as attachments under the support plan. Module 3 correspondence (CPG item 18) is the same shape.</p></article>
+      <article><h4>ABC charts and behaviour logs</h4><p>CPG item 16. Antecedent, behaviour, consequence entries kept for a participant with a behaviour support plan, which feed the plan's review.</p><p><b>Why off:</b> a log, not a plan. <b>Belongs in:</b> the records surface, tied to the behaviour support plan, which is on the checklist and does expire.</p></article>
+      <article><h4>Incidents and complaints involving the participant</h4><p>Not a CPG file item, but the auditor cross-checks the incident and complaints registers against sampled files.</p><p><b>Why off:</b> they live in the registers, which are already business evidence in the catalogue. <b>Belongs in:</b> a per-participant view of the registers, when those registers exist in Rise.</p></article>
+      <article><h4>How the participant signals an urgent health concern</h4><p>CPG item 11, for participants with communication difficulties. CPG also asks the intake process to capture it.</p><p><b>Why off:</b> a section of two documents already on the list, not a document itself. <b>Belongs in:</b> the intake form and the support plan.</p></article>
+    </div>
+    <div class="note"><span class="lbl">The call that is open</span><p>If the checklist should say something about the streams, the honest version is a second group under the fifteen, labelled records, with a recency state instead of VALID. A small addition, but a second model on one page, so it is Jesse's decision, not a default.</p></div>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="rail"><span class="num">04</span>Build notes</div>
+  <div class="body">
+    <h2>What changes in the code</h2>
+    <ul>
+      <li>The <code>participant_documents</code> table carries a check constraint that allows only four categories. It has to go, replaced by a link to the catalogue code, the way the workforce page matches a file to an item.</li>
+      <li>Four items expire on a date rather than a cadence: the service agreement, the schedule of supports, the NDIS plan and the behaviour support plan. Capture an expiry date on upload, as a Working With Children Check already needs.</li>
+      <li>Default the nine core items ticked when a participant is created. Only the six conditional items need a human decision.</li>
+      <li>Consent gates the audit itself. The auditor may only receive a participant's file once that participant has consented, so the privacy consent item is the one to surface first when it is missing.</li>
+    </ul>
+    <h3>The fifteen items, with catalogue codes</h3>
+    <div class="codes">
+      <ul>
+        <li><code>participant-intake-form</code> Intake or referral form</li>
+        <li><code>participant-privacy-consent</code> Privacy and information-sharing consent</li>
+        <li><code>participant-service-agreement</code> Service agreement, signed</li>
+        <li><code>participant-schedule-of-supports</code> Schedule of supports</li>
+        <li><code>participant-support-plan</code> Support plan</li>
+        <li><code>participant-risk-assessment</code> Participant risk assessment</li>
+        <li><code>participant-emergency-plan</code> Personal emergency and disaster plan</li>
+        <li><code>participant-transition-plan</code> Transition plan</li>
+      </ul>
+      <ul>
+        <li><code>participant-ndis-plan</code> Current NDIS plan</li>
+        <li><code>participant-decision-maker-authority</code> Decision-maker authority</li>
+        <li><code>participant-money-property-consent</code> Money and property consent and record</li>
+        <li><code>participant-medication-plan</code> Medication consent, plan and purpose form</li>
+        <li><code>participant-mealtime-plan</code> Mealtime management plan</li>
+        <li><code>participant-health-support-plan</code> High intensity health support plan</li>
+        <li><code>participant-behaviour-support-plan</code> Behaviour support plan and restrictive practice protocols</li>
+      </ul>
+    </div>
+    <p><em>First nine are core, last six conditional. Provenance and expiry per the table in section 02.</em></p>
+    <h3>One observation, listed not built</h3>
+    <p>In the workforce screenshot, Alex Taylor has every requirement unticked and two documents marked “Not required, filed anyway”, each with a green VALID. A person with zero requirements reads as fully compliant. The workforce page probably wants the same default ticked set proposed here for participants.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="rail"><span class="num">05</span>Sources</div>
+  <div class="body">
+    <h2>Every claim traces to one of these</h2>
+    <ul>
+      <li>Certification Partner Global, Guide for Your NDIS Certification Audit, Iss1 Rev3, “Participant Files” and “Stage 2 Documentation”.</li>
+      <li>Certification Partner Global, Harmony Care Support Services provisional audit plan, F34 AudPlan NDIS, issued 12 August 2026.</li>
+      <li>NDIS (Quality Indicators for NDIS Practice Standards) Guidelines 2018, Compilation 3, 1 July 2026 (F2026C00528).</li>
+      <li>NDIS (Provider Registration and Practice Standards) Rules 2018, Compilation 6, 1 July 2026 (F2026C00527).</li>
+      <li>NDIS (Approved Quality Auditors Scheme) Guidelines 2018, Compilation 5, Annex B sampling.</li>
+      <li>SAI Global, Catalyst Training re-certification audit report, October 2022. SAI Global, Afford Stage 2 certification audit report, March 2020.</li>
+      <li>riseOS-BE migrations: <code>seed-business-evidence-catalogue</code>, <code>create-participants</code>.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Rise knowledge base · Briefs · The Participant Documents Brief · 30 September 2026</footer>
+
+</div>
+</body>
+</html>
