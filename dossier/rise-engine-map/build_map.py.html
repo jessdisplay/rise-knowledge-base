@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>build_map.py · Rise KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" media="all" onerror="this.media='none'">
+<link rel="stylesheet" href="../../_kb/kb.css">
+</head><body>
+<div class="kbbar"><a href="../../index.html">Rise Knowledge Base</a><span class="sep">/</span><span class="mono">dossier/rise-engine-map/build_map.py.html</span></div>
+<div class="kbwrap"><article class="kbdoc">
+<div class="kbmeta"><span>python source</span><span>18,847 bytes</span></div>
+
+<h1>build_map.py</h1><pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;Bake the compliance-engine constellation for the dossier.
+
+Reads the seed graph (rise-ndis-package/rise-nodes-and-edges.json, the source of
+truth) and the suite mirror on disk, runs a deterministic force layout, and
+writes index.html beside this script with the positions baked in. No physics
+runs in the browser; regenerate by running this script from the repo root or
+this directory. Layout is seeded, so the same inputs give the same picture.
+&quot;&quot;&quot;
+import json, math, os, random, re, collections
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.abspath(os.path.join(HERE, &#x27;..&#x27;, &#x27;..&#x27;))
+
+graph = json.load(open(os.path.join(REPO, &#x27;rise-ndis-package&#x27;, &#x27;rise-nodes-and-edges.json&#x27;)))
+nodes, edges = graph[&#x27;nodes&#x27;], graph[&#x27;edges&#x27;]
+
+# real documentation pages: doc id -&gt; suite path (relative to dossier/)
+suite = {}
+for root, _, files in os.walk(os.path.join(REPO, &#x27;dossier&#x27;, &#x27;suite&#x27;)):
+    for f in files:
+        if f.endswith(&#x27;.html&#x27;) and not f.startswith(&#x27;00-&#x27;):
+            suite[f.split(&#x27;_&#x27;)[0].upper()] = os.path.relpath(os.path.join(root, f), os.path.join(REPO, &#x27;dossier&#x27;))
+
+def community(n):
+    i, t = n[&#x27;id&#x27;], n[&#x27;node_type&#x27;]
+    if t == &#x27;Document&#x27;:
+        return &#x27;D:&#x27; + i.split(&#x27;-&#x27;)[1]
+    if t == &#x27;Standard&#x27;:
+        return &#x27;S:&#x27; + re.match(r&#x27;([A-Z0-9]+)&#x27;, i).group(1)
+    if t == &#x27;Instrument&#x27;:
+        return &#x27;LAW&#x27;
+    return &#x27;MODEL&#x27;  # Module / Framework
+
+idx = {n[&#x27;id&#x27;]: k for k, n in enumerate(nodes)}
+coms = sorted({community(n) for n in nodes})
+rng = random.Random(2026)
+
+# community centroids on a golden-angle spiral
+cent = {}
+GA = math.pi * (3 - math.sqrt(5))
+for k, c in enumerate(coms):
+    r = 340 * math.sqrt((k + 0.6) / len(coms))
+    a = k * GA
+    cent[c] = (r * math.cos(a), r * math.sin(a))
+
+pos = []
+for n in nodes:
+    cx, cy = cent[community(n)]
+    pos.append([cx + rng.uniform(-28, 28), cy + rng.uniform(-28, 28)])
+
+E = [(idx[e[&#x27;source&#x27;]], idx[e[&#x27;target&#x27;]]) for e in edges]
+deg = collections.Counter()
+for a, b in E:
+    deg[a] += 1; deg[b] += 1
+
+# force sim: springs on edges, short-range repulsion, pull to community centroid
+for it in range(320):
+    heat = 0.9 * (1 - it / 320) + 0.05
+    disp = [[0.0, 0.0] for _ in nodes]
+    # repulsion via coarse grid buckets
+    grid = collections.defaultdict(list)
+    CELL = 46
+    for i, (x, y) in enumerate(pos):
+        grid[(int(x // CELL), int(y // CELL))].append(i)
+    for (gx, gy), members in grid.items():
+        near = []
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                near += grid.get((gx + dx, gy + dy), [])
+        for i in members:
+            xi, yi = pos[i]
+            for j in near:
+                if j &lt;= i: continue
+                dx, dy = xi - pos[j][0], yi - pos[j][1]
+                d2 = dx * dx + dy * dy + 0.01
+                if d2 &lt; 42 * 42:
+                    f = 620.0 / d2
+                    dl = math.sqrt(d2)
+                    disp[i][0] += f * dx / dl; disp[i][1] += f * dy / dl
+                    disp[j][0] -= f * dx / dl; disp[j][1] -= f * dy / dl
+    for a, b in E:
+        dx, dy = pos[a][0] - pos[b][0], pos[a][1] - pos[b][1]
+        d = math.sqrt(dx * dx + dy * dy) + 0.01
+        f = (d - 42) * 0.020
+        disp[a][0] -= f * dx / d; disp[a][1] -= f * dy / d
+        disp[b][0] += f * dx / d; disp[b][1] += f * dy / d
+    for i, n in enumerate(nodes):
+        cx, cy = cent[community(n)]
+        disp[i][0] += (cx - pos[i][0]) * 0.012
+        disp[i][1] += (cy - pos[i][1]) * 0.012
+        dl = math.sqrt(disp[i][0] ** 2 + disp[i][1] ** 2) + 1e-9
+        step = min(dl, 14 * heat)
+        pos[i][0] += disp[i][0] / dl * step
+        pos[i][1] += disp[i][1] / dl * step
+
+# palette: class hue + per-community variation
+CLASS_BASE = {&#x27;Instrument&#x27;: 262, &#x27;Standard&#x27;: 168, &#x27;Document&#x27;: 34, &#x27;Module&#x27;: 208, &#x27;Framework&#x27;: 208}
+com_list = sorted(coms)
+def color(n):
+    base = CLASS_BASE[n[&#x27;node_type&#x27;]]
+    k = com_list.index(community(n))
+    h = (base + (k * 9) % 26 - 13) % 360
+    return h
+
+out_nodes = []
+for i, n in enumerate(nodes):
+    out_nodes.append({
+        &#x27;id&#x27;: n[&#x27;id&#x27;], &#x27;title&#x27;: n[&#x27;title&#x27;], &#x27;nt&#x27;: n[&#x27;node_type&#x27;], &#x27;kind&#x27;: n.get(&#x27;kind&#x27;, &#x27;&#x27;),
+        &#x27;ver&#x27;: n.get(&#x27;verification&#x27;, &#x27;&#x27;), &#x27;note&#x27;: n.get(&#x27;note&#x27;, &#x27;&#x27;),
+        &#x27;x&#x27;: round(pos[i][0], 1), &#x27;y&#x27;: round(pos[i][1], 1),
+        &#x27;c&#x27;: community(n), &#x27;h&#x27;: color(n),
+        &#x27;r&#x27;: round(2.4 + math.sqrt(deg[i]) * 1.15, 1),
+        &#x27;doc&#x27;: suite.get(n[&#x27;id&#x27;].upper()),
+    })
+out_edges = [[idx[e[&#x27;source&#x27;]], idx[e[&#x27;target&#x27;]], e[&#x27;type&#x27;]] for e in edges]
+com_counts = collections.Counter(community(n) for n in nodes)
+COM_LABEL = {&#x27;LAW&#x27;: &#x27;Law, rules and framework&#x27;, &#x27;MODEL&#x27;: &#x27;Modules and framework&#x27;}
+out_coms = [{&#x27;id&#x27;: c, &#x27;label&#x27;: COM_LABEL.get(c, c.split(&#x27;:&#x27;, 1)[-1]), &#x27;n&#x27;: com_counts[c]} for c in com_list]
+
+DATA = json.dumps({&#x27;nodes&#x27;: out_nodes, &#x27;edges&#x27;: out_edges, &#x27;coms&#x27;: out_coms}, separators=(&#x27;,&#x27;, &#x27;:&#x27;))
+
+HTML = &quot;&quot;&quot;&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;robots&quot; content=&quot;noindex, nofollow&quot;&gt;
+&lt;title&gt;The compliance engine — the real graph&lt;/title&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&amp;family=Space+Grotesk:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;600&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;style&gt;
+:root{--bg:#17160F;--panel:#201F17;--ink:#F3EAD3;--mut:#B8AE93;--rule:#3A3728;--amber:#F7AC28;--ok:#5ECFB4}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 &quot;Space Grotesk&quot;,system-ui,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:12px 18px;border-bottom:1px solid var(--rule);background:var(--bg);z-index:5}
+header a.back{color:var(--mut);text-decoration:none;font:600 12.5px Archivo;letter-spacing:.04em}
+header a.back:hover{color:var(--amber)}
+h1{font:800 19px/1.2 Archivo;letter-spacing:-.01em}
+h1 em{font-style:normal;color:var(--amber)}
+.stats{font:600 12px &quot;IBM Plex Mono&quot;;color:var(--mut);letter-spacing:.04em}
+#q{flex:1 1 220px;max-width:340px;background:var(--panel);border:1px solid var(--rule);border-radius:8px;color:var(--ink);padding:8px 12px;font:500 14px &quot;Space Grotesk&quot;}
+#q:focus-visible{outline:2px solid var(--amber)}
+main{flex:1;display:flex;min-height:0}
+#stage{flex:1;position:relative;min-width:0}
+canvas{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
+canvas.dragging{cursor:grabbing}
+#tip{position:absolute;pointer-events:none;background:#000c;border:1px solid var(--rule);border-radius:6px;padding:5px 9px;font:600 12px &quot;Space Grotesk&quot;;color:var(--ink);display:none;max-width:300px;z-index:4}
+aside{width:min(430px,44vw);border-left:1px solid var(--rule);background:var(--panel);display:flex;flex-direction:column;min-width:0}
+aside .pad{padding:16px 18px;overflow-y:auto}
+aside h2{font:700 16px/1.3 Archivo;margin-bottom:4px}
+aside .meta{font:600 11px &quot;IBM Plex Mono&quot;;color:var(--mut);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+aside .note{color:var(--mut);font-size:13.5px;margin:8px 0}
+.tagv{display:inline-block;font:600 10.5px &quot;IBM Plex Mono&quot;;letter-spacing:.06em;border:1px solid var(--rule);border-radius:999px;padding:2px 8px;color:var(--ok);margin-right:6px}
+.links{margin:10px 0;font-size:13px}
+.links li{list-style:none;margin:4px 0;color:var(--mut)}
+.links b{color:var(--ink);font-weight:600}
+.links .rel{color:var(--amber);font:600 10.5px &quot;IBM Plex Mono&quot;}
+a.opendoc{display:inline-block;background:var(--amber);color:#17160F;font:700 13px Archivo;padding:8px 14px;border-radius:8px;text-decoration:none;margin:8px 8px 8px 0}
+a.openext{color:var(--amber);font:600 12.5px Archivo;text-decoration:none}
+a.openext:hover,a.opendoc:hover{filter:brightness(1.1)}
+#docframe{flex:1;border:0;border-top:1px solid var(--rule);background:#fff;display:none;min-height:0}
+#legend{position:absolute;left:12px;bottom:12px;background:#000a;border:1px solid var(--rule);border-radius:10px;padding:10px 12px;max-height:44vh;overflow-y:auto;max-width:240px;z-index:3}
+#legend h3{font:700 11px &quot;IBM Plex Mono&quot;;letter-spacing:.1em;color:var(--mut);text-transform:uppercase;margin-bottom:6px}
+#legend button{display:flex;align-items:center;gap:7px;width:100%;background:none;border:0;color:var(--ink);font:500 12.5px &quot;Space Grotesk&quot;;padding:2px 0;cursor:pointer;text-align:left}
+#legend button .dot{width:8px;height:8px;border-radius:50%;flex:none}
+#legend button .n{margin-left:auto;color:var(--mut);font:600 11px &quot;IBM Plex Mono&quot;}
+#legend button[aria-pressed=&quot;true&quot;]{color:var(--amber)}
+.zoombtns{position:absolute;right:12px;top:12px;display:flex;gap:6px;z-index:3}
+.zoombtns button{background:#000a;border:1px solid var(--rule);color:var(--ink);border-radius:8px;width:34px;height:34px;font:700 16px Archivo;cursor:pointer}
+.zoombtns button:focus-visible,#legend button:focus-visible{outline:2px solid var(--amber)}
+.hint{position:absolute;right:12px;bottom:12px;color:var(--mut);font:500 11.5px &quot;Space Grotesk&quot;;background:#000a;border:1px solid var(--rule);border-radius:8px;padding:6px 10px;z-index:3}
+#results{position:absolute;left:18px;top:0;background:var(--panel);border:1px solid var(--rule);border-radius:0 0 10px 10px;z-index:6;max-height:300px;overflow-y:auto;display:none;min-width:320px}
+#results button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--ink);padding:7px 12px;font:500 13px &quot;Space Grotesk&quot;;cursor:pointer}
+#results button:hover,#results button.sel{background:#2A2820}
+#results .id{font:600 11px &quot;IBM Plex Mono&quot;;color:var(--amber);margin-right:8px}
+@media (max-width:860px){aside{position:absolute;inset:auto 0 0 0;height:60vh;width:100%;border-left:0;border-top:1px solid var(--rule);z-index:7}}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;header&gt;
+  &lt;a class=&quot;back&quot; href=&quot;../index.html&quot;&gt;&amp;#8592; The dossier&lt;/a&gt;
+  &lt;h1&gt;The compliance engine &amp;#183; &lt;em&gt;the real graph&lt;/em&gt;&lt;/h1&gt;
+  &lt;span class=&quot;stats&quot; id=&quot;stats&quot;&gt;&lt;/span&gt;
+  &lt;input id=&quot;q&quot; type=&quot;search&quot; placeholder=&quot;Find anything&amp;#8230; (CORE-2.6, POL-INC-01, medication)&quot; aria-label=&quot;Search nodes&quot;&gt;
+&lt;/header&gt;
+&lt;main&gt;
+  &lt;div id=&quot;stage&quot;&gt;
+    &lt;canvas id=&quot;cv&quot; aria-label=&quot;Compliance graph. Use the search box to find and select nodes.&quot;&gt;&lt;/canvas&gt;
+    &lt;div id=&quot;tip&quot; role=&quot;status&quot;&gt;&lt;/div&gt;
+    &lt;div id=&quot;legend&quot;&gt;&lt;h3&gt;Communities&lt;/h3&gt;&lt;div id=&quot;legendlist&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;zoombtns&quot;&gt;&lt;button id=&quot;zin&quot; aria-label=&quot;Zoom in&quot;&gt;+&lt;/button&gt;&lt;button id=&quot;zout&quot; aria-label=&quot;Zoom out&quot;&gt;&amp;#8722;&lt;/button&gt;&lt;button id=&quot;zfit&quot; aria-label=&quot;Reset view&quot; style=&quot;font-size:11px;width:auto;padding:0 10px&quot;&gt;Fit&lt;/button&gt;&lt;/div&gt;
+    &lt;div class=&quot;hint&quot;&gt;drag to move &amp;#183; scroll to zoom &amp;#183; click a node for the real document&lt;/div&gt;
+    &lt;div id=&quot;results&quot; role=&quot;listbox&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;aside id=&quot;panel&quot; aria-live=&quot;polite&quot;&gt;
+    &lt;div class=&quot;pad&quot; id=&quot;info&quot;&gt;
+      &lt;h2&gt;Click any node&lt;/h2&gt;
+      &lt;p class=&quot;note&quot;&gt;Every dot is real: 224 nodes, 528 typed edges from the seed graph. Documents open the actual page from the 123-document suite, right here. The same graph runs on &lt;a class=&quot;openext&quot; href=&quot;https://jessdisplay.github.io/rw/compliance-graph/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;the Rise website&lt;/a&gt;.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;iframe id=&quot;docframe&quot; title=&quot;The selected document&quot;&gt;&lt;/iframe&gt;
+  &lt;/aside&gt;
+&lt;/main&gt;
+&lt;script id=&quot;data&quot; type=&quot;application/json&quot;&gt;__DATA__&lt;/script&gt;
+&lt;script&gt;
+const D=JSON.parse(document.getElementById(&#x27;data&#x27;).textContent);
+const N=D.nodes, E=D.edges, COMS=D.coms;
+document.getElementById(&#x27;stats&#x27;).textContent=N.length+&#x27; nodes \\u00b7 &#x27;+E.length+&#x27; edges \\u00b7 &#x27;+COMS.length+&#x27; communities&#x27;;
+const adj=N.map(()=&gt;[]);
+E.forEach(([a,b,t],i)=&gt;{adj[a].push([b,t,&#x27;\\u2192&#x27;]);adj[b].push([a,t,&#x27;\\u2190&#x27;]);});
+const cv=document.getElementById(&#x27;cv&#x27;), ctx=cv.getContext(&#x27;2d&#x27;);
+let W=0,H=0,DPR=1, cam={x:0,y:0,k:1}, sel=-1, hov=-1, comFilter=null;
+function resize(){DPR=devicePixelRatio||1;W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;draw();}
+function fit(){const xs=N.map(n=&gt;n.x),ys=N.map(n=&gt;n.y);const mx=[Math.min(...xs),Math.max(...xs)],my=[Math.min(...ys),Math.max(...ys)];
+ cam.k=Math.min(W/(mx[1]-mx[0]+140),H/(my[1]-my[0]+140));cam.x=(mx[0]+mx[1])/2;cam.y=(my[0]+my[1])/2;draw();}
+function sx(x){return (x-cam.x)*cam.k+W/2} function sy(y){return (y-cam.y)*cam.k+H/2}
+function nodeCol(n,a){return &#x27;hsla(&#x27;+n.h+&#x27;,68%,&#x27;+(n.nt===&#x27;Document&#x27;?66:60)+&#x27;%,&#x27;+a+&#x27;)&#x27;}
+function draw(){ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);ctx.fillStyle=&#x27;#17160F&#x27;;ctx.fillRect(0,0,W,H);
+ const focus=sel&gt;=0?sel:hov;
+ const lit=new Set(); if(focus&gt;=0){lit.add(focus);adj[focus].forEach(([j])=&gt;lit.add(j));}
+ ctx.lineWidth=Math.max(.4,.6*cam.k);
+ for(const [a,b] of E){const dim=(focus&gt;=0&amp;&amp;!(lit.has(a)&amp;&amp;lit.has(b)))||(comFilter&amp;&amp;N[a].c!==comFilter&amp;&amp;N[b].c!==comFilter);
+  ctx.strokeStyle=dim?&#x27;rgba(200,190,160,.05)&#x27;:(focus&gt;=0?&#x27;rgba(247,172,40,.45)&#x27;:&#x27;rgba(200,190,160,.14)&#x27;);
+  ctx.beginPath();ctx.moveTo(sx(N[a].x),sy(N[a].y));ctx.lineTo(sx(N[b].x),sy(N[b].y));ctx.stroke();}
+ for(let i=0;i&lt;N.length;i++){const n=N[i];const x=sx(n.x),y=sy(n.y);if(x&lt;-20||y&lt;-20||x&gt;W+20||y&gt;H+20)continue;
+  const dim=(focus&gt;=0&amp;&amp;!lit.has(i))||(comFilter&amp;&amp;n.c!==comFilter);
+  const r=Math.max(1.6,n.r*cam.k*.55)*(i===focus?1.6:1);
+  ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fillStyle=nodeCol(n,dim?.14:.95);ctx.fill();
+  if(i===focus){ctx.strokeStyle=&#x27;#F7AC28&#x27;;ctx.lineWidth=1.6;ctx.stroke();}
+  if(cam.k&gt;2.4&amp;&amp;!dim){ctx.fillStyle=&#x27;rgba(243,234,211,.8)&#x27;;ctx.font=&#x27;600 &#x27;+Math.min(11,4.2*cam.k)+&#x27;px &quot;IBM Plex Mono&quot;&#x27;;ctx.fillText(n.id,x+r+3,y+3);}}
+}
+function pick(mx,my){let best=-1,bd=144;for(let i=0;i&lt;N.length;i++){const dx=sx(N[i].x)-mx,dy=sy(N[i].y)-my;const d=dx*dx+dy*dy;if(d&lt;bd){bd=d;best=i;}}return best;}
+const tip=document.getElementById(&#x27;tip&#x27;);
+let drag=null;
+cv.addEventListener(&#x27;pointerdown&#x27;,e=&gt;{drag={x:e.clientX,y:e.clientY,cx:cam.x,cy:cam.y,moved:false};cv.setPointerCapture(e.pointerId);cv.classList.add(&#x27;dragging&#x27;);});
+cv.addEventListener(&#x27;pointermove&#x27;,e=&gt;{const r=cv.getBoundingClientRect();
+ if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)&gt;4)drag.moved=true;
+  cam.x=drag.cx-dx/cam.k;cam.y=drag.cy-dy/cam.k;draw();return;}
+ const i=pick(e.clientX-r.left,e.clientY-r.top);
+ if(i!==hov){hov=i;draw();}
+ if(i&gt;=0){tip.style.display=&#x27;block&#x27;;tip.style.left=(e.clientX-r.left+14)+&#x27;px&#x27;;tip.style.top=(e.clientY-r.top+10)+&#x27;px&#x27;;tip.textContent=N[i].id+&#x27; \\u00b7 &#x27;+N[i].title;}
+ else tip.style.display=&#x27;none&#x27;;});
+cv.addEventListener(&#x27;pointerup&#x27;,e=&gt;{cv.classList.remove(&#x27;dragging&#x27;);const r=cv.getBoundingClientRect();
+ if(drag&amp;&amp;!drag.moved){const i=pick(e.clientX-r.left,e.clientY-r.top);select(i);}drag=null;});
+cv.addEventListener(&#x27;wheel&#x27;,e=&gt;{e.preventDefault();const f=Math.exp(-e.deltaY*.0016);cam.k=Math.min(14,Math.max(.2,cam.k*f));draw();},{passive:false});
+document.getElementById(&#x27;zin&#x27;).onclick=()=&gt;{cam.k=Math.min(14,cam.k*1.35);draw();};
+document.getElementById(&#x27;zout&#x27;).onclick=()=&gt;{cam.k=Math.max(.2,cam.k/1.35);draw();};
+document.getElementById(&#x27;zfit&#x27;).onclick=()=&gt;{sel=-1;comFilter=null;syncLegend();fit();info(-1);};
+const infoEl=document.getElementById(&#x27;info&#x27;), frame=document.getElementById(&#x27;docframe&#x27;);
+function esc(s){return s.replace(/&amp;/g,&#x27;&amp;amp;&#x27;).replace(/&lt;/g,&#x27;&amp;lt;&#x27;)}
+function info(i){
+ if(i&lt;0){infoEl.innerHTML=&#x27;&lt;h2&gt;Click any node&lt;/h2&gt;&lt;p class=&quot;note&quot;&gt;Every dot is real: &#x27;+N.length+&#x27; nodes, &#x27;+E.length+&#x27; typed edges from the seed graph. Documents open the actual page from the 123-document suite, right here.&lt;/p&gt;&#x27;;frame.style.display=&#x27;none&#x27;;return;}
+ const n=N[i];
+ let h=&#x27;&lt;div class=&quot;meta&quot;&gt;&#x27;+esc(n.nt)+(n.kind?&#x27; \\u00b7 &#x27;+esc(n.kind):&#x27;&#x27;)+&#x27; \\u00b7 &#x27;+esc(n.c.split(&quot;:&quot;).pop())+&#x27;&lt;/div&gt;&lt;h2&gt;&#x27;+esc(n.id)+&#x27; \\u00b7 &#x27;+esc(n.title)+&#x27;&lt;/h2&gt;&#x27;;
+ if(n.ver)h+=&#x27;&lt;span class=&quot;tagv&quot;&gt;verification &#x27;+esc(n.ver)+&#x27;&lt;/span&gt;&#x27;;
+ if(n.note)h+=&#x27;&lt;p class=&quot;note&quot;&gt;&#x27;+esc(n.note)+&#x27;&lt;/p&gt;&#x27;;
+ if(n.doc)h+=&#x27;&lt;a class=&quot;opendoc&quot; id=&quot;readbtn&quot; href=&quot;../&#x27;+n.doc+&#x27;&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Open the real document \\u2197&lt;/a&gt;&#x27;;
+ else if(n.nt===&#x27;Standard&#x27;)h+=&#x27;&lt;a class=&quot;opendoc&quot; href=&quot;../../standards.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;See it in the standards index \\u2197&lt;/a&gt;&#x27;;
+ const rel=adj[i].slice(0,14).map(([j,t,dir])=&gt;&#x27;&lt;li&gt;&lt;span class=&quot;rel&quot;&gt;&#x27;+esc(t)+&#x27; &#x27;+dir+&#x27;&lt;/span&gt; &lt;b&gt;&#x27;+esc(N[j].id)+&#x27;&lt;/b&gt; &#x27;+esc(N[j].title)+&#x27;&lt;/li&gt;&#x27;).join(&#x27;&#x27;);
+ if(rel)h+=&#x27;&lt;ul class=&quot;links&quot;&gt;&lt;div class=&quot;meta&quot; style=&quot;margin:10px 0 4px&quot;&gt;connections (&#x27;+adj[i].length+&#x27;)&lt;/div&gt;&#x27;+rel+(adj[i].length&gt;14?&#x27;&lt;li&gt;\\u2026 and &#x27;+(adj[i].length-14)+&#x27; more&lt;/li&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/ul&gt;&#x27;;
+ infoEl.innerHTML=h;
+ if(n.doc){frame.src=&#x27;../&#x27;+n.doc;frame.style.display=&#x27;block&#x27;;}else{frame.style.display=&#x27;none&#x27;;frame.removeAttribute(&#x27;src&#x27;);}
+}
+function select(i){sel=i;info(i);draw();if(i&gt;=0)history.replaceState(null,&#x27;&#x27;,&#x27;#focus=&#x27;+encodeURIComponent(N[i].id));}
+const legendList=document.getElementById(&#x27;legendlist&#x27;);
+function syncLegend(){[...legendList.children].forEach(b=&gt;b.setAttribute(&#x27;aria-pressed&#x27;,String(b.dataset.c===comFilter)));}
+COMS.forEach(c=&gt;{const first=N.find(n=&gt;n.c===c.id);
+ const b=document.createElement(&#x27;button&#x27;);b.dataset.c=c.id;b.setAttribute(&#x27;aria-pressed&#x27;,&#x27;false&#x27;);
+ b.innerHTML=&#x27;&lt;span class=&quot;dot&quot; style=&quot;background:&#x27;+nodeCol(first,1)+&#x27;&quot;&gt;&lt;/span&gt;&#x27;+esc(c.label)+&#x27;&lt;span class=&quot;n&quot;&gt;&#x27;+c.n+&#x27;&lt;/span&gt;&#x27;;
+ b.onclick=()=&gt;{comFilter=comFilter===c.id?null:c.id;syncLegend();draw();};legendList.appendChild(b);});
+const q=document.getElementById(&#x27;q&#x27;), results=document.getElementById(&#x27;results&#x27;);
+q.addEventListener(&#x27;input&#x27;,()=&gt;{const v=q.value.trim().toLowerCase();if(!v){results.style.display=&#x27;none&#x27;;return;}
+ const hits=[];for(let i=0;i&lt;N.length&amp;&amp;hits.length&lt;12;i++){const n=N[i];
+  if(n.id.toLowerCase().includes(v)||n.title.toLowerCase().includes(v))hits.push(i);}
+ results.innerHTML=hits.map(i=&gt;&#x27;&lt;button data-i=&quot;&#x27;+i+&#x27;&quot;&gt;&lt;span class=&quot;id&quot;&gt;&#x27;+esc(N[i].id)+&#x27;&lt;/span&gt;&#x27;+esc(N[i].title)+&#x27;&lt;/button&gt;&#x27;).join(&#x27;&#x27;)||&#x27;&lt;button disabled&gt;No match&lt;/button&gt;&#x27;;
+ results.style.display=&#x27;block&#x27;;
+ [...results.querySelectorAll(&#x27;button[data-i]&#x27;)].forEach(b=&gt;b.onclick=()=&gt;{const i=+b.dataset.i;results.style.display=&#x27;none&#x27;;q.value=N[i].id;
+  cam.x=N[i].x;cam.y=N[i].y;cam.k=Math.max(cam.k,3.4);select(i);});});
+q.addEventListener(&#x27;keydown&#x27;,e=&gt;{if(e.key===&#x27;Enter&#x27;){const b=results.querySelector(&#x27;button[data-i]&#x27;);if(b)b.click();}});
+document.addEventListener(&#x27;click&#x27;,e=&gt;{if(!results.contains(e.target)&amp;&amp;e.target!==q)results.style.display=&#x27;none&#x27;;});
+addEventListener(&#x27;resize&#x27;,resize);
+resize();fit();
+const m=location.hash.match(/focus=([^&amp;]+)/);
+if(m){const id=decodeURIComponent(m[1]).toUpperCase();const i=N.findIndex(n=&gt;n.id.toUpperCase()===id);
+ if(i&gt;=0){cam.x=N[i].x;cam.y=N[i].y;cam.k=3.4;select(i);}}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&quot;&quot;&quot;
+
+out = HTML.replace(&#x27;__DATA__&#x27;, DATA)
+open(os.path.join(HERE, &#x27;index.html&#x27;), &#x27;w&#x27;).write(out)
+print(&#x27;wrote index.html&#x27;, len(out), &#x27;bytes;&#x27;, len(out_nodes), &#x27;nodes,&#x27;, len(out_edges), &#x27;edges,&#x27;, len(out_coms), &#x27;communities&#x27;)
+</code></pre>
+<div class="kbfoot">Read-only view. Original file: <a class="mono" href="build_map.py">build_map.py</a></div>
+</article></div>
+</body></html>
